@@ -39,6 +39,7 @@ services:
         volumes:
             - ./:/var/www
             - ./docker-compose/nginx:/etc/nginx/conf.d/
+            - ./docker-compose//nginx/log:/var/log/nginx
         networks:
             - gestion-stock-network
     phpmyadmin:
