@@ -20,4 +20,5 @@ yarn-error.log
 /.vscode
 /.zed
 /db
-/docker-compose/nginx/log
+/docker-compose/nginx/logs
+/docker-compose/mariadb/logs
