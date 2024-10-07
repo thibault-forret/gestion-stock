@@ -2,7 +2,7 @@ services:
     app:
         build:
             args:
-                user: thibault
+                user: gestion-stock
                 uid: 1000
             context: ./
             dockerfile: Dockerfile
@@ -15,8 +15,7 @@ services:
         networks:
             - gestion-stock-network
     db:
-        image: mysql:8.0
-        # command: --skip-grant-tables
+        image: mariadb:10.5
         container_name: db-container
         restart: unless-stopped
         environment:
@@ -25,9 +24,9 @@ services:
             MYSQL_PASSWORD: ${DB_PASSWORD}
             MYSQL_USER: ${DB_USERNAME}
             SERVICE_TAGS: dev
-            SERVICE_NAME: mysql
+            SERVICE_NAME: mariadb
         volumes:
-            - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+            - ./docker-compose/mariadb:/docker-entrypoint-initdb.d 
             - ./db:/var/lib/mysql
         networks:
             - gestion-stock-network

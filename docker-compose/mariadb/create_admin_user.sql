@@ -1,0 +1,7 @@
+CREATE USER 'gestion-stock'@'%' IDENTIFIED BY 'GestionStock@';
+GRANT ALL PRIVILEGES ON *.* TO 'gestion-stock'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+CREATE USER 'laravel'@'%' IDENTIFIED BY 'GestionStock@';
+GRANT ALL PRIVILEGES ON *.* TO 'laravel'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
