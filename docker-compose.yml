@@ -1,12 +1,12 @@
 services:
-    app:
+    php:
         build:
             args:
                 user: gestion-stock
                 uid: 1000
             context: ./
             dockerfile: Dockerfile
-        image: cspv
+        image: php-fpm
         container_name: php-container
         restart: unless-stopped
         working_dir: /var/www/
