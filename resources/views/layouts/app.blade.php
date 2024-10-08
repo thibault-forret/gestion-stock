@@ -12,7 +12,7 @@
         href="{{ asset('images/logo.webp') }}"
     >
 
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/style.css') }}" rel="stylesheet">
 </head>
 
 @include('components._header') 
@@ -25,7 +25,7 @@
 
     </div>
     
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
 
     @hasSection('js')
     	@yield('js')
