@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 class RedirectionController extends Controller
 {
     // Redirige vers le dashboard
-    public function redirectToDashboard()
+    public function redirectToDashboardEntrepot()
     {
-        return redirect()->route('dashboard');
+        return redirect()->route('entrepot.dashboard');
     }
 }
