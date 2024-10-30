@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-{{-- Retirer le header du model admin (same layout) --}}
+{{-- Retirer le header --}}
 @php
-    $login = false;    
+    $login = true;    
 @endphp
 
 @section('css')
@@ -14,7 +14,7 @@
 
 @section('content') 
 
-    <form method="POST" action="/entrepot/login" autocomplete="on">
+    <form method="POST" action="{{ route('entrepot.login.post') }}" autocomplete="on">
         @csrf
 
         <div class="content-form">

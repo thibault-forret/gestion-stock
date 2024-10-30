@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function loginFormEntrepot()
+    public function showLoginFormEntrepot()
     {
 
         // Pour se créer un mot de passe hashé en attendant l'interface de création de compte
@@ -18,7 +19,7 @@ class AuthController extends Controller
         return view('pages.entrepot.login');
     }
 
-    public function loginEntrepotConnexion(Request $request)
+    public function loginEntrepot(Request $request)
     {
         // Vérification des données
 
@@ -40,7 +41,7 @@ class AuthController extends Controller
         ];
 
         if (Auth::guard('entrepot')->attempt($credentials)) {
-            // L'administrateur est connecté avec succès
+            // L'utilistaeur est connecté avec succès
 
             $admin = Auth::guard('entrepot')->user();
 
@@ -55,9 +56,11 @@ class AuthController extends Controller
         }
     }
 
-    public function logoutEntrepot()
+    public function logoutEntrepot(Request $request)
     {
         Auth::guard('entrepot')->logout();
+
+        $request->session()->invalidate();
 
         return redirect()->route('index')->with('success', 'Vous avez été déconnecté.');
     }
