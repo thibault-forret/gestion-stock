@@ -13,6 +13,10 @@
     >
 
     <link href="{{ mix('css/style.css') }}" rel="stylesheet">
+
+    @hasSection('css')
+    	@yield('css')
+    @endif
 </head>
 
 @if (!isset($login))  

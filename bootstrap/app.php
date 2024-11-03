@@ -12,14 +12,32 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->redirectTo(
-            guests: [
-                'entrepot' => '/entrepot/login',
-                // 'magasin' => '/magasin/login',
-            ],
-            users: [
-                'entrepot' => '/entrepot/dashboard',
-                // 'magasin' => '/magasin/dashboard',
-            ],
+            guests: function () {
+                // Redirige vers la page de connexion en fonction du guard
+                if (Auth::guard('entrepot')->guest()) {
+                    return '/entrepot/login';
+                }
+
+                // A tester
+                // if (Auth::guard('magasin')->guest()) {
+                //     return '/magasin/login';
+                // }
+
+                return null;
+            },
+            users: function () {
+                // Redirige vers le tableau de bord en fonction du guard
+                if (Auth::guard('entrepot')->check()) {
+                    return '/entrepot/dashboard';
+                }
+
+                // A tester
+                // if (Auth::guard('magasin')->check()) {
+                //     return '/magasin/dashboard';
+                // }
+
+                return null;
+            }
         );
     })
     ->withExceptions(function (Exceptions $exceptions) {
