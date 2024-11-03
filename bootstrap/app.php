@@ -12,8 +12,14 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->redirectTo(
-            guests: '/entrepot/login',
-            users: '/entrepot/dashboard',
+            guests: [
+                'entrepot' => '/entrepot/login',
+                // 'magasin' => '/magasin/login',
+            ],
+            users: [
+                'entrepot' => '/entrepot/dashboard',
+                // 'magasin' => '/magasin/dashboard',
+            ],
         );
     })
     ->withExceptions(function (Exceptions $exceptions) {
