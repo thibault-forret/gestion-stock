@@ -77,4 +77,66 @@ class AuthController extends Controller
 
         return redirect()->route('index')->with('success', 'Vous avez été déconnecté.');
     }
+
+
+    // -----------------------------------------------------------------------------------------------
+    //                                            Magasin
+    // -----------------------------------------------------------------------------------------------
+
+    public function showLoginFormMagasin() {
+
+        if (Auth::guard('entrepot')->check()) {
+            return redirect('/entrepot/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section entrepot.');
+        }
+
+        return view('pages.magasin.login');
+    }
+
+    public function loginMagasin(Request $request)
+    {
+        if (Auth::guard('entrepot')->check()) {
+            return redirect('/entrepot/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section entrepot.');
+        }
+
+        $credentials = $request->validate([
+            'username' => ['required', 'string'],
+            'password' => ['required'],
+        ], [
+            'username.required' => 'Le nom d’utilisateur est requis.',
+            'username.string' => 'Le nom d’utilisateur doit être une chaîne de caractères.',
+            'password.required' => 'Le mot de passe est requis.',
+        ]);
+
+        $username = $request->input('username');
+        $password = $request->input('password');
+        
+        $credentials = [
+            'username' => $username,
+            'password' => $password,
+        ];
+
+        if (Auth::guard('magasin')->attempt($credentials)) {
+            // L'utilistaeur est connecté avec succès
+
+            $admin = Auth::guard('magasin')->user();
+
+            // Rediriger vers la page qu'il essayait d'accéder, sinon le dashboard
+            return redirect()->intended(route('magasin.dashboard'))->with('success', 'Vous êtes connecté.');
+        }
+        else {
+            // L'utilisateur n'est pas connecté
+            return back()->withErrors([
+                'error' => 'Les informations de connexion sont incorrectes.',
+            ]);
+        }
+    }
+
+    public function logoutMagasin(Request $request)
+    {
+        Auth::guard('magasin')->logout();
+
+        $request->session()->invalidate();
+
+        return redirect()->route('index')->with('success', 'Vous avez été déconnecté.');
+    }
 }
