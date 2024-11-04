@@ -11,7 +11,34 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->redirectTo(
+            guests: function () {
+                // Redirige vers la page de connexion en fonction du guard
+                if (Auth::guard('entrepot')->guest()) {
+                    return '/entrepot/login';
+                }
+
+                // A tester
+                // if (Auth::guard('magasin')->guest()) {
+                //     return '/magasin/login';
+                // }
+
+                return '/';
+            },
+            users: function () {
+                // Redirige vers le tableau de bord en fonction du guard
+                if (Auth::guard('entrepot')->check()) {
+                    return '/entrepot/dashboard';
+                }
+
+                // A tester
+                // if (Auth::guard('magasin')->check()) {
+                //     return '/magasin/dashboard';
+                // }
+
+                return '/';
+            }
+        );
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

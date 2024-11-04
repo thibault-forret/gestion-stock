@@ -36,10 +36,15 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'entrepot' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'entrepot_users',
         ],
+
+        // 'magasin' => [
+        //     'driver' => 'session',
+        //     'provider' => 'magasin_users',
+        // ],
     ],
 
     /*
@@ -60,15 +65,16 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'entrepot_users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', App\Models\EntrepotUser::class),
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
+        // 'magasin_users' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\MagasinUser::class,
         // ],
+
     ],
 
     /*

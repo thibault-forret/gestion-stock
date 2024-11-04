@@ -1,0 +1,98 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+}
+
+.content-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+}
+.content-form .info {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.content-form .info .container-img {
+  width: 90px;
+  height: 90px;
+}
+.content-form .info .container-img img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+.content-form .item-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+.content-form .item-form label {
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+.content-form .item-form input[type=text],
+.content-form .item-form input[type=password] {
+  padding: 0.85rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.content-form .item-form input[type=text]:focus,
+.content-form .item-form input[type=password]:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+.content-form .error-message {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+  text-align: center;
+}
+.content-form .error-message p {
+  margin: 0.3rem 0;
+}
+.content-form .center-child {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.content-form .login-button {
+  width: 100%;
+  padding: 0.85rem;
+  background-color: #3498db;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+.content-form .login-button:hover {
+  background-color: rgb(33.1380753138, 125.1882845188, 186.8619246862);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+.content-form .login-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}

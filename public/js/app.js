@@ -2113,6 +2113,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/scss/pages/login.scss":
+/*!*****************************************!*\
+  !*** ./resources/scss/pages/login.scss ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/scss/style.scss":
 /*!***********************************!*\
   !*** ./resources/scss/style.scss ***!
@@ -7223,6 +7236,7 @@ const asap = typeof queueMicrotask !== 'undefined' ?
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
 /******/ 			"css/style": 0,
+/******/ 			"css/pages/login": 0,
 /******/ 			"css/pages/dashboard": 0
 /******/ 		};
 /******/ 		
@@ -7273,9 +7287,10 @@ const asap = typeof queueMicrotask !== 'undefined' ?
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/style","css/pages/dashboard"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/style","css/pages/dashboard"], () => (__webpack_require__("./resources/scss/pages/dashboard.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/style","css/pages/dashboard"], () => (__webpack_require__("./resources/scss/style.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/style","css/pages/login","css/pages/dashboard"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/style","css/pages/login","css/pages/dashboard"], () => (__webpack_require__("./resources/scss/pages/dashboard.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/style","css/pages/login","css/pages/dashboard"], () => (__webpack_require__("./resources/scss/pages/login.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/style","css/pages/login","css/pages/dashboard"], () => (__webpack_require__("./resources/scss/style.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

@@ -13,9 +13,15 @@
     >
 
     <link href="{{ mix('css/style.css') }}" rel="stylesheet">
+
+    @hasSection('css')
+    	@yield('css')
+    @endif
 </head>
 
-@include('components._header') 
+@if (!isset($login))  
+    @include('components._header')
+@endif
 
 <body>
 
@@ -33,6 +39,8 @@
 
 </body>
 
-@include('components._footer')
+@if (!isset($login))  
+    @include('components._footer')
+@endif
 
 </html>
