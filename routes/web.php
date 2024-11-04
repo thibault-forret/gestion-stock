@@ -9,22 +9,9 @@ use App\Http\Controllers\AuthController;
 // Redirige vers dashboard en cas d'erreur sur l'url
 Route::fallback([RedirectionController::class, 'redirectToHome']);
 
-// Ajouter une page au début pour choisir si on est un entrepot ou un magasin, cf. le login de l'ent de l'upjv pour exemple
 
 // Permet de rediriger vers la page d'accueil, pour séléctionner entrepot ou magasin
-// Route::get('/', [IndexController::class, 'index'])->name('index');
-
-Route::get('/', function () {
-    if (Auth::guard('entrepot')->check()) {
-        return redirect('/entrepot/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section entrepot.');
-    }
-
-    if (Auth::guard('magasin')->check()) {
-        return redirect('/magasin/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section magasin.');
-    }
-
-    return view('pages.accueil');
-})->name('index');
+Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('/entrepot', function () {
     return redirect()->route('entrepot.login');
