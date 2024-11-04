@@ -12,9 +12,13 @@ class RedirectionController extends Controller
         return redirect('/');//->route('index');
     }
 
-    // Redirige vers le dashboard
     public function redirectToDashboardEntrepot()
     {
         return redirect()->route('entrepot.dashboard');
+    }
+
+    public function redirectToDashboardMagasin()
+    {
+        return redirect()->route('magasin.dashboard');
     }
 }

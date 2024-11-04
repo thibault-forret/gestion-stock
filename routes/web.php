@@ -15,6 +15,14 @@ Route::fallback([RedirectionController::class, 'redirectToHome']);
 // Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('/', function () {
+    if (Auth::guard('entrepot')->check()) {
+        return redirect('/entrepot/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section entrepot.');
+    }
+
+    if (Auth::guard('magasin')->check()) {
+        return redirect('/magasin/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section magasin.');
+    }
+
     return view('pages.accueil');
 })->name('index');
 
@@ -41,6 +49,31 @@ Route::prefix('entrepot')->name('entrepot.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         // Routes concernant les utilisateurs de l'entrepot
+    });
+});
+
+Route::get('/magasin', function () {
+    return redirect()->route('magasin.login');
+});
+
+Route::prefix('magasin')->name('magasin.')->group(function () {
+    Route::get('/login', function () {
+        if (auth()->guard('magasin')->check()) {
+            return redirect()->route('magasin.dashboard');
+        }
+        return (new AuthController)->showLoginFormMagasin();
+    })->name('login');
+
+    Route::post('/login', [AuthController::class, 'loginMagasin'])->name('login.post');
+
+    Route::get('/logout', [AuthController::class, 'logoutMagasin'])->name('logout');
+
+    Route::middleware('auth:magasin')->group(function () {
+        Route::fallback([RedirectionController::class, 'redirectToDashboardMagasin']);
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Routes concernant les utilisateurs du magasin
     });
 });
 

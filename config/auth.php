@@ -41,10 +41,10 @@ return [
             'provider' => 'entrepot_users',
         ],
 
-        // 'magasin' => [
-        //     'driver' => 'session',
-        //     'provider' => 'magasin_users',
-        // ],
+        'magasin' => [
+            'driver' => 'session',
+            'provider' => 'magasin_users',
+        ],
     ],
 
     /*
@@ -70,10 +70,10 @@ return [
             'model' => env('AUTH_MODEL', App\Models\EntrepotUser::class),
         ],
 
-        // 'magasin_users' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\MagasinUser::class,
-        // ],
+        'magasin_users' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\MagasinUser::class),
+        ],
 
     ],
 
