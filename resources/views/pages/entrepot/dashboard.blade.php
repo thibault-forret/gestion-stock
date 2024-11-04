@@ -4,5 +4,7 @@
 @section('description', 'Affiche un aperçu sur l\'entrepôt.')
 
 @section('content')
-    Dashboard
+    Dashboard entrepot
+
+    <a href="{{ route('entrepot.logout') }}">Se déconnecter</a>
 @endsection

@@ -4,27 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RedirectionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\IndexController;
 
 
 // Redirige vers dashboard en cas d'erreur sur l'url
 Route::fallback([RedirectionController::class, 'redirectToHome']);
 
-// Ajouter une page au début pour choisir si on est un entrepot ou un magasin, cf. le login de l'ent de l'upjv pour exemple
 
 // Permet de rediriger vers la page d'accueil, pour séléctionner entrepot ou magasin
-// Route::get('/', [IndexController::class, 'index'])->name('index');
-
-Route::get('/', function () {
-    if (Auth::guard('entrepot')->check()) {
-        return redirect('/entrepot/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section entrepot.');
-    }
-
-    if (Auth::guard('magasin')->check()) {
-        return redirect('/magasin/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section magasin.');
-    }
-
-    return view('pages.accueil');
-})->name('index');
+Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('/entrepot', function () {
     return redirect()->route('entrepot.login');
@@ -46,7 +34,7 @@ Route::prefix('entrepot')->name('entrepot.')->group(function () {
     Route::middleware('auth:entrepot')->group(function () {
         Route::fallback([RedirectionController::class, 'redirectToDashboardEntrepot']);
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'indexEntrepot'])->name('dashboard');
 
         // Routes concernant les utilisateurs de l'entrepot
     });
@@ -71,7 +59,7 @@ Route::prefix('magasin')->name('magasin.')->group(function () {
     Route::middleware('auth:magasin')->group(function () {
         Route::fallback([RedirectionController::class, 'redirectToDashboardMagasin']);
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'indexMagasin'])->name('dashboard');
 
         // Routes concernant les utilisateurs du magasin
     });
