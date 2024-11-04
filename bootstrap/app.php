@@ -18,10 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
                     return '/entrepot/login';
                 }
 
-                // A tester
-                // if (Auth::guard('magasin')->guest()) {
-                //     return '/magasin/login';
-                // }
+                if (Auth::guard('magasin')->guest()) {
+                    return '/magasin/login';
+                }
 
                 return '/';
             },
@@ -31,10 +30,9 @@ return Application::configure(basePath: dirname(__DIR__))
                     return '/entrepot/dashboard';
                 }
 
-                // A tester
-                // if (Auth::guard('magasin')->check()) {
-                //     return '/magasin/dashboard';
-                // }
+                if (Auth::guard('magasin')->check()) {
+                    return '/magasin/dashboard';
+                }
 
                 return '/';
             }
