@@ -23,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 //     return '/magasin/login';
                 // }
 
-                return null;
+                return '/';
             },
             users: function () {
                 // Redirige vers le tableau de bord en fonction du guard
@@ -36,7 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 //     return '/magasin/dashboard';
                 // }
 
-                return null;
+                return '/';
             }
         );
     })
