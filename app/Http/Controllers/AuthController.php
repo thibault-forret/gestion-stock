@@ -21,9 +21,9 @@ class AuthController extends Controller
         // $password = Hash::make('thibault');
         // dd($password);
 
-        // if (Auth::guard('magasin')->check()) {
-        //     return redirect('/magasin/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section magasin.');
-        // }
+        if (Auth::guard('magasin')->check()) {
+            return redirect('/magasin/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section magasin.');
+        }
 
         return view('pages.entrepot.login');
     }
@@ -32,9 +32,9 @@ class AuthController extends Controller
     {
         // Vérification des données
 
-        // if (Auth::guard('magasin')->check()) {
-        //     return redirect('/magasin/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section magasin.');
-        // }
+        if (Auth::guard('magasin')->check()) {
+            return redirect('/magasin/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section magasin.');
+        }
 
         $credentials = $request->validate([
             'username' => ['required', 'string'],
