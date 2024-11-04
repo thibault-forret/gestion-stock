@@ -34,7 +34,7 @@ Route::prefix('entrepot')->name('entrepot.')->group(function () {
     Route::middleware('auth:entrepot')->group(function () {
         Route::fallback([RedirectionController::class, 'redirectToDashboardEntrepot']);
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'indexEntrepot'])->name('dashboard');
 
         // Routes concernant les utilisateurs de l'entrepot
     });
@@ -59,7 +59,7 @@ Route::prefix('magasin')->name('magasin.')->group(function () {
     Route::middleware('auth:magasin')->group(function () {
         Route::fallback([RedirectionController::class, 'redirectToDashboardMagasin']);
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'indexMagasin'])->name('dashboard');
 
         // Routes concernant les utilisateurs du magasin
     });
