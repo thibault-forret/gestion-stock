@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class RedirectionController extends Controller
 {
-    // Redirige vers le dashboard
-    public function redirectToDashboard()
+    public function redirectToHome()
     {
-        return redirect()->route('dashboard');
+        return redirect('/');//->route('index');
+    }
+
+    public function redirectToDashboardEntrepot()
+    {
+        return redirect()->route('entrepot.dashboard');
+    }
+
+    public function redirectToDashboardMagasin()
+    {
+        return redirect()->route('magasin.dashboard');
     }
 }

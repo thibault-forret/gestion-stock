@@ -12,10 +12,16 @@
         href="{{ asset('images/logo.webp') }}"
     >
 
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/style.css') }}" rel="stylesheet">
+
+    @hasSection('css')
+    	@yield('css')
+    @endif
 </head>
 
-@include('components._header') 
+@if (!isset($login))  
+    @include('components._header')
+@endif
 
 <body>
 
@@ -25,7 +31,7 @@
 
     </div>
     
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
 
     @hasSection('js')
     	@yield('js')
@@ -33,6 +39,8 @@
 
 </body>
 
-@include('components._footer')
+@if (!isset($login))  
+    @include('components._footer')
+@endif
 
 </html>
