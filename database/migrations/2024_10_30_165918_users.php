@@ -20,7 +20,14 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Magasin users to do
+        Schema::create('magasin_users', function (Blueprint $table) {
+            $table->id();
+            $table->string('username')->unique();
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
