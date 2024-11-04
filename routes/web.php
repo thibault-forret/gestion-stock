@@ -44,6 +44,10 @@ Route::prefix('entrepot')->name('entrepot.')->group(function () {
     });
 });
 
+Route::get('/magasin', function () {
+    return redirect()->route('magasin.login');
+});
+
 Route::prefix('magasin')->name('magasin.')->group(function () {
     Route::get('/login', function () {
         if (auth()->guard('magasin')->check()) {
