@@ -44,3 +44,24 @@ Route::prefix('entrepot')->name('entrepot.')->group(function () {
     });
 });
 
+Route::prefix('magasin')->name('magasin.')->group(function () {
+    Route::get('/login', function () {
+        if (auth()->guard('magasin')->check()) {
+            return redirect()->route('magasin.dashboard');
+        }
+        return (new AuthController)->showLoginFormMagasin();
+    })->name('login');
+
+    Route::post('/login', [AuthController::class, 'loginMagasin'])->name('login.post');
+
+    Route::get('/logout', [AuthController::class, 'logoutMagasin'])->name('logout');
+
+    Route::middleware('auth:magasin')->group(function () {
+        Route::fallback([RedirectionController::class, 'redirectToDashboardMagasin']);
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Routes concernant les utilisateurs du magasin
+    });
+});
+
