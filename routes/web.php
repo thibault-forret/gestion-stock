@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RedirectionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\IndexController;
 
 
 // Redirige vers dashboard en cas d'erreur sur l'url
