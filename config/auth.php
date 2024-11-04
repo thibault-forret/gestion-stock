@@ -72,7 +72,7 @@ return [
 
         'magasin_users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\MagasinUser::class,
+            'model' => env('AUTH_MODEL', App\Models\MagasinUser::class),
         ],
 
     ],
