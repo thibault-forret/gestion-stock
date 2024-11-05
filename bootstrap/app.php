@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\LanguageToggleMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -36,7 +37,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
                 return '/';
             }
-        );
+        )
+
+        ->alias(['lang.toggle' => LanguageToggleMiddleware::class]);
+        
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
