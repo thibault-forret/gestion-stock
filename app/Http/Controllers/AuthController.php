@@ -28,7 +28,7 @@ class AuthController extends Controller
         return view('pages.warehouse.login');
     }
 
-    public function loginEntrepot(Request $request)
+    public function loginWarehouse(Request $request)
     {
         // Vérification des données
 
