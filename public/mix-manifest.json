@@ -1,7 +1,8 @@
 {
-    "/js/app.js": "/js/app.js?id=9853512edfcf181d37e45df374a2412e",
+    "/js/app.js": "/js/app.js?id=85464c21d16172786d9e85e1cd00192f",
     "/css/style.css": "/css/style.css?id=68b329da9893e34099c7d8ad5cb9c940",
+    "/css/pages/warehouse/dashboard.css": "/css/pages/warehouse/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940",
+    "/css/pages/store/dashboard.css": "/css/pages/store/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940",
     "/css/pages/login.css": "/css/pages/login.css?id=4133137ab69a41a9d36cd645e4c6bb98",
-    "/css/pages/home.css": "/css/pages/home.css?id=68b329da9893e34099c7d8ad5cb9c940",
-    "/css/pages/dashboard.css": "/css/pages/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940"
+    "/css/pages/home.css": "/css/pages/home.css?id=68b329da9893e34099c7d8ad5cb9c940"
 }
