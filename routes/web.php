@@ -18,7 +18,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
     // Route pour changer la langue
     Route::get('lang/{locale}', function (string $locale) {
         if (! in_array($locale, ['en', 'fr'])) {
-            return redirect()->back()->with('error', 'Langue non supportée');
+            return redirect()->back()->with('error', __('messages.langage_not_supported'));
         }
         
         app()->setLocale($locale);
@@ -31,52 +31,52 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
     Route::get('/', [IndexController::class, 'index'])->name('index');
 
     // Redifirige vers la page de connexion
-    Route::get('/entrepot', function () {
-        return redirect()->route('entrepot.login');
+    Route::get('/warehouse', function () {
+        return redirect()->route('warehouse.login');
     });
 
-    Route::prefix('entrepot')->name('entrepot.')->group(function () {
+    Route::prefix('warehouse')->name('warehouse.')->group(function () {
         Route::get('/login', function () {
-            if (auth()->guard('entrepot')->check()) {
-                return redirect()->route('entrepot.dashboard');
+            if (auth()->guard('warehouse')->check()) {
+                return redirect()->route('warehouse.dashboard');
             }
-            return (new AuthController)->showLoginFormEntrepot();
+            return (new AuthController)->showLoginFormWarehouse();
         })->name('login');
 
-        Route::post('/login', [AuthController::class, 'loginEntrepot'])->name('login.post');
+        Route::post('/login', [AuthController::class, 'loginWarehouse'])->name('login.post');
 
-        Route::get('/logout', [AuthController::class, 'logoutEntrepot'])->name('logout');
+        Route::get('/logout', [AuthController::class, 'logoutWarehouse'])->name('logout');
 
         // Routes lorsque user est authentifié
-        Route::middleware('auth:entrepot')->group(function () {
-            Route::fallback([RedirectionController::class, 'redirectToDashboardEntrepot']);
+        Route::middleware('auth:warehouse')->group(function () {
+            Route::fallback([RedirectionController::class, 'redirectToDashboardWarehouse']);
 
-            Route::get('/dashboard', [DashboardController::class, 'indexEntrepot'])->name('dashboard');
+            Route::get('/dashboard', [DashboardController::class, 'indexWarehouse'])->name('dashboard');
 
             // Routes concernant les utilisateurs de l'entrepot
         });
     });
 
-    Route::get('/magasin', function () {
-        return redirect()->route('magasin.login');
+    Route::get('/store', function () {
+        return redirect()->route('store.login');
     });
 
-    Route::prefix('magasin')->name('magasin.')->group(function () {
+    Route::prefix('store')->name('store.')->group(function () {
         Route::get('/login', function () {
-            if (auth()->guard('magasin')->check()) {
-                return redirect()->route('magasin.dashboard');
+            if (auth()->guard('store')->check()) {
+                return redirect()->route('store.dashboard');
             }
-            return (new AuthController)->showLoginFormMagasin();
+            return (new AuthController)->showLoginFormStore();
         })->name('login');
 
-        Route::post('/login', [AuthController::class, 'loginMagasin'])->name('login.post');
+        Route::post('/login', [AuthController::class, 'loginStore'])->name('login.post');
 
-        Route::get('/logout', [AuthController::class, 'logoutMagasin'])->name('logout');
+        Route::get('/logout', [AuthController::class, 'logoutStore'])->name('logout');
 
-        Route::middleware('auth:magasin')->group(function () {
-            Route::fallback([RedirectionController::class, 'redirectToDashboardMagasin']);
+        Route::middleware('auth:store')->group(function () {
+            Route::fallback([RedirectionController::class, 'redirectToDashboardStore']);
 
-            Route::get('/dashboard', [DashboardController::class, 'indexMagasin'])->name('dashboard');
+            Route::get('/dashboard', [DashboardController::class, 'indexStore'])->name('dashboard');
 
             // Routes concernant les utilisateurs du magasin
         });
