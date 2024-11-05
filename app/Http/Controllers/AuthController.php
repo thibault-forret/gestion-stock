@@ -84,7 +84,7 @@ class AuthController extends Controller
     //                                            Magasin
     // -----------------------------------------------------------------------------------------------
 
-    public function showLoginFormMagasin() {
+    public function showLoginFormStore() {
 
         if (Auth::guard('warehouse')->check()) {
             return redirect()->route('warehouse.dashboard')->with('error', __('auth.error.logout_first_warehouse'));

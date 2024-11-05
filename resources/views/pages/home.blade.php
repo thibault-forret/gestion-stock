@@ -14,7 +14,7 @@
     </div>
 
     <div class="magasin">
-        <a href="{{ route('warehouse.login') }}">{{ __('basics.store') }}</a>
+        <a href="{{ route('store.login') }}">{{ __('basics.store') }}</a>
     </div>
 
 
