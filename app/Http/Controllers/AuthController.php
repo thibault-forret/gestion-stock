@@ -14,28 +14,29 @@ class AuthController extends Controller
     //                                            Entrepot
     // -----------------------------------------------------------------------------------------------
 
-    public function showLoginFormEntrepot()
+    public function showLoginFormWarehouse()
     {
 
         // Pour se créer un mot de passe hashé en attendant l'interface de création de compte
         // $password = Hash::make('thibault');
         // dd($password);
 
-        if (Auth::guard('magasin')->check()) {
-            return redirect('/magasin/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section magasin.');
+        if (Auth::guard('store')->check()) {
+            return redirect()->route('store.dashboard')->with('error', __('auth.error.logout_first_store'));
         }
 
-        return view('pages.entrepot.login');
+        return view('pages.warehouse.login');
     }
 
     public function loginEntrepot(Request $request)
     {
         // Vérification des données
 
-        if (Auth::guard('magasin')->check()) {
-            return redirect('/magasin/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section magasin.');
+        if (Auth::guard('store')->check()) {
+            return redirect('/magasin/dashboard')->with('error', __('auth.error.logout_first_store'));
         }
 
+        // Faire les messages de traduction
         $credentials = $request->validate([
             'username' => ['required', 'string'],
             'password' => ['required'],
@@ -53,29 +54,29 @@ class AuthController extends Controller
             'password' => $password,
         ];
 
-        if (Auth::guard('entrepot')->attempt($credentials)) {
+        if (Auth::guard('warehouse')->attempt($credentials)) {
             // L'utilistaeur est connecté avec succès
 
-            $admin = Auth::guard('entrepot')->user();
+            $user = Auth::guard('warehouse')->user();
 
             // Rediriger vers la page qu'il essayait d'accéder, sinon le dashboard
-            return redirect()->intended(route('entrepot.dashboard'))->with('success', 'Vous êtes connecté.');
+            return redirect()->intended(route('warehouse.dashboard'))->with('success', __('auth.success.login'));
         }
         else {
             // L'utilisateur n'est pas connecté
             return back()->withErrors([
-                'error' => 'Les informations de connexion sont incorrectes.',
+                'error' => __('auth.error.failed'),
             ]);
         }
     }
 
-    public function logoutEntrepot(Request $request)
+    public function logoutWarehouse(Request $request)
     {
-        Auth::guard('entrepot')->logout();
+        Auth::guard('warehouse')->logout();
 
         $request->session()->invalidate();
 
-        return redirect()->route('index')->with('success', 'Vous avez été déconnecté.');
+        return redirect()->route('index')->with('success', __('auth.success.logout'));
     }
 
 
@@ -83,21 +84,22 @@ class AuthController extends Controller
     //                                            Magasin
     // -----------------------------------------------------------------------------------------------
 
-    public function showLoginFormMagasin() {
+    public function showLoginFormStore() {
 
-        if (Auth::guard('entrepot')->check()) {
-            return redirect('/entrepot/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section entrepot.');
+        if (Auth::guard('warehouse')->check()) {
+            return redirect()->route('warehouse.dashboard')->with('error', __('auth.error.logout_first_warehouse'));
         }
 
-        return view('pages.magasin.login');
+        return view('pages.store.login');
     }
 
-    public function loginMagasin(Request $request)
+    public function loginStore(Request $request)
     {
-        if (Auth::guard('entrepot')->check()) {
-            return redirect('/entrepot/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section entrepot.');
+        if (Auth::guard('warehouse')->check()) {
+            return redirect()->route('warehouse.dashboard')->with('error', __('auth.error.logout_first_warehouse'));
         }
 
+        // Faire les messages de traduction
         $credentials = $request->validate([
             'username' => ['required', 'string'],
             'password' => ['required'],
@@ -115,28 +117,28 @@ class AuthController extends Controller
             'password' => $password,
         ];
 
-        if (Auth::guard('magasin')->attempt($credentials)) {
+        if (Auth::guard('store')->attempt($credentials)) {
             // L'utilistaeur est connecté avec succès
 
-            $admin = Auth::guard('magasin')->user();
+            $user = Auth::guard('store')->user();
 
             // Rediriger vers la page qu'il essayait d'accéder, sinon le dashboard
-            return redirect()->intended(route('magasin.dashboard'))->with('success', 'Vous êtes connecté.');
+            return redirect()->intended(route('store.dashboard'))->with('success', __('auth.success.login'));
         }
         else {
             // L'utilisateur n'est pas connecté
             return back()->withErrors([
-                'error' => 'Les informations de connexion sont incorrectes.',
+                'error' => __('auth.error.failed'),
             ]);
         }
     }
 
-    public function logoutMagasin(Request $request)
+    public function logoutStore(Request $request)
     {
-        Auth::guard('magasin')->logout();
+        Auth::guard('store')->logout();
 
         $request->session()->invalidate();
 
-        return redirect()->route('index')->with('success', 'Vous avez été déconnecté.');
+        return redirect()->route('index')->with('success', __('auth.success.logout'));
     }
 }

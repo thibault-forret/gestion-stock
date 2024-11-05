@@ -36,14 +36,14 @@ return [
     */
 
     'guards' => [
-        'entrepot' => [
+        'warehouse' => [
             'driver' => 'session',
-            'provider' => 'entrepot_users',
+            'provider' => 'warehouse_users',
         ],
 
-        'magasin' => [
+        'store' => [
             'driver' => 'session',
-            'provider' => 'magasin_users',
+            'provider' => 'store_users',
         ],
     ],
 
@@ -65,14 +65,14 @@ return [
     */
 
     'providers' => [
-        'entrepot_users' => [
+        'warehouse_users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\EntrepotUser::class),
+            'model' => env('AUTH_MODEL', App\Models\WarehouseUser::class),
         ],
 
-        'magasin_users' => [
+        'store_users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\MagasinUser::class),
+            'model' => env('AUTH_MODEL', App\Models\StoreUser::class),
         ],
 
     ],
