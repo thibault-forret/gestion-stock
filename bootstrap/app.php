@@ -15,27 +15,27 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectTo(
             guests: function () {
                 // Redirige vers la page de connexion en fonction du guard
-                if (Auth::guard('entrepot')->guest()) {
-                    return '/entrepot/login';
+                if (Auth::guard('warehouse')->guest()) {
+                    return route('warehouse.login');
                 }
 
-                if (Auth::guard('magasin')->guest()) {
-                    return '/magasin/login';
+                if (Auth::guard('store')->guest()) {
+                    return route('store.login');
                 }
 
                 return '/';
             },
             users: function () {
                 // Redirige vers le tableau de bord en fonction du guard
-                if (Auth::guard('entrepot')->check()) {
-                    return '/entrepot/dashboard';
+                if (Auth::guard('warehouse')->check()) {
+                    return route('warehouse.dashboard');
                 }
 
-                if (Auth::guard('magasin')->check()) {
-                    return '/magasin/dashboard';
+                if (Auth::guard('store')->check()) {
+                    return route('store.dashboard');
                 }
 
-                return '/';
+                return route('index');
             }
         )
 

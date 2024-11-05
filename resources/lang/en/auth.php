@@ -13,8 +13,8 @@ return [
     'error' => [
         'failed' => 'The login credentials are incorrect.',
         'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-        'logout_redirect_warehouse' => 'Please log out of the warehouse section first.',
-        'logout_redirect_store' => 'Please log out of the store section first.',
+        'logout_first_warehouse' => 'Please log out of the warehouse section first.',
+        'logout_first_store' => 'Please log out of the store section first.',
     ],
 
 ];
