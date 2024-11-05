@@ -5,8 +5,8 @@
 @endsection
 
 {{-- Faire en FR et EN (lang) --}}
-@section('title', 'Accueil')
-@section('description', 'Permet de sélectionner son moyen de connexion, entrepot ou magasin.')
+@section('title', __('title.home'))
+@section('description', __('description.home'))
 
 @section('content')
     <div class="entrepot">

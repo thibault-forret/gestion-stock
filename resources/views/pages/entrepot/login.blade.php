@@ -9,8 +9,8 @@
 	<link href="{{ mix('css/pages/login.css') }}" rel="stylesheet">
 @endsection
 
-@section('title', 'Se connecter')
-@section('description', 'Se connecter à l\'application.')
+@section('title', __('title.login'))
+@section('description', __('description.login.warehouse'))
 
 @section('content') 
 

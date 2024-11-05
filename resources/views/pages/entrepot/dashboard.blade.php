@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
-@section('description', 'Affiche un aperçu sur l\'entrepôt.')
+@section('title', __('title.dashboard'))
+@section('description', __('description.dashboard.warehouse'))
 
 @section('content')
     Dashboard entrepot
