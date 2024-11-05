@@ -14,7 +14,7 @@
 
 @section('content') 
 
-    <form method="POST" action="{{ route('entrepot.login.post') }}" autocomplete="on">
+    <form method="POST" action="{{ route('warehouse.login.post') }}" autocomplete="on">
         @csrf
 
         <div class="content-form">

@@ -6,5 +6,5 @@
 @section('content')
     Dashboard magasin
 
-    <a href="{{ route('magasin.logout') }}">Se déconnecter</a>
+    <a href="{{ route('store.logout') }}">Se déconnecter</a>
 @endsection

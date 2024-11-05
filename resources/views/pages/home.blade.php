@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/accueil.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 @endsection
 
 {{-- Faire en FR et EN (lang) --}}
@@ -10,11 +10,11 @@
 
 @section('content')
     <div class="entrepot">
-        <a href="{{ route('entrepot.login') }}">{{ __('basics.warehouse') }}</a>
+        <a href="{{ route('warehouse.login') }}">{{ __('basics.warehouse') }}</a>
     </div>
 
     <div class="magasin">
-        <a href="{{ route('magasin.login') }}">{{ __('basics.store') }}</a>
+        <a href="{{ route('warehouse.login') }}">{{ __('basics.store') }}</a>
     </div>
 
 

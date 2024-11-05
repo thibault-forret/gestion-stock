@@ -14,7 +14,7 @@
 
 @section('content') 
 
-    <form method="POST" action="{{ route('magasin.login.post') }}" autocomplete="on">
+    <form method="POST" action="{{ route('store.login.post') }}" autocomplete="on">
         @csrf
 
         <div class="content-form">
