@@ -20,17 +20,17 @@
         <div class="content-form">
             <div class="info">
                 <div class="container-img">
-                    <img src="{{ asset('images/logo.webp') }}" alt="Logo de l'entreprise">
+                    <img src="{{ asset('images/logo.webp') }}" alt="Logo">
                 </div>
             </div>
         
             <div class="item-form">
-                <label for="username">Utilisateur</label>
+                <label for="username">{{__('auth.username') }}</label>
                 <input type="text" id="username" name="username" required autofocus autocomplete="username">
             </div>
         
             <div class="item-form">
-                <label for="password">Mot de passe</label>
+                <label for="password">{{__('auth.password') }}</label>
                 <input type="password" id="password" name="password" required autocomplete="current-password">
             </div>
 
@@ -43,7 +43,7 @@
             @endif
     
             <div class="center-child">
-                <button class="login-button" type="submit">Connexion</button>
+                <button class="login-button" type="submit">{{__('auth.login') }}</button>
             </div>     
         </div>
 

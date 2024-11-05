@@ -10,5 +10,5 @@
 @section('content')
     Dashboard entrepot
 
-    <a href="{{ route('warehouse.logout') }}">Se déconnecter</a>
+    <a href="{{ route('warehouse.logout') }}">{{ __('auth.logout') }}</a>
 @endsection

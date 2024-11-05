@@ -4,6 +4,8 @@ return [
 
     'login' => 'Login',
     'logout' => 'Logout',
+    'username' => 'Username',
+    'password' => 'Password',
 
     'success' => [
         'login' => 'You have been successfully logged in.',

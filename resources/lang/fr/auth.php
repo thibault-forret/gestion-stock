@@ -4,6 +4,8 @@ return [
 
     'login' => 'Connexion',
     'logout' => 'Déconnexion',
+    'username' => 'Utilisateur',
+    'password' => 'Mot de passe',
 
     'success' => [
         'login' => 'Vous avez été connecté avec succès.',

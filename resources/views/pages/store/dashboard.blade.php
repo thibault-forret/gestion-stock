@@ -10,5 +10,5 @@
 @section('content')
     Dashboard magasin
 
-    <a href="{{ route('store.logout') }}">Se déconnecter</a>
+    <a href="{{ route('store.logout') }}">{{ __('auth.logout') }}</a>
 @endsection
