@@ -7,5 +7,6 @@ return [
     'action_not_allowed' => 'You are not allowed to perform this action.',
     'action_not_found' => 'The action you are trying to perform does not exist.',
     'langage_not_supported' => 'Language not supported',
+    'confirm_order' => 'Your order has been confirmed.',
     
 ];

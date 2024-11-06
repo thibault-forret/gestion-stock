@@ -6,4 +6,7 @@ return [
     'contact' => 'Contact',
     'login' => 'Login',
     'dashboard' => 'Dashboard',
+    'order' => 'Orders',
+    'place_order' => 'Place an order',
+    'recap_order' => 'Recap order',
 ];

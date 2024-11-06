@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RedirectionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\OrderController;
 
 
 // Redirige vers dashboard en cas d'erreur sur l'url
@@ -35,6 +36,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
         return redirect()->route('warehouse.login');
     });
 
+    // Routes concernant les utilisateurs de l'entrepot
     Route::prefix('warehouse')->name('warehouse.')->group(function () {
         Route::get('/login', function () {
             if (auth()->guard('warehouse')->check()) {
@@ -52,8 +54,6 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
             Route::fallback([RedirectionController::class, 'redirectToDashboardWarehouse']);
 
             Route::get('/dashboard', [DashboardController::class, 'indexWarehouse'])->name('dashboard');
-
-            // Routes concernant les utilisateurs de l'entrepot
         });
     });
 
@@ -72,13 +72,26 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
         Route::post('/login', [AuthController::class, 'loginStore'])->name('login.post');
 
         Route::get('/logout', [AuthController::class, 'logoutStore'])->name('logout');
-
+        
+        // Routes concernant les utilisateurs du magasin
         Route::middleware('auth:store')->group(function () {
             Route::fallback([RedirectionController::class, 'redirectToDashboardStore']);
 
             Route::get('/dashboard', [DashboardController::class, 'indexStore'])->name('dashboard');
 
-            // Routes concernant les utilisateurs du magasin
+            // Tableau de bord des commandes (liste fonctionnalités commandes)
+            Route::prefix('order')->name('order.')->group(function () {
+                Route::get('/', [OrderController::class, 'indexStore'])->name('index');
+
+                Route::get('/place', [OrderController::class, 'placeOrderStore'])->name('place');
+
+                Route::post('/place', [OrderController::class, 'storeDataInTheCartStore'])->name('store');
+
+                Route::get('/place/recap', [OrderController::class, 'recapOrderStore'])->name('recap');
+                
+                Route::post('/place/confirm', [OrderController::class, 'confirmOrderStore'])->name('confirm');
+            });
+
         });
     });
 });
