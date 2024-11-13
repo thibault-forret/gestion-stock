@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Services\AuthService;
+
 
 class AuthController extends Controller
 {
-
     /**
      * Gère la déconnexion de l'utilisateur en invalidant la session, régénérant le token CSRF
      * et en conservant la langue préférée de l'utilisateur.
@@ -22,15 +23,7 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         app()->setLocale($locale);
-        session()->put('locale', $locale);
-    }
-
-    private function verifyIfConnected(string $guard)
-    {
-        if (Auth::guard($guard)->check()) {
-            // Redirige vers le tableau de bord avec un message d'erreur si l'utilisateur est déjà connecté
-            return redirect()->route($guard.'.dashboard')->with('error', __('auth.error.logout_first_store'));
-        }
+        session()->put('locale', $locale);        
     }
 
     // ----------------------------------------------------------------------------------------------- //
@@ -43,15 +36,19 @@ class AuthController extends Controller
         // Pour se créer un mot de passe hashé en attendant l'interface de création de compte
         // $password = Hash::make('thibault');
         // dd($password);
-
-        $this->verifyIfConnected('store');
+        
+        if ($redirect = AuthService::verifyIfConnected('store')) {
+            return $redirect;  // Si redirection, on redirige
+        }
 
         return view('pages.warehouse.login');
     }
 
     public function loginWarehouse(Request $request)
     {
-        $this->verifyIfConnected('store');
+        if ($redirect = AuthService::verifyIfConnected('store')) {
+            return $redirect;  // Si redirection, on redirige
+        }
 
         // Validation des données
         // Faire les messages de traduction
@@ -103,14 +100,18 @@ class AuthController extends Controller
 
     public function showLoginFormStore() {
 
-        $this->verifyIfConnected('warehouse');
+        if ($redirect = AuthService::verifyIfConnected('warehouse')) {
+            return $redirect;  // Si redirection, on redirige
+        }
 
         return view('pages.store.login');
     }
 
     public function loginStore(Request $request)
     {
-        $this->verifyIfConnected('warehouse');
+        if ($redirect = AuthService::verifyIfConnected('warehouse')) {
+            return $redirect;  // Si redirection, on redirige
+        }
 
         // Faire les messages de traduction
         $credentials = $request->validate([
