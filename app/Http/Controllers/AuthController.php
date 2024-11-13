@@ -10,9 +10,32 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
-    // -----------------------------------------------------------------------------------------------
-    //                                            Entrepot
-    // -----------------------------------------------------------------------------------------------
+    /**
+     * Gère la déconnexion de l'utilisateur en invalidant la session, régénérant le token CSRF
+     * et en conservant la langue préférée de l'utilisateur.
+     */
+    private function logout(Request $request) 
+    {
+        $locale = $request->session()->get('locale', config('app.locale'));
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        app()->setLocale($locale);
+        session()->put('locale', $locale);
+    }
+
+    private function verifyIfConnected(string $guard)
+    {
+        if (Auth::guard($guard)->check()) {
+            // Redirige vers le tableau de bord avec un message d'erreur si l'utilisateur est déjà connecté
+            return redirect()->route($guard.'.dashboard')->with('error', __('auth.error.logout_first_store'));
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------------- //
+    //                                            Entrepot                                             //
+    // ----------------------------------------------------------------------------------------------- //
 
     public function showLoginFormWarehouse()
     {
@@ -21,21 +44,16 @@ class AuthController extends Controller
         // $password = Hash::make('thibault');
         // dd($password);
 
-        if (Auth::guard('store')->check()) {
-            return redirect()->route('store.dashboard')->with('error', __('auth.error.logout_first_store'));
-        }
+        $this->verifyIfConnected('store');
 
         return view('pages.warehouse.login');
     }
 
     public function loginWarehouse(Request $request)
     {
-        // Vérification des données
+        $this->verifyIfConnected('store');
 
-        if (Auth::guard('store')->check()) {
-            return redirect('/magasin/dashboard')->with('error', __('auth.error.logout_first_store'));
-        }
-
+        // Validation des données
         // Faire les messages de traduction
         $credentials = $request->validate([
             'username' => ['required', 'string'],
@@ -56,7 +74,6 @@ class AuthController extends Controller
 
         if (Auth::guard('warehouse')->attempt($credentials)) {
             // L'utilistaeur est connecté avec succès
-
             $user = Auth::guard('warehouse')->user();
 
             // Rediriger vers la page qu'il essayait d'accéder, sinon le dashboard
@@ -74,30 +91,26 @@ class AuthController extends Controller
     {
         Auth::guard('warehouse')->logout();
 
-        $request->session()->invalidate();
+        $this->logout($request);
 
         return redirect()->route('index')->with('success', __('auth.success.logout'));
     }
 
 
-    // -----------------------------------------------------------------------------------------------
-    //                                            Magasin
-    // -----------------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------- //
+    //                                            Magasin                                              //
+    // ----------------------------------------------------------------------------------------------- //
 
     public function showLoginFormStore() {
 
-        if (Auth::guard('warehouse')->check()) {
-            return redirect()->route('warehouse.dashboard')->with('error', __('auth.error.logout_first_warehouse'));
-        }
+        $this->verifyIfConnected('warehouse');
 
         return view('pages.store.login');
     }
 
     public function loginStore(Request $request)
     {
-        if (Auth::guard('warehouse')->check()) {
-            return redirect()->route('warehouse.dashboard')->with('error', __('auth.error.logout_first_warehouse'));
-        }
+        $this->verifyIfConnected('warehouse');
 
         // Faire les messages de traduction
         $credentials = $request->validate([
@@ -137,7 +150,7 @@ class AuthController extends Controller
     {
         Auth::guard('store')->logout();
 
-        $request->session()->invalidate();
+        $this->logout($request);
 
         return redirect()->route('index')->with('success', __('auth.success.logout'));
     }
