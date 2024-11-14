@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('warehouse_name', 50);
             $table->string('warehouse_address');
             $table->integer('capacity');
-            $table->unsignedBigInteger('warehouse_manager_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
-            $table->foreign('warehouse_manager_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
