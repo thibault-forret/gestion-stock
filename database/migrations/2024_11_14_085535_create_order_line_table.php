@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('order_line', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('order_id')->nullable(false);
+            $table->unsignedBigInteger('product_id')->nullable(false);
+            $table->int('quantity_ordered')->nullable(false);
+            $table->decimal('unit_price', 10, 2)->nullable(false);
             $table->timestamps();
         });
     }
