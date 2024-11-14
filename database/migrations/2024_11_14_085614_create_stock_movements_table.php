@@ -24,9 +24,9 @@ return new class extends Migration
             $table->string('movement_source')->nullable(false);
             $table->timestamps();
 
-            $table->foreign('product_id')->references('id')->on('product');
-            $table->foreign('warehouse_id')->references('id')->on('warehouse');
-            $table->foreign('user_id')->references('id')->on('user');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

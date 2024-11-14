@@ -19,8 +19,8 @@ return new class extends Migration
             // remplace last_update_date (updated_at)
             $table->timestamps(); 
 
-            $table->foreign('product_id')->references('id')->on('product')->onDelete('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouse')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
         });
     }
 

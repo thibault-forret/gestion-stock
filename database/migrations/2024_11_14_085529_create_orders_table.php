@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('order_status', 50)->nullable(false);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouse')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
         });
     }
 

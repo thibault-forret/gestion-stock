@@ -18,6 +18,9 @@ return new class extends Migration
             $table->int('quantity_ordered')->nullable(false);
             $table->decimal('unit_price', 10, 2)->nullable(false);
             $table->timestamps();
+
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
