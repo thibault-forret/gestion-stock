@@ -12,8 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invoice', function (Blueprint $table) {
-            $table->id();
+            $table->integer('invoice_number')->nullable(false);
+            $table->date('invoice_date')->nullable(false);
+            $table->enum('invoice_status', ['paid', 'unpaid', 'partially_paid'])->nullable(false); 
+            $table->unsignedBigInteger('order_id')->nullable(false); 
+            $table->unsignedBigInteger('supply_id')->nullable(false);
             $table->timestamps();
+
+            $table->foreign('order_id')->references('id')->on('order')->onDelete('cascade');
+            $table->foreign('supply_id')->references('id')->on('supply')->onDelete('cascade');
         });
     }
 
