@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('warehouse_id');
             $table->date('supply_date');
-            $table->int('quantity_supplied');
+            $table->integer('quantity_supplied');
             $table->decimal('unit_price', 10, 2);
             $table->timestamps();
 

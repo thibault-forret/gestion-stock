@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invoices', function (Blueprint $table) {
+            $table->id();
             $table->integer('invoice_number');
             $table->date('invoice_date');
-            $table->enum('invoice_status', ['paid', 'unpaid', 'partially_paid']); 
+            $table->enum('invoice_status', ['PAID', 'UNPAID', 'PARTIALLY_PAID']); 
 
             // Check to do
             $table->unsignedBigInteger('order_id'); 

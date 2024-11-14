@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('product_name', 100);
             $table->text('product_description');
             $table->decimal('reference_price', 10, 2);
-            $table->int('restock_threshold');
-            $table->int('alert_treshold');
+            $table->integer('restock_threshold');
+            $table->integer('alert_treshold');
             $table->unsignedBigInteger('category_id');
             $table->timestamps();
 

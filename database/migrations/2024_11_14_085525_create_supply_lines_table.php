@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warehouses', function (Blueprint $table) {
+        Schema::create('supply_lines', function (Blueprint $table) {
             $table->id();
-            $table->string('warehouse_name', 50);
-            $table->string('warehouse_address');
-            $table->int('capacity');
-            $table->unsignedBigInteger('warehouse_manager_id');
+            $table->unsignedBigInteger('supply_id');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('quantity_supplied');
             $table->timestamps();
 
-            $table->foreign('warehouse_manager_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('supply_id')->references('id')->on('supplies');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warehouses');
+        Schema::dropIfExists('supply_lines');
     }
 };
