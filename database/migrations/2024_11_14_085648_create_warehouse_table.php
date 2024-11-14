@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warehouse', function (Blueprint $table) {
+        Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
+            $table->string('warehouse_name', 50)->nullable(false);
+            $table->string('warehouse_address')->nullable(false);
+            $table->int('capacity')->nullable(false);
+            $table->unsignedBigInteger('warehouse_manager_id')->nullable(false);
             $table->timestamps();
+
+            $table->foreign('warehouse_manager_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warehouse');
+        Schema::dropIfExists('warehouses');
     }
 };
