@@ -20,6 +20,10 @@ return new class extends Migration
             $table->int('quantity_supplied')->nullable(false);
             $table->decimal('unit_price', 10, 2)->nullable(false);
             $table->timestamps();
+
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses');
         });
     }
 
