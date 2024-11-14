@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('product_name', 100)->nullable(false);
-            $table->text('product_description')->nullable(false);
-            $table->decimal('reference_price', 10, 2)->nullable(false);
-            $table->int('restock_threshold')->nullable(false);
-            $table->int('alert_treshold')->nullable(false);
-            $table->unsignedBigInteger('category_id')->nullable(false);
+            $table->string('product_name', 100);
+            $table->text('product_description');
+            $table->decimal('reference_price', 10, 2);
+            $table->int('restock_threshold');
+            $table->int('alert_treshold');
+            $table->unsignedBigInteger('category_id');
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product');
+        Schema::dropIfExists('products');
     }
 };

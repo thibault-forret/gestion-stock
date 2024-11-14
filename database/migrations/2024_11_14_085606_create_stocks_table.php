@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id')->nullable(false);
-            $table->unsignedBigInteger('warehouse_id')->nullable(false);
-            $table->int('quantity_available')->nullable(false);
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('warehouse_id');
+            $table->int('quantity_available');
             // remplace last_update_date (updated_at)
             $table->timestamps(); 
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock');
+        Schema::dropIfExists('stocks');
     }
 };

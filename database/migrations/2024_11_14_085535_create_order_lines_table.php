@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('order_lines', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id')->nullable(false);
-            $table->unsignedBigInteger('product_id')->nullable(false);
-            $table->int('quantity_ordered')->nullable(false);
-            $table->decimal('unit_price', 10, 2)->nullable(false);
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('product_id');
+            $table->int('quantity_ordered');
+            $table->decimal('unit_price', 10, 2);
             $table->timestamps();
 
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_line');
+        Schema::dropIfExists('order_lines');
     }
 };

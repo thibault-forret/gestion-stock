@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_warehouses', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->nullable(false);
-            $table->unsignedBigInteger('warehouse_id')->nullable(false);
-            $table->date('responsibility_start_date')->nullable(false);
-            $table->date('responsibility_end_date')->nullable(true);
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('warehouse_id');
+            $table->date('responsibility_start_date');
+            $table->date('responsibility_end_date');
             $table->timestamps();
 
             $table->primary(['user_id', 'warehouse_id']);

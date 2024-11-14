@@ -13,14 +13,23 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('last_name', 50)->nullable(false);
-            $table->string('first_name', 50)->nullable(false);
-            $table->string('user_email')->nullable(false);
-            $table->string('user_password')->nullable(false);
-            $table->unsignedBigInteger('role_id')->nullable(false);
+            $table->string('last_name', 50);
+            $table->string('first_name', 50);
+            $table->string('user_email')->unique();
+            $table->string('user_password');
+            $table->unsignedBigInteger('role_id');
             $table->timestamps();
 
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+        });
+
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
         });
     }
 
@@ -30,5 +39,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('sessions');
     }
 };

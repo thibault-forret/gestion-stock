@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id')->nullable(false);
-            $table->unsignedNBigInteger('warehouse_id')->nullable(false);
-            $table->unsignedBigInteger('user_id')->nullable(false);
-            $table->int('quantity_moved')->nullable(false);
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedNBigInteger('warehouse_id');
+            $table->unsignedBigInteger('user_id');
+            $table->int('quantity_moved');
             // replace entry and exit by IN and OUT
-            $table->enum('movement_type', ['IN', 'OUT'])->nullable(false);
-            $table->date('movement_date')->nullable(false);
-            $table->enum('movement_status', ['IN_PROGRESS', 'COMPLETED', 'CANCELLED'])->nullable(false);
-            $table->string('movement_source')->nullable(false);
+            $table->enum('movement_type', ['IN', 'OUT']);
+            $table->date('movement_date');
+            $table->enum('movement_status', ['IN_PROGRESS', 'COMPLETED', 'CANCELLED']);
+            $table->string('movement_source');
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products');
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_movement');
+        Schema::dropIfExists('stock_movements');
     }
 };

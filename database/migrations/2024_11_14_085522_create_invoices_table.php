@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invoices', function (Blueprint $table) {
-            $table->integer('invoice_number')->nullable(false);
-            $table->date('invoice_date')->nullable(false);
-            $table->enum('invoice_status', ['paid', 'unpaid', 'partially_paid'])->nullable(false); 
+            $table->integer('invoice_number');
+            $table->date('invoice_date');
+            $table->enum('invoice_status', ['paid', 'unpaid', 'partially_paid']); 
 
             // Check to do
-            $table->unsignedBigInteger('order_id')->nullable(false); 
-            $table->unsignedBigInteger('supply_id')->nullable(false);
+            $table->unsignedBigInteger('order_id'); 
+            $table->unsignedBigInteger('supply_id');
             $table->timestamps();
 
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoice');
+        Schema::dropIfExists('invoices');
     }
 };

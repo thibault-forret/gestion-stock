@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('supplies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('supplier_id')->nullabe(false);
-            $table->unsignedBigInteger('product_id')->nullabe(false);
-            $table->unsignedBigInteger('warehouse_id')->nullable(false);
-            $table->date('supply_date')->nullable(false);
-            $table->int('quantity_supplied')->nullable(false);
-            $table->decimal('unit_price', 10, 2)->nullable(false);
+            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('warehouse_id');
+            $table->date('supply_date');
+            $table->int('quantity_supplied');
+            $table->decimal('unit_price', 10, 2);
             $table->timestamps();
 
             $table->foreign('supplier_id')->references('id')->on('suppliers');

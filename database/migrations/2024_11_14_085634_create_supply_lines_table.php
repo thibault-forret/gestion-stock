@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('supply_lines', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('supply_id')->nullable(false);
-            $table->unsignedBigInteger('product_id')->nullable(false);
-            $table->int('quantity_supplied')->nullable(false);
+            $table->unsignedBigInteger('supply_id');
+            $table->unsignedBigInteger('product_id');
+            $table->int('quantity_supplied');
             $table->timestamps();
 
             $table->foreign('supply_id')->references('id')->on('supplies');
