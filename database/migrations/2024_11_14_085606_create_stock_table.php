@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('stock', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('product_id')->nullable(false);
+            $table->unsignedBigInteger('warehouse_id')->nullable(false);
+            $table->int('quantity_available')->nullable(false);
+            // remplace last_update_date (updated_at)
+            $table->timestamps(); 
+
+            $table->foreign('product_id')->references('id')->on('product')->onDelete('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouse')->onDelete('cascade');
         });
     }
 
