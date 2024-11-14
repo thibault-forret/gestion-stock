@@ -14,8 +14,27 @@ class User extends Model
         'role_id',
     ];
 
+    // Chaque utilisateur est associé à un rôle
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+
+    // Chaque utilisateur peut faire plusieurs commandes
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    // Chaque utilisateur peut avoir plusieurs mouvements de stock
+    public function stock_movements()
+    {
+        return $this->hasMany(StockMovement::class);
+    }
+
+    // Chaque utilisateur peut être responsable d'un seul entrepôts
+    public function warehouse()
+    {
+        return $this->hasOne(Warehouse::class);
     }
 }

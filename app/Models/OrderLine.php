@@ -13,11 +13,13 @@ class OrderLine extends Model
         'unit_price',
     ];
 
+    // Chaque ligne de commande est associée à une commande
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');
     }
 
+    // Chaque ligne de commande est associée à un produit
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');

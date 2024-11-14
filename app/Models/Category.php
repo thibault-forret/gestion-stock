@@ -15,4 +15,10 @@ class Category extends Model
         'category_name',
         'category_description',
     ];
+
+    // Une catégorie peut avoir plusieurs produits
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

@@ -17,16 +17,19 @@ class StockMovement extends Model
         'movement_source',
     ];
 
+    // Chaque mouvement de stock est associé à un produit
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
+    // Chaque mouvement de stock est associé à un entrepôt
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
     }
 
+    // Chaque mouvement de stock est associé à un utilisateur
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

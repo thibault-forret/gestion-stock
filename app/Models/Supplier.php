@@ -13,4 +13,10 @@ class Supplier extends Model
         'supplier_email',
         'supplier_contact',
     ];
+
+    // Chaque fournisseur peut avoir plusieurs approvisionnements
+    public function supplies()
+    {
+        return $this->hasMany(Supply::class, 'supplier_id', 'id');
+    }
 }
