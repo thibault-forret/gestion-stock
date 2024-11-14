@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoice', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->integer('invoice_number')->nullable(false);
             $table->date('invoice_date')->nullable(false);
             $table->enum('invoice_status', ['paid', 'unpaid', 'partially_paid'])->nullable(false); 

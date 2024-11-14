@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_line', function (Blueprint $table) {
+        Schema::create('order_lines', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id')->nullable(false);
             $table->unsignedBigInteger('product_id')->nullable(false);
