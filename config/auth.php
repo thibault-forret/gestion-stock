@@ -64,6 +64,9 @@ return [
     |
     */
 
+    // Change the Model of User we are using
+    // What type of connection we are using -> One table and we references store in a table like UserWarehouse
+
     'providers' => [
         'warehouse_users' => [
             'driver' => 'eloquent',
