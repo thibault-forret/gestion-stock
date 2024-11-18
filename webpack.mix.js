@@ -15,7 +15,6 @@ mix.js('resources/js/app.js', 'public/js')
     // Store
     .sass('resources/scss/pages/store/dashboard.scss', 'public/css/pages/store/')
 
-
     // Fonctionnement :
     // JS : mix.js('chemin_du_fichier_js', 'chemin_du_fichier_js') -> Voir exemple ci-dessus
     // SCSS : mix.sass('chemin_du_fichier_scss', 'chemin_du_fichier_css') -> Voir exemple ci-dessus
