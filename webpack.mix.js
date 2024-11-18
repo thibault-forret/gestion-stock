@@ -26,3 +26,4 @@ mix.js('resources/js/app.js', 'public/js')
 // à récupérer les nouvelles verisons des fichiers après une mise à jour, plutôt que d'utiliser une version mise en cache.
 
 // Pour compiler les fichiers, il suffit de lancer la commande "npm run watch" pour compiler les fichiers en temps réel.
+// Pour utiliser les fichiers compilés, il suffit de les inclure dans les fichiers Blade avec la fonction "mix('chemin_du_fichier')".
