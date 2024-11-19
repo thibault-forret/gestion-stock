@@ -34,4 +34,6 @@ class StockMovement extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    // Ajout du stock de chaque magasin ?
 }

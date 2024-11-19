@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
     protected $fillable = [
         'last_name',
         'first_name',
-        'user_email',
-        'user_password',
+        'email',
+        'password',
         'role_id',
     ];
 
@@ -33,8 +34,26 @@ class User extends Model
     }
 
     // Chaque utilisateur peut être responsable d'un seul entrepôts
-    public function warehouse()
+    public function warehouseManager()
     {
         return $this->hasOne(Warehouse::class);
+    }
+
+    // Chaque utilisateur peut être responsable d'un seul magasin
+    public function storeManager()
+    {
+        return $this->hasOne(Store::class);
+    }
+
+    // Chaque utilisateur peut appartenir à un entrepôt
+    public function warehouseUser()
+    {
+        return $this->hasOne(UserWarehouse::class);
+    }
+
+    // Chaque utilisateur peut appartenir à un magasin
+    public function storeUser()
+    {
+        return $this->hasOne(UserStore::class);
     }
 }

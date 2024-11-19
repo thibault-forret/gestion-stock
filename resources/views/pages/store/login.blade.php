@@ -25,13 +25,13 @@
             </div>
         
             <div class="item-form">
-                <label for="username">{{__('auth.username') }}</label>
-                <input type="text" id="username" name="username" required autofocus autocomplete="username">
+                <label for="user_email">{{__('auth.email') }}</label>
+                <input type="email" id="user_email" name="user_email" required autofocus autocomplete="email">
             </div>
         
             <div class="item-form">
-                <label for="password">{{__('auth.password') }}</label>
-                <input type="password" id="password" name="password" required autocomplete="current-password">
+                <label for="user_password">{{__('auth.password') }}</label>
+                <input type="password" id="user_password" name="user_password" required autocomplete="current-password">
             </div>
 
             @if ($errors->any())

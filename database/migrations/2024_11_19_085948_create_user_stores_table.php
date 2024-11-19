@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+        Schema::create('user_stores', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('warehouse_id');
-            $table->date('order_date');
-            $table->enum('order_status', ['IN PROGRESS', 'DELIVERED', 'PENDING']);
+            $table->unsignedBigInteger('store_id');
+            $table->date('responsibility_start_date');
+            $table->date('responsibility_end_date');
             $table->timestamps();
 
+            $table->primary(['user_id', 'store_id']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
+            $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('user_stores');
     }
 };
