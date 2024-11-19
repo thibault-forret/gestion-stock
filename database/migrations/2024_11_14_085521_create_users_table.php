@@ -11,22 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('entrepot_users', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique();
+            $table->string('last_name', 50);
+            $table->string('first_name', 50);
             $table->string('email')->unique();
             $table->string('password');
-            $table->rememberToken();
+            $table->unsignedBigInteger('role_id');
             $table->timestamps();
-        });
 
-        Schema::create('magasin_users', function (Blueprint $table) {
-            $table->id();
-            $table->string('username')->unique();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
 
         Schema::create('sessions', function (Blueprint $table) {
@@ -44,7 +38,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entrepot_users');
+        Schema::dropIfExists('users');
         Schema::dropIfExists('sessions');
     }
 };

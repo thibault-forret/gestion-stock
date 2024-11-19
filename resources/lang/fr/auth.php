@@ -4,7 +4,7 @@ return [
 
     'login' => 'Connexion',
     'logout' => 'Déconnexion',
-    'username' => 'Utilisateur',
+    'email' => 'Email',
     'password' => 'Mot de passe',
 
     'success' => [
@@ -17,6 +17,7 @@ return [
         'throttle' => 'Trop de tentatives de connexion. Veuillez réessayer dans :seconds secondes.',
         'logout_redirect_warehouse' => 'Veuillez d\'abord vous déconnecter de la section entrepôt.',
         'logout_redirect_store' => 'Veuillez d\'abord vous déconnecter de la section magasin.',
+        'not_authorized' => 'Vous n\'êtes pas autorisé à accéder à cette section.',
     ],
 
 ];
