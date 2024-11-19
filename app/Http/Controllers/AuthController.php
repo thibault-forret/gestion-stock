@@ -42,7 +42,7 @@ class AuthController extends Controller
             return $redirect;  // Si redirection, on redirige
         }
 
-        return view('pages.warehouse.login');
+        return view('pages.login', ['page' => 'warehouse']);
     }
 
     public function loginWarehouse(Request $request)
@@ -112,7 +112,7 @@ class AuthController extends Controller
             return $redirect;  // Si redirection, on redirige
         }
 
-        return view('pages.store.login');
+        return view('pages.login', ['page' => 'store']);
     }
 
     public function loginStore(Request $request)
