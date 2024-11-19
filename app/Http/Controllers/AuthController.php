@@ -58,7 +58,8 @@ class AuthController extends Controller
         // $password = Hash::make('thibault');
         // dd($password);
         
-        if ($redirect = AuthService::verifyIfConnected('store')) {
+        if ($redirect = AuthService::verifyIfConnected('store')) 
+        {
             return $redirect;  // Si redirection, on redirige
         }
 
@@ -67,19 +68,22 @@ class AuthController extends Controller
 
     public function loginWarehouse(Request $request)
     {
-        if ($redirect = AuthService::verifyIfConnected('store')) {
+        if ($redirect = AuthService::verifyIfConnected('store')) 
+        {
             return $redirect;  // Si redirection, on redirige
         }
 
         // Validation des données
         $credentials = $this->validateCredentials($request);
 
-        if (Auth::guard('warehouse')->attempt($credentials)) {
+        if (Auth::guard('warehouse')->attempt($credentials)) 
+        {
             // L'utilistaeur est connecté avec succès
             $user = Auth::guard('warehouse')->user();
 
             // Vérifie si l'utilisateur est bien associé à un entrepôt
-            if ($user->warehouseUser) {
+            if ($user->warehouseUser) 
+            {
                 // Rediriger vers la page qu'il essayait d'accéder, sinon le dashboard
                 return redirect()->intended(route('warehouse.dashboard'))->with('success', __('auth.success.login'));
             }
@@ -88,7 +92,8 @@ class AuthController extends Controller
             Auth::guard('warehouse')->logout();
             return back()->withErrors(['error' => __('auth.error.not_authorized')]);
         }
-        else {
+        else 
+        {
             // L'utilisateur n'est pas connecté
             return back()->withErrors([
                 'error' => __('auth.error.failed'),
@@ -112,7 +117,8 @@ class AuthController extends Controller
 
     public function showLoginFormStore() {
 
-        if ($redirect = AuthService::verifyIfConnected('warehouse')) {
+        if ($redirect = AuthService::verifyIfConnected('warehouse')) 
+        {
             return $redirect;  // Si redirection, on redirige
         }
 
@@ -121,14 +127,16 @@ class AuthController extends Controller
 
     public function loginStore(Request $request)
     {
-        if ($redirect = AuthService::verifyIfConnected('warehouse')) {
+        if ($redirect = AuthService::verifyIfConnected('warehouse')) 
+        {
             return $redirect;  // Si redirection, on redirige
         }
 
         // Validation des données
         $credentials = $this->validateCredentials($request);
 
-        if (Auth::guard('store')->attempt($credentials)) {
+        if (Auth::guard('store')->attempt($credentials)) 
+        {
             // L'utilistaeur est connecté avec succès
 
             $user = Auth::guard('store')->user();
@@ -143,7 +151,8 @@ class AuthController extends Controller
             Auth::guard('store')->logout();
             return back()->withErrors(['error' => __('auth.error.not_authorized')]);
         }
-        else {
+        else 
+        {
             // L'utilisateur n'est pas connecté
             return back()->withErrors([
                 'error' => __('auth.error.failed'),
