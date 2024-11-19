@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Services\AuthService;
-
+use App\Models\WarehouseUser;
+use App\Models\StoreUser;
 
 class AuthController extends Controller
 {
@@ -53,19 +54,19 @@ class AuthController extends Controller
         // Validation des données
         // Faire les messages de traduction
         $credentials = $request->validate([
-            'username' => ['required', 'string'],
-            'password' => ['required'],
+            'user_email' => ['required', 'email'],
+            'user_password' => ['required'],
         ], [
-            'username.required' => 'Le nom d’utilisateur est requis.',
-            'username.string' => 'Le nom d’utilisateur doit être une chaîne de caractères.',
-            'password.required' => 'Le mot de passe est requis.',
+            'user_email.required' => 'Veuillez fournir votre adresse email.',
+            'user_email.email' => 'L\'adresse email doit être valide.',
+            'user_password.required' => 'Le mot de passe est obligatoire.',
         ]);
 
-        $username = $request->input('username');
-        $password = $request->input('password');
+        $email = $request->input('user_email');
+        $password = $request->input('user_password');
         
         $credentials = [
-            'username' => $username,
+            'email' => $email,
             'password' => $password,
         ];
 
@@ -73,8 +74,15 @@ class AuthController extends Controller
             // L'utilistaeur est connecté avec succès
             $user = Auth::guard('warehouse')->user();
 
-            // Rediriger vers la page qu'il essayait d'accéder, sinon le dashboard
-            return redirect()->intended(route('warehouse.dashboard'))->with('success', __('auth.success.login'));
+            // Vérifie si l'utilisateur est bien associé à un entrepôt
+            if ($user->warehouseUser) {
+                // Rediriger vers la page qu'il essayait d'accéder, sinon le dashboard
+                return redirect()->intended(route('warehouse.dashboard'))->with('success', __('auth.success.login'));
+            }
+
+            // Déconnexion si l'utilisateur n'est pas associé à un entrepôt
+            Auth::guard('warehouse')->logout();
+            return back()->withErrors(['error' => __('auth.error.not_authorized')]);
         }
         else {
             // L'utilisateur n'est pas connecté
