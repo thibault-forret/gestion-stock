@@ -45,7 +45,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
             return (new AuthController)->showLoginFormWarehouse();
         })->name('login');
 
-        Route::post('/login', [AuthController::class, 'loginWarehouse'])->name('login.post');
+        Route::post('/login', [AuthController::class, 'loginWarehouse'])->name('login.submit');
 
         Route::get('/logout', [AuthController::class, 'logoutWarehouse'])->name('logout');
 
@@ -69,7 +69,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
             return (new AuthController)->showLoginFormStore();
         })->name('login');
 
-        Route::post('/login', [AuthController::class, 'loginStore'])->name('login.post');
+        Route::post('/login', [AuthController::class, 'loginStore'])->name('login.submit');
 
         Route::get('/logout', [AuthController::class, 'logoutStore'])->name('logout');
         

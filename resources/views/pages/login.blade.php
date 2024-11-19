@@ -10,11 +10,11 @@
 @endsection
 
 @section('title', __('title.login'))
-@section('description', __('description.login.store'))
+@section('description', __('description.login.' . $page))
 
 @section('content') 
 
-    <form method="POST" action="{{ route('store.login.post') }}" autocomplete="on">
+    <form method="POST" action="{{ route($page . '.login.submit') }}" autocomplete="on">
         @csrf
 
         <div class="content-form">

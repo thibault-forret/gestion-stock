@@ -27,6 +27,26 @@ class AuthController extends Controller
         session()->put('locale', $locale);        
     }
 
+    /**
+     * Valide les informations de connexion et retourne un tableau des credentials.
+     */
+    private function validateCredentials(Request $request)
+    {
+        $validated = $request->validate([
+            'user_email' => ['required', 'email'],
+            'user_password' => ['required'],
+        ], [
+            'user_email.required' => __('messages.validate.email_required'),
+            'user_email.email' => __('messages.validate.email_valid'),
+            'user_password.required' => __('messages.validate.password_required'),
+        ]);
+
+        return [
+            'email' => $validated['user_email'],
+            'password' => $validated['user_password'],
+        ];
+    }
+
     // ----------------------------------------------------------------------------------------------- //
     //                                            Entrepot                                             //
     // ----------------------------------------------------------------------------------------------- //
@@ -38,44 +58,32 @@ class AuthController extends Controller
         // $password = Hash::make('thibault');
         // dd($password);
         
-        if ($redirect = AuthService::verifyIfConnected('store')) {
+        if ($redirect = AuthService::verifyIfConnected('store')) 
+        {
             return $redirect;  // Si redirection, on redirige
         }
 
-        return view('pages.warehouse.login');
+        return view('pages.login', ['page' => 'warehouse']);
     }
 
     public function loginWarehouse(Request $request)
     {
-        if ($redirect = AuthService::verifyIfConnected('store')) {
+        if ($redirect = AuthService::verifyIfConnected('store')) 
+        {
             return $redirect;  // Si redirection, on redirige
         }
 
         // Validation des données
-        // Faire les messages de traduction
-        $credentials = $request->validate([
-            'user_email' => ['required', 'email'],
-            'user_password' => ['required'],
-        ], [
-            'user_email.required' => 'Veuillez fournir votre adresse email.',
-            'user_email.email' => 'L\'adresse email doit être valide.',
-            'user_password.required' => 'Le mot de passe est obligatoire.',
-        ]);
+        $credentials = $this->validateCredentials($request);
 
-        $email = $request->input('user_email');
-        $password = $request->input('user_password');
-        
-        $credentials = [
-            'email' => $email,
-            'password' => $password,
-        ];
-
-        if (Auth::guard('warehouse')->attempt($credentials)) {
+        if (Auth::guard('warehouse')->attempt($credentials)) 
+        {
             // L'utilistaeur est connecté avec succès
             $user = Auth::guard('warehouse')->user();
 
             // Vérifie si l'utilisateur est bien associé à un entrepôt
-            if ($user->warehouseUser) {
+            if ($user->warehouseUser) 
+            {
                 // Rediriger vers la page qu'il essayait d'accéder, sinon le dashboard
                 return redirect()->intended(route('warehouse.dashboard'))->with('success', __('auth.success.login'));
             }
@@ -84,7 +92,8 @@ class AuthController extends Controller
             Auth::guard('warehouse')->logout();
             return back()->withErrors(['error' => __('auth.error.not_authorized')]);
         }
-        else {
+        else 
+        {
             // L'utilisateur n'est pas connecté
             return back()->withErrors([
                 'error' => __('auth.error.failed'),
@@ -108,38 +117,26 @@ class AuthController extends Controller
 
     public function showLoginFormStore() {
 
-        if ($redirect = AuthService::verifyIfConnected('warehouse')) {
+        if ($redirect = AuthService::verifyIfConnected('warehouse')) 
+        {
             return $redirect;  // Si redirection, on redirige
         }
 
-        return view('pages.store.login');
+        return view('pages.login', ['page' => 'store']);
     }
 
     public function loginStore(Request $request)
     {
-        if ($redirect = AuthService::verifyIfConnected('warehouse')) {
+        if ($redirect = AuthService::verifyIfConnected('warehouse')) 
+        {
             return $redirect;  // Si redirection, on redirige
         }
 
-        // Faire les messages de traduction
-        $credentials = $request->validate([
-            'user_email' => ['required', 'email'],
-            'user_password' => ['required'],
-        ], [
-            'user_email.required' => 'Veuillez fournir votre adresse email.',
-            'user_email.email' => 'L\'adresse email doit être valide.',
-            'user_password.required' => 'Le mot de passe est obligatoire.',
-        ]);
+        // Validation des données
+        $credentials = $this->validateCredentials($request);
 
-        $email = $request->input('user_email');
-        $password = $request->input('user_password');
-        
-        $credentials = [
-            'email' => $email,
-            'password' => $password,
-        ];
-
-        if (Auth::guard('store')->attempt($credentials)) {
+        if (Auth::guard('store')->attempt($credentials)) 
+        {
             // L'utilistaeur est connecté avec succès
 
             $user = Auth::guard('store')->user();
@@ -154,7 +151,8 @@ class AuthController extends Controller
             Auth::guard('store')->logout();
             return back()->withErrors(['error' => __('auth.error.not_authorized')]);
         }
-        else {
+        else 
+        {
             // L'utilisateur n'est pas connecté
             return back()->withErrors([
                 'error' => __('auth.error.failed'),
