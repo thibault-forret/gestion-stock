@@ -27,6 +27,26 @@ class AuthController extends Controller
         session()->put('locale', $locale);        
     }
 
+    /**
+     * Valide les informations de connexion et retourne un tableau des credentials.
+     */
+    private function validateCredentials(Request $request)
+    {
+        $validated = $request->validate([
+            'user_email' => ['required', 'email'],
+            'user_password' => ['required'],
+        ], [
+            'user_email.required' => __('messages.validate.email_required'),
+            'user_email.email' => __('messages.validate.email_valid'),
+            'user_password.required' => __('messages.validate.email_required'),
+        ]);
+
+        return [
+            'email' => $validated['user_email'],
+            'password' => $validated['user_password'],
+        ];
+    }
+
     // ----------------------------------------------------------------------------------------------- //
     //                                            Entrepot                                             //
     // ----------------------------------------------------------------------------------------------- //
@@ -52,19 +72,7 @@ class AuthController extends Controller
         }
 
         // Validation des données
-        $validated = $request->validate([
-            'user_email' => ['required', 'email'],
-            'user_password' => ['required'],
-        ], [
-            'user_email.required' => __('messages.validate.email_required'),
-            'user_email.email' => __('messages.validate.email_valid'),
-            'user_password.required' => __('messages.validate.email_required'),
-        ]);
-        
-        $credentials = [
-            'email' => $validated['user_email'],
-            'password' => $validated['user_password'],
-        ];
+        $credentials = $this->validateCredentials($request);
 
         if (Auth::guard('warehouse')->attempt($credentials)) {
             // L'utilistaeur est connecté avec succès
@@ -118,19 +126,7 @@ class AuthController extends Controller
         }
 
         // Validation des données
-        $validated = $request->validate([
-            'user_email' => ['required', 'email'],
-            'user_password' => ['required'],
-        ], [
-            'user_email.required' => __('messages.validate.email_required'),
-            'user_email.email' => __('messages.validate.email_valid'),
-            'user_password.required' => __('messages.validate.email_required'),
-        ]);
-        
-        $credentials = [
-            'email' => $validated['user_email'],
-            'password' => $validated['user_password'],
-        ];
+        $credentials = $this->validateCredentials($request);
 
         if (Auth::guard('store')->attempt($credentials)) {
             // L'utilistaeur est connecté avec succès
