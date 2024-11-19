@@ -19,7 +19,7 @@ class UserStore extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    // Chaque utilisateur est associé à un magasin
+    // Chaque magasin est associé à un utilisateur
     public function store()
     {
         return $this->belongsTo(Store::class, 'store_id', 'id');

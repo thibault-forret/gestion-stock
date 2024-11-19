@@ -19,7 +19,7 @@ class UserWarehouse extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    // Chaque utilisateur est associé à un entrepôt
+    // Chaque entrepôt est associé à un utilisateur
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
