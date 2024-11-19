@@ -52,22 +52,18 @@ class AuthController extends Controller
         }
 
         // Validation des données
-        // Faire les messages de traduction
-        $credentials = $request->validate([
+        $validated = $request->validate([
             'user_email' => ['required', 'email'],
             'user_password' => ['required'],
         ], [
-            'user_email.required' => 'Veuillez fournir votre adresse email.',
-            'user_email.email' => 'L\'adresse email doit être valide.',
-            'user_password.required' => 'Le mot de passe est obligatoire.',
+            'user_email.required' => __('messages.validate.email_required'),
+            'user_email.email' => __('messages.validate.email_valid'),
+            'user_password.required' => __('messages.validate.email_required'),
         ]);
-
-        $email = $request->input('user_email');
-        $password = $request->input('user_password');
         
         $credentials = [
-            'email' => $email,
-            'password' => $password,
+            'email' => $validated['user_email'],
+            'password' => $validated['user_password'],
         ];
 
         if (Auth::guard('warehouse')->attempt($credentials)) {
@@ -121,22 +117,19 @@ class AuthController extends Controller
             return $redirect;  // Si redirection, on redirige
         }
 
-        // Faire les messages de traduction
-        $credentials = $request->validate([
+        // Validation des données
+        $validated = $request->validate([
             'user_email' => ['required', 'email'],
             'user_password' => ['required'],
         ], [
-            'user_email.required' => 'Veuillez fournir votre adresse email.',
-            'user_email.email' => 'L\'adresse email doit être valide.',
-            'user_password.required' => 'Le mot de passe est obligatoire.',
+            'user_email.required' => __('messages.validate.email_required'),
+            'user_email.email' => __('messages.validate.email_valid'),
+            'user_password.required' => __('messages.validate.email_required'),
         ]);
-
-        $email = $request->input('user_email');
-        $password = $request->input('user_password');
         
         $credentials = [
-            'email' => $email,
-            'password' => $password,
+            'email' => $validated['user_email'],
+            'password' => $validated['user_password'],
         ];
 
         if (Auth::guard('store')->attempt($credentials)) {
