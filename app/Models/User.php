@@ -37,4 +37,10 @@ class User extends Model
     {
         return $this->hasOne(Warehouse::class);
     }
+
+    // Chaque utilisateur peut être responsable d'un seul magasin
+    public function store()
+    {
+        return $this->hasOne(Store::class);
+    }
 }
