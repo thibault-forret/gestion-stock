@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('warehouse_id');
             $table->date('order_date');
-            $table->string('order_status', 50);
+            $table->enum('order_status', ['IN PROGRESS', 'DELIVERED', 'PENDING']);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
