@@ -38,12 +38,12 @@ return [
     'guards' => [
         'warehouse' => [
             'driver' => 'session',
-            'provider' => 'warehouse_users',
+            'provider' => 'users',
         ],
 
         'store' => [
             'driver' => 'session',
-            'provider' => 'store_users',
+            'provider' => 'users',
         ],
     ],
 
@@ -64,20 +64,11 @@ return [
     |
     */
 
-    // Change the Model of User we are using
-    // What type of connection we are using -> One table and we references store in a table like UserWarehouse
-
     'providers' => [
-        'warehouse_users' => [
+        'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\WarehouseUser::class),
+            'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-
-        'store_users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\StoreUser::class),
-        ],
-
     ],
 
     /*
