@@ -12,6 +12,6 @@ return [
     'validate' => [
         'email_valid' => 'Veuillez fournir une adresse email valide.',
         'email_required' => 'Veuillez fournir votre adresse email.',
-        'password' => 'Veuillez fournir votre mot de passe.',
+        'password_required' => 'Veuillez fournir votre mot de passe.',
     ]
 ];

@@ -12,7 +12,7 @@ return [
     'validate' => [
         'email_valid' => 'Please provide a valid email address.',
         'email_required' => 'Please provide your email address.',
-        'password' => 'Please provide your password.',
+        'password_required' => 'Please provide your password.',
     ]
     
 ];

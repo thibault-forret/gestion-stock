@@ -38,7 +38,7 @@ class AuthController extends Controller
         ], [
             'user_email.required' => __('messages.validate.email_required'),
             'user_email.email' => __('messages.validate.email_valid'),
-            'user_password.required' => __('messages.validate.email_required'),
+            'user_password.required' => __('messages.validate.password_required'),
         ]);
 
         return [
