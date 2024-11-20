@@ -8,10 +8,14 @@ use App\Http\Controllers\RedirectionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductsController;
 
 
 // Redirige vers dashboard en cas d'erreur sur l'url
 Route::fallback([RedirectionController::class, 'redirectToHome']);
+
+// Créer des produits
+Route::get('/products', [ProductsController::class, 'createProducts']);
 
 // Permet de checker la langue défini par l'utilisateur
 Route::middleware(['web', 'lang.toggle'])->group(function () {
