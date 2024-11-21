@@ -11,7 +11,6 @@ class Supply extends Model
         'product_id',
         'warehouse_id',
         'supply_date',
-        'quantity_supplied',
         'unit_price',
     ];
     
