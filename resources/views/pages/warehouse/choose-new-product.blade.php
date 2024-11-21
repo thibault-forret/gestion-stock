@@ -1,0 +1,79 @@
+<form action="{{ route('warehouse.product.search') }}" method="POST">
+    @csrf
+    <div>
+        <label for="product-name">Nom du produit:</label>
+        <input type="text" id="product-name" name="product_name">
+    </div>
+    <div>
+        <label for="category_name">Catégorie:</label>
+        <select id="category_name" name="category_name" required>
+            <option value="">Sélectionner une catégorie</option>
+            @foreach($categories as $category)
+                <option value="{{ $category->category_name }}">{{ $category->category_name }}</option>
+            @endforeach
+        </select>
+    
+    </div>
+    <div>
+        <label for="supplier_name">Fournisseur:</label>
+        <select id="supplier_name" name="supplier_name" required>
+            <option value="">Sélectionner un fournisseur</option>
+            @foreach($suppliers as $supplier)
+                <option value="{{ $supplier->supplier_name }}">{{ $supplier->supplier_name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div>
+        <button type="submit">Rechercher</button>
+    </div>
+</form>
+
+@if ($errors->any())
+    <div class="center-child error-message">
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif
+
+<style>
+    .product-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .product-item h3 {
+        margin: 0;
+        font-size: 1.2em;
+    }
+    .product-item p {
+        margin: 5px 0;
+    }
+    .product-item img {
+        max-width: 100px;
+        max-height: 100px;
+        display: block;
+        margin: 10px 0;
+    }
+
+    .product-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+</style>
+
+<div class="product-list">
+    @if(isset($products) && count($products) > 0)
+        @foreach($products as $product)
+            <div class="product-item">
+                <h3>{{ $product['name'] }}</h3>
+                <img src="{{ $product['image_url'] }}" alt="{{ $product['name'] }}">
+                <p>Catégorie: {{ $product['category']->category_name }}</p>
+                <p>Fournisseur: {{ $product['supplier']->supplier_name }}</p>
+            </div>
+        @endforeach
+    @else
+        <p>Aucun produit trouvé.</p>
+    @endif
+</div>

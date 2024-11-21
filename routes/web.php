@@ -8,14 +8,11 @@ use App\Http\Controllers\RedirectionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ProductController;
 
 
 // Redirige vers dashboard en cas d'erreur sur l'url
 Route::fallback([RedirectionController::class, 'redirectToHome']);
-
-// Créer des produits
-Route::get('/products', [ProductsController::class, 'createProducts']);
 
 // Permet de checker la langue défini par l'utilisateur
 Route::middleware(['web', 'lang.toggle'])->group(function () {
@@ -58,6 +55,11 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
             Route::fallback([RedirectionController::class, 'redirectToDashboardWarehouse']);
 
             Route::get('/dashboard', [DashboardController::class, 'indexWarehouse'])->name('dashboard');
+
+            Route::prefix('product')->name('product.')->group(function () {
+                Route::get('/search', [ProductController::class, 'index'])->name('index');
+                Route::post('/search', [ProductController::class, 'searchProducts'])->name('search');
+            });
         });
     });
 
