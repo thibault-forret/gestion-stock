@@ -18,25 +18,32 @@ class ProductController extends Controller
         return view('pages.warehouse.choose-new-product', compact('categories', 'suppliers'));
     }
 
+
+    // Retirer les produits qui sont déjà dans l'entrepot (BDD)
     public function searchProducts(Request $request)
     {
         // Valider les données de la requête
         $request->validate([
             'search_by_name' => 'nullable|string', 
-            'supplier_name' => 'nullable|exists:suppliers,supplier_name', 
+            'supplier_name' => 'nullable|required|exists:suppliers,supplier_name', 
             'category_name' => 'nullable|exists:categories,category_name',
+            'page_number' => 'nullable|integer|min:1',
         ], [
             'search_by_name.string' => 'Le nom du produit doit être une chaîne de caractères.',
             'supplier_name.exists' => 'Le fournisseur sélectionné n\'existe pas.',
+            'supplier_name.required' => 'Le nom du fournisseur est requis.',
             'category_name.exists' => 'La catégorie sélectionnée n\'existe pas.',
+            'page_number.integer' => 'Le numéro de page doit être un entier.',
+            'page_number.min' => 'Le numéro de page doit être supérieur ou égal à 1.',
         ]);
         
 
         $searchByName = $request->query('search_by_name');
         $supplierName = $request->query('supplier_name');
         $categoryName = $request->query('category_name');
+        $pageNumber = $request->query('page_number');
 
-        $result = OpenFoodFacts::search("{$searchByName} {$supplierName} {$categoryName}", 1, 1000);
+        $result = OpenFoodFacts::search("{$searchByName} {$supplierName} {$categoryName}", $pageNumber, 100);
 
         $products = [];
 

@@ -27,6 +27,10 @@
         </select>
     </div>
     <div>
+        <label for="page_number">Page</label>
+        <input type="number" id="page-number" name="page_number" value="{{ request('page_number') == null ? 1 : request('page_number') }}" min="1">
+    </div>
+    <div>
         <button type="submit">Rechercher</button>
     </div>
 </form>
