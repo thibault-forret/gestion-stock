@@ -96,6 +96,16 @@ class ProductController extends Controller
                 $supplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first(); // On récupère le premier car un produit ne peut avoir qu'un seul fournisseur (marque)
                 $categories = Category::whereIn('category_name', $identicalCategories)->get();
 
+                // -------------------------------------
+
+                // Voir si ne peut pas récupérer tous les fournisseurs du produit pour ensuite avoir 
+                // le choix entre commander chez un fournisseur ou un autre
+
+                // Problème : C'est sur les marques ayant des dénominations différentes mais 
+                // qui sont en réalité la même marque, par exemple : Marque repère et Délisse (produits laitiers)
+
+                // -------------------------------------
+
                 // Ajouter le produit au tableau
                 $products[] = [
                     'name' => $productName,
