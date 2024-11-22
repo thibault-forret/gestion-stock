@@ -22,19 +22,22 @@ class ProductController extends Controller
     {
         // Valider les données de la requête
         $request->validate([
+            'search_by_name' => 'required|string',
             'supplier_name' => 'required|exists:suppliers,supplier_name',
             'category_name' => 'required|exists:categories,category_name',
         ], [
+            'search_by_name.required' => 'Le nom du produit est requis.',
             'supplier_name.required' => 'Le nom du fournisseur est requis.',
             'supplier_name.exists' => 'Le fournisseur sélectionné n\'existe pas.',
             'category_name.required' => 'Le nom de la catégorie est requis.',
             'category_name.exists' => 'La catégorie sélectionnée n\'existe pas.',
         ]);
 
+        $searchByName = $request->input('search_by_name');
         $supplierName = $request->input('supplier_name');
         $categoryName = $request->input('category_name');
 
-        $result = OpenFoodFacts::search("{$supplierName} {$categoryName}", 1, 50);
+        $result = OpenFoodFacts::search("{$searchByName} {$supplierName} {$categoryName}", 1, 50);
 
         $products = [];
 

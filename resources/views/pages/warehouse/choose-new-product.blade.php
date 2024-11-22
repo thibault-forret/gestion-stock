@@ -1,12 +1,12 @@
 <form action="{{ route('warehouse.product.search') }}" method="POST">
     @csrf
     <div>
-        <label for="product-name">Nom du produit:</label>
-        <input type="text" id="product-name" name="product_name">
+        <label for="search_by_name">Rechercher par nom</label>
+        <input type="text" id="search-by-name" name="search_by_name">
     </div>
     <div>
-        <label for="category_name">Catégorie:</label>
-        <select id="category_name" name="category_name" required>
+        <label for="category_name">Catégorie :</label>
+        <select id="category-name" name="category_name" required>
             <option value="">Sélectionner une catégorie</option>
             @foreach($categories as $category)
                 <option value="{{ $category->category_name }}">{{ $category->category_name }}</option>
@@ -15,8 +15,8 @@
     
     </div>
     <div>
-        <label for="supplier_name">Fournisseur:</label>
-        <select id="supplier_name" name="supplier_name" required>
+        <label for="supplier_name">Fournisseur :</label>
+        <select id="supplier-name" name="supplier_name" required>
             <option value="">Sélectionner un fournisseur</option>
             @foreach($suppliers as $supplier)
                 <option value="{{ $supplier->supplier_name }}">{{ $supplier->supplier_name }}</option>
