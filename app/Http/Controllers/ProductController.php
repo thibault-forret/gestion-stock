@@ -36,7 +36,7 @@ class ProductController extends Controller
         $supplierName = $request->query('supplier_name');
         $categoryName = $request->query('category_name');
 
-        $result = OpenFoodFacts::search("{$searchByName} {$supplierName} {$categoryName}", 1, 50);
+        $result = OpenFoodFacts::search("{$searchByName} {$supplierName} {$categoryName}", 1, 1000);
 
         $products = [];
 
@@ -46,7 +46,15 @@ class ProductController extends Controller
                 $product = $document->getData();  // Accède aux données du produit
 
                 // Vérification des données essentielles du produit
-                if (!isset($product['product_name']) || !isset($product['image_url']) || !isset($product['categories']) || empty($product['product_name']) || empty($product['image_url'] || empty($product['categories']))) {
+                if (!isset($product['product_name']) || 
+                    !isset($product['image_url']) || 
+                    !isset($product['categories']) || 
+                    !isset($product['brands']) ||
+                    empty($product['product_name']) || 
+                    empty($product['image_url']) || 
+                    empty($product['categories']) ||
+                    empty($product['brands'])
+                ) {
                     continue;  // Passer au produit suivant si les données sont manquantes ou vides
                 }
 
