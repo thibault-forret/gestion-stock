@@ -1,5 +1,4 @@
-<form action="{{ route('warehouse.product.search') }}" method="POST">
-    @csrf
+<form action="{{ route('warehouse.product.search') }}" method="GET">
     <div>
         <label for="search_by_name">Rechercher par nom</label>
         <input type="text" id="search-by-name" name="search_by_name">
@@ -75,7 +74,7 @@
                     @endforeach
                 </p>
                 <p>
-                    <u>Fournisseur(s) :</u> {{ $supplier->supplier_name }}
+                    <u>Fournisseur(s) :</u> {{ $product['supplier']->supplier_name }}
                 </p>
             </div>
         @endforeach

@@ -58,7 +58,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
             Route::prefix('product')->name('product.')->group(function () {
                 Route::get('/search', [ProductController::class, 'index'])->name('index');
-                Route::post('/search', [ProductController::class, 'searchProducts'])->name('search');
+                Route::get('/search/results', [ProductController::class, 'searchProducts'])->name('search');
             });
         });
     });

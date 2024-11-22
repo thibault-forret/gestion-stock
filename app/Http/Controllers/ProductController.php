@@ -33,9 +33,9 @@ class ProductController extends Controller
             'category_name.exists' => 'La catégorie sélectionnée n\'existe pas.',
         ]);
 
-        $searchByName = $request->input('search_by_name');
-        $supplierName = $request->input('supplier_name');
-        $categoryName = $request->input('category_name');
+        $searchByName = $request->query('search_by_name');
+        $supplierName = $request->query('supplier_name');
+        $categoryName = $request->query('category_name');
 
         $result = OpenFoodFacts::search("{$searchByName} {$supplierName} {$categoryName}", 1, 50);
 
@@ -96,7 +96,7 @@ class ProductController extends Controller
                 }
 
                 // Récupérer le fournisseur et la catégorie correspondant à la requête
-                $supplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first(); // On récupère le premier car un produit ne peut avoir qu'un seul fournisseur (marque)
+                $supplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first(); 
                 $categories = Category::whereIn('category_name', $identicalCategories)->get();
 
                 // -------------------------------------
