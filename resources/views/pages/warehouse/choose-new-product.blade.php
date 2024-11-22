@@ -5,7 +5,7 @@
     </div>
     <div>
         <label for="category_name">Catégorie :</label>
-        <select id="category-name" name="category_name" required>
+        <select id="category-name" name="category_name">
             <option value="">Sélectionner une catégorie</option>
             @foreach($categories as $category)
                 <option value="{{ $category->category_name }}">{{ $category->category_name }}</option>
@@ -15,7 +15,7 @@
     </div>
     <div>
         <label for="supplier_name">Fournisseur :</label>
-        <select id="supplier-name" name="supplier_name" required>
+        <select id="supplier-name" name="supplier_name">
             <option value="">Sélectionner un fournisseur</option>
             @foreach($suppliers as $supplier)
                 <option value="{{ $supplier->supplier_name }}">{{ $supplier->supplier_name }}</option>
@@ -26,6 +26,8 @@
         <button type="submit">Rechercher</button>
     </div>
 </form>
+
+<a href="{{ route('warehouse.product.index') }}">Rénitialiser recherche</a>
 
 @if ($errors->any())
     <div class="center-child error-message">
