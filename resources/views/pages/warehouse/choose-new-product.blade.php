@@ -1,14 +1,16 @@
 <form action="{{ route('warehouse.product.search') }}" method="GET">
     <div>
         <label for="search_by_name">Rechercher par nom</label>
-        <input type="text" id="search-by-name" name="search_by_name">
+        <input type="text" id="search-by-name" name="search_by_name" value="{{ request('search_by_name') }}">
     </div>
     <div>
         <label for="category_name">Catégorie :</label>
         <select id="category-name" name="category_name">
             <option value="">Sélectionner une catégorie</option>
             @foreach($categories as $category)
-                <option value="{{ $category->category_name }}">{{ $category->category_name }}</option>
+                <option value="{{ $category->category_name }}" {{ request('category_name') == $category->category_name ? 'selected' : '' }}>
+                    {{ $category->category_name }}
+                </option>
             @endforeach
         </select>
     
@@ -18,7 +20,9 @@
         <select id="supplier-name" name="supplier_name">
             <option value="">Sélectionner un fournisseur</option>
             @foreach($suppliers as $supplier)
-                <option value="{{ $supplier->supplier_name }}">{{ $supplier->supplier_name }}</option>
+                <option value="{{ $supplier->supplier_name }}" {{ request('supplier_name') == $supplier->supplier_name ? 'selected' : '' }}>
+                    {{ $supplier->supplier_name }}
+                </option>
             @endforeach
         </select>
     </div>
