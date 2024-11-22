@@ -17,7 +17,7 @@
     </div>
     <div>
         <label for="supplier_name">Fournisseur :</label>
-        <select id="supplier-name" name="supplier_name">
+        <select id="supplier-name" name="supplier_name" required>
             <option value="">Sélectionner un fournisseur</option>
             @foreach($suppliers as $supplier)
                 <option value="{{ $supplier->supplier_name }}" {{ request('supplier_name') == $supplier->supplier_name ? 'selected' : '' }}>
