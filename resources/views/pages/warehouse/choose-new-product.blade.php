@@ -69,8 +69,14 @@
             <div class="product-item">
                 <h3>{{ $product['name'] }}</h3>
                 <img src="{{ $product['image_url'] }}" alt="{{ $product['name'] }}">
-                <p>Catégorie: {{ $product['category']->category_name }}</p>
-                <p>Fournisseur: {{ $product['supplier']->supplier_name }}</p>
+                <p><u>Catégorie(s) :</u>
+                    @foreach($product['categories'] as $category)
+                        <p>{{ $category->category_name }}</p>
+                    @endforeach
+                </p>
+                <p>
+                    <u>Fournisseur(s) :</u> {{ $supplier->supplier_name }}
+                </p>
             </div>
         @endforeach
     @else

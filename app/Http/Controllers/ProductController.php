@@ -44,23 +44,46 @@ class ProductController extends Controller
                 $product = $document->getData();  // Accède aux données du produit
 
                 // Vérification des données essentielles du produit
-                if (!isset($product['product_name']) || !isset($product['image_url']) || empty($product['product_name']) || empty($product['image_url'])) {
+                if (!isset($product['product_name']) || !isset($product['image_url']) || !isset($product['categories']) || empty($product['product_name']) || empty($product['image_url'] || empty($product['categories']))) {
                     continue;  // Passer au produit suivant si les données sont manquantes ou vides
                 }
 
                 $productName = $product['product_name'];
                 $imageUrl = $product['image_url'];
-                
+
+                // Récupérer toutes les catégories présentes
+                $categories = Category::all();
+                $suppliers = Supplier::all();
+
+                $productCategories = $product['categories'];
+
+                // Séparer la chaîne en un tableau, en utilisant la virgule comme délimiteur
+                $productCategories = explode(',', $productCategories);
+                $productCategories = array_map('trim', $productCategories);
+
+                // Trouver les catégories identiques entre les catégories du produit et les catégories de la base de données
+                $identicalCategories = [];
+                foreach ($productCategories as $category) {
+                    if (in_array($category, $categories->pluck('category_name')->toArray())) {
+                        $identicalCategories[] = $category;
+                    }
+                }
+
+                // Passer au produit suivant si aucune catégorie n'a été trouvée
+                if (empty($identicalCategories)) {
+                    continue;
+                }
+
                 // Récupérer le fournisseur et la catégorie correspondant à la requête
-                $supplier = Supplier::where('supplier_name', $supplierName)->first();
-                $category = Category::where('category_name', $categoryName)->first();
+                $supplier = Supplier::where('supplier_name', $supplierName)->get();
+                $categories = Category::whereIn('category_name', $identicalCategories)->get();
 
                 // Ajouter le produit au tableau
                 $products[] = [
                     'name' => $productName,
                     'image_url' => $imageUrl,
                     'supplier' => $supplier,
-                    'category' => $category,
+                    'categories' => $categories,
                 ];
             }
         }
