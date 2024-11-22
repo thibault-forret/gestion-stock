@@ -56,6 +56,24 @@ class ProductController extends Controller
                 $suppliers = Supplier::all();
 
                 $productCategories = $product['categories'];
+                $productBrands = $product['brands'];
+
+                // Séparer la chaîne en un tableau, en utilisant la virgule comme délimiteur
+                $productBrands = explode(',', $productBrands);
+                $productBrands = array_map('trim', $productBrands);
+
+                // Trouver les catégories identiques entre les catégories du produit et les catégories de la base de données
+                $identicalSuppliers = [];
+                foreach ($productBrands as $brand) {
+                    if (in_array($brand, $suppliers->pluck('supplier_name')->toArray())) {
+                        $identicalSuppliers[] = $brand;
+                    }
+                }
+
+                // Passer au produit suivant si aucun fournisseur n'a été trouvée
+                if (empty($identicalSuppliers)) {
+                    continue;
+                }
 
                 // Séparer la chaîne en un tableau, en utilisant la virgule comme délimiteur
                 $productCategories = explode(',', $productCategories);
@@ -75,7 +93,7 @@ class ProductController extends Controller
                 }
 
                 // Récupérer le fournisseur et la catégorie correspondant à la requête
-                $supplier = Supplier::where('supplier_name', $supplierName)->get();
+                $supplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first(); // On récupère le premier car un produit ne peut avoir qu'un seul fournisseur (marque)
                 $categories = Category::whereIn('category_name', $identicalCategories)->get();
 
                 // Ajouter le produit au tableau
