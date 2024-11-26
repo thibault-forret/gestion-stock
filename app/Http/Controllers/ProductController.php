@@ -57,16 +57,21 @@ class ProductController extends Controller
             return $stock->product;
         });
 
+        // Récupérer toutes les catégories et tous les fournisseurs
+        $categories = Category::all();
+        $suppliers = Supplier::all();
+
         // Assurez-vous que $result contient des résultats valides
         if (!empty($result)) {
             foreach ($result as $document) {
                 $product = $document->getData();  // Accède aux données du produit
-
                 // Vérification des données essentielles du produit
-                if (!isset($product['product_name']) || 
+                if (!isset($product['id']) ||
+                    !isset($product['product_name']) || 
                     !isset($product['image_url']) || 
                     !isset($product['categories']) || 
                     !isset($product['brands']) ||
+                    empty($product['id']) ||
                     empty($product['product_name']) || 
                     empty($product['image_url']) || 
                     empty($product['categories']) ||
@@ -82,10 +87,6 @@ class ProductController extends Controller
                 if ($warehouseProducts->contains('product_name', $productName)) {
                     continue;  // Passer au produit suivant si le produit est déjà dans l'entrepôt
                 }
-
-                // Récupérer toutes les catégories présentes
-                $categories = Category::all();
-                $suppliers = Supplier::all();
 
                 $productCategories = $product['categories'];
                 $productBrands = $product['brands'];
@@ -140,6 +141,7 @@ class ProductController extends Controller
 
                 // Ajouter le produit au tableau
                 $products[] = [
+                    'id' => $product['id'],
                     'name' => $productName,
                     'image_url' => $imageUrl,
                     'supplier' => $supplier,
@@ -148,11 +150,51 @@ class ProductController extends Controller
             }
         }
 
-        // Récupérer les catégories et les fournisseurs pour la vue
-        $categories = Category::all();
-        $suppliers = Supplier::all();
-
         // Retourner la vue avec les produits, les catégories et les fournisseurs
         return view('pages.warehouse.choose-new-product', compact('categories', 'suppliers', 'products'));
+    }
+
+
+    // A faire : Ajouter un produit à l'entrepôt
+    public function addProduct(Request $request)
+    {
+        // Validation des données
+        $request->validate([
+            'product_id' => 'required|integer', // Vérifie que l'ID est valide
+        ],
+        [
+            'product_id.required' => 'L\'ID du produit est requis. Veuillez réessayer.',
+            'product_id.integer' => 'L\'ID du produit doit être un entier. Veuillez réessayer.',
+        ]);
+
+        $productId = $request->input('product_id');
+        
+        // Récupérer les informations du produit
+        $product = OpenFoodFacts::barcode($productId);
+
+        dd($product);
+
+        if (empty($product)) {
+            return redirect()->route('product.index')->with('error', 'Le produit n\'a pas été trouvé. Veuillez réessayer.');
+        }
+
+        // Valider les informations du produit
+        // Faire une fonction pour valider les informations du produit (fractionner searchProducts)
+
+        // Vérifier si le produit existe déjà dans la base de données
+        if (Product::where('api_product_id', $product['id'])->exists()) {
+            // Ajouter le produit au stock
+        }
+
+        // Ajouter le produit à la base de données + au stock de l'entrepôt
+        Product::create([
+            'name' => $product['name'],
+            'image_url' => $product['image_url'],
+            'category_id' => $product['category_id'], // Assurer que tu as ces informations
+            'supplier_id' => $product['supplier_id'],
+            'api_product_id' => $product['id'], // Conserver l'ID de l'API pour référence
+        ]);
+
+        return redirect()->route('product.index')->with('success', 'Produit ajouté avec succès.');
     }
 }

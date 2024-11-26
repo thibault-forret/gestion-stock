@@ -86,6 +86,14 @@
                 <p>
                     <u>Fournisseur(s) :</u> {{ $product['supplier']->supplier_name }}
                 </p>
+
+
+                {{-- Ajouter une demande de confirmation --}}
+                <form action="{{ route('warehouse.product.add') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+                    <button type="submit">Ajouter le produit</button>
+                </form>
             </div>
         @endforeach
     @else
