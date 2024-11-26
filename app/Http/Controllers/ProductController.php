@@ -25,7 +25,7 @@ class ProductController extends Controller
         // Valider les données de la requête
         $request->validate([
             'search_by_name' => 'nullable|string', 
-            'supplier_name' => 'nullable|required|exists:suppliers,supplier_name', 
+            'supplier_name' => 'required|exists:suppliers,supplier_name', 
             'category_name' => 'nullable|exists:categories,category_name',
             'page_number' => 'nullable|integer|min:1',
         ], [
@@ -47,6 +47,16 @@ class ProductController extends Controller
 
         $products = [];
 
+        $user = auth()->user();
+
+        // Récupérer l'entrepôt de l'utilisateur
+        $warehouse = $user->warehouseUser->warehouse;
+
+        // Get all products in the warehouse
+        $warehouseProducts = $warehouse->stock->map(function ($stock) {
+            return $stock->product;
+        });
+
         // Assurez-vous que $result contient des résultats valides
         if (!empty($result)) {
             foreach ($result as $document) {
@@ -67,6 +77,11 @@ class ProductController extends Controller
 
                 $productName = $product['product_name'];
                 $imageUrl = $product['image_url'];
+
+                // Vérifier si le produit est déjà dans l'entrepôt
+                if ($warehouseProducts->contains('product_name', $productName)) {
+                    continue;  // Passer au produit suivant si le produit est déjà dans l'entrepôt
+                }
 
                 // Récupérer toutes les catégories présentes
                 $categories = Category::all();
