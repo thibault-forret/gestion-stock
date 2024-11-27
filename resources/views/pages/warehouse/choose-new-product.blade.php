@@ -1,3 +1,16 @@
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+
 <form action="{{ route('warehouse.product.search') }}" method="GET">
     <div>
         <label for="search_by_name">Rechercher par nom</label>
