@@ -8,10 +8,10 @@ class Product extends Model
 {
     protected $fillable = [
         'product_name',
-        'product_description',
+        'image_url',
         'reference_price',
         'restock_threshold',
-        'alert_treshold',
+        'alert_threshold',
         'category_id',
     ];
 
