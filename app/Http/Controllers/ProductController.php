@@ -283,14 +283,14 @@ class ProductController extends Controller
 
             // Créer une facture
             $supply->invoice()->create([
-                'invoice_number' => time(),
+                'invoice_number' => uniqid(),
                 'invoice_date' => now(),
                 'invoice_status' => Invoice::INVOICE_STATUS_PAID,
                 'order_id' => null,
                 'supply_id' => $supply->id,
             ]);
         } catch (\Exception $e) {
-            dd($e);
+            return false;
         }
 
         return true;
