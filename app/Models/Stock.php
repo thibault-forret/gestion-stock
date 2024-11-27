@@ -24,5 +24,19 @@ class Stock extends Model
         return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
     }
 
+    // Ajout de stock
+    public function addStock(int $quantity)
+    {
+        $this->quantity_available += $quantity;
+        $this->save();
+    }
+
+    // Retrait de stock
+    public function removeStock(int $quantity)
+    {
+        $this->quantity_available -= $quantity;
+        $this->save();
+    }
+
     // Ajout du stock de chaque magasin ?
 }
