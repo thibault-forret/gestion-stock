@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
+    const INVOICE_STATUS_PARTIALLY_PAID = 'PARTIALLY_PAID';
+    const INVOICE_STATUS_PAID = 'PAID';
+    const INVOICE_STATUS_UNPAID = 'UNPAID';
+
     protected $fillable = [
         'invoice_number',
         'invoice_date',
@@ -13,6 +17,8 @@ class Invoice extends Model
         'order_id',
         'supply_id'
     ];
+
+    // Ne pas oublier de faire le check
 
     // Chaque facture est associée à une commande
     public function order()
