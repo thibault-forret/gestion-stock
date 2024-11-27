@@ -7,6 +7,8 @@ use OpenFoodFacts;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Models\StockMovement;
+use App\Models\Invoice;
 
 class ProductController extends Controller
 {
@@ -93,57 +95,195 @@ class ProductController extends Controller
         return view('pages.warehouse.choose-new-product', compact('categories', 'suppliers', 'products'));
     }
 
+    public function addProduct(int $productId) {
+        
+        // Récupérer les informations du produit
+        $product = OpenFoodFacts::barcode($productId);
+
+        if (empty($product)) {
+            return redirect()->route('product.index')->with('error', 'Le produit n\'a pas été trouvé. Veuillez réessayer.');
+        }
+
+        $user = auth()->user();
+
+        // Récupérer l'entrepôt de l'utilisateur
+        $warehouse = $user->warehouseUser->warehouse;
+
+        // Récupérer les produits déjà dans l'entrepôt
+        $warehouseProducts = $warehouse->stock->map(function ($stock) {
+            return $stock->product;
+        });
+
+        list($isValid, $identicalSuppliers, $identicalCategories) = $this->validateProduct($product, $categories, $suppliers, $warehouseProducts);
+
+        // Si les données ne sont pas valides
+        if(!$isValid) {
+            return redirect()->route('product.index')->with('error', 'Un problème est survenu avec les données du produit. Veuillez réessayer.');
+        }
+
+        // Récupérer le fournisseur et la/les catégorie(s) correspondant à la requête
+        $dataSupplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first();
+        $dataCategories = Category::whereIn('category_name', $identicalCategories);
+
+        $product = [
+            'id' => $product['id'],
+            'name' => $product['product_name'],
+            'image_url' => $product['image_url'],
+            'supplier' => $dataSupplier,
+            'categories' => $dataCategories,
+        ];
+
+        return view('pages.warehouse.add-product', compact('product', 'dataSupplier', 'dataCategories'));
+    }
 
     // A faire : Ajouter un produit à l'entrepôt
-    public function addProduct(Request $request)
+    public function addProductSubmit(Request $request)
     {
         // Validation des données
         $request->validate([
-            'product_id' => 'required|integer|unique:products,id', // Vérifie que l'ID est valide
+            'product_id' => 'required|integer', 
+            'quantity' => 'required|integer|min:1', 
+            'restock_threshold' => 'required|integer|min:0',
+            'alert_threshold' => 'required|integer|min:1|gte:restock_threshold',
+            'restock_quantity' => 'required|integer|min:1|lte:quantity',
         ],
         [
-            'product_id.required' => 'L\'ID du produit est requis. Veuillez réessayer.',
-            'product_id.integer' => 'L\'ID du produit doit être un entier. Veuillez réessayer.',
-            'product_id.unique' => 'Le produit est déjà dans l\'entrepôt.',
+            'product_id.required' => 'Un problème est survenu lors de l\'ajout du produit. Veuillez réessayer.',
+            'product_id.integer' => 'Un problème est survenu lors de l\'ajout du produit. Veuillez réessayer.',
+            'quantity.required' => 'La quantité est requise.',
+            'quantity.integer' => 'La quantité doit être un entier.',
+            'quantity.min' => 'La quantité doit être supérieure ou égale à 1.',
+            'restock_threshold.required' => 'Le seuil de réapprovisionnement est requis.',
+            'restock_threshold.integer' => 'Le seuil de réapprovisionnement doit être un entier.',
+            'restock_threshold.min' => 'Le seuil de réapprovisionnement doit être supérieur ou égal à 0.',
+            'alert_threshold.required' => 'Le seuil d\'alerte est requis. ',
+            'alert_threshold.integer' => 'Le seuil d\'alerte doit être un entier. ',
+            'alert_threshold.min' => 'Le seuil d\'alerte doit être supérieur ou égal à 1. ',
+            'alert_threshold.gte' => 'Le seuil d\'alerte doit être supérieur ou égal au seuil de réapprovisionnement.',
+            'restock_quantity.required' => 'La quantité de réapprovisionnement est requise. ',
+            'restock_quantity.integer' => 'La quantité de réapprovisionnement doit être un entier.',
+            'restock_quantity.min' => 'La quantité de réapprovisionnement doit être supérieure ou égale à 1.',
+            'restock_quantity.lte' => 'La quantité de réapprovisionnement doit être inférieure ou égale à la quantité. ',
         ]);
+
+        // Vérifier si la quantité est valide par rapport à la capacité de l'entrepôt
+        $quantity = $request->input('quantity');
+
+        $user = auth()->user();
+
+        $warehouse = $user->warehouseUser->warehouse;
+
+        if ($quantity > $warehouse->capacity) {
+            return redirect()->back()->withErrors('error', 'La quantité de produits dépasse la capacité de l\'entrepôt. Veuillez réessayer.')->withInput();
+        }
 
         $productId = $request->input('product_id');
         
         // Récupérer les informations du produit
         $product = OpenFoodFacts::barcode($productId);
 
-        dd($product);
-
         if (empty($product)) {
-            return redirect()->route('product.search')->with('error', 'Le produit n\'a pas été trouvé. Veuillez réessayer.');
+            return redirect()->back()->withErrors('error', 'Le produit n\'a pas été trouvé. Veuillez réessayer.')->withInput();
         }
+
+        // Récupérer les produits déjà dans l'entrepôt
+        $warehouseProducts = $warehouse->stock->map(function ($stock) {
+            return $stock->product;
+        });
 
         list($isValid, $identicalSuppliers, $identicalCategories) = $this->validateProduct($product, $categories, $suppliers, $warehouseProducts);
 
         // Si les données ne sont pas valides
         if(!$isValid) {
-            return redirect()->route('product.search')->with('error', 'Un problème est survenu avec les données du produit. Veuillez réessayer.');
+            return redirect()->route('product.index')->with('error', 'Un problème est survenu avec les données du produit. Veuillez réessayer.');
         }
 
         // Récupérer le fournisseur et la/les catégorie(s) correspondant à la requête
-        $dataSupplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first(); 
-        $dataCategories = Category::whereIn('category_name', $identicalCategories)->get();
+        $dataSupplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first();
 
-        // TO DO : Finir l'ajout du produit à  la base de données
-        // Tester si ca fonctionne bien
+        // Récupère une seule catégorie en attendant les modifications de la bdd pour plusieurs catégories
+        $dataCategories = Category::whereIn('category_name', $identicalCategories)->first();
 
-        // Ajouter le produit à la base de données
-        Product::create([
-            'id' => $product['id'],
-            'name' => $product['name'],
-            'image_url' => $product['image_url'],
-            'category_id' => $product['category_id'], // Assurer que tu as ces informations
-            'supplier_id' => $product['supplier_id'],
-        ]);
+        // Vérifier si le produit est pas déjà dans la base de données globales, de tous les entrepôts
+        $product = Product::find($product['id']);
 
-        return redirect()->route('product.index')->with('success', 'Produit ajouté avec succès.');
+        if ($product != null) {
+            // Ajouter le produit à l'entrepôt, donc au stock
+            $success = $this->addProductToWarehouse($product, $dataSupplier, $warehouse, $request);
+        } else {
+            // Ajouter le produit à la base de données
+            $product = Product::create([
+                'id' => $product['id'],
+                'product_name' => $product['name'],
+                'image_url' => $product['image_url'],
+                'reference_price' => mt_rand(100, 2000) / 100, // Prix compris entre 1 et 20 euros
+                'restock_threshold' => 0,
+                'alert_threshold' => 0,
+                'category_id' => $dataCategories->id,
+                'supplier_id' => $dataSupplier->id,
+            ]);
+
+            $success = $this->addProductToWarehouse($product, $dataSupplier, $user, $warehouse, $request);
+        }
+
+        if ($success) {
+            return redirect()->route('product.index')->with('success', 'Produit ajouté avec succès.');
+        }
+        else {
+            return redirect()->route('product.index')->with('error', 'Un problème est survenu lors de l\'ajout du produit. Veuillez réessayer.');
+        }
     }
 
+    
+    private function addProductToWarehouse($product, $supplier, $user, $warehouse, $request)
+    {
+        // Ajouter le produit au stock de l'entrepôt
+        $warehouse->stock()->create([
+            'product_id' => $product->id,
+            'warehouse_id' => $warehouse->id,
+            'quantity_available' => $request->input('quantity'),
+            // 'restock_threshold' => $request->input('restock_threshold'),
+            // 'alert_threshold' => $request->input('alert_threshold'),
+            // 'restock_quantity' => $request->input('restock_quantity'),
+        ]);
+
+        // Créer un mouvement de stock
+        $warehouse->stockMovements()->create([
+            'product_id' => $product->id,
+            'user_id' => $user->id,
+            'quantity_moved' => $request->input('quantity'),
+            'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
+            'movement_date' => now(),
+            'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
+            'movement_source' => 'THRESHOLD',
+        ]);
+
+        // Créer un approvisionnement
+        $supply = $warehouse->supplies()->create([
+            'supplier_id' => $supplier->id,
+            'supply_date' => now(),
+            'quantity' => $request->input('quantity'),
+        ]);
+
+        // Créer une ligne d'approvisionnement
+        $supply->supplyLines()->create([
+            'product_id' => $product->id,
+            'quantity_supplied' => $request->input('quantity'),
+            'unit_price' => $product->reference_price,
+        ]);
+
+        // Créer une facture
+        $supply->invoice()->create([
+            'invoice_number' => (int) (microtime(true) * 1000000) + mt_rand(100, 999),
+            'invoice_date' => now(),
+            'invoice_status' => Invoice::INVOICE_STATUS_PAID,
+            'order_id' => null,
+            'supply_id' => $supply->id,
+        ]);
+
+        return true;
+    }
+    
     private function searchIdenticalSuppliers($productBrands, $suppliers)
     {
         $identicalSuppliers = [];
