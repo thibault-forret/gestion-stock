@@ -45,76 +45,38 @@ class ProductController extends Controller
 
         $result = OpenFoodFacts::search("{$searchByName} {$supplierName} {$categoryName}", $pageNumber, 100);
 
-        $products = [];
-
-        $user = auth()->user();
-
-        // Récupérer l'entrepôt de l'utilisateur
-        $warehouse = $user->warehouseUser->warehouse;
-
-        // Get all products in the warehouse
-        $warehouseProducts = $warehouse->stock->map(function ($stock) {
-            return $stock->product;
-        });
-
         // Récupérer toutes les catégories et tous les fournisseurs
         $categories = Category::all();
         $suppliers = Supplier::all();
 
-        // Assurez-vous que $result contient des résultats valides
+        // Si des produits ont été trouvés
         if (!empty($result)) {
+            $products = [];
+
+            $user = auth()->user();
+
+            // Récupérer l'entrepôt de l'utilisateur
+            $warehouse = $user->warehouseUser->warehouse;
+
+            // Récupérer les produits déjà dans l'entrepôt
+            $warehouseProducts = $warehouse->stock->map(function ($stock) {
+                return $stock->product;
+            });
+
             foreach ($result as $document) {
-                $product = $document->getData();  // Accède aux données du produit
+                // Accède aux données du produit
+                $product = $document->getData();
 
-                // Vérification des données essentielles du produit
-                if ($this->verifyDataProduct($product)
-                ) {
-                    continue;  // Passer au produit suivant si les données sont manquantes ou vides
-                }
+                list($isValid, $identicalSuppliers, $identicalCategories) = $this->validateProduct($product, $categories, $suppliers, $warehouseProducts);
 
-                // Vérifier si le produit est déjà dans l'entrepôt
-                if ($warehouseProducts->contains('id', $product['id'])) {
-                    continue;  // Passer au produit suivant si le produit est déjà dans l'entrepôt
-                }
-
-                $productCategories = $product['categories'];
-                $productBrands = $product['brands'];
-
-                // Séparer la chaîne en un tableau, en utilisant la virgule comme délimiteur
-                $productBrands = explode(',', $productBrands);
-                $productBrands = array_map('trim', $productBrands);
-
-                $identicalSuppliers = $this->searchIdenticalSuppliers($productBrands, $suppliers);
-
-                // Passer au produit suivant si aucun fournisseur n'a été trouvée
-                if (empty($identicalSuppliers)) {
-                    continue;
-                }
-
-                // Séparer la chaîne en un tableau, en utilisant la virgule comme délimiteur
-                $productCategories = explode(',', $productCategories);
-                $productCategories = array_map('trim', $productCategories);
-
-                $identicalCategories = $this->searchIdenticalCategories($productCategories, $categories);                
-
-                // Passer au produit suivant si aucune catégorie n'a été trouvée
-                if (empty($identicalCategories)) {
+                // Passer au produit suivant si les données ne sont pas valides
+                if(!$isValid) {
                     continue;
                 }
 
                 // Récupérer le fournisseur et la catégorie correspondant à la requête
                 $dataSupplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first(); 
                 $dataCategories = Category::whereIn('category_name', $identicalCategories)->get();
-
-                // -------------------------------------
-
-                // Voir si ne peut pas récupérer tous les fournisseurs du produit pour ensuite avoir 
-                // le choix entre commander chez un fournisseur ou un autre
-
-                // Problème : C'est sur les marques ayant des dénominations différentes mais 
-                // qui sont en réalité la même marque, par exemple : Marque repère et Délisse (produits laitiers)
-
-                // -------------------------------------
 
                 // Ajouter le produit au tableau
                 $products[] = [
@@ -137,11 +99,12 @@ class ProductController extends Controller
     {
         // Validation des données
         $request->validate([
-            'product_id' => 'required|integer', // Vérifie que l'ID est valide
+            'product_id' => 'required|integer|unique:products,id', // Vérifie que l'ID est valide
         ],
         [
             'product_id.required' => 'L\'ID du produit est requis. Veuillez réessayer.',
             'product_id.integer' => 'L\'ID du produit doit être un entier. Veuillez réessayer.',
+            'product_id.unique' => 'Le produit est déjà dans l\'entrepôt.',
         ]);
 
         $productId = $request->input('product_id');
@@ -152,24 +115,30 @@ class ProductController extends Controller
         dd($product);
 
         if (empty($product)) {
-            return redirect()->route('product.index')->with('error', 'Le produit n\'a pas été trouvé. Veuillez réessayer.');
+            return redirect()->route('product.search')->with('error', 'Le produit n\'a pas été trouvé. Veuillez réessayer.');
         }
 
-        // Valider les informations du produit
-        // Faire une fonction pour valider les informations du produit (fractionner searchProducts)
+        list($isValid, $identicalSuppliers, $identicalCategories) = $this->validateProduct($product, $categories, $suppliers, $warehouseProducts);
 
-        // Vérifier si le produit existe déjà dans la base de données
-        if (Product::where('api_product_id', $product['id'])->exists()) {
-            // Ajouter le produit au stock
+        // Si les données ne sont pas valides
+        if(!$isValid) {
+            return redirect()->route('product.search')->with('error', 'Un problème est survenu avec les données du produit. Veuillez réessayer.');
         }
 
-        // Ajouter le produit à la base de données + au stock de l'entrepôt
+        // Récupérer le fournisseur et la/les catégorie(s) correspondant à la requête
+        $dataSupplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first(); 
+        $dataCategories = Category::whereIn('category_name', $identicalCategories)->get();
+
+        // TO DO : Finir l'ajout du produit à  la base de données
+        // Tester si ca fonctionne bien
+
+        // Ajouter le produit à la base de données
         Product::create([
+            'id' => $product['id'],
             'name' => $product['name'],
             'image_url' => $product['image_url'],
             'category_id' => $product['category_id'], // Assurer que tu as ces informations
             'supplier_id' => $product['supplier_id'],
-            'api_product_id' => $product['id'], // Conserver l'ID de l'API pour référence
         ]);
 
         return redirect()->route('product.index')->with('success', 'Produit ajouté avec succès.');
@@ -199,7 +168,7 @@ class ProductController extends Controller
         return $identicalCategories;
     }
 
-    private function verifyDataProduct($product)
+    private function verifyDataProduct($product) : bool
     {
         return 
             !isset($product['id']) ||
@@ -214,12 +183,52 @@ class ProductController extends Controller
             empty($product['brands']);
     }
 
-    private function validateProduct($product)
+    function splitAndTrim(string $input, string $delimiter = ','): array
     {
-        // Valider les informations du produit
-        // Vérifier si le produit existe déjà dans la base de données
-        // Vérifier si le produit est déjà dans l'entrepôt
-        // Vérifier si le produit est déjà dans le stock
-        // Vérifier si le produit est déjà dans la commande
+        // Séparer la chaîne en un tableau
+        $array = explode($delimiter, $input);
+
+        // Nettoyer les espaces inutiles autour de chaque élément
+        return array_map('trim', $array);
+    }
+
+    private function validateProduct($product, $categories, $suppliers, $warehouseProducts)
+    {
+        // Passer au produit suivant si les données ne sont pas valides
+        if ($this->verifyDataProduct($product)) {
+            return [false, [], []];
+        }
+
+        // Passer au produit suivant si le produit est déjà dans l'entrepôt
+        if ($warehouseProducts->contains('id', $product['id'])) {
+            return [false, [], []];
+        }
+
+        // Vérifier si le produit appartient à un/des fournisseur(s) valide(s)
+        $productBrands = $product['brands'];
+
+        $productBrands = $this->splitAndTrim($productBrands);
+
+        $identicalSuppliers = $this->searchIdenticalSuppliers($productBrands, $suppliers);
+
+        // Passer au produit suivant si aucun fournisseur n'a été trouvée
+        if (empty($identicalSuppliers)) {
+            return [false, [], []];
+        }
+
+        // Vérifier si le produit appartient à une/des catégorie(s) valide
+        $productCategories = $product['categories'];
+
+        $productCategories = $this->splitAndTrim($productCategories);
+
+        $identicalCategories = $this->searchIdenticalCategories($productCategories, $categories);                
+
+        // Passer au produit suivant si aucune catégorie n'a été trouvée
+        if (empty($identicalCategories)) {
+            return [false, [], []];
+        }
+
+        // Si le produit est valide
+        return [true, $identicalSuppliers, $identicalCategories];
     }
 }
