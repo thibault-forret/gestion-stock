@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = [
+        'id',
         'product_name',
         'image_url',
         'reference_price',
@@ -34,7 +35,7 @@ class Product extends Model
     }
 
     // Chaque produit est associé à un ou plusieurs mouvements de stock
-    public function stock_movements()
+    public function stockMovements()
     {
         return $this->hasMany(StockMovement::class);
     }

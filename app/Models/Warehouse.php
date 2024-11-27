@@ -32,7 +32,7 @@ class Warehouse extends Model
     }
 
     // Chaque entrepôt peut avoir plusieurs mouvements de stock
-    public function stock_movements()
+    public function stockMovements()
     {
         return $this->hasMany(StockMovement::class);
     }
