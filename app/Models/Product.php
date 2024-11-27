@@ -39,12 +39,6 @@ class Product extends Model
         return $this->hasMany(StockMovement::class);
     }
 
-    // Chaque produit est associé à un ou plusieurs approvisionnements
-    public function supplies()
-    {
-        return $this->hasMany(Supply::class);
-    }
-
     // Chaque produit est associé à un ou plusieurs lignes d'approvisionnement
     public function supplyLines()
     {
