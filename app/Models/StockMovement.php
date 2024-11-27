@@ -10,7 +10,7 @@ class StockMovement extends Model
     const MOVEMENT_TYPE_OUT = 'OUT';
 
     // Les constantes pour les statuts de mouvement
-    const MOVEMENT_STATUS_PENDING = 'PENDING';
+    const MOVEMENT_STATUS_IN_PROGRESS = 'IN_PROGRESS';
     const MOVEMENT_STATUS_COMPLETED = 'COMPLETED';
     const MOVEMENT_STATUS_CANCELLED = 'CANCELLED';
 
