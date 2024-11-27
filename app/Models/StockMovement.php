@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class StockMovement extends Model
 {
+    const MOVEMENT_TYPE_IN = 'IN';
+    const MOVEMENT_TYPE_OUT = 'OUT';
+
+    // Les constantes pour les statuts de mouvement
+    const MOVEMENT_STATUS_PENDING = 'PENDING';
+    const MOVEMENT_STATUS_COMPLETED = 'COMPLETED';
+    const MOVEMENT_STATUS_CANCELLED = 'CANCELLED';
+
     protected $fillable = [
         'product_id',
         'warehouse_id',
