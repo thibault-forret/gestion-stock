@@ -18,22 +18,22 @@
 
     <div>
         <label for="quantity">Quantité à mettre en stock :</label>
-        <input type="number" id="quantity" name="quantity" value="{{ old('quantity') }}" min="1" required>
+        <input type="number" id="quantity" name="quantity" value="{{ old('quantity') == null ? 1 : old('quantity') }}" min="1" required>
     </div>
 
     <div>
         <label for="alert_threshold">Seuil d'alerte :</label>
-        <input type="number" id="alert-threshold" name="alert_threshold" value="{{ old('alert_threshold') }}" min="1" required>
+        <input type="number" id="alert-threshold" name="alert_threshold" value="{{ old('alert_threshold') == null ? 1 : old('alert_threshold') }}" min="1" required>
     </div>
 
     <div>
         <label for="restock_threshold">Seuil de réapprovisionnement:</label>
-        <input type="number" id="restock-threshold" name="restock_threshold" value="{{ old('restock_threshold') }}" min="0" required>
+        <input type="number" id="restock-threshold" name="restock_threshold" value="{{ old('restock_threshold') == null ? 0 : old('restock_threshold') }}" min="0" required>
     </div>
 
     <div>
         <label for="restock_quantity">Quantité de réapprovisionnement :</label>
-        <input type="number" id="restock-quantity" name="restock_quantity" value="{{ old('restock_quantity') }}" min="1" required>
+        <input type="number" id="restock-quantity" name="restock_quantity" value="{{ old('restock_quantity') == null ? 1 : old('restock_quantity') }}" min="1" required>
     </div>
 
     <button type="submit">Ajouter le produit</button>
