@@ -5,8 +5,12 @@
     <div>
         <h2>Informations sur le produit</h2>
         <p><strong>Nom :</strong> {{ $product['name'] }}</p>
-        <p><strong>Catégorie :</strong> {{ $product['category'] }}</p>
-        <p><strong>Fournisseur :</strong> {{ $product['supplier'] }}</p>
+        <p><strong>Catégorie(s) :</strong>
+            @foreach($product['categories'] as $category)
+                <p>{{ $category->category_name }}</p>
+            @endforeach
+        </p>
+        <p><strong>Fournisseur(s) :</strong> {{ $product['supplier']->supplier_name }}</p>
         <div>
             <img src="{{ $product['image_url'] }}" alt="{{ $product['name'] }}" style="max-width: 200px;">
         </div>

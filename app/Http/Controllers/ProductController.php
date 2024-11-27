@@ -137,7 +137,7 @@ class ProductController extends Controller
             'categories' => $dataCategories,
         ];
 
-        return view('pages.warehouse.add-product', compact('product', 'dataSupplier', 'dataCategories'));
+        return view('pages.warehouse.add-product', compact('product'));
     }
 
     // A faire : Ajouter un produit à l'entrepôt
