@@ -65,26 +65,15 @@ class ProductController extends Controller
         if (!empty($result)) {
             foreach ($result as $document) {
                 $product = $document->getData();  // Accède aux données du produit
+
                 // Vérification des données essentielles du produit
-                if (!isset($product['id']) ||
-                    !isset($product['product_name']) || 
-                    !isset($product['image_url']) || 
-                    !isset($product['categories']) || 
-                    !isset($product['brands']) ||
-                    empty($product['id']) ||
-                    empty($product['product_name']) || 
-                    empty($product['image_url']) || 
-                    empty($product['categories']) ||
-                    empty($product['brands'])
+                if ($this->verifyDataProduct($product)
                 ) {
                     continue;  // Passer au produit suivant si les données sont manquantes ou vides
                 }
 
-                $productName = $product['product_name'];
-                $imageUrl = $product['image_url'];
-
                 // Vérifier si le produit est déjà dans l'entrepôt
-                if ($warehouseProducts->contains('product_name', $productName)) {
+                if ($warehouseProducts->contains('id', $product['id'])) {
                     continue;  // Passer au produit suivant si le produit est déjà dans l'entrepôt
                 }
 
@@ -95,13 +84,7 @@ class ProductController extends Controller
                 $productBrands = explode(',', $productBrands);
                 $productBrands = array_map('trim', $productBrands);
 
-                // Trouver les catégories identiques entre les catégories du produit et les catégories de la base de données
-                $identicalSuppliers = [];
-                foreach ($productBrands as $brand) {
-                    if (in_array($brand, $suppliers->pluck('supplier_name')->toArray())) {
-                        $identicalSuppliers[] = $brand;
-                    }
-                }
+                $identicalSuppliers = $this->searchIdenticalSuppliers($productBrands, $suppliers);
 
                 // Passer au produit suivant si aucun fournisseur n'a été trouvée
                 if (empty($identicalSuppliers)) {
@@ -112,13 +95,7 @@ class ProductController extends Controller
                 $productCategories = explode(',', $productCategories);
                 $productCategories = array_map('trim', $productCategories);
 
-                // Trouver les catégories identiques entre les catégories du produit et les catégories de la base de données
-                $identicalCategories = [];
-                foreach ($productCategories as $category) {
-                    if (in_array($category, $categories->pluck('category_name')->toArray())) {
-                        $identicalCategories[] = $category;
-                    }
-                }
+                $identicalCategories = $this->searchIdenticalCategories($productCategories, $categories);                
 
                 // Passer au produit suivant si aucune catégorie n'a été trouvée
                 if (empty($identicalCategories)) {
@@ -126,8 +103,8 @@ class ProductController extends Controller
                 }
 
                 // Récupérer le fournisseur et la catégorie correspondant à la requête
-                $supplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first(); 
-                $categories = Category::whereIn('category_name', $identicalCategories)->get();
+                $dataSupplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first(); 
+                $dataCategories = Category::whereIn('category_name', $identicalCategories)->get();
 
                 // -------------------------------------
 
@@ -142,10 +119,10 @@ class ProductController extends Controller
                 // Ajouter le produit au tableau
                 $products[] = [
                     'id' => $product['id'],
-                    'name' => $productName,
-                    'image_url' => $imageUrl,
-                    'supplier' => $supplier,
-                    'categories' => $categories,
+                    'name' => $product['product_name'],
+                    'image_url' => $product['image_url'],
+                    'supplier' => $dataSupplier,
+                    'categories' => $dataCategories,
                 ];
             }
         }
@@ -196,5 +173,53 @@ class ProductController extends Controller
         ]);
 
         return redirect()->route('product.index')->with('success', 'Produit ajouté avec succès.');
+    }
+
+    private function searchIdenticalSuppliers($productBrands, $suppliers)
+    {
+        $identicalSuppliers = [];
+        foreach ($productBrands as $brand) {
+            if (in_array($brand, $suppliers->pluck('supplier_name')->toArray())) {
+                $identicalSuppliers[] = $brand;
+            }
+        }
+
+        return $identicalSuppliers;
+    }
+
+    private function searchIdenticalCategories($productCategories, $categories)
+    {
+        $identicalCategories = [];
+        foreach ($productCategories as $category) {
+            if (in_array($category, $categories->pluck('category_name')->toArray())) {
+                $identicalCategories[] = $category;
+            }
+        }
+
+        return $identicalCategories;
+    }
+
+    private function verifyDataProduct($product)
+    {
+        return 
+            !isset($product['id']) ||
+            !isset($product['product_name']) || 
+            !isset($product['image_url']) || 
+            !isset($product['categories']) || 
+            !isset($product['brands']) ||
+            empty($product['id']) ||
+            empty($product['product_name']) || 
+            empty($product['image_url']) || 
+            empty($product['categories']) ||
+            empty($product['brands']);
+    }
+
+    private function validateProduct($product)
+    {
+        // Valider les informations du produit
+        // Vérifier si le produit existe déjà dans la base de données
+        // Vérifier si le produit est déjà dans l'entrepôt
+        // Vérifier si le produit est déjà dans le stock
+        // Vérifier si le produit est déjà dans la commande
     }
 }
