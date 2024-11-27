@@ -114,6 +114,10 @@ class ProductController extends Controller
             return $stock->product;
         });
 
+        // Récupérer toutes les catégories et tous les fournisseurs
+        $categories = Category::all();
+        $suppliers = Supplier::all();
+
         list($isValid, $identicalSuppliers, $identicalCategories) = $this->validateProduct($product, $categories, $suppliers, $warehouseProducts);
 
         // Si les données ne sont pas valides
@@ -190,6 +194,10 @@ class ProductController extends Controller
         $warehouseProducts = $warehouse->stock->map(function ($stock) {
             return $stock->product;
         });
+
+        // Récupérer toutes les catégories et tous les fournisseurs
+        $categories = Category::all();
+        $suppliers = Supplier::all();
 
         list($isValid, $identicalSuppliers, $identicalCategories) = $this->validateProduct($product, $categories, $suppliers, $warehouseProducts);
 
