@@ -59,7 +59,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
             Route::prefix('product')->name('product.')->group(function () {
                 Route::get('/search', [ProductController::class, 'index'])->name('index');
                 Route::get('/search/results', [ProductController::class, 'searchProducts'])->name('search');
-                Route::get('/{productId}/add', [ProductController::class, 'addProduct'])->name('add');
+                Route::get('/{product_id}/add', [ProductController::class, 'addProduct'])->name('add');
                 Route::post('/add', [ProductController::class, 'addProductSubmit'])->name('add.submit');
             });
         });

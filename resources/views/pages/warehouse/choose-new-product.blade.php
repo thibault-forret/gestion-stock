@@ -70,6 +70,23 @@
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 20px;
     }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1em;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
 </style>
 
 <div class="product-list">
@@ -87,13 +104,8 @@
                     <u>Fournisseur(s) :</u> {{ $product['supplier']->supplier_name }}
                 </p>
 
-
-                {{-- Ajouter une demande de confirmation --}}
-                <form action="{{ route('warehouse.product.add') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $product['id'] }}">
-                    <button type="submit">Ajouter le produit</button>
-                </form>
+                
+                <a href="{{ route('warehouse.product.add', ['product_id' => $product['id']]) }}" class="btn btn-primary">Ajouter le produit</a>
             </div>
         @endforeach
     @else
