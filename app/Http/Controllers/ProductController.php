@@ -237,53 +237,57 @@ class ProductController extends Controller
     
     private function addProductToWarehouse($product, $supplier, $user, $warehouse, $request)
     {
-        // Ajouter le produit au stock de l'entrepôt
-        $warehouse->stock()->create([
-            'product_id' => $product->id,
-            'warehouse_id' => $warehouse->id,
-            'quantity_available' => $request->input('quantity'),
-            // 'restock_threshold' => $request->input('restock_threshold'),
-            // 'alert_threshold' => $request->input('alert_threshold'),
-            // 'restock_quantity' => $request->input('restock_quantity'),
-        ]);
+        try {
+            // Ajouter le produit au stock de l'entrepôt
+            $warehouse->stock()->create([
+                'product_id' => $product->id,
+                'warehouse_id' => $warehouse->id,
+                'quantity_available' => $request->input('quantity'),
+                // 'restock_threshold' => $request->input('restock_threshold'),
+                // 'alert_threshold' => $request->input('alert_threshold'),
+                // 'restock_quantity' => $request->input('restock_quantity'),
+            ]);
 
-        // Créer un mouvement de stock
-        $warehouse->stockMovements()->create([
-            'product_id' => $product->id,
-            'user_id' => $user->id,
-            'quantity_moved' => $request->input('quantity'),
-            'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
-            'movement_date' => now(),
-            'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
-            'movement_source' => 'THRESHOLD',
-        ]);
+            // Créer un mouvement de stock
+            $warehouse->stockMovements()->create([
+                'product_id' => $product->id,
+                'user_id' => $user->id,
+                'quantity_moved' => $request->input('quantity'),
+                'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
+                'movement_date' => now(),
+                'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
+                'movement_source' => 'THRESHOLD',
+            ]);
 
-        // Créer un approvisionnement
-        $supply = $warehouse->supplies()->create([
-            'supplier_id' => $supplier->id,
-            'supply_date' => now(),
-            'quantity' => $request->input('quantity'),
-        ]);
+            // Créer un approvisionnement
+            $supply = $warehouse->supplies()->create([
+                'supplier_id' => $supplier->id,
+                'supply_date' => now(),
+                'quantity' => $request->input('quantity'),
+            ]);
 
-        // Créer une ligne d'approvisionnement
-        $supply->supplyLines()->create([
-            'product_id' => $product->id,
-            'quantity_supplied' => $request->input('quantity'),
-            'unit_price' => $product->reference_price,
-        ]);
+            // Créer une ligne d'approvisionnement
+            $supply->supplyLines()->create([
+                'product_id' => $product->id,
+                'quantity_supplied' => $request->input('quantity'),
+                'unit_price' => $product->reference_price,
+            ]);
 
-        // Créer une facture
-        $supply->invoice()->create([
-            'invoice_number' => (int) (microtime(true) * 1000000) + mt_rand(100, 999),
-            'invoice_date' => now(),
-            'invoice_status' => Invoice::INVOICE_STATUS_PAID,
-            'order_id' => null,
-            'supply_id' => $supply->id,
-        ]);
+            // Créer une facture
+            $supply->invoice()->create([
+                'invoice_number' => (int) (microtime(true) * 1000000) + mt_rand(100, 999),
+                'invoice_date' => now(),
+                'invoice_status' => Invoice::INVOICE_STATUS_PAID,
+                'order_id' => null,
+                'supply_id' => $supply->id,
+            ]);
+        } catch (\Exception $e) {
+            return false;
+        }
 
         return true;
     }
-    
+
     private function searchIdenticalSuppliers($productBrands, $suppliers)
     {
         $identicalSuppliers = [];
