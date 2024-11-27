@@ -101,7 +101,7 @@ class ProductController extends Controller
         $product = OpenFoodFacts::barcode($productId);
 
         if (empty($product)) {
-            return redirect()->route('product.index')->with('error', 'Le produit n\'a pas été trouvé. Veuillez réessayer.');
+            return redirect()->route('warehouse.product.index')->with('error', 'Le produit n\'a pas été trouvé. Veuillez réessayer.');
         }
 
         $user = auth()->user();
@@ -122,7 +122,7 @@ class ProductController extends Controller
 
         // Si les données ne sont pas valides
         if(!$isValid) {
-            return redirect()->route('product.index')->with('error', 'Un problème est survenu avec les données du produit. Veuillez réessayer.');
+            return redirect()->route('warehouse.product.index')->with('error', 'Un problème est survenu avec les données du produit. Veuillez réessayer.');
         }
 
         // Récupérer le fournisseur et la/les catégorie(s) correspondant à la requête
@@ -203,7 +203,7 @@ class ProductController extends Controller
 
         // Si les données ne sont pas valides
         if(!$isValid) {
-            return redirect()->route('product.index')->with('error', 'Un problème est survenu avec les données du produit. Veuillez réessayer.');
+            return redirect()->route('warehouse.product.index')->with('error', 'Un problème est survenu avec les données du produit. Veuillez réessayer.');
         }
 
         // Récupérer le fournisseur et la/les catégorie(s) correspondant à la requête
@@ -213,16 +213,16 @@ class ProductController extends Controller
         $dataCategories = Category::whereIn('category_name', $identicalCategories)->first();
 
         // Vérifier si le produit est pas déjà dans la base de données globales, de tous les entrepôts
-        $product = Product::find($product['id']);
+        $dbProduct = Product::find($product['id']);
 
-        if ($product != null) {
+        if ($dbProduct != null) {
             // Ajouter le produit à l'entrepôt, donc au stock
-            $success = $this->addProductToWarehouse($product, $dataSupplier, $warehouse, $request);
+            $success = $this->addProductToWarehouse($dbProduct, $dataSupplier, $user, $warehouse, $request);
         } else {
             // Ajouter le produit à la base de données
-            $product = Product::create([
+            $newProduct = Product::create([
                 'id' => $product['id'],
-                'product_name' => $product['name'],
+                'product_name' => $product['product_name'],
                 'image_url' => $product['image_url'],
                 'reference_price' => mt_rand(100, 2000) / 100, // Prix compris entre 1 et 20 euros
                 'restock_threshold' => 0,
@@ -231,14 +231,14 @@ class ProductController extends Controller
                 'supplier_id' => $dataSupplier->id,
             ]);
 
-            $success = $this->addProductToWarehouse($product, $dataSupplier, $user, $warehouse, $request);
+            $success = $this->addProductToWarehouse($newProduct, $dataSupplier, $user, $warehouse, $request);
         }
 
         if ($success) {
-            return redirect()->route('product.index')->with('success', 'Produit ajouté avec succès.');
+            return redirect()->route('warehouse.product.index')->with('success', 'Produit ajouté avec succès.');
         }
         else {
-            return redirect()->route('product.index')->with('error', 'Un problème est survenu lors de l\'ajout du produit. Veuillez réessayer.');
+            return redirect()->route('warehouse.product.index')->with('error', 'Un problème est survenu lors de l\'ajout du produit. Veuillez réessayer.');
         }
     }
 
@@ -283,14 +283,14 @@ class ProductController extends Controller
 
             // Créer une facture
             $supply->invoice()->create([
-                'invoice_number' => (int) (microtime(true) * 1000000) + mt_rand(100, 999),
+                'invoice_number' => time(),
                 'invoice_date' => now(),
                 'invoice_status' => Invoice::INVOICE_STATUS_PAID,
                 'order_id' => null,
                 'supply_id' => $supply->id,
             ]);
         } catch (\Exception $e) {
-            return false;
+            dd($e);
         }
 
         return true;
