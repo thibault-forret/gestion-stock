@@ -20,9 +20,15 @@ class Product extends Model
     ];
 
     // Chaque produit est associé à une catégorie
-    public function category()
+    // public function category()
+    // {
+    //     return $this->belongsTo(Category::class, 'category_id', 'id');
+    // }
+
+    // Chaque produit est associé à une ou plusieurs catégories
+    public function categories()
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
+        return $this->belongsToMany(Category::class, 'product_categories', 'product_id', 'category_id');
     }
 
     // Chaque produit est associé à une ou plusieurs commandes
