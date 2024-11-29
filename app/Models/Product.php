@@ -16,7 +16,7 @@ class Product extends Model
         'reference_price',
         'restock_threshold',
         'alert_threshold',
-        'category_id',
+        // 'category_id',
     ];
 
     // Chaque produit est associé à une catégorie
@@ -28,7 +28,7 @@ class Product extends Model
     // Chaque produit est associé à une ou plusieurs catégories
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'product_categories', 'product_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'product_categories', 'product_id', 'category_id')->using(ProductCategory::class);
     }
 
     // Chaque produit est associé à une ou plusieurs commandes
