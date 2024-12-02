@@ -31,12 +31,12 @@ class ProductController extends Controller
             'category_name' => 'nullable|exists:categories,category_name',
             'page_number' => 'nullable|integer|min:1',
         ], [
-            'search_by_name.string' => 'Le nom du produit doit être une chaîne de caractères.',
-            'supplier_name.exists' => 'Le fournisseur sélectionné n\'existe pas.',
-            'supplier_name.required' => 'Le nom du fournisseur est requis.',
-            'category_name.exists' => 'La catégorie sélectionnée n\'existe pas.',
-            'page_number.integer' => 'Le numéro de page doit être un entier.',
-            'page_number.min' => 'Le numéro de page doit être supérieur ou égal à 1.',
+            'search_by_name.string' => __('messages.validate.search_by_name_string'),
+            'supplier_name.exists' => __('messages.validate.supplier_name_exists'),
+            'supplier_name.required' => __('messages.validate.supplier_name_required'),
+            'category_name.exists' => __('messages.validate.category_name_exists'),
+            'page_number.integer' => __('messages.validate.page_number_integer'),
+            'page_number.min' => __('messages.validate.page_number_min'),
         ]);
         
 
@@ -101,7 +101,7 @@ class ProductController extends Controller
         $product = OpenFoodFacts::barcode($productId);
 
         if (empty($product)) {
-            return redirect()->route('warehouse.product.index')->with('error', 'Le produit n\'a pas été trouvé. Veuillez réessayer.');
+            return redirect()->route('warehouse.product.index')->with('error', __('messages.validate.product_not_found'));
         }
 
         $user = auth()->user();
@@ -122,7 +122,7 @@ class ProductController extends Controller
 
         // Si les données ne sont pas valides
         if(!$isValid) {
-            return redirect()->route('warehouse.product.index')->with('error', 'Un problème est survenu avec les données du produit. Veuillez réessayer.');
+            return redirect()->route('warehouse.product.index')->with('error', __('messages.problem_with_product_data'));
         }
 
         // Récupérer le fournisseur et la/les catégorie(s) correspondant à la requête
@@ -152,23 +152,23 @@ class ProductController extends Controller
             'auto_restock_quantity' => 'required|integer|gte:restock_threshold',
         ],
         [
-            'product_id.required' => 'Un problème est survenu lors de l\'ajout du produit. Veuillez réessayer.',
-            'product_id.integer' => 'Un problème est survenu lors de l\'ajout du produit. Veuillez réessayer.',
-            'quantity.required' => 'La quantité est requise.',
-            'quantity.integer' => 'La quantité doit être un entier.',
-            'quantity.min' => 'La quantité doit être supérieure ou égale à 1.',
-            'quantity.gte' => 'La quantité doit être supérieure ou égale au seuil de réapprovisionnement.',
-            'restock_threshold.required' => 'Le seuil de réapprovisionnement est requis.',
-            'restock_threshold.integer' => 'Le seuil de réapprovisionnement doit être un entier.',
-            'restock_threshold.min' => 'Le seuil de réapprovisionnement doit être supérieur ou égal à 0.',
-            'alert_threshold.required' => 'Le seuil d\'alerte est requis. ',
-            'alert_threshold.integer' => 'Le seuil d\'alerte doit être un entier. ',
-            'alert_threshold.min' => 'Le seuil d\'alerte doit être supérieur ou égal à 1. ',
-            'alert_threshold.gte' => 'Le seuil d\'alerte doit être supérieur ou égal au seuil de réapprovisionnement.',
-            'auto_restock_quantity.required' => 'La quantité de réapprovisionnement est requise. ',
-            'auto_restock_quantity.integer' => 'La quantité de réapprovisionnement doit être un entier.',
-            'auto_restock_quantity.min' => 'La quantité de réapprovisionnement doit être supérieure ou égale à 1.',
-            'auto_restock_quantity.gte' => 'La quantité de réapprovisionnement doit être supérieure ou égale au seuil de réapprovisionnement.',
+            'product_id.required' => __('messages.validate.product_id_required'),
+            'product_id.integer' => __('messages.validate.product_id_integer'),
+            'quantity.required' => __('messages.validate.quantity_required'),
+            'quantity.integer' => __('messages.validate.quantity_integer'),
+            'quantity.min' => __('messages.validate.quantity_min'),
+            'quantity.gte' => __('messages.validate.quantity_gte'),
+            'restock_threshold.required' => __('messages.validate.restock_threshold_required'),
+            'restock_threshold.integer' => __('messages.validate.restock_threshold_integer'),
+            'restock_threshold.min' => __('messages.validate.restock_threshold_min'),
+            'alert_threshold.required' => __('messages.validate.alert_threshold_required'),
+            'alert_threshold.integer' => __('messages.validate.alert_threshold_integer'),
+            'alert_threshold.min' => __('messages.validate.alert_threshold_min'),
+            'alert_threshold.gte' => __('messages.validate.alert_threshold_gte'),
+            'auto_restock_quantity.required' => __('messages.validate.auto_restock_quantity_required'),
+            'auto_restock_quantity.integer' => __('messages.validate.auto_restock_quantity_integer'),
+            'auto_restock_quantity.min' => __('messages.validate.auto_restock_quantity_min'),
+            'auto_restock_quantity.gte' => __('messages.validate.auto_restock_quantity_gte'),
         ]);
 
         // Vérifier si la quantité est valide par rapport à la capacité de l'entrepôt
@@ -179,8 +179,10 @@ class ProductController extends Controller
         $warehouse = $user->warehouseUser->warehouse;
 
         if ($quantity > $warehouse->capacity) {
-            return redirect()->back()->withErrors('error', 'La quantité de produits dépasse la capacité de l\'entrepôt. Veuillez réessayer.')->withInput();
+            return redirect()->back()->withErrors('error', __('messages.validate.quantity_exceeds_capacity'))->withInput();
         }
+
+        // Vérifier si il y a la place dans l'entrepot -> All quantity stock + quantity < capacity
 
         $productId = $request->input('product_id');
         
@@ -188,7 +190,7 @@ class ProductController extends Controller
         $product = OpenFoodFacts::barcode($productId);
 
         if (empty($product)) {
-            return redirect()->back()->withErrors('error', 'Le produit n\'a pas été trouvé. Veuillez réessayer.')->withInput();
+            return redirect()->back()->withErrors('error', __('messages.validate.product_not_found'))->withInput();
         }
 
         // Récupérer les produits déjà dans l'entrepôt
@@ -204,7 +206,7 @@ class ProductController extends Controller
 
         // Si les données ne sont pas valides
         if(!$isValid) {
-            return redirect()->route('warehouse.product.index')->with('error', 'Un problème est survenu avec les données du produit. Veuillez réessayer.');
+            return redirect()->route('warehouse.product.index')->with('error', __('messages.validate.problem_with_product_data'));
         }
 
         // Récupérer le fournisseur et la/les catégorie(s) correspondant à la requête
@@ -236,10 +238,10 @@ class ProductController extends Controller
         }
 
         if ($success) {
-            return redirect()->route('warehouse.product.index')->with('success', 'Produit ajouté avec succès.');
+            return redirect()->route('warehouse.product.index')->with('success', __('messages.product_added'));
         }
         else {
-            return redirect()->route('warehouse.product.index')->with('error', 'Un problème est survenu lors de l\'ajout du produit. Veuillez réessayer.');
+            return redirect()->route('warehouse.product.index')->with('error', __('messages.problem_when_adding_product'));
         }
     }
 
