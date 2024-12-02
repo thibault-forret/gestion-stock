@@ -6,19 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+
     protected $fillable = [
+        'id',
         'product_name',
-        'product_description',
+        'image_url',
         'reference_price',
-        'restock_threshold',
-        'alert_treshold',
-        'category_id',
     ];
 
     // Chaque produit est associé à une catégorie
-    public function category()
+    // public function category()
+    // {
+    //     return $this->belongsTo(Category::class, 'category_id', 'id');
+    // }
+
+    // Chaque produit est associé à une ou plusieurs catégories
+    public function categories()
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
+        return $this->belongsToMany(Category::class, 'product_categories', 'product_id', 'category_id')->using(ProductCategory::class);
     }
 
     // Chaque produit est associé à une ou plusieurs commandes
@@ -34,15 +41,9 @@ class Product extends Model
     }
 
     // Chaque produit est associé à un ou plusieurs mouvements de stock
-    public function stock_movements()
+    public function stockMovements()
     {
         return $this->hasMany(StockMovement::class);
-    }
-
-    // Chaque produit est associé à un ou plusieurs approvisionnements
-    public function supplies()
-    {
-        return $this->hasMany(Supply::class);
     }
 
     // Chaque produit est associé à un ou plusieurs lignes d'approvisionnement

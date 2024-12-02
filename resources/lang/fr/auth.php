@@ -4,6 +4,7 @@ return [
 
     'login' => 'Connexion',
     'logout' => 'Déconnexion',
+    'username' => 'Nom d\'utilisateur',
     'email' => 'Email',
     'password' => 'Mot de passe',
 

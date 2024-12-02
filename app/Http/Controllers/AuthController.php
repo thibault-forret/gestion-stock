@@ -33,16 +33,16 @@ class AuthController extends Controller
     private function validateCredentials(Request $request)
     {
         $validated = $request->validate([
-            'user_email' => ['required', 'email'],
+            'username' => ['required', 'string'],
             'user_password' => ['required'],
         ], [
-            'user_email.required' => __('messages.validate.email_required'),
-            'user_email.email' => __('messages.validate.email_valid'),
+            'username.required' => __('messages.validate.username_required'),
+            'username.string' => __('messages.validate.username_string'),
             'user_password.required' => __('messages.validate.password_required'),
         ]);
 
         return [
-            'email' => $validated['user_email'],
+            'username' => $validated['username'],
             'password' => $validated['user_password'],
         ];
     }

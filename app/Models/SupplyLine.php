@@ -10,6 +10,7 @@ class SupplyLine extends Model
         'supply_id',
         'product_id',
         'quantity_supplied',
+        'unit_price',
     ];
 
     // Chaque ligne d'approvisionnement est associée à un approvisionnement
