@@ -171,13 +171,13 @@ class ProductController extends Controller
             'auto_restock_quantity.gte' => __('messages.validate.auto_restock_quantity_gte'),
         ]);
 
-        // Vérifier si la quantité est valide par rapport à la capacité de l'entrepôt
         $quantity = $request->input('quantity');
 
         $user = auth()->user();
 
         $warehouse = $user->warehouseUser->warehouse;
 
+        // Vérifier si la quantité dépasse la capacité de l'entrepôt
         if (($quantity + $warehouse->stock->sum('quantity_available')) > $warehouse->capacity) {
             return redirect()->back()->withErrors('error', __('messages.validate.quantity_exceeds_capacity'))->withInput();
         }
@@ -243,7 +243,16 @@ class ProductController extends Controller
         }
     }
 
-    
+    /**
+     * Ajouter un produit à l'entrepôt.
+     *
+     * @param Product $product Le produit à ajouter.
+     * @param Supplier $supplier Le fournisseur du produit.
+     * @param User $user L'utilisateur qui ajoute le produit.
+     * @param Warehouse $warehouse L'entrepôt dans lequel ajouter le produit.
+     * @param Request $request La requête contenant les données du produit.
+     * @return bool Un booléen indiquant si l'ajout a réussi.
+     */
     private function addProductToWarehouse($product, $supplier, $user, $warehouse, $request)
     {
         try {
@@ -296,6 +305,14 @@ class ProductController extends Controller
         return true;
     }
 
+    
+    /**
+     * Rechercher des fournisseurs correspondant aux marques de produits données.
+     *
+     * @param array $productBrands Un tableau de marques de produits à rechercher.
+     * @param array $suppliers Un tableau de fournisseurs dans lequel rechercher.
+     * @return array Un tableau de fournisseurs correspondant aux marques de produits données.
+     */
     private function searchIdenticalSuppliers($productBrands, $suppliers)
     {
         $identicalSuppliers = [];
@@ -308,6 +325,13 @@ class ProductController extends Controller
         return $identicalSuppliers;
     }
 
+    /**
+     * Rechercher des catégories correspondant aux catégories de produits données.
+     *
+     * @param array $productCategories Un tableau de catégories de produits à rechercher.
+     * @param array $categories Un tableau de catégories dans lequel rechercher.
+     * @return array Un tableau de catégories correspondant aux catégories de produits données.
+     */
     private function searchIdenticalCategories($productCategories, $categories)
     {
         $identicalCategories = [];
@@ -320,6 +344,15 @@ class ProductController extends Controller
         return $identicalCategories;
     }
 
+    /**
+     * Valider les données du produit.
+     *
+     * @param array $product Les données du produit à valider.
+     * @param array $categories Les catégories disponibles.
+     * @param array $suppliers Les fournisseurs disponibles.
+     * @param \Illuminate\Support\Collection $warehouseProducts Les produits déjà présents dans l'entrepôt.
+     * @return array Un tableau contenant un booléen indiquant si le produit est valide, les fournisseurs identiques et les catégories identiques.
+     */
     private function verifyDataProduct($product) : bool
     {
         return 
@@ -335,6 +368,13 @@ class ProductController extends Controller
             empty($product['brands']);
     }
 
+    /**
+     * Séparer une chaîne en un tableau et nettoyer les espaces inutiles autour de chaque élément.
+     *
+     * @param string $input La chaîne à séparer.
+     * @param string $delimiter Le délimiteur à utiliser.
+     * @return array Un tableau contenant les éléments séparés et nettoyés.
+     */    
     function splitAndTrim(string $input, string $delimiter = ','): array
     {
         // Séparer la chaîne en un tableau
@@ -344,6 +384,15 @@ class ProductController extends Controller
         return array_map('trim', $array);
     }
 
+    /**
+     * Valider les données du produit.
+     *
+     * @param array $product Les données du produit à valider.
+     * @param array $categories Les catégories disponibles.
+     * @param array $suppliers Les fournisseurs disponibles.
+     * @param \Illuminate\Support\Collection $warehouseProducts Les produits déjà présents dans l'entrepôt.
+     * @return array Un tableau contenant un booléen indiquant si le produit est valide, les fournisseurs identiques et les catégories identiques.
+     */
     private function validateProduct($product, $categories, $suppliers, $warehouseProducts)
     {
         // Passer au produit suivant si les données ne sont pas valides
