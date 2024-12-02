@@ -146,10 +146,10 @@ class ProductController extends Controller
         // Validation des données
         $request->validate([
             'product_id' => 'required|integer', 
-            'quantity' => 'required|integer|min:1', 
+            'quantity' => 'required|integer|min:1|gte:restock_threshold', 
             'alert_threshold' => 'required|integer|min:1|gte:restock_threshold',
             'restock_threshold' => 'required|integer|min:0',
-            'auto_restock_quantity' => 'required|integer|min:1',
+            'auto_restock_quantity' => 'required|integer|gte:restock_threshold',
         ],
         [
             'product_id.required' => 'Un problème est survenu lors de l\'ajout du produit. Veuillez réessayer.',
@@ -157,6 +157,7 @@ class ProductController extends Controller
             'quantity.required' => 'La quantité est requise.',
             'quantity.integer' => 'La quantité doit être un entier.',
             'quantity.min' => 'La quantité doit être supérieure ou égale à 1.',
+            'quantity.gte' => 'La quantité doit être supérieure ou égale au seuil de réapprovisionnement.',
             'restock_threshold.required' => 'Le seuil de réapprovisionnement est requis.',
             'restock_threshold.integer' => 'Le seuil de réapprovisionnement doit être un entier.',
             'restock_threshold.min' => 'Le seuil de réapprovisionnement doit être supérieur ou égal à 0.',
@@ -167,6 +168,7 @@ class ProductController extends Controller
             'auto_restock_quantity.required' => 'La quantité de réapprovisionnement est requise. ',
             'auto_restock_quantity.integer' => 'La quantité de réapprovisionnement doit être un entier.',
             'auto_restock_quantity.min' => 'La quantité de réapprovisionnement doit être supérieure ou égale à 1.',
+            'auto_restock_quantity.gte' => 'La quantité de réapprovisionnement doit être supérieure ou égale au seuil de réapprovisionnement.',
         ]);
 
         // Vérifier si la quantité est valide par rapport à la capacité de l'entrepôt
