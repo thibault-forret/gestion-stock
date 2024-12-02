@@ -16,12 +16,6 @@ class Product extends Model
         'reference_price',
     ];
 
-    // Chaque produit est associé à une catégorie
-    // public function category()
-    // {
-    //     return $this->belongsTo(Category::class, 'category_id', 'id');
-    // }
-
     // Chaque produit est associé à une ou plusieurs catégories
     public function categories()
     {

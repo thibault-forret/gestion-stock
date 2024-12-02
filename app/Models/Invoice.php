@@ -18,8 +18,6 @@ class Invoice extends Model
         'supply_id'
     ];
 
-    // Ne pas oublier de faire le check
-
     // Chaque facture est associée à une commande
     public function order()
     {
