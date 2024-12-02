@@ -42,6 +42,7 @@ return [
         'auto_restock_quantity_integer' => 'La quantité de réapprovisionnement doit être un entier.',
         'auto_restock_quantity_min' => 'La quantité de réapprovisionnement doit être supérieure ou égale à 1.',
         'auto_restock_quantity_gte' => 'La quantité de réapprovisionnement doit être supérieure ou égale au seuil de réapprovisionnement.',
-        'quantity_exceeds_capacity' => 'La quantité de produits dépasse la capacité de l\'entrepôt. Veuillez réessayer.'
+        'quantity_exceeds_capacity' => 'La quantité de produits dépasse la capacité de l\'entrepôt. Veuillez réessayer.',
+        'thresholds_exceeds_capacity' => 'Les seuils dépassent la capacité de l\'entrepôt. Veuillez réessayer.',
     ]
 ];

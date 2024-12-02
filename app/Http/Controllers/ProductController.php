@@ -179,7 +179,12 @@ class ProductController extends Controller
 
         // Vérifier si la quantité dépasse la capacité de l'entrepôt
         if (($quantity + $warehouse->stock->sum('quantity_available')) > $warehouse->capacity) {
-            return redirect()->back()->withErrors('error', __('messages.validate.quantity_exceeds_capacity'))->withInput();
+            return redirect()->back()->withErrors(__('messages.validate.quantity_exceeds_capacity'))->withInput();
+        }
+
+        // Vérifier si le seuil d'alerte, le seuil de réapprovisionnement et l'auto réappro sont inférieurs à la capacité de l'entrepôt
+        if ($request->input('alert_threshold') > $warehouse->capacity || $request->input('restock_threshold') > $warehouse->capacity || $request->input('auto_restock_quantity') > $warehouse->capacity) {
+            return redirect()->back()->withErrors(__('messages.validate.thresholds_exceeds_capacity'))->withInput();
         }
 
         $productId = $request->input('product_id');
@@ -188,7 +193,7 @@ class ProductController extends Controller
         $product = OpenFoodFacts::barcode($productId);
 
         if (empty($product)) {
-            return redirect()->back()->withErrors('error', __('messages.validate.product_not_found'))->withInput();
+            return redirect()->back()->withErrors(__('messages.validate.product_not_found'))->withInput();
         }
 
         // Récupérer les produits déjà dans l'entrepôt

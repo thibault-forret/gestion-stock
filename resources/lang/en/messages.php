@@ -42,6 +42,7 @@ return [
         'auto_restock_quantity_integer' => 'Auto restock quantity must be an integer.',
         'auto_restock_quantity_min' => 'Auto restock quantity must be greater than or equal to 1.',
         'auto_restock_quantity_gte' => 'Auto restock quantity must be greater than or equal to the restock threshold.',
-        'quantity_exceeds_capacity' => 'The quantity of products exceeds the warehouse capacity. Please try again.'
+        'quantity_exceeds_capacity' => 'The quantity of products exceeds the warehouse capacity. Please try again.',
+        'thresholds_exceeds_capacity' => 'The thresholds exceed the warehouse capacity. Please try again.',
     ]
 ];
