@@ -32,9 +32,17 @@
     </div>
 
     <div>
-        <label for="restock_quantity">Quantité de réapprovisionnement :</label>
-        <input type="number" id="restock-quantity" name="restock_quantity" value="{{ old('restock_quantity') == null ? 1 : old('restock_quantity') }}" min="1" required>
+        <label for="auto_restock_quantity">Quantité de réapprovisionnement automatique :</label>
+        <input type="number" id="auto-restock-quantity" name="auto_restock_quantity" value="{{ old('auto_restock_quantity') == null ? 1 : old('auto_restock_quantity') }}" min="1" required>
     </div>
 
     <button type="submit">Ajouter le produit</button>
 </form>
+
+@if ($errors->any())
+    <div class="center-child error-message">
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif

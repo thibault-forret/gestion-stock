@@ -147,9 +147,9 @@ class ProductController extends Controller
         $request->validate([
             'product_id' => 'required|integer', 
             'quantity' => 'required|integer|min:1', 
-            'restock_threshold' => 'required|integer|min:0',
             'alert_threshold' => 'required|integer|min:1|gte:restock_threshold',
-            'restock_quantity' => 'required|integer|min:1|lte:quantity',
+            'restock_threshold' => 'required|integer|min:0',
+            'auto_restock_quantity' => 'required|integer|min:1',
         ],
         [
             'product_id.required' => 'Un problème est survenu lors de l\'ajout du produit. Veuillez réessayer.',
@@ -164,10 +164,9 @@ class ProductController extends Controller
             'alert_threshold.integer' => 'Le seuil d\'alerte doit être un entier. ',
             'alert_threshold.min' => 'Le seuil d\'alerte doit être supérieur ou égal à 1. ',
             'alert_threshold.gte' => 'Le seuil d\'alerte doit être supérieur ou égal au seuil de réapprovisionnement.',
-            'restock_quantity.required' => 'La quantité de réapprovisionnement est requise. ',
-            'restock_quantity.integer' => 'La quantité de réapprovisionnement doit être un entier.',
-            'restock_quantity.min' => 'La quantité de réapprovisionnement doit être supérieure ou égale à 1.',
-            'restock_quantity.lte' => 'La quantité de réapprovisionnement doit être inférieure ou égale à la quantité. ',
+            'auto_restock_quantity.required' => 'La quantité de réapprovisionnement est requise. ',
+            'auto_restock_quantity.integer' => 'La quantité de réapprovisionnement doit être un entier.',
+            'auto_restock_quantity.min' => 'La quantité de réapprovisionnement doit être supérieure ou égale à 1.',
         ]);
 
         // Vérifier si la quantité est valide par rapport à la capacité de l'entrepôt
@@ -209,8 +208,8 @@ class ProductController extends Controller
         // Récupérer le fournisseur et la/les catégorie(s) correspondant à la requête
         $dataSupplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first();
 
-        // Récupère une seule catégorie en attendant les modifications de la bdd pour plusieurs catégories
-        $dataCategories = Category::whereIn('category_name', $identicalCategories)->first();
+        $dataCategoryIds = Category::whereIn('category_name', $identicalCategories)
+            ->pluck('id');
 
         // Vérifier si le produit est pas déjà dans la base de données globales, de tous les entrepôts
         $dbProduct = Product::find($product['id']);
@@ -225,11 +224,11 @@ class ProductController extends Controller
                 'product_name' => $product['product_name'],
                 'image_url' => $product['image_url'],
                 'reference_price' => mt_rand(100, 2000) / 100, // Prix compris entre 1 et 20 euros
-                'restock_threshold' => 0,
-                'alert_threshold' => 0,
-                'category_id' => $dataCategories->id,
                 'supplier_id' => $dataSupplier->id,
             ]);
+
+            // Ajouter les catégories au produit
+            $newProduct->categories()->attach($dataCategoryIds);
 
             $success = $this->addProductToWarehouse($newProduct, $dataSupplier, $user, $warehouse, $request);
         }
@@ -251,9 +250,9 @@ class ProductController extends Controller
                 'product_id' => $product->id,
                 'warehouse_id' => $warehouse->id,
                 'quantity_available' => $request->input('quantity'),
-                // 'restock_threshold' => $request->input('restock_threshold'),
-                // 'alert_threshold' => $request->input('alert_threshold'),
-                // 'restock_quantity' => $request->input('restock_quantity'),
+                'restock_threshold' => $request->input('restock_threshold'),
+                'alert_threshold' => $request->input('alert_threshold'),
+                'auto_restock_quantity' => $request->input('auto_restock_quantity'),
             ]);
 
             // Créer un mouvement de stock
@@ -270,7 +269,6 @@ class ProductController extends Controller
             // Créer un approvisionnement
             $supply = $warehouse->supplies()->create([
                 'supplier_id' => $supplier->id,
-                'supply_date' => now(),
                 'quantity' => $request->input('quantity'),
             ]);
 
@@ -283,9 +281,9 @@ class ProductController extends Controller
 
             // Créer une facture
             $supply->invoice()->create([
-                'invoice_number' => uniqid(),
+                'invoice_number' => strtoupper(uniqid()),
                 'invoice_date' => now(),
-                'invoice_status' => Invoice::INVOICE_STATUS_PAID,
+                'invoice_status' => Invoice::INVOICE_STATUS_UNPAID,
                 'order_id' => null,
                 'supply_id' => $supply->id,
             ]);
