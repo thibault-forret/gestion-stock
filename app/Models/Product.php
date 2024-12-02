@@ -14,9 +14,6 @@ class Product extends Model
         'product_name',
         'image_url',
         'reference_price',
-        'restock_threshold',
-        'alert_threshold',
-        // 'category_id',
     ];
 
     // Chaque produit est associé à une catégorie

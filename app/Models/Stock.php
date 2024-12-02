@@ -10,6 +10,9 @@ class Stock extends Model
         'product_id',
         'warehouse_id',
         'quantity_available',
+        'alert_threshold',
+        'restock_threshold',
+        'auto_restock_quantity',
     ];
 
     // Chaque stock est associé à un produit

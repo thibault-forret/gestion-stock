@@ -25,8 +25,8 @@
             </div>
         
             <div class="item-form">
-                <label for="user_email">{{__('auth.email') }}</label>
-                <input type="email" id="user_email" name="user_email" required autofocus autocomplete="email">
+                <label for="username">{{__('auth.username') }}</label>
+                <input type="text" id="username" name="username" required autofocus autocomplete="username">
             </div>
         
             <div class="item-form">

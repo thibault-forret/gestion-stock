@@ -10,6 +10,8 @@ return [
     'confirm_order' => 'Your order has been confirmed.',
 
     'validate' => [
+        'usernmame_required' => 'Please provide your username.',
+        'username_string' => 'Please provide a valid username.',
         'email_valid' => 'Please provide a valid email address.',
         'email_required' => 'Please provide your email address.',
         'password_required' => 'Please provide your password.',
