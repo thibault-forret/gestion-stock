@@ -127,7 +127,7 @@ class ProductController extends Controller
 
         // Récupérer le fournisseur et la/les catégorie(s) correspondant à la requête
         $dataSupplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first();
-        $dataCategories = Category::whereIn('category_name', $identicalCategories);
+        $dataCategories = Category::whereIn('category_name', $identicalCategories)->get();
 
         $product = [
             'id' => $product['id'],
@@ -215,8 +215,7 @@ class ProductController extends Controller
         // Récupérer le fournisseur et la/les catégorie(s) correspondant à la requête
         $dataSupplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first();
 
-        $dataCategoryIds = Category::whereIn('category_name', $identicalCategories)
-            ->pluck('id');
+        $dataCategoryIds = Category::whereIn('category_name', $identicalCategories)->pluck('id');
 
         // Vérifier si le produit est pas déjà dans la base de données globales, de tous les entrepôts
         $dbProduct = Product::find($product['id']);
