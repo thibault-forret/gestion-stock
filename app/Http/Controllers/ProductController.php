@@ -178,11 +178,9 @@ class ProductController extends Controller
 
         $warehouse = $user->warehouseUser->warehouse;
 
-        if ($quantity > $warehouse->capacity) {
+        if (($quantity + $warehouse->stock->sum('quantity_available')) > $warehouse->capacity) {
             return redirect()->back()->withErrors('error', __('messages.validate.quantity_exceeds_capacity'))->withInput();
         }
-
-        // Vérifier si il y a la place dans l'entrepot -> All quantity stock + quantity < capacity
 
         $productId = $request->input('product_id');
         
