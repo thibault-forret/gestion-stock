@@ -10,4 +10,6 @@ return [
     'place_order.store' => 'Allows you to place an order as a store.',
     'place_order.warehouse' => 'Allows you to place an order as a warehouse.',
     'recap_order' => 'Displays a summary of the order.',
+    'search_new_product' => 'Allows you to search for a new product.',
+    'add_product' => 'Allows you to add a product.',
 ];

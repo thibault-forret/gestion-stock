@@ -10,4 +10,6 @@ return [
     'place_order.store' => 'Permet de passer une commande en tant que magasin.',
     'place_order.warehouse' => 'Permet de passer une commande en tant qu\'entrepôt.',
     'recap_order' => 'Affiche un récapitulatif de la commande.',
+    'search_new_product' => 'Permet de rechercher un nouveau produit.',
+    'add_product' => 'Permet d\'ajouter un produit.',
 ];

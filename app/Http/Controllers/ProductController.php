@@ -17,7 +17,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $suppliers = Supplier::all();
 
-        return view('pages.warehouse.choose-new-product', compact('categories', 'suppliers'));
+        return view('pages.warehouse.product.search_new_product', compact('categories', 'suppliers'));
     }
 
 
@@ -92,7 +92,7 @@ class ProductController extends Controller
         }
 
         // Retourner la vue avec les produits, les catégories et les fournisseurs
-        return view('pages.warehouse.choose-new-product', compact('categories', 'suppliers', 'products'));
+        return view('pages.warehouse.product.search_new_product', compact('categories', 'suppliers', 'products'));
     }
 
     public function addProduct(int $productId) {
