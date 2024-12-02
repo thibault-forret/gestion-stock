@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockController;
 
 
 // Redirige vers dashboard en cas d'erreur sur l'url
@@ -61,6 +62,16 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                 Route::get('/search/results', [ProductController::class, 'searchProducts'])->name('search');
                 Route::get('/{product_id}/add', [ProductController::class, 'addProduct'])->name('add');
                 Route::post('/add', [ProductController::class, 'addProductSubmit'])->name('add.submit');
+            });
+
+            Route::prefix('stock')->name('stock.')->group(function () {
+                Route::get('/', [StockController::class, 'index'])->name('index');
+                Route::get('/{stock_id}/edit', [StockController::class, 'editProduct'])->name('edit');
+                Route::post('/edit', [StockController::class, 'editProductSubmit'])->name('edit.submit');
+                Route::get('/{stock_id}/supply', [StockController::class, 'supplyProduct'])->name('supply');
+                Route::post('/supply', [StockController::class, 'supplyProductSubmit'])->name('supply.submit');
+                Route::get('/{stock_id}/remove', [StockController::class, 'removeProduct'])->name('remove');
+                Route::post('/remove', [StockController::class, 'removeProductSubmit'])->name('remove.submit');
             });
         });
     });

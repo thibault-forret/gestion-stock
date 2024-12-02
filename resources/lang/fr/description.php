@@ -12,4 +12,5 @@ return [
     'recap_order' => 'Affiche un récapitulatif de la commande.',
     'search_new_product' => 'Permet de rechercher un nouveau produit.',
     'add_product' => 'Permet d\'ajouter un produit.',
+    'warehouse_stock_list' => 'Affiche la liste des produits en stock.',
 ];

@@ -12,4 +12,5 @@ return [
     'recap_order' => 'Displays a summary of the order.',
     'search_new_product' => 'Allows you to search for a new product.',
     'add_product' => 'Allows you to add a product.',
+    'warehouse_stock_list' => 'Displays the list of products in stock.',
 ];

@@ -11,4 +11,5 @@ return [
     'recap_order' => 'Récapitulatif de la commande',
     'search_new_product' => 'Rechercher un nouveau produit',
     'add_product' => 'Ajouter un produit',
+    'warehouse_stock_list' => 'Liste des produits en stock',
 ];

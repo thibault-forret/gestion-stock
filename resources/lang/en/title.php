@@ -11,4 +11,5 @@ return [
     'recap_order' => 'Recap order',
     'search_new_product' => 'Search new product',
     'add_product' => 'Add product',
+    'warehouse_stock_list' => 'Warehouse stock list',
 ];
