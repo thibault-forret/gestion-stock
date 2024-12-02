@@ -13,4 +13,5 @@ return [
     'search_new_product' => 'Permet de rechercher un nouveau produit.',
     'add_product' => 'Permet d\'ajouter un produit.',
     'warehouse_stock_list' => 'Affiche la liste des produits en stock.',
+    'stock_edit_product' => 'Permet de modifier les informations d\'un produit.',
 ];

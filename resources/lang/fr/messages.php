@@ -10,6 +10,7 @@ return [
     'confirm_order' => 'Votre commande a été confirmée.',
     'product_added' => 'Produit ajouté avec succès.',
     'problem_with_product_data' => 'Un problème est survenu avec les données du produit. Veuillez réessayer.',
+    'stock_not_found' => 'Le stock n\'a pas été trouvé. Veuillez réessayer.',
 
     'validate' => [
         'usernmame_required' => 'Veuillez fournir votre nom d\'utilisateur.',
@@ -44,5 +45,7 @@ return [
         'auto_restock_quantity_gte' => 'La quantité de réapprovisionnement doit être supérieure ou égale au seuil de réapprovisionnement.',
         'quantity_exceeds_capacity' => 'La quantité de produits dépasse la capacité de l\'entrepôt. Veuillez réessayer.',
         'thresholds_exceeds_capacity' => 'Les seuils dépassent la capacité de l\'entrepôt. Veuillez réessayer.',
+        'stock_id_required' => 'L\'ID du stock est requis.',
+        'stock_id_integer' => 'L\'ID du stock doit être un entier.',
     ]
 ];
