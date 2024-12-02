@@ -13,4 +13,5 @@ return [
     'search_new_product' => 'Allows you to search for a new product.',
     'add_product' => 'Allows you to add a product.',
     'warehouse_stock_list' => 'Displays the list of products in stock.',
+    'stock_edit_product' => 'Allows you to edit a product.',
 ];
