@@ -130,6 +130,8 @@ class StockController extends Controller
         // Mettre à jour la quantité disponible
         $success = $stock->addStock($quantity);
 
+        // Ajouter toutes les dépendances nécessaires, invoice, stock_movements, etc.
+
         if ($success) {
             return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
         }
@@ -138,9 +140,20 @@ class StockController extends Controller
         }
     }
 
-    public function removeProduct() 
+    public function removeProduct(int $stock_id) 
     {
+        $user = auth()->user();
 
+        // Vérifier si le stock appartient à l'entrepôt de l'utilisateur
+        $stock = $user->warehouseUser->warehouse->stock->where('id', $stock_id)->first();
+
+        if (!$stock) {
+            return redirect()->route('warehouse.stock.index')->with('error', __('messages.stock_not_found'));
+        }
+
+        $product = $stock->product;
+
+        return view('pages.warehouse.stock.remove_product', compact('stock', 'product'));
     }
 
     public function removeProductSubmit() 
