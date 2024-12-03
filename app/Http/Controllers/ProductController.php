@@ -217,6 +217,8 @@ class ProductController extends Controller
         // Vérifier si le produit est pas déjà dans la base de données globales, de tous les entrepôts
         $dbProduct = Product::find($product['id']);
 
+        DB::beginTransaction();
+
         if ($dbProduct != null) {
             // Ajouter le produit à l'entrepôt, donc au stock
             $success = $this->addProductToWarehouse($dbProduct, $dataSupplier, $user, $warehouse, $request);
@@ -237,9 +239,11 @@ class ProductController extends Controller
         }
 
         if ($success) {
+            DB::commit();
             return redirect()->route('warehouse.product.index')->with('success', __('messages.product_added'));
         }
         else {
+            DB::rollBack();
             return redirect()->route('warehouse.product.index')->with('error', __('messages.problem_when_adding_product'));
         }
     }
@@ -256,7 +260,7 @@ class ProductController extends Controller
      */
     private function addProductToWarehouse($product, $supplier, $user, $warehouse, $request)
     {
-        try {
+        try {            
             // Ajouter le produit au stock de l'entrepôt
             $warehouse->stock()->create([
                 'product_id' => $product->id,
@@ -299,6 +303,7 @@ class ProductController extends Controller
                 'order_id' => null,
                 'supply_id' => $supply->id,
             ]);
+
         } catch (\Exception $e) {
             return false;
         }
