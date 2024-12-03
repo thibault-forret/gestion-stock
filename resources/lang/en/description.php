@@ -18,4 +18,5 @@ return [
     'stock_remove_product' => 'Allows you to remove a product.',
     'stock_info_product' => 'Displays information about a product.',
     'stock' => 'Displays the options and features available for stocks.',
+    'stock_new_supply' => 'Allows you to make a new supply.',
 ];
