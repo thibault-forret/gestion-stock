@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <form action="{{ route('warehouse.stock.remove.quantity.submit') }}" method="POST">
+    <form action="{{ route('warehouse.stock.product.remove.quantity.submit') }}" method="POST">
         @csrf
         
         <input type="hidden" name="stock_id" value="{{ $stock->id }}">
@@ -35,7 +35,7 @@
         <button type="submit">Retirer la quantité</button>
     </form>
 
-    <form action="{{ route('warehouse.stock.remove.product.submit') }}" method="POST">
+    <form action="{{ route('warehouse.stock.product.remove.product.submit') }}" method="POST">
         @csrf
         
         <input type="hidden" name="stock_id" value="{{ $stock->id }}">

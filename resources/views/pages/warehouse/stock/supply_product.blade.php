@@ -9,7 +9,7 @@
 
 @section('content')
 
-    <form action="{{ route('warehouse.stock.supply.submit') }}" method="POST">
+    <form action="{{ route('warehouse.stock.product.supply.submit') }}" method="POST">
         @csrf
         
         <input type="hidden" name="stock_id" value="{{ $stock->id }}">
