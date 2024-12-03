@@ -275,7 +275,29 @@ class StockController extends Controller
 
     public function newSupplyStockSubmit(Request $request)
     {
+        // Validation des produits et des quantités
+        $request->validate([
+            'products' => 'required|array', // Le champ 'products' doit être un tableau
+            'products.*' => 'required|integer|exists:products,id', // Chaque produit doit être un entier existant dans la table products
+            
+            'quantities' => 'required|array', // Le champ 'quantities' doit être un tableau
+            'quantities.*' => 'required|integer|min:1', // Chaque quantité doit être un entier et au minimum 1
+        ],
+        [
+            'products.required' => __('messages.validate.products_required'),
+            'products.array' => __('messages.validate.products_array'),
+            'products.*.required' => __('messages.validate.products_each_required'),
+            'products.*.integer' => __('messages.validate.products_each_integer'),
+            'products.*.exists' => __('messages.validate.products_each_exists'),
+            'quantities.required' => __('messages.validate.quantities_required'),
+            'quantities.array' => __('messages.validate.quantities_array'),
+            'quantities.*.required' => __('messages.validate.quantities_each_required'),
+            'quantities.*.integer' => __('messages.validate.quantities_each_integer'),
+            'quantities.*.min' => __('messages.validate.quantities_each_min'),
+        ]);
+
         
+
     }
 
     private function createSupplyForProduct($product, $supplier, $user, $warehouse, $quantity)
