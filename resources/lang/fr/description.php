@@ -19,4 +19,5 @@ return [
     'stock_info_product' => 'Affiche les informations sur un produit.',
     'stock' => 'Affiche les options et fonctionnalités disponibles pour les stocks.',
     'stock_new_supply' => 'Permet de réaliser un nouvel approvisionnement.',
+    'warehouse_stock_movement_list' => 'Affiche la liste des mouvements de stock.',
 ];

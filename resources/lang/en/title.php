@@ -18,4 +18,5 @@ return [
     'stock_info_product' => 'Product information',
     'stock' => 'Stock',
     'stock_new_supply' => 'New supply',
+    'warehouse_stock_movement_list' => 'Stock movement list',
 ];

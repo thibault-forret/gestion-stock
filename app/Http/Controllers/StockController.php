@@ -32,6 +32,19 @@ class StockController extends Controller
         return view('pages.warehouse.stock.stock_list', compact('products', 'warehouse'));
     }
 
+    public function stockMovementList()
+    {
+        $user = auth()->user();
+
+        // Récupérer l'entrepôt de l'utilisateur
+        $warehouse = $user->warehouseUser->warehouse;
+
+        // Récupérer les mouvements de stock de l'entrepôt
+        $stockMovements = $warehouse->stockMovements()->orderBy('created_at', 'desc')->get();
+
+        return view('pages.warehouse.stock.movement_list', compact('stockMovements'));
+    }
+
     public function infoProduct(int $stock_id)
     {
         $user = auth()->user();

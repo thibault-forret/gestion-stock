@@ -19,4 +19,5 @@ return [
     'stock_info_product' => 'Displays information about a product.',
     'stock' => 'Displays the options and features available for stocks.',
     'stock_new_supply' => 'Allows you to make a new supply.',
+    'warehouse_stock_movement_list' => 'Displays the list of stock movements.',
 ];
