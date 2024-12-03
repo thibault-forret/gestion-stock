@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Models\StockMovement;
 use App\Models\Invoice;
+use App\Models\Supplier;
+use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
@@ -296,7 +298,98 @@ class StockController extends Controller
             'quantities.*.min' => __('messages.validate.quantities_each_min'),
         ]);
 
-        
+        $user = auth()->user();
+
+        $warehouse = $user->warehouseUser->warehouse;
+
+        $request->merge($request->except('products', 'quantities'));
+
+        // Vérifier si la quantité totale inférieure à la capacité maximale
+        if (array_sum($request->quantities) + $warehouse->stock->sum('quantity_available') > $warehouse->capacity) {
+            return redirect()->back()->withErrors(__('messages.validate.quantity_exceeds_capacity'))->withInput();
+        }
+
+        $warehouseProducts = $warehouse->stock->whereIn('product_id', $request->products);
+
+        // Vérifier si les produits sont dans le stock
+        if ($warehouseProducts->count() != count($request->products)) {
+            return redirect()->back()->withErrors(__('messages.validate.product_not_in_stock'))->withInput();
+        }
+
+        // Récupérer les fournisseurs des produits et trier le produits selon leurs fournisseurs
+        $suppliersData = [];
+
+        foreach ($request->products as $index => $productId) {
+            $product = $warehouseProducts->where('product_id', $productId)->first()->product;
+
+            $supplier = $product->supplyLines->first()->supply->supplier;
+
+             // Initialiser l'entrée pour ce fournisseur si elle n'existe pas
+            if (!isset($suppliersData[$supplier->id])) {
+                $suppliersData[$supplier->id] = [];
+            }
+
+            // Ajouter le produit et la quantité sous ce fournisseur
+            $suppliersData[$supplier->id][] = [
+                'product_id' => $productId,
+                'quantity' => $request->quantities[$index],
+            ];
+        }
+
+        try {
+            DB::beginTransaction(); // Démarrer une transaction
+
+            // Pour chaque fournisseur, créer un approvisionnement
+            foreach ($suppliersData as $supplierId => $productsData) {
+                $supplier = Supplier::find($supplierId);
+
+                $supply = $warehouse->supplies()->create([
+                    'supplier_id' => $supplier->id,
+                ]);
+
+                foreach ($productsData as $productData) {
+                    $stock = $warehouse->stock->whereIn('product_id', $productData['product_id'])->first();
+
+                    $stock->addStock($productData['quantity']);
+
+                    $product = $stock->product;
+
+                    $warehouse->stockMovements()->create([
+                        'product_id' => $product->id,
+                        'user_id' => $user->id,
+                        'quantity_moved' => $productData['quantity'],
+                        'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
+                        'movement_date' => now(),
+                        'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
+                        'movement_source' => 'USER',
+                    ]);
+
+                    $supply->supplyLines()->create([
+                        'product_id' => $product->id,
+                        'quantity_supplied' => $productData['quantity'],
+                        'unit_price' => $product->reference_price,
+                    ]);
+                }
+
+                $supply->invoice()->create([
+                    'invoice_number' => strtoupper(uniqid()),
+                    'invoice_date' => now(),
+                    'invoice_status' => Invoice::INVOICE_STATUS_UNPAID,
+                    'order_id' => null,
+                    'supply_id' => $supply->id,
+                ]);
+            }
+
+            DB::commit(); // Valider les changements si tout se passe bien
+        } catch (\Exception $e) {
+            DB::rollBack(); // Annuler toutes les opérations en cas d'erreur
+
+            return redirect()->route('warehouse.stock.index')->with('error', __('messages.action_failed'));
+        }
+
+        return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
+
+
 
     }
 
@@ -317,7 +410,6 @@ class StockController extends Controller
             // Créer un approvisionnement
             $supply = $warehouse->supplies()->create([
                 'supplier_id' => $supplier->id,
-                'quantity' => $quantity,
             ]);
 
             // Créer une ligne d'approvisionnement
