@@ -16,4 +16,5 @@ return [
     'stock_edit_product' => 'Permet de modifier les informations d\'un produit.',
     'stock_supply_product' => 'Permet d\'approvisionner un produit.',
     'stock_remove_product' => 'Permet de retirer un produit.',
+    'stock_info_product' => 'Affiche les informations sur un produit.',
 ];
