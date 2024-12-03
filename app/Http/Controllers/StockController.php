@@ -347,6 +347,15 @@ class StockController extends Controller
         }
     }
 
+    
+    /**
+    * Crée un approvisionnement par fournisseur.
+    *
+    * @param array $suppliersData Les données des fournisseurs.
+    * @param mixed $warehouse L'entrepôt associé.
+    * @param mixed $user L'utilisateur associé.
+    * @return void
+    */
     private function createSupplyBySupplier($suppliersData, $warehouse, $user)
     {
         try {
@@ -403,6 +412,16 @@ class StockController extends Controller
         return true;
     }
 
+    /**
+    * Crée un approvisionnement pour un produit spécifique.
+    *
+    * @param mixed $product Le produit à approvisionner.
+    * @param mixed $supplier Le fournisseur associé.
+    * @param mixed $user L'utilisateur associé.
+    * @param mixed $warehouse L'entrepôt associé.
+    * @param int $quantity La quantité à approvisionner.
+    * @return bool
+    */
     private function createSupplyForProduct($product, $supplier, $user, $warehouse, $quantity)
     {
         try {
@@ -444,6 +463,13 @@ class StockController extends Controller
         return true;
     }
 
+    /**
+    * Supprime une quantité spécifique d'un produit en stock.
+    *
+    * @param mixed $stock Le stock du produit.
+    * @param int $quantity La quantité à supprimer.
+    * @return bool
+    */
     private function removeQuantityProductFromStock($stock, $quantity)
     {
         try {
