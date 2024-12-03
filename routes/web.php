@@ -68,6 +68,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                 Route::get('/', [StockController::class, 'index'])->name('index');
 
                 Route::get('/list', [StockController::class, 'stockList'])->name('list');
+                Route::get('/list-movement', [StockController::class, 'stockMovementList'])->name('list.movement');
 
                 Route::prefix('supply')->name('supply.')->group(function() {
                     Route::get('/new', [StockController::class, 'newSupplyStock'])->name('new');
