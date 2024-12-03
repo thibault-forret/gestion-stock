@@ -8,6 +8,7 @@ use App\Models\StockMovement;
 use App\Models\Invoice;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\DB;
+use App\Models\Category;
 
 class StockController extends Controller
 {
@@ -291,7 +292,11 @@ class StockController extends Controller
             return $stock->product;
         });
 
-        return view('pages.warehouse.stock.new_supply', compact('products', 'warehouse'));
+        // Récupérer toutes les catégories et tous les fournisseurs
+        $categories = Category::all();
+        $suppliers = Supplier::all();
+
+        return view('pages.warehouse.stock.new_supply', compact('products', 'warehouse', 'categories', 'suppliers'));
     }
 
     public function newSupplyStockSubmit(Request $request)
