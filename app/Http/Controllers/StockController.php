@@ -258,6 +258,26 @@ class StockController extends Controller
         }
     }
 
+    public function newSupplyStock()
+    {
+        $user = auth()->user();
+
+        // Récupérer l'entrepôt de l'utilisateur
+        $warehouse = $user->warehouseUser->warehouse;
+
+        // Récupérer les produits déjà dans l'entrepôt
+        $products = $warehouse->stock->map(function ($stock) {
+            return $stock->product;
+        });
+
+        return view('pages.warehouse.stock.new_supply', compact('products', 'warehouse'));
+    }
+
+    public function newSupplyStockSubmit(Request $request)
+    {
+        
+    }
+
     private function createSupplyForProduct($product, $supplier, $user, $warehouse, $quantity)
     {
         try {
