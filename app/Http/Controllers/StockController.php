@@ -130,6 +130,8 @@ class StockController extends Controller
         // Mettre à jour la quantité disponible
         $success = $stock->addStock($quantity);
 
+        // Ajouter toutes les dépendances nécessaires, invoice, stock_movements, etc.
+
         if ($success) {
             return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
         }
@@ -138,13 +140,85 @@ class StockController extends Controller
         }
     }
 
-    public function removeProduct() 
+    public function removeProduct(int $stock_id) 
     {
+        $user = auth()->user();
 
+        // Vérifier si le stock appartient à l'entrepôt de l'utilisateur
+        $stock = $user->warehouseUser->warehouse->stock->where('id', $stock_id)->first();
+
+        if (!$stock) {
+            return redirect()->route('warehouse.stock.index')->with('error', __('messages.stock_not_found'));
+        }
+
+        $product = $stock->product;
+
+        return view('pages.warehouse.stock.remove_product', compact('stock', 'product'));
     }
 
-    public function removeProductSubmit() 
+    public function removeQuantityProductSubmit(Request $request)
     {
+        $request->validate([
+            'stock_id' => 'required|integer|exists:stocks,id',
+            'quantity' => 'required|integer|min:1',
+        ],
+        [
+            'stock_id.required' => __('messages.validate.stock_id_required'),
+            'stock_id.integer' => __('messages.validate.stock_id_integer'),
+            'stock_id.exists' => __('messages.stock_not_found'),
+            'quantity.required' => __('messages.validate.quantity_required'),
+            'quantity.integer' => __('messages.validate.quantity_integer'),
+            'quantity.min' => __('messages.validate.quantity_min'),
+        ]);
 
+        // Vérifier si la quantité est inférieure à la capacité maximale
+        $quantity = $request->input('quantity');
+
+        // Récupérer le stock
+        $stock = Stock::find($request->stock_id);
+
+        // Vérifier si la quantité ne sera pas négative
+        if ($stock->quantity_available < $quantity) {
+            return redirect()->back()->withErrors(__('messages.validate.quantity_to_high'))->withInput();
+        }
+
+        // Mettre à jour la quantité disponible
+        $success = $stock->removeStock($quantity);
+
+        // Ajouter toutes les dépendances nécessaires, stock_movements, etc.
+
+        if ($success) {
+            return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
+        }
+        else {
+            return redirect()->route('warehouse.stock.index')->with('error', __('messages.action_failed'));
+        }
+    }
+
+    public function removeProductSubmit(Request $request) 
+    {
+        $request->validate([
+            'stock_id' => 'required|integer|exists:stocks,id',
+        ],
+        [
+            'stock_id.required' => __('messages.validate.stock_id_required'),
+            'stock_id.integer' => __('messages.validate.stock_id_integer'),
+            'stock_id.exists' => __('messages.stock_not_found'),
+        ]);
+
+        // Récupérer le stock
+        $stock = Stock::find($request->stock_id);
+
+        // Supprimer le stock
+        $success = $stock->delete();
+
+        // Ajouter toutes les dépendances nécessaires, stock_movements, etc.
+
+        if ($success) {
+            return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
+        }
+        else {
+            return redirect()->route('warehouse.stock.index')->with('error', __('messages.action_failed'));
+        }
     }
 }

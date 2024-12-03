@@ -14,4 +14,5 @@ return [
     'warehouse_stock_list' => 'Liste des produits en stock',
     'stock_edit_product' => 'Modifier un produit',
     'stock_supply_product' => 'Approvisionner un produit',
+    'stock_remove_product' => 'Retirer un produit',
 ];

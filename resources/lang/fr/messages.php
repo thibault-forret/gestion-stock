@@ -47,5 +47,6 @@ return [
         'thresholds_exceeds_capacity' => 'Les seuils dépassent la capacité de l\'entrepôt. Veuillez réessayer.',
         'stock_id_required' => 'L\'ID du stock est requis.',
         'stock_id_integer' => 'L\'ID du stock doit être un entier.',
+        'quantity_to_high' => 'La quantité à retirer est supérieure à la quantité disponible.',
     ]
 ];

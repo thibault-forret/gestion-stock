@@ -71,7 +71,8 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                 Route::get('/{stock_id}/supply', [StockController::class, 'supplyProduct'])->name('supply');
                 Route::post('/supply', [StockController::class, 'supplyProductSubmit'])->name('supply.submit');
                 Route::get('/{stock_id}/remove', [StockController::class, 'removeProduct'])->name('remove');
-                Route::post('/remove', [StockController::class, 'removeProductSubmit'])->name('remove.submit');
+                Route::post('/remove/quantity', [StockController::class, 'removeQuantityProductSubmit'])->name('remove.quantity.submit');
+                Route::post('/remove/product', [StockController::class, 'removeProductSubmit'])->name('remove.product.submit');
             });
         });
     });
