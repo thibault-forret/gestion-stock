@@ -16,4 +16,5 @@ return [
     'stock_edit_product' => 'Allows you to edit a product.',
     'stock_supply_product' => 'Allows you to supply a product.',
     'stock_remove_product' => 'Allows you to remove a product.',
+    'stock_info_product' => 'Displays information about a product.',
 ];
