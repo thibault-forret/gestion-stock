@@ -48,5 +48,16 @@ return [
         'stock_id_required' => 'L\'ID du stock est requis.',
         'stock_id_integer' => 'L\'ID du stock doit être un entier.',
         'quantity_to_high' => 'La quantité à retirer est supérieure à la quantité disponible.',
+        'products_required' => 'Les produits sont requis.',
+        'products_array' => 'Les produits doivent être un tableau.',
+        'products_each_required' => 'Chaque produit est requis.',
+        'products_each_integer' => 'Chaque produit doit être un entier.',
+        'products_each_exists' => 'Chaque produit doit exister.',
+        'quantities_required' => 'Les quantités sont requises.',
+        'quantities_array' => 'Les quantités doivent être un tableau.',
+        'quantities_each_required' => 'Chaque quantité est requise.',
+        'quantities_each_integer' => 'Chaque quantité doit être un entier.',
+        'quantities_each_min' => 'Chaque quantité doit être supérieure ou égale à 1.',
+        'products_not_in_stock' => 'Le/les produit(s) n\'est/ne sont pas référencer dans l\'entrepôt.',
     ]
 ];

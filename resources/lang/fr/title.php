@@ -16,4 +16,6 @@ return [
     'stock_supply_product' => 'Approvisionner un produit',
     'stock_remove_product' => 'Retirer un produit',
     'stock_info_product' => 'Informations sur le produit',
+    'stock' => 'Stock',
+    'stock_new_supply' => 'Nouvel approvisionnement',
 ];

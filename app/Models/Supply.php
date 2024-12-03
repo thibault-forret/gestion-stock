@@ -9,7 +9,6 @@ class Supply extends Model
     protected $fillable = [
         'supplier_id',
         'warehouse_id',
-        'supply_date',
     ];
     
     // Chaque approvisionnement est associé à un fournisseur

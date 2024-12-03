@@ -16,4 +16,6 @@ return [
     'stock_supply_product' => 'Supply product',
     'stock_remove_product' => 'Remove product',
     'stock_info_product' => 'Product information',
+    'stock' => 'Stock',
+    'stock_new_supply' => 'New supply',
 ];

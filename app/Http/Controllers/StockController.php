@@ -6,10 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Models\StockMovement;
 use App\Models\Invoice;
+use App\Models\Supplier;
+use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
-    public function index () 
+    public function index ()
+    {
+        return view('pages.warehouse.stock.index');
+    }
+
+    public function stockList () 
     {
 
         $user = auth()->user();
@@ -54,7 +61,9 @@ class StockController extends Controller
 
         $product = $stock->product;
 
-        return view('pages.warehouse.stock.edit_product', compact('stock', 'product'));
+        $warehouse = $stock->warehouse;
+
+        return view('pages.warehouse.stock.edit_product', compact('stock', 'warehouse', 'product'));
     }
 
     public function editProductSubmit(Request $request) 
@@ -119,7 +128,9 @@ class StockController extends Controller
 
         $product = $stock->product;
 
-        return view('pages.warehouse.stock.supply_product', compact('stock', 'product'));
+        $warehouse = $stock->warehouse;
+
+        return view('pages.warehouse.stock.supply_product', compact('stock', 'product', 'warehouse'));
     }
 
     public function supplyProductSubmit(Request $request) 
@@ -183,7 +194,9 @@ class StockController extends Controller
 
         $product = $stock->product;
 
-        return view('pages.warehouse.stock.remove_product', compact('stock', 'product'));
+        $warehouse = $stock->warehouse;
+
+        return view('pages.warehouse.stock.remove_product', compact('stock', 'product', 'warehouse'));
     }
 
     public function removeQuantityProductSubmit(Request $request)
@@ -253,9 +266,172 @@ class StockController extends Controller
         }
     }
 
+    public function newSupplyStock()
+    {
+        $user = auth()->user();
+
+        // Récupérer l'entrepôt de l'utilisateur
+        $warehouse = $user->warehouseUser->warehouse;
+
+        // Récupérer les produits déjà dans l'entrepôt
+        $products = $warehouse->stock->map(function ($stock) {
+            return $stock->product;
+        });
+
+        return view('pages.warehouse.stock.new_supply', compact('products', 'warehouse'));
+    }
+
+    public function newSupplyStockSubmit(Request $request)
+    {
+        // Validation des produits et des quantités
+        $request->validate([
+            'products' => 'required|array', // Le champ 'products' doit être un tableau
+            'products.*' => 'required|integer|exists:products,id', // Chaque produit doit être un entier existant dans la table products
+            
+            'quantities' => 'required|array', // Le champ 'quantities' doit être un tableau
+            'quantities.*' => 'required|integer|min:1', // Chaque quantité doit être un entier et au minimum 1
+        ],
+        [
+            'products.required' => __('messages.validate.products_required'),
+            'products.array' => __('messages.validate.products_array'),
+            'products.*.required' => __('messages.validate.products_each_required'),
+            'products.*.integer' => __('messages.validate.products_each_integer'),
+            'products.*.exists' => __('messages.validate.products_each_exists'),
+            'quantities.required' => __('messages.validate.quantities_required'),
+            'quantities.array' => __('messages.validate.quantities_array'),
+            'quantities.*.required' => __('messages.validate.quantities_each_required'),
+            'quantities.*.integer' => __('messages.validate.quantities_each_integer'),
+            'quantities.*.min' => __('messages.validate.quantities_each_min'),
+        ]);
+
+        $user = auth()->user();
+
+        $warehouse = $user->warehouseUser->warehouse;
+
+        $request->merge($request->except('products', 'quantities'));
+
+        // Vérifier si la quantité totale inférieure à la capacité maximale
+        if (array_sum($request->quantities) + $warehouse->stock->sum('quantity_available') > $warehouse->capacity) {
+            return redirect()->back()->withErrors(__('messages.validate.quantity_exceeds_capacity'))->withInput();
+        }
+
+        // Vérifier si les produits sont dans le stock
+        $warehouseProducts = $warehouse->stock->whereIn('product_id', $request->products);
+
+        if ($warehouseProducts->count() != count($request->products)) {
+            return redirect()->back()->withErrors(__('messages.validate.product_not_in_stock'))->withInput();
+        }
+
+        // Récupérer les fournisseurs des produits et trier le produits selon leurs fournisseurs
+        $suppliersData = [];
+
+        foreach ($request->products as $index => $productId) {
+            $product = $warehouseProducts->where('product_id', $productId)->first()->product;
+
+            $supplier = $product->supplyLines->first()->supply->supplier;
+
+             // Initialiser l'entrée pour ce fournisseur si elle n'existe pas
+            if (!isset($suppliersData[$supplier->id])) {
+                $suppliersData[$supplier->id] = [];
+            }
+
+            // Ajouter le produit et la quantité sous ce fournisseur
+            $suppliersData[$supplier->id][] = [
+                'product_id' => $productId,
+                'quantity' => $request->quantities[$index],
+            ];
+        }
+
+        // Créer les approvisionnements en fonction des fournisseurs
+        $success = $this->createSupplyBySupplier($suppliersData, $warehouse, $user);
+
+        if ($success) {
+            return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
+        } 
+        else {
+            return redirect()->route('warehouse.stock.index')->with('error', __('messages.action_failed'));
+        }
+    }
+
+    
+    /**
+    * Crée un approvisionnement par fournisseur.
+    *
+    * @param array $suppliersData Les données des fournisseurs.
+    * @param mixed $warehouse L'entrepôt associé.
+    * @param mixed $user L'utilisateur associé.
+    * @return void
+    */
+    private function createSupplyBySupplier($suppliersData, $warehouse, $user)
+    {
+        try {
+            DB::beginTransaction(); // Démarrer une transaction
+
+            // Pour chaque fournisseur, créer un approvisionnement
+            foreach ($suppliersData as $supplierId => $productsData) {
+                $supplier = Supplier::find($supplierId);
+
+                $supply = $warehouse->supplies()->create([
+                    'supplier_id' => $supplier->id,
+                ]);
+
+                foreach ($productsData as $productData) {
+                    $stock = $warehouse->stock->whereIn('product_id', $productData['product_id'])->first();
+
+                    $stock->addStock($productData['quantity']);
+
+                    $product = $stock->product;
+
+                    $warehouse->stockMovements()->create([
+                        'product_id' => $product->id,
+                        'user_id' => $user->id,
+                        'quantity_moved' => $productData['quantity'],
+                        'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
+                        'movement_date' => now(),
+                        'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
+                        'movement_source' => StockMovement::MOVEMENT_SOURCE_SUPPLY,
+                    ]);
+
+                    $supply->supplyLines()->create([
+                        'product_id' => $product->id,
+                        'quantity_supplied' => $productData['quantity'],
+                        'unit_price' => $product->reference_price,
+                    ]);
+                }
+
+                $supply->invoice()->create([
+                    'invoice_number' => strtoupper(uniqid()),
+                    'invoice_date' => now(),
+                    'invoice_status' => Invoice::INVOICE_STATUS_UNPAID,
+                    'order_id' => null,
+                    'supply_id' => $supply->id,
+                ]);
+            }
+
+            DB::commit(); // Valider les changements si tout se passe bien
+        } catch (\Exception $e) {
+            DB::rollBack(); // Annuler toutes les opérations en cas d'erreur
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+    * Crée un approvisionnement pour un produit spécifique.
+    *
+    * @param mixed $product Le produit à approvisionner.
+    * @param mixed $supplier Le fournisseur associé.
+    * @param mixed $user L'utilisateur associé.
+    * @param mixed $warehouse L'entrepôt associé.
+    * @param int $quantity La quantité à approvisionner.
+    * @return bool
+    */
     private function createSupplyForProduct($product, $supplier, $user, $warehouse, $quantity)
     {
         try {
+            DB::beginTransaction(); // Démarrer une transaction
             // Créer un mouvement de stock
             $warehouse->stockMovements()->create([
                 'product_id' => $product->id,
@@ -264,13 +440,12 @@ class StockController extends Controller
                 'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
                 'movement_date' => now(),
                 'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
-                'movement_source' => 'THRESHOLD',
+                'movement_source' => StockMovement::MOVEMENT_SOURCE_SUPPLY,
             ]);
 
             // Créer un approvisionnement
             $supply = $warehouse->supplies()->create([
                 'supplier_id' => $supplier->id,
-                'quantity' => $quantity,
             ]);
 
             // Créer une ligne d'approvisionnement
@@ -288,16 +463,26 @@ class StockController extends Controller
                 'order_id' => null,
                 'supply_id' => $supply->id,
             ]);
+            DB::commit(); // Valider les changements si tout se passe bien
         } catch (\Exception $e) {
+            DB::rollBack(); // Annuler toutes les opérations en cas d'erreur
             return false;
         }
 
         return true;
     }
 
+    /**
+    * Supprime une quantité spécifique d'un produit en stock.
+    *
+    * @param mixed $stock Le stock du produit.
+    * @param int $quantity La quantité à supprimer.
+    * @return bool
+    */
     private function removeQuantityProductFromStock($stock, $quantity)
     {
         try {
+            DB::beginTransaction(); // Démarrer une transaction
             // Créer un mouvement de stock
             $stock->warehouse->stockMovements()->create([
                 'product_id' => $stock->product->id,
@@ -306,9 +491,11 @@ class StockController extends Controller
                 'movement_type' => StockMovement::MOVEMENT_TYPE_OUT,
                 'movement_date' => now(),
                 'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
-                'movement_source' => 'USER',
+                'movement_source' => StockMovement::MOVEMENT_SOURCE_USER,
             ]);
+            DB::commit(); // Valider les changements si tout se passe bien
         } catch (\Exception $e) {
+            DB::rollBack(); // Annuler toutes les opérations en cas d'erreur
             return false;
         }
 

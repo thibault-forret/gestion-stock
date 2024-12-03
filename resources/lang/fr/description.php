@@ -17,4 +17,6 @@ return [
     'stock_supply_product' => 'Permet d\'approvisionner un produit.',
     'stock_remove_product' => 'Permet de retirer un produit.',
     'stock_info_product' => 'Affiche les informations sur un produit.',
+    'stock' => 'Affiche les options et fonctionnalités disponibles pour les stocks.',
+    'stock_new_supply' => 'Permet de réaliser un nouvel approvisionnement.',
 ];

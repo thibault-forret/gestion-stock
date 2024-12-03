@@ -9,7 +9,7 @@
 
 @section('content')
 
-    <form action="{{ route('warehouse.stock.supply.submit') }}" method="POST">
+    <form action="{{ route('warehouse.stock.product.supply.submit') }}" method="POST">
         @csrf
         
         <input type="hidden" name="stock_id" value="{{ $stock->id }}">
@@ -23,6 +23,9 @@
                 @endforeach
             </p>
             <p><strong>Fournisseur(s) :</strong> {{ $product->supplyLines->first()->supply->supplier->supplier_name }}</p>
+            <p>
+                <strong>Quantité disponible :</strong> {{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}
+            </p>
             <div>
                 <img src="{{ $product->image_url }}" alt="{{ $product->name }}" style="max-width: 200px;">
             </div>
