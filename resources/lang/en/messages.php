@@ -58,5 +58,6 @@ return [
         'quantities_each_required' => 'Each quantity is required.',
         'quantities_each_integer' => 'Each quantity must be an integer.',
         'quantities_each_min' => 'Each quantity must be greater than or equal to 1.',
+        'products_not_in_stock' => 'The product(s) is/are not referenced in the warehouse.',
     ]
 ];

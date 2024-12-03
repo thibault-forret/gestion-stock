@@ -58,5 +58,6 @@ return [
         'quantities_each_required' => 'Chaque quantité est requise.',
         'quantities_each_integer' => 'Chaque quantité doit être un entier.',
         'quantities_each_min' => 'Chaque quantité doit être supérieure ou égale à 1.',
+        'products_not_in_stock' => 'Le/les produit(s) n\'est/ne sont pas référencer dans l\'entrepôt.',
     ]
 ];
