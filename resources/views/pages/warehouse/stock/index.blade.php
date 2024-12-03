@@ -11,7 +11,7 @@
     <div>
         <h2>{{ __('title.stock') }}</h2>
         
-        <a href="{{ route('warehouse.stock.supply.make') }}">Approvisionner le stock</a>
+        <a href="{{ route('warehouse.stock.supply.new') }}">Approvisionner le stock</a>
         <a href="{{ route('warehouse.stock.list') }}">Liste des produits en stock</a>
     </div>
 

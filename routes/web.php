@@ -70,8 +70,8 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                 Route::get('/list', [StockController::class, 'stockList'])->name('list');
 
                 Route::prefix('supply')->name('supply.')->group(function() {
-                    Route::get('/make', [StockController::class, 'makeSupplyStock'])->name('make');
-                    Route::post('/make', [StockController::class, 'makeSupplyStockSubmit'])->name('make.submit');
+                    Route::get('/new', [StockController::class, 'newSupplyStock'])->name('new');
+                    Route::post('/new', [StockController::class, 'newSupplyStockSubmit'])->name('new.submit');
                 });
 
                 Route::prefix('product')->name('product.')->group(function () {
