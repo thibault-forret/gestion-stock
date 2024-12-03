@@ -195,8 +195,30 @@ class StockController extends Controller
         }
     }
 
-    public function removeProductSubmit() 
+    public function removeProductSubmit(Request $request) 
     {
+        $request->validate([
+            'stock_id' => 'required|integer|exists:stocks,id',
+        ],
+        [
+            'stock_id.required' => __('messages.validate.stock_id_required'),
+            'stock_id.integer' => __('messages.validate.stock_id_integer'),
+            'stock_id.exists' => __('messages.stock_not_found'),
+        ]);
 
+        // Récupérer le stock
+        $stock = Stock::find($request->stock_id);
+
+        // Supprimer le stock
+        $success = $stock->delete();
+
+        // Ajouter toutes les dépendances nécessaires, stock_movements, etc.
+
+        if ($success) {
+            return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
+        }
+        else {
+            return redirect()->route('warehouse.stock.index')->with('error', __('messages.action_failed'));
+        }
     }
 }
