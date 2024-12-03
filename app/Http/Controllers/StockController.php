@@ -86,6 +86,13 @@ class StockController extends Controller
         // Récupérer le stock
         $stock = Stock::find($request->stock_id);
 
+        $warehouse = $stock->warehouse;
+
+        // Vérifier si le seuil d'alerte, le seuil de réapprovisionnement et l'auto réappro sont inférieurs à la capacité de l'entrepôt
+        if ($request->input('alert_threshold') > $warehouse->capacity || $request->input('restock_threshold') > $warehouse->capacity || $request->input('auto_restock_quantity') > $warehouse->capacity) {
+            return redirect()->back()->withErrors(__('messages.validate.thresholds_exceeds_capacity'))->withInput();
+        } 
+
         $request->merge($request->except('stock_id'));
 
         // Mettre à jour le stock
