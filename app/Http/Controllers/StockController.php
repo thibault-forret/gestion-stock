@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Stock;
+use App\Models\StockMovement;
+use App\Models\Invoice;
 
 class StockController extends Controller
 {
@@ -144,9 +146,14 @@ class StockController extends Controller
         $stock = Stock::find($request->stock_id);
 
         // Mettre à jour la quantité disponible
-        $success = $stock->addStock($quantity);
+        $stock->addStock($quantity);
 
-        // Ajouter toutes les dépendances nécessaires, invoice, stock_movements, etc.
+        $product = $stock->product;
+
+        $supplier = $product->supplyLines->first()->supply->supplier;
+
+        // Créer un mouvement de stock, un approvisionnement, une ligne d'approvisionnement et une facture
+        $success = $this->createSupplyForProduct($product, $supplier, $user, $warehouse, $quantity);
 
         if ($success) {
             return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
@@ -199,9 +206,10 @@ class StockController extends Controller
         }
 
         // Mettre à jour la quantité disponible
-        $success = $stock->removeStock($quantity);
+        $stock->removeStock($quantity);
 
         // Ajouter toutes les dépendances nécessaires, stock_movements, etc.
+        $success = $this->removeQuantityProductFromStock($stock, $quantity);
 
         if ($success) {
             return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
@@ -225,16 +233,78 @@ class StockController extends Controller
         // Récupérer le stock
         $stock = Stock::find($request->stock_id);
 
-        // Supprimer le stock
-        $success = $stock->delete();
+        $success = $this->removeQuantityProductFromStock($stock, $stock->quantity_available);
 
-        // Ajouter toutes les dépendances nécessaires, stock_movements, etc.
+        if ($success){
+            // Supprimer le stock
+            $stock->delete();  
 
-        if ($success) {
             return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
         }
         else {
             return redirect()->route('warehouse.stock.index')->with('error', __('messages.action_failed'));
         }
+    }
+
+    private function createSupplyForProduct($product, $supplier, $user, $warehouse, $quantity)
+    {
+        try {
+            // Créer un mouvement de stock
+            $warehouse->stockMovements()->create([
+                'product_id' => $product->id,
+                'user_id' => $user->id,
+                'quantity_moved' => $quantity,
+                'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
+                'movement_date' => now(),
+                'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
+                'movement_source' => 'THRESHOLD',
+            ]);
+
+            // Créer un approvisionnement
+            $supply = $warehouse->supplies()->create([
+                'supplier_id' => $supplier->id,
+                'quantity' => $quantity,
+            ]);
+
+            // Créer une ligne d'approvisionnement
+            $supply->supplyLines()->create([
+                'product_id' => $product->id,
+                'quantity_supplied' => $quantity,
+                'unit_price' => $product->reference_price,
+            ]);
+
+            // Créer une facture
+            $supply->invoice()->create([
+                'invoice_number' => strtoupper(uniqid()),
+                'invoice_date' => now(),
+                'invoice_status' => Invoice::INVOICE_STATUS_UNPAID,
+                'order_id' => null,
+                'supply_id' => $supply->id,
+            ]);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function removeQuantityProductFromStock($stock, $quantity)
+    {
+        try {
+            // Créer un mouvement de stock
+            $stock->warehouse->stockMovements()->create([
+                'product_id' => $stock->product->id,
+                'user_id' => auth()->id(),
+                'quantity_moved' => $quantity,
+                'movement_type' => StockMovement::MOVEMENT_TYPE_OUT,
+                'movement_date' => now(),
+                'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
+                'movement_source' => 'USER',
+            ]);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 }
