@@ -174,15 +174,6 @@ class StockController extends Controller
         // Vérifier si la quantité est inférieure à la capacité maximale
         $quantity = $request->input('quantity');
 
-        $user = auth()->user();
-
-        $warehouse = $user->warehouseUser->warehouse;
-
-        // Vérifier si la quantité dépasse la capacité de l'entrepôt
-        if (($quantity + $warehouse->stock->sum('quantity_available')) > $warehouse->capacity) {
-            return redirect()->back()->withErrors(__('messages.validate.quantity_exceeds_capacity'))->withInput();
-        }
-
         // Récupérer le stock
         $stock = Stock::find($request->stock_id);
 
