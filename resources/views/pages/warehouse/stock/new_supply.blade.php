@@ -76,7 +76,6 @@
                 selectedProductsContainer.appendChild(productElement);
             }
 
-            // Ajoute un écouteur d'événement pour chaque bouton de sélection de produit
             productList.addEventListener('click', function (event) {
                 if (event.target && event.target.classList.contains('btn-primary')) {
                     const productId = event.target.value;
@@ -130,14 +129,6 @@
             searchInput.addEventListener('input', filterProducts);
             categorySelect.addEventListener('change', filterProducts);
             supplierSelect.addEventListener('change', filterProducts);
-
-            productList.addEventListener('click', function (event) {
-                if (event.target && event.target.classList.contains('btn-primary')) {
-                    const productId = event.target.value;
-                    const productItem = event.target.closest('.product-item');
-                    addSelectedProduct(productId, productItem);
-                }
-            });
         });
     </script>
 @endsection
