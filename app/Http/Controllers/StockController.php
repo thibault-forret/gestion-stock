@@ -81,12 +81,23 @@ class StockController extends Controller
         }
     }
 
-    public function supplyProduct() 
+    public function supplyProduct(int $stock_id) 
     {
+        $user = auth()->user();
 
+        // Vérifier si le stock appartient à l'entrepôt de l'utilisateur
+        $stock = $user->warehouseUser->warehouse->stock->where('id', $stock_id)->first();
+
+        if (!$stock) {
+            return redirect()->route('warehouse.stock.index')->with('error', __('messages.stock_not_found'));
+        }
+
+        $product = $stock->product;
+
+        return view('pages.warehouse.stock.supply_product', compact('stock', 'product'));
     }
 
-    public function supplyProductSubmit() 
+    public function supplyProductSubmit(Request $request) 
     {
 
     }
