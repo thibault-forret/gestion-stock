@@ -139,43 +139,6 @@
                 }
             });
         });
-
-        // document.addEventListener("DOMContentLoaded", function () {
-        //     const productList = document.querySelector('.product-list');
-        //     const noResultsMessage = document.createElement('p'); // Crée un élément pour le message "Aucun produit"
-        //     noResultsMessage.textContent = 'Aucun produit trouvé.';
-        //     noResultsMessage.style.display = 'none'; // Initialement caché
-        //     productList.appendChild(noResultsMessage);
-
-        //     const searchInput = document.getElementById('product-search');
-        //     const productItems = document.querySelectorAll('.product-item');
-
-        //     searchInput.addEventListener('input', function () {
-        //         const query = searchInput.value.toLowerCase();
-        //         let visibleProducts = 0;
-
-        //         productItems.forEach(productItem => {
-        //             const productName = productItem.querySelector('.product_name').textContent.toLowerCase();
-        //             const categories = Array.from(productItem.querySelectorAll('.product_category')).map(p => p.textContent.toLowerCase());
-        //             const supplier = productItem.querySelector('.product_supplier').textContent.toLowerCase();
-
-        //             // Vérifie si le nom, une des catégories, ou le fournisseur contient le texte recherché
-        //             if (productName.includes(query) || categories.some(category => category.includes(query)) || supplier.includes(query)) {
-        //                 productItem.style.display = ''; // Affiche l'élément
-        //                 visibleProducts++;
-        //             } else {
-        //                 productItem.style.display = 'none'; // Cache l'élément
-        //             }
-        //         });
-
-        //         // Affiche ou cache le message "Aucun produit trouvé"
-        //         if (visibleProducts === 0) {
-        //             noResultsMessage.style.display = ''; // Affiche le message
-        //         } else {
-        //             noResultsMessage.style.display = 'none'; // Cache le message
-        //         }
-        //     });
-        // });
     </script>
 @endsection
 
