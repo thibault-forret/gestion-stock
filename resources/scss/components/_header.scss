@@ -1,0 +1,142 @@
+// Variables de couleur
+$background-menu: #5a5a5c;
+$active-color: #f05c2b;
+$text-color: #ffffff;
+$divider-color: rgba(255, 255, 255, 0.15);
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Équilibre gauche, centre et droite */
+    align-items: center; /* Centrage vertical */
+    background-color: #ffffff; /* Couleur de fond */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre sous la navbar */
+    padding: 10px 20px;
+    position: relative; /* Ajouté pour centrer le logo */
+}
+
+.navbar-left, .navbar-right {
+    display: flex;
+    align-items: center; /* Centrer les éléments verticalement */
+}
+
+.navbar-center {
+    position: absolute; /* Ajouté */
+    left: 50%; /* Ajouté */
+    transform: translateX(-50%); /* Ajouté pour centrer */
+}
+
+.navbar-right {
+    gap: 10px; /* Espacement entre les boutons */
+}
+
+.navbar-right img {
+    margin-right: 10px; /* Espacement entre les drapeaux et les boutons */
+}
+
+.nav-button {
+    border: none;
+    background: none;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Centrer l'image dans le bouton */
+    justify-content: center;
+}
+
+.nav-button img {
+    width: 30px;
+    height: 30px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 300px;
+    height: 100%;
+    background-color: $background-menu; // Appliquer la couleur de fond
+    color: $text-color;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+    transition: left 0.3s ease;
+    z-index: 1100;
+
+    display: flex; /* Ajouter */
+    flex-direction: column; /* Ajouter */
+    justify-content: center; /* Centrer verticalement le contenu */
+
+    .close-button {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: none;
+        border: none;
+        color: $text-color;
+        font-size: 1.5rem;
+        cursor: pointer;
+
+        &:hover {
+            color: lighten($text-color, 10%);
+        }
+
+        img {
+            width: 24px; /* Ajuster la taille de l'icône de fermeture */
+            height: 24px; /* Ajuster la taille de l'icône de fermeture */
+        }
+    }
+
+    .menu-list {
+        list-style: none;
+        padding: 0 20px; /* Ajouter des espaces internes à droite et à gauche */
+        margin: 0;
+        flex-grow: 1; /* S'assurer que la liste de menu prend tout l'espace disponible */
+        display: flex; /* Ajouter */
+        flex-direction: column; /* Ajouter */
+        justify-content: center; /* Centrer les items de la liste verticalement */
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            color: $text-color;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            .icon-container {
+                margin-right: 10px;
+                width: 24px; /* Taille de l'icône */
+                height: 24px; /* Taille de l'icône */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .icon-container img {
+                width: 24px; /* Réduire la taille de l'image SVG */
+                height: 24px; /* Réduire la taille de l'image SVG */
+            }
+
+            &:hover {
+                background-color: lighten($background-menu, 5%);
+            }
+
+            &.active {
+                color: $active-color;
+            }
+
+            &:not(:last-child) {
+                border-bottom: 1px solid $divider-color;
+            }
+        }
+
+        .text-container {
+            flex: 1;
+        }
+    }
+}
