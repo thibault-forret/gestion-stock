@@ -13,4 +13,5 @@ return [
     'add_product' => 'Add product',
     'warehouse_stock_list' => 'Warehouse stock list',
     'stock_edit_product' => 'Edit product',
+    'stock_supply_product' => 'Supply product',
 ];
