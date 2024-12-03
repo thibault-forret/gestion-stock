@@ -16,7 +16,7 @@
 
         <div>
             <h2>Informations sur le produit</h2>
-            <p><strong>Nom :</strong> {{ $product['name'] }}</p>
+            <p><strong>Nom :</strong> {{ $product->product_name }}</p>
             <p><strong>Catégorie(s) :</strong>
                 @foreach($product->categories as $category)
                     <p>{{ $category->category_name }}</p>
@@ -24,7 +24,7 @@
             </p>
             <p><strong>Fournisseur(s) :</strong> {{ $product->supplyLines->first()->supply->supplier->supplier_name }}</p>
             <div>
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" style="max-width: 200px;">
+                <img src="{{ $product->image_url }}" alt="{{ $product->product_name }}" style="max-width: 200px;">
             </div>
         </div>
 

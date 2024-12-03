@@ -16,7 +16,7 @@
 
         <div>
             <h2>Informations sur le produit</h2>
-            <p><strong>Nom :</strong> {{ $product['name'] }}</p>
+            <p><strong>Nom :</strong> {{ $product->product_name }}</p>
             <p><strong>Catégorie(s) :</strong>
                 @foreach($product->categories as $category)
                     <p>{{ $category->category_name }}</p>
