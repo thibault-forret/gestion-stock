@@ -15,4 +15,5 @@ return [
     'warehouse_stock_list' => 'Affiche la liste des produits en stock.',
     'stock_edit_product' => 'Permet de modifier les informations d\'un produit.',
     'stock_supply_product' => 'Permet d\'approvisionner un produit.',
+    'stock_remove_product' => 'Permet de retirer un produit.',
 ];

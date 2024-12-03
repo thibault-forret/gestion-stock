@@ -15,4 +15,5 @@ return [
     'warehouse_stock_list' => 'Displays the list of products in stock.',
     'stock_edit_product' => 'Allows you to edit a product.',
     'stock_supply_product' => 'Allows you to supply a product.',
+    'stock_remove_product' => 'Allows you to remove a product.',
 ];
