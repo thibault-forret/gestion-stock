@@ -69,7 +69,7 @@
         @if(isset($products) && count($products) > 0)
             @foreach($products as $product)
                 <div class="product-item">
-                    <h3>{{ $product->name }}</h3>
+                    <h3>{{ $product->product_name }}</h3>
                     <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
                     <p><u>Catégorie(s) :</u>
                         @foreach($product->categories as $category)
