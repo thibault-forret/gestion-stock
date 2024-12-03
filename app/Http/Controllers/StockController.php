@@ -425,6 +425,7 @@ class StockController extends Controller
     private function createSupplyForProduct($product, $supplier, $user, $warehouse, $quantity)
     {
         try {
+            DB::beginTransaction(); // Démarrer une transaction
             // Créer un mouvement de stock
             $warehouse->stockMovements()->create([
                 'product_id' => $product->id,
@@ -456,7 +457,9 @@ class StockController extends Controller
                 'order_id' => null,
                 'supply_id' => $supply->id,
             ]);
+            DB::commit(); // Valider les changements si tout se passe bien
         } catch (\Exception $e) {
+            DB::rollBack(); // Annuler toutes les opérations en cas d'erreur
             return false;
         }
 
@@ -473,6 +476,7 @@ class StockController extends Controller
     private function removeQuantityProductFromStock($stock, $quantity)
     {
         try {
+            DB::beginTransaction(); // Démarrer une transaction
             // Créer un mouvement de stock
             $stock->warehouse->stockMovements()->create([
                 'product_id' => $stock->product->id,
@@ -483,7 +487,9 @@ class StockController extends Controller
                 'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
                 'movement_source' => StockMovement::MOVEMENT_SOURCE_USER,
             ]);
+            DB::commit(); // Valider les changements si tout se passe bien
         } catch (\Exception $e) {
+            DB::rollBack(); // Annuler toutes les opérations en cas d'erreur
             return false;
         }
 
