@@ -309,9 +309,9 @@ class StockController extends Controller
             return redirect()->back()->withErrors(__('messages.validate.quantity_exceeds_capacity'))->withInput();
         }
 
+        // Vérifier si les produits sont dans le stock
         $warehouseProducts = $warehouse->stock->whereIn('product_id', $request->products);
 
-        // Vérifier si les produits sont dans le stock
         if ($warehouseProducts->count() != count($request->products)) {
             return redirect()->back()->withErrors(__('messages.validate.product_not_in_stock'))->withInput();
         }
@@ -336,6 +336,19 @@ class StockController extends Controller
             ];
         }
 
+        // Créer les approvisionnements en fonction des fournisseurs
+        $success = $this->createSupplyBySupplier($suppliersData, $warehouse, $user);
+
+        if ($success) {
+            return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
+        } 
+        else {
+            return redirect()->route('warehouse.stock.index')->with('error', __('messages.action_failed'));
+        }
+    }
+
+    private function createSupplyBySupplier($suppliersData, $warehouse, $user)
+    {
         try {
             DB::beginTransaction(); // Démarrer une transaction
 
@@ -384,13 +397,10 @@ class StockController extends Controller
         } catch (\Exception $e) {
             DB::rollBack(); // Annuler toutes les opérations en cas d'erreur
 
-            return redirect()->route('warehouse.stock.index')->with('error', __('messages.action_failed'));
+            return false;
         }
 
-        return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
-
-
-
+        return true;
     }
 
     private function createSupplyForProduct($product, $supplier, $user, $warehouse, $quantity)
