@@ -84,6 +84,7 @@
                         $stock = $product->stocks->where('warehouse_id', $warehouse->id)->first();
                     @endphp
 
+                    <a href="{{ route('warehouse.stock.info', ['stock_id' => $stock->id]) }}" class="btn btn-primary">Informations</a>
                     <a href="{{ route('warehouse.stock.edit', ['stock_id' => $stock->id]) }}" class="btn btn-primary">Modifier</a>
                     <a href="{{ route('warehouse.stock.supply', ['stock_id' => $stock->id]) }}" class="btn btn-primary">Approvisionner</a>
                     <a href="{{ route('warehouse.stock.remove', ['stock_id' => $stock->id]) }}" class="btn btn-primary">Retirer</a>
