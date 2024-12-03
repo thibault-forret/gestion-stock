@@ -20,8 +20,6 @@ class ProductController extends Controller
         return view('pages.warehouse.product.search_new_product', compact('categories', 'suppliers'));
     }
 
-
-    // Retirer les produits qui sont déjà dans l'entrepot (BDD)
     public function searchProducts(Request $request)
     {
         // Valider les données de la requête
@@ -140,7 +138,6 @@ class ProductController extends Controller
         return view('pages.warehouse.product.add_product', compact('product'));
     }
 
-    // A faire : Ajouter un produit à l'entrepôt
     public function addProductSubmit(Request $request)
     {
         // Validation des données
@@ -278,7 +275,7 @@ class ProductController extends Controller
                 'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
                 'movement_date' => now(),
                 'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
-                'movement_source' => 'THRESHOLD',
+                'movement_source' => StockMovement::MOVEMENT_SOURCE_SUPPLY,
             ]);
 
             // Créer un approvisionnement

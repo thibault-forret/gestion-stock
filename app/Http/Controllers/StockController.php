@@ -374,7 +374,7 @@ class StockController extends Controller
                         'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
                         'movement_date' => now(),
                         'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
-                        'movement_source' => 'USER',
+                        'movement_source' => StockMovement::MOVEMENT_SOURCE_SUPPLY,
                     ]);
 
                     $supply->supplyLines()->create([
@@ -414,7 +414,7 @@ class StockController extends Controller
                 'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
                 'movement_date' => now(),
                 'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
-                'movement_source' => 'THRESHOLD',
+                'movement_source' => StockMovement::MOVEMENT_SOURCE_SUPPLY,
             ]);
 
             // Créer un approvisionnement
@@ -455,7 +455,7 @@ class StockController extends Controller
                 'movement_type' => StockMovement::MOVEMENT_TYPE_OUT,
                 'movement_date' => now(),
                 'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
-                'movement_source' => 'USER',
+                'movement_source' => StockMovement::MOVEMENT_SOURCE_USER,
             ]);
         } catch (\Exception $e) {
             return false;
