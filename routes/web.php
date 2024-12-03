@@ -66,7 +66,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
             Route::prefix('stock')->name('stock.')->group(function () {
                 Route::get('/', [StockController::class, 'index'])->name('index');
-                Route::get('/{stock_id}/info', [StockController::class, 'seeInfoProduct'])->name('info');
+                Route::get('/{stock_id}/info', [StockController::class, 'infoProduct'])->name('info');
                 Route::get('/{stock_id}/edit', [StockController::class, 'editProduct'])->name('edit');
                 Route::post('/edit', [StockController::class, 'editProductSubmit'])->name('edit.submit');
                 Route::get('/{stock_id}/supply', [StockController::class, 'supplyProduct'])->name('supply');
