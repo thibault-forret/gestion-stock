@@ -156,6 +156,54 @@ class StockController extends Controller
         return view('pages.warehouse.stock.remove_product', compact('stock', 'product'));
     }
 
+    public function removeQuantityProductSubmit(Request $request)
+    {
+        $request->validate([
+            'stock_id' => 'required|integer|exists:stocks,id',
+            'quantity' => 'required|integer|min:1',
+        ],
+        [
+            'stock_id.required' => __('messages.validate.stock_id_required'),
+            'stock_id.integer' => __('messages.validate.stock_id_integer'),
+            'stock_id.exists' => __('messages.stock_not_found'),
+            'quantity.required' => __('messages.validate.quantity_required'),
+            'quantity.integer' => __('messages.validate.quantity_integer'),
+            'quantity.min' => __('messages.validate.quantity_min'),
+        ]);
+
+        // Vérifier si la quantité est inférieure à la capacité maximale
+        $quantity = $request->input('quantity');
+
+        $user = auth()->user();
+
+        $warehouse = $user->warehouseUser->warehouse;
+
+        // Vérifier si la quantité dépasse la capacité de l'entrepôt
+        if (($quantity + $warehouse->stock->sum('quantity_available')) > $warehouse->capacity) {
+            return redirect()->back()->withErrors(__('messages.validate.quantity_exceeds_capacity'))->withInput();
+        }
+
+        // Récupérer le stock
+        $stock = Stock::find($request->stock_id);
+
+        // Vérifier si la quantité ne sera pas négative
+        if ($stock->quantity_available < $quantity) {
+            return redirect()->back()->withErrors(__('messages.validate.quantity_to_high'))->withInput();
+        }
+
+        // Mettre à jour la quantité disponible
+        $success = $stock->removeStock($quantity);
+
+        // Ajouter toutes les dépendances nécessaires, stock_movements, etc.
+
+        if ($success) {
+            return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
+        }
+        else {
+            return redirect()->route('warehouse.stock.index')->with('error', __('messages.action_failed'));
+        }
+    }
+
     public function removeProductSubmit() 
     {
 

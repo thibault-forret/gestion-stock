@@ -47,6 +47,6 @@ return [
         'thresholds_exceeds_capacity' => 'The thresholds exceed the warehouse capacity. Please try again.',
         'stock_id_required' => 'Stock ID is required.',
         'stock_id_integer' => 'Stock ID must be an integer.',
-
+        'quantity_to_high' => 'The quantity to remove is greater than the available quantity.',
     ]
 ];
