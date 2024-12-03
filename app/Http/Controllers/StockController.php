@@ -9,7 +9,12 @@ use App\Models\Invoice;
 
 class StockController extends Controller
 {
-    public function index () 
+    public function index ()
+    {
+        return view('pages.warehouse.stock.index');
+    }
+
+    public function stockList () 
     {
 
         $user = auth()->user();

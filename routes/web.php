@@ -67,7 +67,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
             Route::prefix('stock')->name('stock.')->group(function () {
                 Route::get('/', [StockController::class, 'index'])->name('index');
 
-                Route::get('/stock-list', [StockController::class, 'stockList'])->name('stock.list');
+                Route::get('/list', [StockController::class, 'stockList'])->name('list');
 
                 Route::prefix('supply')->name('supply.')->group(function() {
                     Route::get('/make', [StockController::class, 'makeSupplyStock'])->name('make');
