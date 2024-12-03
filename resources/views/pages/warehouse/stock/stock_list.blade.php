@@ -79,6 +79,9 @@
                     <p>
                         <u>Fournisseur(s) :</u> {{ $product->supplyLines->first()->supply->supplier->supplier_name }}
                     </p>
+                    <p>
+                        <u>Quantité disponible :</u> {{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}
+                    </p>
 
                     @php
                         $stock = $product->stocks->where('warehouse_id', $warehouse->id)->first();

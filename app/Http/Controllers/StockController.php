@@ -61,7 +61,9 @@ class StockController extends Controller
 
         $product = $stock->product;
 
-        return view('pages.warehouse.stock.edit_product', compact('stock', 'product'));
+        $warehouse = $stock->warehouse;
+
+        return view('pages.warehouse.stock.edit_product', compact('stock', 'warehouse', 'product'));
     }
 
     public function editProductSubmit(Request $request) 
@@ -126,7 +128,9 @@ class StockController extends Controller
 
         $product = $stock->product;
 
-        return view('pages.warehouse.stock.supply_product', compact('stock', 'product'));
+        $warehouse = $stock->warehouse;
+
+        return view('pages.warehouse.stock.supply_product', compact('stock', 'product', 'warehouse'));
     }
 
     public function supplyProductSubmit(Request $request) 
@@ -190,7 +194,9 @@ class StockController extends Controller
 
         $product = $stock->product;
 
-        return view('pages.warehouse.stock.remove_product', compact('stock', 'product'));
+        $warehouse = $stock->warehouse;
+
+        return view('pages.warehouse.stock.remove_product', compact('stock', 'product', 'warehouse'));
     }
 
     public function removeQuantityProductSubmit(Request $request)
