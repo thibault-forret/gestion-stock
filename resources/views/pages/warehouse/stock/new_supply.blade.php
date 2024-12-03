@@ -86,7 +86,96 @@
                     addSelectedProduct(productId, productItem);
                 }
             });
+
+            const searchInput = document.getElementById('product-search');
+            const categorySelect = document.getElementById('category-name');
+            const supplierSelect = document.getElementById('supplier-name');
+            const productItems = document.querySelectorAll('.product-item');
+            const noResultsMessage = document.createElement('p');
+            noResultsMessage.textContent = 'Aucun produit trouvé.';
+            noResultsMessage.style.display = 'none';
+            productList.appendChild(noResultsMessage);
+
+            function filterProducts() {
+                const query = searchInput.value.toLowerCase();
+                const selectedCategory = categorySelect.value.toLowerCase();
+                const selectedSupplier = supplierSelect.value.toLowerCase();
+                let visibleProducts = 0;
+
+                productItems.forEach(productItem => {
+                    const productName = productItem.querySelector('.product_name').textContent.toLowerCase();
+                    const categories = Array.from(productItem.querySelectorAll('.product_category')).map(p => p.textContent.toLowerCase());
+                    const supplier = productItem.querySelector('.product_supplier').textContent.toLowerCase();
+
+                    // Recherche dans le nom, les catégories et le fournisseur
+                    const matchesSearch = productName.includes(query);
+                    const matchesCategory = selectedCategory === '' || categories.some(category => category.includes(selectedCategory));
+                    const matchesSupplier = selectedSupplier === '' || supplier.includes(selectedSupplier);
+
+                    if ((matchesSearch || categories.some(category => category.includes(query)) || supplier.includes(query)) && matchesCategory && matchesSupplier) {
+                        productItem.style.display = '';
+                        visibleProducts++;
+                    } else {
+                        productItem.style.display = 'none';
+                    }
+                });
+
+                if (visibleProducts === 0) {
+                    noResultsMessage.style.display = '';
+                } else {
+                    noResultsMessage.style.display = 'none';
+                }
+            }
+
+            searchInput.addEventListener('input', filterProducts);
+            categorySelect.addEventListener('change', filterProducts);
+            supplierSelect.addEventListener('change', filterProducts);
+
+            productList.addEventListener('click', function (event) {
+                if (event.target && event.target.classList.contains('btn-primary')) {
+                    const productId = event.target.value;
+                    const productItem = event.target.closest('.product-item');
+                    addSelectedProduct(productId, productItem);
+                }
+            });
         });
+
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     const productList = document.querySelector('.product-list');
+        //     const noResultsMessage = document.createElement('p'); // Crée un élément pour le message "Aucun produit"
+        //     noResultsMessage.textContent = 'Aucun produit trouvé.';
+        //     noResultsMessage.style.display = 'none'; // Initialement caché
+        //     productList.appendChild(noResultsMessage);
+
+        //     const searchInput = document.getElementById('product-search');
+        //     const productItems = document.querySelectorAll('.product-item');
+
+        //     searchInput.addEventListener('input', function () {
+        //         const query = searchInput.value.toLowerCase();
+        //         let visibleProducts = 0;
+
+        //         productItems.forEach(productItem => {
+        //             const productName = productItem.querySelector('.product_name').textContent.toLowerCase();
+        //             const categories = Array.from(productItem.querySelectorAll('.product_category')).map(p => p.textContent.toLowerCase());
+        //             const supplier = productItem.querySelector('.product_supplier').textContent.toLowerCase();
+
+        //             // Vérifie si le nom, une des catégories, ou le fournisseur contient le texte recherché
+        //             if (productName.includes(query) || categories.some(category => category.includes(query)) || supplier.includes(query)) {
+        //                 productItem.style.display = ''; // Affiche l'élément
+        //                 visibleProducts++;
+        //             } else {
+        //                 productItem.style.display = 'none'; // Cache l'élément
+        //             }
+        //         });
+
+        //         // Affiche ou cache le message "Aucun produit trouvé"
+        //         if (visibleProducts === 0) {
+        //             noResultsMessage.style.display = ''; // Affiche le message
+        //         } else {
+        //             noResultsMessage.style.display = 'none'; // Cache le message
+        //         }
+        //     });
+        // });
     </script>
 @endsection
 
@@ -97,24 +186,53 @@
 
     <h3>{{ __('title.stock_new_supply') }}</h3>
 
+    <div>
+        <label for="product-search">Rechercher par nom</label>
+        <input type="text" id="product-search" name="product-search">
+    </div>
+    <div>
+        <label for="category_name">Catégorie :</label>
+        <select id="category-name" name="category_name">
+            <option value="">Aucune sélection</option>
+            @foreach($categories as $category)
+                <option value="{{ $category->category_name }}">
+                    {{ $category->category_name }}
+                </option>
+            @endforeach
+        </select>
+    
+    </div>
+    <div>
+        <label for="supplier_name">Fournisseur :</label>
+        <select id="supplier-name" name="supplier_name" required>
+            <option value="">Aucune sélection</option>
+            @foreach($suppliers as $supplier)
+                <option value="{{ $supplier->supplier_name }}">
+                    {{ $supplier->supplier_name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
     <div class="product-list">
         @if(isset($products) && count($products) > 0)
             @foreach($products as $product)
                 <div class="product-item">
                     <h3 class="product_name">{{ $product->product_name }}</h3>
-                    <img class="product_image" src="{{ $product->image_url }}" alt="{{ $product->name }}">
+                    <img class="product_image" src="{{ $product->image_url }}" alt="{{ $product->product_name }}">
                     <p><u>Catégorie(s) :</u>
                         @foreach($product->categories as $category)
-                            <p>{{ $category->category_name }}</p>
+                            <span class="product_category">{{ $category->category_name }}</span>
                         @endforeach
                     </p>
-                    <p>
-                        <u>Fournisseur(s) :</u> {{ $product->supplyLines->first()->supply->supplier->supplier_name }}
+                    <p><u>Fournisseur :</u> 
+                        <span class="product_supplier">{{ $product->supplyLines->first()->supply->supplier->supplier_name }}</span>
                     </p>
                     <p>
-                        <u>Quantité disponible :</u> {{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}
+                        <u>Quantité disponible :</u> 
+                        {{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}
                     </p>
-
+    
                     <button class="btn btn-primary" value="{{ $product->id }}">Sélectionner</button>
                 </div>
             @endforeach
@@ -122,6 +240,7 @@
             <p>Aucun produit dans le stock.</p>
         @endif
     </div>
+    
 
     <form class="selected-product" action="{{ route('warehouse.stock.supply.new.submit') }}" method="POST">
 
