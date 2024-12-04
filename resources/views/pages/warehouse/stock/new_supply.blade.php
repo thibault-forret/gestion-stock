@@ -44,6 +44,18 @@
         .btn:hover {
             background-color: #0056b3;
         }
+
+        /* Style des boutons désactivés */
+        button.disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        button.disabled:hover {
+            background-color: #ccc;
+        }
+
     </style>
     {{-- <link href="{{ mix('css/pages/warehouse/product/search-new-product.css') }}" rel="stylesheet"> --}}
 @endsection
@@ -54,16 +66,12 @@
             const productList = document.querySelector('.product-list');
             const selectedProductsContainer = document.querySelector('.selected-products');
 
-            // Permet d'ajouter un produit sélectionné ou d'augmenter sa quantité
+            // Ajouter un produit sélectionné
             function addSelectedProduct(productId, productItem) {
                 // Vérifie si le produit est déjà ajouté
                 const existingProduct = selectedProductsContainer.querySelector(`.product-item[data-id="${productId}"]`);
 
-                if (existingProduct) {
-                    // Incrémente la quantité
-                    const quantityInput = existingProduct.querySelector('input[name="quantities[]"]');
-                    quantityInput.value = parseInt(quantityInput.value) + 1;
-                } else {
+                if (!existingProduct) {
                     // Récupère le nom et l'image du produit
                     const productName = productItem.querySelector('.product_name').textContent.trim();
                     const productImage = productItem.querySelector('.product_image').src;
@@ -79,28 +87,69 @@
                         <img src="${productImage}" alt="${productName}" style="max-width: 100px; max-height: 100px;">
                         <p>Produit: <strong>${productName}</strong></p>
                         <p>Quantité: <input type="number" name="quantities[]" value="1" min="1"></p>
-                        <button type="button" class="btn btn-danger remove-product">Retirer</button>
+                        <button type="button" class="btn btn-danger btn-remove-selected">Retirer</button>
                     `;
+
+                    // Ajoute l'écouteur d'événements pour le bouton "Retirer"
+                    productElement.querySelector('.btn-remove-selected').addEventListener('click', function () {
+                        // Supprime l'élément de la liste des produits sélectionnés
+                        productElement.remove();
+
+                        // Réactive le bouton "Sélectionner" dans la liste principale des produits
+                        const originalProductItem = document.querySelector(`.product-list .product-item[data-id="${productId}"]`);
+                        if (originalProductItem) {
+                            toggleButtons(originalProductItem, false);
+                        }
+                    });
 
                     // Ajoute le produit au conteneur des produits sélectionnés
                     selectedProductsContainer.appendChild(productElement);
-
-                    // Ajoute un gestionnaire d'événement pour le bouton "Retirer"
-                    productElement.querySelector('.remove-product').addEventListener('click', function () {
-                        productElement.remove();
-                    });
                 }
             }
 
-        
+            
 
+            // Retirer un produit sélectionné
+            function removeSelectedProduct(productId) {
+                const existingProduct = selectedProductsContainer.querySelector(`.product-item[data-id="${productId}"]`);
+                if (existingProduct) {
+                    existingProduct.remove();
+                }
+            }
+
+            // Bascule les boutons "Sélectionner" et "Retirer"
+            function toggleButtons(productItem, isSelected) {
+                const selectButton = productItem.querySelector('.btn-select');
+                const removeButton = productItem.querySelector('.btn-remove');
+
+                if (isSelected) {
+                    // Désactiver le bouton "Sélectionner" et activer "Retirer"
+                    selectButton.classList.add('disabled');
+                    selectButton.setAttribute('disabled', 'true');
+                    removeButton.classList.remove('disabled');
+                    removeButton.removeAttribute('disabled');
+                } else {
+                    // Activer le bouton "Sélectionner" et désactiver "Retirer"
+                    selectButton.classList.remove('disabled');
+                    selectButton.removeAttribute('disabled');
+                    removeButton.classList.add('disabled');
+                    removeButton.setAttribute('disabled', 'true');
+                }
+            }
+
+
+            // Gestion des clics sur les boutons "Sélectionner" et "Retirer"
             productList.addEventListener('click', function (event) {
-                if (event.target && event.target.classList.contains('btn-primary')) {
-                    const productId = event.target.value;
-                    const productItem = event.target.closest('.product-item');
+                const button = event.target;
+                const productItem = button.closest('.product-item');
+                const productId = productItem.getAttribute('data-id');
 
-                    // Ajouter ce produit au formulaire
+                if (button.classList.contains('btn-select')) {
                     addSelectedProduct(productId, productItem);
+                    toggleButtons(productItem, true);
+                } else if (button.classList.contains('btn-remove')) {
+                    removeSelectedProduct(productId);
+                    toggleButtons(productItem, false);
                 }
             });
 
@@ -108,29 +157,25 @@
             const searchInput = document.getElementById('product-search');
             const categorySelect = document.getElementById('category-name');
             const supplierSelect = document.getElementById('supplier-name');
-            const productItems = document.querySelectorAll('.product-item');
-            const noResultsMessage = document.createElement('p');
-            noResultsMessage.textContent = 'Aucun produit trouvé.';
-            noResultsMessage.style.display = 'none';
-            productList.appendChild(noResultsMessage);
+            const productItems = document.querySelectorAll('.product-list .product-item');
 
             function filterProducts() {
                 const query = searchInput.value.toLowerCase();
                 const selectedCategory = categorySelect.value.toLowerCase();
                 const selectedSupplier = supplierSelect.value.toLowerCase();
+
                 let visibleProducts = 0;
 
                 productItems.forEach(productItem => {
                     const productName = productItem.querySelector('.product_name').textContent.toLowerCase();
-                    const categories = Array.from(productItem.querySelectorAll('.product_category')).map(p => p.textContent.toLowerCase());
+                    const categories = Array.from(productItem.querySelectorAll('.product_category')).map(c => c.textContent.toLowerCase());
                     const supplier = productItem.querySelector('.product_supplier').textContent.toLowerCase();
 
-                    // Recherche dans le nom, les catégories et le fournisseur
                     const matchesSearch = productName.includes(query);
-                    const matchesCategory = selectedCategory === '' || categories.some(category => category.includes(selectedCategory));
-                    const matchesSupplier = selectedSupplier === '' || supplier.includes(selectedSupplier);
+                    const matchesCategory = !selectedCategory || categories.includes(selectedCategory);
+                    const matchesSupplier = !selectedSupplier || supplier.includes(selectedSupplier);
 
-                    if ((matchesSearch || categories.some(category => category.includes(query)) || supplier.includes(query)) && matchesCategory && matchesSupplier) {
+                    if (matchesSearch && matchesCategory && matchesSupplier) {
                         productItem.style.display = '';
                         visibleProducts++;
                     } else {
@@ -138,10 +183,16 @@
                     }
                 });
 
+                const noResultsMessage = document.querySelector('.no-results-message');
                 if (visibleProducts === 0) {
-                    noResultsMessage.style.display = '';
-                } else {
-                    noResultsMessage.style.display = 'none';
+                    if (!noResultsMessage) {
+                        const message = document.createElement('p');
+                        message.textContent = 'Aucun produit trouvé.';
+                        message.classList.add('no-results-message');
+                        productList.appendChild(message);
+                    }
+                } else if (noResultsMessage) {
+                    noResultsMessage.remove();
                 }
             }
 
@@ -149,6 +200,7 @@
             categorySelect.addEventListener('change', filterProducts);
             supplierSelect.addEventListener('change', filterProducts);
         });
+
     </script>
 @endsection
 
@@ -190,7 +242,7 @@
     <div class="product-list">
         @if(isset($products) && count($products) > 0)
             @foreach($products as $product)
-                <div class="product-item">
+                <div class="product-item" data-id="{{ $product->id }}">
                     <h3 class="product_name">{{ $product->product_name }}</h3>
                     <img class="product_image" src="{{ $product->image_url }}" alt="{{ $product->product_name }}">
                     <p><u>Catégorie(s) :</u>
@@ -205,8 +257,10 @@
                         <u>Quantité disponible :</u> 
                         {{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}
                     </p>
-    
-                    <button class="btn btn-primary" value="{{ $product->id }}">Sélectionner</button>
+                
+                    <!-- Boutons "Sélectionner" et "Retirer" -->
+                    <button class="btn btn-primary btn-select">Sélectionner</button>
+                    <button class="btn btn-danger btn-remove disabled" disabled>Retirer</button>
                 </div>
             @endforeach
         @else
