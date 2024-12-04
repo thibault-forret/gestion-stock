@@ -20,10 +20,34 @@
         <div class="content-form">
             <div class="info">
                 <div class="container-img">
-                    <img src="{{ asset('images/logo.webp') }}" alt="Logo">
+                    <img src="{{ asset('images/logoNova.webp') }}" alt="Logo">
                 </div>
             </div>
         
+            <div class="language">
+            @foreach($available_locales as $locale_name => $available_locale)
+                @switch($available_locale)
+                    @case('fr')
+                        @if($available_locale === $current_locale)
+                            <img src="{{ asset('images/france.png') }}" alt="Français">
+                        @else
+                            <a href="{{ route('lang.switch', $available_locale) }}">
+                                <img src="{{ asset('images/france.png') }}" alt="Français">
+                            </a>
+                        @endif
+                        @break
+                    @case('en')
+                        @if($available_locale === $current_locale)
+                            <img src="{{ asset('images/etats-unis.png') }}" alt="English">
+                        @else
+                            <a href="{{ route('lang.switch', $available_locale) }}">
+                                <img src="{{ asset('images/etats-unis.png') }}" alt="English"></a>
+                        @endif
+                    @break
+                @endswitch
+            @endforeach
+            </div>
+
             <div class="item-form">
                 <label for="username">{{__('auth.username') }}</label>
                 <input type="text" id="username" name="username" required autofocus autocomplete="username">

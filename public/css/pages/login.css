@@ -21,7 +21,6 @@ body, html {
 .content-form .info {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
 }
 .content-form .info .container-img {
   width: 90px;
@@ -30,17 +29,18 @@ body, html {
 .content-form .info .container-img img {
   width: 100%;
   height: auto;
-  border-radius: 50%;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  box-shadow: none;
 }
 .content-form .item-form {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 .content-form .item-form label {
-  color: #333;
+  color: #000;
   font-weight: 500;
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
@@ -50,9 +50,9 @@ body, html {
 .content-form .item-form input[type=password] {
   padding: 0.85rem;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fff;
-  color: #333;
+  border-radius: 50px;
+  background-color: #f05c2b;
+  color: #fff;
   font-size: 1rem;
   outline: none;
   transition: border-color 0.3s;
@@ -60,7 +60,7 @@ body, html {
 .content-form .item-form input[type=text]:focus,
 .content-form .item-form input[type=email]:focus,
 .content-form .item-form input[type=password]:focus {
-  border-color: #3498db;
+  border-color: #f05c2b;
   box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }
 .content-form .error-message {
@@ -76,21 +76,22 @@ body, html {
   display: flex;
   justify-content: center;
   width: 100%;
+  margin-top: 1rem;
 }
 .content-form .login-button {
-  width: 100%;
+  width: 50%;
   padding: 0.85rem;
-  background-color: #3498db;
+  background-color: #f05c2b;
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
   border: none;
-  border-radius: 6px;
+  border-radius: 50px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
 }
 .content-form .login-button:hover {
-  background-color: rgb(33.1380753138, 125.1882845188, 186.8619246862);
+  background-color: rgb(216.6696035242, 65.40969163, 15.3303964758);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
