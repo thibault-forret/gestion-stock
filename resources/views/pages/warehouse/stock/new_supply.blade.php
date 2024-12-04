@@ -79,12 +79,20 @@
                         <img src="${productImage}" alt="${productName}" style="max-width: 100px; max-height: 100px;">
                         <p>Produit: <strong>${productName}</strong></p>
                         <p>Quantité: <input type="number" name="quantities[]" value="1" min="1"></p>
+                        <button type="button" class="btn btn-danger remove-product">Retirer</button>
                     `;
 
                     // Ajoute le produit au conteneur des produits sélectionnés
                     selectedProductsContainer.appendChild(productElement);
+
+                    // Ajoute un gestionnaire d'événement pour le bouton "Retirer"
+                    productElement.querySelector('.remove-product').addEventListener('click', function () {
+                        productElement.remove();
+                    });
                 }
             }
+
+        
 
             productList.addEventListener('click', function (event) {
                 if (event.target && event.target.classList.contains('btn-primary')) {
