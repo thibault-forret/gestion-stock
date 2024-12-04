@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Supplier;
 use App\Models\StockMovement;
 use App\Models\Invoice;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
