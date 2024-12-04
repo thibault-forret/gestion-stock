@@ -53,27 +53,37 @@
         document.addEventListener("DOMContentLoaded", function () {
             const productList = document.querySelector('.product-list');
             const selectedProductsContainer = document.querySelector('.selected-products');
-            
-            // Permet d'ajouter un produit sélectionné au formulaire
-            function addSelectedProduct(productId, productItem) {
-                // Récupère le nom et l'image du produit
-                const productName = productItem.querySelector('.product_name').textContent.trim();
-                const productImage = productItem.querySelector('.product_image').src;
 
-                // Crée un élément de produit avec une quantité
-                const productElement = document.createElement('div');
-                productElement.classList.add('product-item');
-                
-                // Définit le contenu HTML pour ce produit
-                productElement.innerHTML = `
-                    <input type="hidden" name="products[]" value="${productId}">
-                    <img src="${productImage}" alt="${productName}" style="max-width: 100px; max-height: 100px;">
-                    <p>Produit: <strong>${productName}</strong></p>
-                    <p>Quantité: <input type="number" name="quantities[]" value="1" min="1"></p>
-                `;
-                
-                // Ajoute le produit au conteneur des produits sélectionnés
-                selectedProductsContainer.appendChild(productElement);
+            // Permet d'ajouter un produit sélectionné ou d'augmenter sa quantité
+            function addSelectedProduct(productId, productItem) {
+                // Vérifie si le produit est déjà ajouté
+                const existingProduct = selectedProductsContainer.querySelector(`.product-item[data-id="${productId}"]`);
+
+                if (existingProduct) {
+                    // Incrémente la quantité
+                    const quantityInput = existingProduct.querySelector('input[name="quantities[]"]');
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                } else {
+                    // Récupère le nom et l'image du produit
+                    const productName = productItem.querySelector('.product_name').textContent.trim();
+                    const productImage = productItem.querySelector('.product_image').src;
+
+                    // Crée un élément de produit avec une quantité
+                    const productElement = document.createElement('div');
+                    productElement.classList.add('product-item');
+                    productElement.setAttribute('data-id', productId);
+
+                    // Définit le contenu HTML pour ce produit
+                    productElement.innerHTML = `
+                        <input type="hidden" name="products[]" value="${productId}">
+                        <img src="${productImage}" alt="${productName}" style="max-width: 100px; max-height: 100px;">
+                        <p>Produit: <strong>${productName}</strong></p>
+                        <p>Quantité: <input type="number" name="quantities[]" value="1" min="1"></p>
+                    `;
+
+                    // Ajoute le produit au conteneur des produits sélectionnés
+                    selectedProductsContainer.appendChild(productElement);
+                }
             }
 
             productList.addEventListener('click', function (event) {
@@ -86,6 +96,7 @@
                 }
             });
 
+            // Recherche et filtrage des produits
             const searchInput = document.getElementById('product-search');
             const categorySelect = document.getElementById('category-name');
             const supplierSelect = document.getElementById('supplier-name');
