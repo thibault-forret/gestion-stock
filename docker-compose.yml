@@ -24,8 +24,6 @@ services:
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
             MYSQL_PASSWORD: ${DB_PASSWORD}
             MYSQL_USER: ${DB_USERNAME}
-            SERVICE_TAGS: dev
-            SERVICE_NAME: mariadb
             MYSQL_LOG_CONSOLE: "true"
         volumes:
             - ./docker-compose/mariadb:/docker-entrypoint-initdb.d      # Pour les scripts d'initialisation
@@ -44,7 +42,7 @@ services:
         ports:
             - 443:80
         volumes:
-            - ./:/var/www                                          # Monté pour l'application web
+            - ./public:/var/www/public                            # Monté pour l'application web
             - ./docker-compose/nginx/gestion-stock.conf:/etc/nginx/conf.d/default.conf # Configuration de Nginx
             - ./docker-compose/nginx/logs:/var/log/nginx          # Pour les logs de Nginx
         networks:
