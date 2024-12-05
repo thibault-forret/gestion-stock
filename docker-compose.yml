@@ -24,12 +24,13 @@ services:
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
             MYSQL_PASSWORD: ${DB_PASSWORD}
             MYSQL_USER: ${DB_USERNAME}
-            MYSQL_LOG_CONSOLE: "true"
+            # MYSQL_LOG_CONSOLE: "true"
         volumes:
             - ./docker-compose/mariadb:/docker-entrypoint-initdb.d      # Pour les scripts d'initialisation
             - ./db:/var/lib/mysql                                        # Pour les données de la base de données
-            - ./docker-compose/mariadb/logs:/var/log/mysql             # Pour les logs de MariaDB
             - ./docker-compose/mariadb/my.cnf:/etc/mysql/my.cnf        # Fichier de configuration (pour les logs)
+            - ./docker-compose/mariadb/logs/general.log:/var/log/mysql/general.log
+            - ./docker-compose/mariadb/logs/error.log:/var/log/mysql/error.log
             # Log ne fonctionnent pas
         networks:
             - pma-network
