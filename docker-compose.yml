@@ -1,14 +1,14 @@
 services:
     php:
-        build:
-            args:
-                user: gestion-stock
-                uid: 1000
-            context: ./
-            dockerfile: Dockerfile
+        build: .
         container_name: php-container
-        restart: unless-stopped
+        restart: on-failure:5
         working_dir: /var/www/
+        ports:
+            - 9000:9000
+        command: sh -c "composer install --no-interaction --prefer-dist && php-fpm"
+        depends_on:
+            - db
         volumes:
             - ./:/var/www
         networks:
@@ -17,20 +17,22 @@ services:
     db:
         image: mariadb:10.5
         container_name: db-container
-        restart: unless-stopped
+        restart: on-failure:5
+        # command:
+        #     --log-error=/var/log/mysql/error.log
+        #     --general-log=1
+        #     --general-log-file=/var/log/mysql/general.log
         environment:
             MYSQL_DATABASE: ${DB_DATABASE}
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
             MYSQL_PASSWORD: ${DB_PASSWORD}
             MYSQL_USER: ${DB_USERNAME}
-            # MYSQL_LOG_CONSOLE: "true"
+        ports:
+            - 3306:3306
         volumes:
             - ./docker-compose/mariadb:/docker-entrypoint-initdb.d      # Pour les scripts d'initialisation
-            - ./db:/var/lib/mysql                                        # Pour les données de la base de données
-            - ./docker-compose/mariadb/my.cnf:/etc/mysql/my.cnf        # Fichier de configuration (pour les logs)
-            - ./docker-compose/mariadb/logs/general.log:/var/log/mysql/general.log
-            - ./docker-compose/mariadb/logs/error.log:/var/log/mysql/error.log
-            # Log ne fonctionnent pas
+            - ./db:/var/lib/mysql                                       # Pour les données de la base de données
+            # - ./docker-compose/mariadb/logs:/var/log/mysql
         networks:
             - pma-network
             - db-network
@@ -39,6 +41,9 @@ services:
         image: nginx:alpine
         container_name: nginx-container
         restart: unless-stopped
+        depends_on:
+            - db
+            - php
         ports:
             - 443:80
         volumes:
@@ -52,6 +57,8 @@ services:
         image: phpmyadmin/phpmyadmin
         container_name: phpmyadmin-container
         restart: unless-stopped
+        depends_on:
+            - db
         environment:
             PMA_HOST: db
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}

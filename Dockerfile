@@ -1,8 +1,5 @@
 FROM php:8.3-fpm
 
-ARG user
-ARG uid
-
 # Installation des dependances
 RUN apt update && apt install -y \
     git \
@@ -20,18 +17,16 @@ RUN apt clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # Installation Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
-# Add user
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
-
-# Change ownership of the working directory to the created user
-RUN chown -R $user:$user /var/www
-
-# Set the working directory
+# Répertoire de travail
 WORKDIR /var/www
 
-# Switch to the non-root user
-USER $user
+# Changer le propriétaire du répertoire de travail
+RUN chown -R www-data:www-data /var/www
+
+# Ajoute le répertoire de travail dans la configuration de git
+RUN git config --global --add safe.directory /var/www 
+
+# Expose le port 9000 pour PHP-FPM
+EXPOSE 9000
