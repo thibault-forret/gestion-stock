@@ -6,7 +6,6 @@ services:
                 uid: 1000
             context: ./
             dockerfile: Dockerfile
-        image: php-fpm
         container_name: php-container
         restart: unless-stopped
         working_dir: /var/www/
