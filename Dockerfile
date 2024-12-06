@@ -3,7 +3,7 @@ FROM php:8.3-fpm
 ARG user
 ARG uid
 
-# Install dependencies
+# Installation des dependances
 RUN apt update && apt install -y \
     git \
     curl \
@@ -13,13 +13,13 @@ RUN apt update && apt install -y \
     zip \
     libxml2-dev
 
-# Clean up to reduce image size
+# Réduit la taille de l'image
 RUN apt clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
+# Installation des extensions PHP
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Install Composer
+# Installation Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Add user
