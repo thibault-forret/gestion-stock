@@ -65,6 +65,13 @@
         document.addEventListener("DOMContentLoaded", function () {
             const productList = document.querySelector('.product-list');
             const selectedProductsContainer = document.querySelector('.selected-products');
+            const confirmSupplyButton = document.getElementById('confirm-supply-btn');
+
+            // Fonction pour activer/désactiver le bouton
+            function toggleConfirmButton() {
+                const hasSelectedProducts = selectedProductsContainer.children.length > 0;
+                confirmSupplyButton.disabled = !hasSelectedProducts;
+            }
 
             // Ajouter un produit sélectionné
             function addSelectedProduct(productId, productItem) {
@@ -94,6 +101,7 @@
                     productElement.querySelector('.btn-remove-selected').addEventListener('click', function () {
                         // Supprime l'élément de la liste des produits sélectionnés
                         productElement.remove();
+                        toggleConfirmButton();
 
                         // Réactive le bouton "Sélectionner" dans la liste principale des produits
                         const originalProductItem = document.querySelector(`.product-list .product-item[data-id="${productId}"]`);
@@ -104,16 +112,7 @@
 
                     // Ajoute le produit au conteneur des produits sélectionnés
                     selectedProductsContainer.appendChild(productElement);
-                }
-            }
-
-            
-
-            // Retirer un produit sélectionné
-            function removeSelectedProduct(productId) {
-                const existingProduct = selectedProductsContainer.querySelector(`.product-item[data-id="${productId}"]`);
-                if (existingProduct) {
-                    existingProduct.remove();
+                    toggleConfirmButton();
                 }
             }
 
@@ -158,6 +157,8 @@
             const categorySelect = document.getElementById('category-name');
             const supplierSelect = document.getElementById('supplier-name');
             const productItems = document.querySelectorAll('.product-list .product-item');
+            const resetButton = document.getElementById('reset-button');
+
 
             function filterProducts() {
                 const query = searchInput.value.toLowerCase();
@@ -196,6 +197,12 @@
                 }
             }
 
+            resetButton.addEventListener('click', () => {
+                searchInput.value = '';
+                categorySelect.value = '';
+                supplierSelect.value = '';
+                filterProducts();
+            });
             searchInput.addEventListener('input', filterProducts);
             categorySelect.addEventListener('change', filterProducts);
             supplierSelect.addEventListener('change', filterProducts);
@@ -239,6 +246,8 @@
         </select>
     </div>
 
+    <button id="reset-button">Rénitialiser recherche</button>
+
     <div class="product-list">
         @if(isset($products) && count($products) > 0)
             @foreach($products as $product)
@@ -279,7 +288,7 @@
             {{-- Les produits sélectionnés seront ajoutés ici --}}
         </div>
 
-        <button type="submit">Confirmer l'approvisionnement</button>
+        <button type="submit" id="confirm-supply-btn" disabled>Confirmer l'approvisionnement</button>
 
     </form>
 
