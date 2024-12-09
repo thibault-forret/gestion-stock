@@ -30,7 +30,11 @@ class StockController extends Controller
             return $stock->product;
         });
 
-        return view('pages.warehouse.stock.stock_list', compact('products', 'warehouse'));
+        // Récupérer toutes les catégories et tous les fournisseurs
+        $categories = Category::all();
+        $suppliers = Supplier::all();
+
+        return view('pages.warehouse.stock.stock_list', compact('products', 'warehouse', 'categories', 'suppliers'));
     }
 
     public function stockMovementList()
