@@ -10,6 +10,7 @@ return [
     'confirm_order' => 'Your order has been confirmed.',
     'product_added' => 'Product added successfully.',
     'problem_when_adding_product' => 'There was a problem adding the product. Please try again.',
+    'stock_not_found' => 'The stock was not found. Please try again.',
 
     'validate' => [
         'usernmame_required' => 'Please provide your username.',
@@ -44,5 +45,19 @@ return [
         'auto_restock_quantity_gte' => 'Auto restock quantity must be greater than or equal to the restock threshold.',
         'quantity_exceeds_capacity' => 'The quantity of products exceeds the warehouse capacity. Please try again.',
         'thresholds_exceeds_capacity' => 'The thresholds exceed the warehouse capacity. Please try again.',
+        'stock_id_required' => 'Stock ID is required.',
+        'stock_id_integer' => 'Stock ID must be an integer.',
+        'quantity_to_high' => 'The quantity to remove is greater than the available quantity.',
+        'products_required' => 'Products are required.',
+        'products_array' => 'Products must be an array.',
+        'products_each_required' => 'Each product is required.',
+        'products_each_integer' => 'Each product must be an integer.',
+        'products_each_exists' => 'Each product must exist.',
+        'quantities_required' => 'Quantities are required.',
+        'quantities_array' => 'Quantities must be an array.',
+        'quantities_each_required' => 'Each quantity is required.',
+        'quantities_each_integer' => 'Each quantity must be an integer.',
+        'quantities_each_min' => 'Each quantity must be greater than or equal to 1.',
+        'products_not_in_stock' => 'The product(s) is/are not referenced in the warehouse.',
     ]
 ];

@@ -12,4 +12,12 @@ return [
     'recap_order' => 'Displays a summary of the order.',
     'search_new_product' => 'Allows you to search for a new product.',
     'add_product' => 'Allows you to add a product.',
+    'warehouse_stock_list' => 'Displays the list of products in stock.',
+    'stock_edit_product' => 'Allows you to edit a product.',
+    'stock_supply_product' => 'Allows you to supply a product.',
+    'stock_remove_product' => 'Allows you to remove a product.',
+    'stock_info_product' => 'Displays information about a product.',
+    'stock' => 'Displays the options and features available for stocks.',
+    'stock_new_supply' => 'Allows you to make a new supply.',
+    'warehouse_stock_movement_list' => 'Displays the list of stock movements.',
 ];
