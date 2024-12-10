@@ -19,4 +19,5 @@ return [
     'stock' => 'Stock',
     'stock_new_supply' => 'Nouvel approvisionnement',
     'warehouse_stock_movement_list' => 'Liste des mouvements de stock',
+    'invoice_list' => 'Liste des factures',
 ];
