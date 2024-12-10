@@ -130,8 +130,8 @@
         <div>
             <label for="order">Trier par ordre</label>
             <select id="order" name="order" required>
-                <option value="desc" {{ request('status') != 'desc' ? '' : 'selected' }}>Décroissant</option>
-                <option value="asc" {{ request('status') == 'asc' ? 'selected' : '' }}>Croissant</option>
+                <option value="desc" {{ request('order') != 'desc' ? '' : 'selected' }}>Décroissant</option>
+                <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Croissant</option>
             </select>
         </div>
 

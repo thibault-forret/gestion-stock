@@ -17,8 +17,10 @@ class InvoiceController extends Controller
 
         // Récupère toutes les factures de l'entrepôt
         $invoices = $warehouse->supplies->flatMap(function ($supply) {
-            return $supply->invoice()->orderBy('created_at', 'desc')->get();
+            return $supply->invoice()->get();
         });
+
+        $invoices = $invoices->sortByDesc('created_at');
 
         $suppliers = Supplier::all();
 
@@ -138,6 +140,11 @@ class InvoiceController extends Controller
             // Récupérer les factures
             return $query->get();
         });
+
+        // Trier les factures par date (ascendant ou descendant)
+        $invoices = $data['order'] === 'asc'
+            ? $invoices->sortBy('created_at')
+            : $invoices->sortByDesc('created_at');
 
         $suppliers = Supplier::all();
 
