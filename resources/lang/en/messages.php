@@ -11,6 +11,7 @@ return [
     'product_added' => 'Product added successfully.',
     'problem_when_adding_product' => 'There was a problem adding the product. Please try again.',
     'stock_not_found' => 'The stock was not found. Please try again.',
+    'invoice_not_found' => 'The invoice was not found. Please try again.',
 
     'validate' => [
         'usernmame_required' => 'Please provide your username.',

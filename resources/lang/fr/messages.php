@@ -11,6 +11,7 @@ return [
     'product_added' => 'Produit ajouté avec succès.',
     'problem_with_product_data' => 'Un problème est survenu avec les données du produit. Veuillez réessayer.',
     'stock_not_found' => 'Le stock n\'a pas été trouvé. Veuillez réessayer.',
+    'invoice_not_found' => 'La facture n\'a pas été trouvée. Veuillez réessayer.',
 
     'validate' => [
         'usernmame_required' => 'Veuillez fournir votre nom d\'utilisateur.',

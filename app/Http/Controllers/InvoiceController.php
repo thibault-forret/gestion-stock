@@ -155,6 +155,12 @@ class InvoiceController extends Controller
 
     public function infoInvoice(int $invoice_id)
     {
+        $invoice = Invoice::find($invoice_id);
+
+        if (!$invoice) {
+            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
+        }
+
         return view('pages.warehouse.invoice.info');
     }
 
