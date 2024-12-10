@@ -39,39 +39,41 @@ class InvoiceController extends Controller
             'month' => 'nullable|date_format:Y-m|before_or_equal:today',
             'year' => 'nullable|integer|min:1900|max:' . date('Y'),
         ], [
-            'supplier.string' => 'Le fournisseur doit être une chaîne de caractères.',
-            'supplier.exists' => 'Le fournisseur n\'existe pas.',
-            'order.required' => 'L\'ordre est obligatoire.',
-            'order.in' => 'L\'ordre doit être soit "desc" soit "asc".',
-            'status.in' => 'Le statut doit être soit "all", "settled" ou "not-settled".',
-            'type_date.in' => 'Le type de date doit être soit "all", "day", "week", "month" ou "year".',
-            'day.date' => 'Le champ jour doit être une date valide.',
-            'day.before_or_equal' => 'Le champ jour doit être une date antérieure ou égale à aujourd\'hui.',
-            'week.regex' => 'Le champ semaine doit être au format "YYYY-WW".',
-            'week.before_or_equal' => 'Le champ semaine doit être une date antérieure ou égale à aujourd\'hui.',
-            'month.date_format' => 'Le champ mois doit être au format "YYYY-MM".',
-            'month.before_or_equal' => 'Le champ mois doit être une date antérieure ou égale à aujourd\'hui.',
-            'year.integer' => 'Le champ année doit être un entier.',
-            'year.min' => 'Le champ année doit être au minimum 1900.',
-            'year.max' => 'Le champ année ne peut pas être supérieur à l\'année en cours.',
+            'supplier.string' => __('messages.validate.supplier_string'),
+            'supplier.exists' => __('messages.validate.supplier_name_exists'),
+            'order.required' => __('messages.validate.order_required'),
+            'order.in' => __('messages.validate.order_in'),
+            'status.in' => __('messages.validate.status_in'),
+            'type_date.required' => __('messages.validate.type_date_required'),
+            'type_date.in' => __('messages.validate.type_date_in'),
+            'day.date' => __('messages.validate.day_date'),
+            'day.before_or_equal' => __('messages.validate.day_before_or_equal'),
+            'week.regex' => __('messages.validate.week_regex'),
+            'week.before_or_equal' => __('messages.validate.week_before_or_equal'),
+            'month.date_format' => __('messages.validate.month_date_format'),
+            'month.before_or_equal' => __('messages.validate.month_before_or_equal'),
+            'year.integer' => __('messages.validate.year_integer'),
+            'year.min' => __('messages.validate.year_min'),
+            'year.max' => __('messages.validate.year_max'),
         ]);
 
-        // Ajout de la vérification qu'un seul champ est rempli
+        // Vérification qu'un seul champ est rempli (type de date)
         $validator->after(function ($validator) use ($request) {
             $fields = ['day', 'week', 'month', 'year', 'all'];
             $filledFields = array_filter($fields, fn($field) => !empty($request->$field));
             if (count($filledFields) > 1) {
-                $validator->errors()->add('fields', 'Vous ne pouvez remplir qu\'un seul champ de recherche (jour, semaine, mois, année ou "tout").');
+                $validator->errors()->add('fields', __('messages.validate.invoice_only_one_field'));
             }
         });
 
         $messages = [
-            'day.required' => 'Le champ jour est obligatoire lorsque le type de date est "jour".',
-            'week.required' => 'Le champ semaine est obligatoire lorsque le type de date est "semaine".',
-            'month.required' => 'Le champ mois est obligatoire lorsque le type de date est "mois".',
-            'year.required' => 'Le champ année est obligatoire lorsque le type de date est "année".',
+            'day.required' => __('messages.validate.day_required'),
+            'week.required' => __('messages.validate.week_required'),
+            'month.required' => __('messages.validate.month_required'),
+            'year.required' => __('messages.validate.year_required'),
         ];
         
+        // Vérification des champs en fonction du type de date
         Validator::make($request->all(), [], $messages)
             ->sometimes('day', 'required', fn($input) => $input->type_date === 'day')
             ->sometimes('week', 'required', fn($input) => $input->type_date === 'week')
@@ -88,9 +90,9 @@ class InvoiceController extends Controller
 
         $warehouse = $user->warehouseUser->warehouse;
 
-        // Filtrer par fournisseur
         $supplies = $warehouse->supplies;
 
+        // Filtrer par fournisseur
         if (!empty($data['supplier']) && $data['supplier'] !== 'all') {
             $supplier = Supplier::where('supplier_name', $data['supplier'])->first();
             if ($supplier) {
