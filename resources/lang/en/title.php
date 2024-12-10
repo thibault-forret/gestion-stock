@@ -20,4 +20,5 @@ return [
     'stock_new_supply' => 'New supply',
     'warehouse_stock_movement_list' => 'Stock movement list',
     'invoice_list' => 'Invoice list',
+    'invoice_info' => 'Invoice information',
 ];

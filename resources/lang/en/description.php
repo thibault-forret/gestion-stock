@@ -21,4 +21,5 @@ return [
     'stock_new_supply' => 'Allows you to make a new supply.',
     'warehouse_stock_movement_list' => 'Displays the list of stock movements.',
     'invoice_list' => 'Displays the list of invoices.',
+    'invoice_info' => 'Displays information about an invoice.',
 ];

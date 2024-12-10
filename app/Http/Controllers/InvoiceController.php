@@ -153,6 +153,7 @@ class InvoiceController extends Controller
         return view('pages.warehouse.invoice.list', compact('invoices', 'suppliers'));
     }
 
+    // Ajouter un bouton pour rediriger vers la page pour payer la facture
     public function infoInvoice(int $invoice_id)
     {
         $invoice = Invoice::find($invoice_id);
@@ -161,9 +162,19 @@ class InvoiceController extends Controller
             return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
         }
 
-        return view('pages.warehouse.invoice.info');
+        $supply = $invoice->supply;
+
+        $total_amount = $supply->supplyLines->sum(fn($supply_line) => $supply_line->unit_price * $supply_line->quantity_supplied);
+
+        return view('pages.warehouse.invoice.info', compact('invoice', 'supply', 'total_amount'));
     }
 
+    // TODO: Ajouter la fonctionnalité de paiement
+    //    - Visualiser la facture (quelque chose de réalise)
+    //    - Payer la facture
+    //    - Changer le statut de la facture
+    //    - Donner la possibilité de télécharger la facture (en PDF) -> téléchargable aussi depuis infoInvoice (dans la view)
+    //    - Rediriger vers la page de la liste des factures
     public function settleInvoice(int $invoice_id)
     {
         return view('pages.warehouse.invoice.settle');
