@@ -116,11 +116,11 @@
 
     <form action="{{ route('warehouse.invoice.filter') }}" method="get">
         <div>
-            <label for="supplier_name">Fournisseur :</label>
-            <select id="supplier-name" name="supplier_name">
-                <option value="">Aucune sélection</option>
+            <label for="supplier">Fournisseur :</label>
+            <select id="supplier" name="supplier">
+                <option value="all">Aucune sélection</option>
                 @foreach($suppliers as $supplier)
-                    <option value="{{ $supplier->supplier_name }}" {{ request('supplier_name') == $supplier->supplier_name ? 'selected' : '' }}>
+                    <option value="{{ $supplier->supplier_name }}" {{ request('supplier') == $supplier->supplier_name ? 'selected' : '' }}>
                         {{ $supplier->supplier_name }}
                     </option>
                 @endforeach

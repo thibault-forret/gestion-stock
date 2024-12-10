@@ -27,7 +27,7 @@ class InvoiceController extends Controller
 
     public function filterInvoice(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'supplier' => 'nullable|string|exists:suppliers,supplier_name',
             'order' => 'required|in:desc,asc',
             'status' => 'nullable|in:all,settled,not-settled',
@@ -45,7 +45,7 @@ class InvoiceController extends Controller
             'type_date.in' => 'Le type de date doit être soit "all", "day", "week", "month" ou "year".',
             'day.date' => 'Le champ jour doit être une date valide.',
             'day.before_or_equal' => 'Le champ jour doit être une date antérieure ou égale à aujourd\'hui.',
-            'week.date_format' => 'Le champ semaine doit être au format "YYYY-WW".',
+            'week.regex' => 'Le champ semaine doit être au format "YYYY-WW".',
             'week.before_or_equal' => 'Le champ semaine doit être une date antérieure ou égale à aujourd\'hui.',
             'month.date_format' => 'Le champ mois doit être au format "YYYY-MM".',
             'month.before_or_equal' => 'Le champ mois doit être une date antérieure ou égale à aujourd\'hui.',
@@ -54,26 +54,28 @@ class InvoiceController extends Controller
             'year.max' => 'Le champ année ne peut pas être supérieur à l\'année en cours.',
         ]);
 
-        // Vérifie si les champs dépendant de type_date sont remplis
-        Validator::make($request->all(), [], [
+        // Ajout de la vérification qu'un seul champ est rempli
+        $validator->after(function ($validator) use ($request) {
+            $fields = ['day', 'week', 'month', 'year', 'all'];
+            $filledFields = array_filter($fields, fn($field) => !empty($request->$field));
+            if (count($filledFields) > 1) {
+                $validator->errors()->add('fields', 'Vous ne pouvez remplir qu\'un seul champ de recherche (jour, semaine, mois, année ou "tout").');
+            }
+        });
+
+        $messages = [
             'day.required' => 'Le champ jour est obligatoire lorsque le type de date est "jour".',
             'week.required' => 'Le champ semaine est obligatoire lorsque le type de date est "semaine".',
             'month.required' => 'Le champ mois est obligatoire lorsque le type de date est "mois".',
             'year.required' => 'Le champ année est obligatoire lorsque le type de date est "année".',
-            ])
-            ->sometimes('day', 'required', function ($input) {
-                return $input->type_date === 'day';
-            })
-            ->sometimes('week', 'required', function ($input) {
-                return $input->type_date === 'week';
-            })
-            ->sometimes('month', 'required', function ($input) {
-                return $input->type_date === 'month';
-            })
-            ->sometimes('year', 'required', function ($input) {
-                return $input->type_date === 'year';
-            })
-            ->validate();
+        ];
+        
+        Validator::make($request->all(), [], $messages)
+            ->sometimes('day', 'required', fn($input) => $input->type_date === 'day')
+            ->sometimes('week', 'required', fn($input) => $input->type_date === 'week')
+            ->sometimes('month', 'required', fn($input) => $input->type_date === 'month')
+            ->sometimes('year', 'required', fn($input) => $input->type_date === 'year')
+            ->validate();        
 
         // Réduit le tableau aux éléments non null
         $data = array_filter($request->only(['supplier', 'order', 'status', 'type_date', 'day', 'week', 'month', 'year']), function ($value) {
@@ -84,15 +86,22 @@ class InvoiceController extends Controller
 
         $warehouse = $user->warehouseUser->warehouse;
 
-        // Récupère toutes les factures de l'entrepôt
-        $invoices = $warehouse->supplies->flatMap(function ($supply) use ($data) {
-            $query = $supply->invoice()->orderBy('created_at', $data['order']);
-        
-            // Si un fournisseur est spécifié, appliquer le filtre
-            if (!empty($data['supplier']) && $data['supplier'] !== 'all') {
-                $query->where('supplier_id', $data['supplier']);
-            }
+        // Filtrer par fournisseur
+        $supplies = $warehouse->supplies;
 
+        if (!empty($data['supplier']) && $data['supplier'] !== 'all') {
+            $supplier = Supplier::where('supplier_name', $data['supplier'])->first();
+            if ($supplier) {
+                $supplies = $supplies->where('supplier_id', $supplier->id);
+            }
+        }
+
+        // Récupère les factures en fonction des critères
+        $invoices = $supplies->flatMap(function ($supply) use ($data) {
+            // Appliquer les filtres sur la relation invoice
+            $query = $supply->invoice()->orderBy('created_at', $data['order']);
+
+            // Filtrer par statut
             switch ($data['status']) {
                 case 'settled':
                     $query->where('invoice_status', Invoice::INVOICE_STATUS_PAID);
@@ -104,6 +113,7 @@ class InvoiceController extends Controller
                     break;
             }
 
+            // Filtrer par type de date
             switch ($data['type_date']) {
                 case 'day':
                     $query->whereDate('created_at', $data['day']);
@@ -124,7 +134,8 @@ class InvoiceController extends Controller
                 default:
                     break;
             }
-        
+
+            // Récupérer les factures
             return $query->get();
         });
 
