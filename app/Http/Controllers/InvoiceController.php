@@ -182,10 +182,12 @@ class InvoiceController extends Controller
 
         $invoice = Invoice::find($invoice_id);
 
+        // Vérifier si la facture n'est pas déjà réglée
         if ($invoice->invoice_status === Invoice::INVOICE_STATUS_PAID) {
             return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_already_settled'));
         }
 
+        // Mettre à jour le statut de la facture
         $success = $invoice->update([
             'invoice_status' => Invoice::INVOICE_STATUS_PAID,
         ]);
