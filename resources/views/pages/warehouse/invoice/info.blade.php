@@ -21,6 +21,13 @@
             @endif
             <p>Montant total: {{ $total_amount }}</p>
 
+            @if ($invoice->invoice_status === App\Models\Invoice::INVOICE_STATUS_UNPAID)
+                <a href="{{ route('warehouse.invoice.settle', ['invoice_id' => $invoice->id]) }}">Régler la facture</a>
+            @endif
+
+            @if ($invoice->invoice_status === App\Models\Invoice::INVOICE_STATUS_PAID)
+                <a href="{{ route('warehouse.invoice.download', ['invoice_id' => $invoice->id]) }}">Télécharger la facture</a>
+            @endif
     </div>
 
 @endsection

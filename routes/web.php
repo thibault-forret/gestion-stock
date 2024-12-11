@@ -93,6 +93,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                 Route::get('/filter', [InvoiceController::class, 'filterInvoice'])->name('filter');
                 Route::get('/{invoice_id}/info', [InvoiceController::class, 'infoInvoice'])->name('info');
                 Route::get('/{invoice_id}/settle', [InvoiceController::class, 'settleInvoice'])->name('settle');
+                Route::get('/{invoice_id}/download', [InvoiceController::class, 'downloadInvoice'])->name('download');
             });
         });
     });

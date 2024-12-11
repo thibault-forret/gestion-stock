@@ -179,4 +179,9 @@ class InvoiceController extends Controller
     {
         return view('pages.warehouse.invoice.settle');
     }
+
+    public function downloadInvoice(int $invoice_id)
+    {
+        return view('pages.warehouse.invoice.download');
+    }
 }
