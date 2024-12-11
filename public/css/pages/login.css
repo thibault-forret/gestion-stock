@@ -21,16 +21,17 @@ body, html {
 .content-form .info {
   display: flex;
   justify-content: center;
-}
-.content-form .info .container-img {
-  width: 90px;
-  height: 90px;
+  margin-bottom: 2rem;
 }
 .content-form .info .container-img img {
-  width: 100%;
+  width: 90px;
   height: auto;
   border-radius: 0;
   box-shadow: none;
+}
+.content-form .info .container-img .logo {
+  height: 75px; /* Hauteur fixe pour le logo */
+  width: auto; /* Conserver les proportions */
 }
 .content-form .item-form {
   display: flex;
@@ -76,7 +77,7 @@ body, html {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 .content-form .login-button {
   width: 50%;
@@ -98,4 +99,19 @@ body, html {
 .content-form .login-button:active {
   transform: translateY(0);
   box-shadow: none;
+}
+.content-form .language {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.content-form .language img {
+  width: 32px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.content-form .language img:hover {
+  transform: scale(1.1);
 }

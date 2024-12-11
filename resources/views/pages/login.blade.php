@@ -20,32 +20,8 @@
         <div class="content-form">
             <div class="info">
                 <div class="container-img">
-                    <img src="{{ asset('images/logoNova.webp') }}" alt="Logo">
+                    <img src="{{ asset('images/logoNova.png') }}" alt="Logo" class="logo">
                 </div>
-            </div>
-        
-            <div class="language">
-            @foreach($available_locales as $locale_name => $available_locale)
-                @switch($available_locale)
-                    @case('fr')
-                        @if($available_locale === $current_locale)
-                            <img src="{{ asset('images/france.png') }}" alt="Français">
-                        @else
-                            <a href="{{ route('lang.switch', $available_locale) }}">
-                                <img src="{{ asset('images/france.png') }}" alt="Français">
-                            </a>
-                        @endif
-                        @break
-                    @case('en')
-                        @if($available_locale === $current_locale)
-                            <img src="{{ asset('images/etats-unis.png') }}" alt="English">
-                        @else
-                            <a href="{{ route('lang.switch', $available_locale) }}">
-                                <img src="{{ asset('images/etats-unis.png') }}" alt="English"></a>
-                        @endif
-                    @break
-                @endswitch
-            @endforeach
             </div>
 
             <div class="item-form">
@@ -68,7 +44,32 @@
     
             <div class="center-child">
                 <button class="login-button" type="submit">{{__('auth.login') }}</button>
-            </div>     
+            </div>
+            
+            <div class="language">
+                @foreach($available_locales as $locale_name => $available_locale)
+                    @switch($available_locale)
+                        @case('fr')
+                            @if($available_locale === $current_locale)
+                                <img src="{{ asset('images/france.png') }}" alt="Français">
+                            @else
+                                <a href="{{ route('lang.switch', $available_locale) }}">
+                                    <img src="{{ asset('images/france.png') }}" alt="Français">
+                                </a>
+                            @endif
+                            @break
+                        @case('en')
+                            @if($available_locale === $current_locale)
+                                <img src="{{ asset('images/etats-unis.png') }}" alt="English">
+                            @else
+                                <a href="{{ route('lang.switch', $available_locale) }}">
+                                    <img src="{{ asset('images/etats-unis.png') }}" alt="English"></a>
+                            @endif
+                        @break
+                    @endswitch
+                @endforeach
+            </div>
+
         </div>
 
     </form>
