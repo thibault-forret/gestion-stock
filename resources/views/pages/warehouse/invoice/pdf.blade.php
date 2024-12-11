@@ -149,7 +149,7 @@
                     </tr>
                     <tr>
                         <th>{{ __('Status') }}:</th>
-                        <td>{{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Unpaid') }}</td>
+                        <td>{{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}</td>
                     </tr>
                     <tr>
                         <th>{{ __('Settled on') }}:</th>
