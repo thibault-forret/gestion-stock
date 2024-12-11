@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Supplier;
 use App\Models\Invoice;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InvoiceController extends Controller
 {
@@ -200,12 +201,43 @@ class InvoiceController extends Controller
         }
     }
 
+    public function showInvoice(int $invoice_id)
+    {
+        $invoice = Invoice::find($invoice_id);
 
-    // Vérifier avant de passer au téléchargement si tout fonctionne bien
+        if (!$invoice) {
+            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
+        }
 
+        $supply = $invoice->supply;
+
+        $total_amount = $supply->supplyLines->sum(fn($supply_line) => $supply_line->unit_price * $supply_line->quantity_supplied);
+
+        $warehouse_name = $supply->warehouse->warehouse_name;
+
+        $pdf = Pdf::loadView('pages.warehouse.invoice.pdf', compact('invoice', 'supply', 'total_amount', 'warehouse_name'));
+
+        // Pour afficher le PDF dans le navigateur
+        return $pdf->stream($warehouse_name.'_INVOICE_'.$invoice->invoice_number.'_'.$invoice->created_at.'.pdf');
+    }
 
     public function downloadInvoice(int $invoice_id)
     {
-        return view('pages.warehouse.invoice.download');
+        $invoice = Invoice::find($invoice_id);
+
+        if (!$invoice) {
+            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
+        }
+
+        $supply = $invoice->supply;
+
+        $total_amount = $supply->supplyLines->sum(fn($supply_line) => $supply_line->unit_price * $supply_line->quantity_supplied);
+
+        $warehouse_name = $supply->warehouse->warehouse_name;
+
+        $pdf = Pdf::loadView('pages.warehouse.invoice.pdf', compact('invoice', 'supply', 'total_amount', 'warehouse_name'));
+
+        // Pour afficher le PDF dans le navigateur
+        return $pdf->download($warehouse_name.'_INVOICE_'.$invoice->invoice_number.'_'.$invoice->created_at.'.pdf');
     }
 }

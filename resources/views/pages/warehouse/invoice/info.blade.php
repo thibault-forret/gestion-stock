@@ -144,9 +144,8 @@
             </form>
         @endif
 
-        @if ($invoice->invoice_status === App\Models\Invoice::INVOICE_STATUS_PAID)
-            <a href="{{ route('warehouse.invoice.download', ['invoice_id' => $invoice->id]) }}">Télécharger la facture</a>
-        @endif
+        <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_id' => $invoice->id]) }}">Voir la facture</a>
+        <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_id' => $invoice->id]) }}">Télécharger la facture</a>
     </div>
 </div>
 @endsection
