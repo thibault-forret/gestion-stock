@@ -15,7 +15,6 @@
         .container {
             width: 100%;
             margin: 0 auto;
-            padding: 20px;
         }
 
         .header {
