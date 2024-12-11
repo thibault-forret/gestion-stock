@@ -83,6 +83,16 @@
         <p><strong>{{ __('Created At') }}:</strong> {{ $invoice->created_at->format('d/m/Y H:i') }}</p>
     </div>
 
+    <!-- Détails de l'entrepôt -->
+    <div class="invoice-section">
+        <h4>{{ __('Warehouse Details') }}</h4>
+        <p><strong>{{ __('Name') }}:</strong> {{ $supply->warehouse->warehouse_name }}</p>
+        <p><strong>{{ __('Location') }}:</strong> {{ $supply->warehouse->warehouse_address }}</p>
+        <p><strong>{{ __('Email') }}:</strong> {{ $supply->warehouse->warehouse_contact }}</p>
+        <p><strong>{{ __('Phone') }}:</strong> {{ $supply->warehouse->warehouse_contact }}</p>
+        <p><strong>{{ __('Manager') }}:</strong> {{ $supply->warehouse->manager->username }}</p>
+    </div>
+
     <!-- Détails du fournisseur -->
     <div class="invoice-section">
         <h4>{{ __('Supplier Details') }}</h4>
@@ -98,6 +108,7 @@
         <table class="invoice-table">
             <thead>
                 <tr>
+                    <th>{{ __('ID') }}</th>
                     <th>{{ __('Product') }}</th>
                     <th>{{ __('Quantity Supplied') }}</th>
                     <th>{{ __('Unit Price (€)') }}</th>
@@ -107,6 +118,7 @@
             <tbody>
                 @foreach ($supply->supplyLines as $line)
                     <tr>
+                        <td>{{ $line->product->id }}</td>
                         <td>{{ $line->product->product_name }}</td>
                         <td>{{ $line->quantity_supplied }}</td>
                         <td>{{ number_format($line->unit_price, 2, ',', ' ') }}</td>

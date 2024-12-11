@@ -200,6 +200,10 @@ class InvoiceController extends Controller
         }
     }
 
+
+    // Vérifier avant de passer au téléchargement si tout fonctionne bien
+
+
     public function downloadInvoice(int $invoice_id)
     {
         return view('pages.warehouse.invoice.download');
