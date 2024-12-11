@@ -11,6 +11,10 @@ return [
     'product_added' => 'Produit ajouté avec succès.',
     'problem_with_product_data' => 'Un problème est survenu avec les données du produit. Veuillez réessayer.',
     'stock_not_found' => 'Le stock n\'a pas été trouvé. Veuillez réessayer.',
+    'invoice_not_found' => 'La facture n\'a pas été trouvée. Veuillez réessayer.',
+    'invoice_already_settled' => 'La facture est déjà réglée.',
+    'invoice_settled' => 'La facture a été réglée.',
+    'invoice_not_settled' => 'La facture n\'a pas été réglée. Veuillez réessayer.',
 
     'validate' => [
         'usernmame_required' => 'Veuillez fournir votre nom d\'utilisateur.',
@@ -79,5 +83,7 @@ return [
         'week_required' => 'Le champ semaine est obligatoire lorsque le type de date est "semaine".',
         'month_required' => 'Le champ mois est obligatoire lorsque le type de date est "mois".',
         'year_required' => 'Le champ année est obligatoire lorsque le type de date est "année".',
+        'invoice_id_required' => 'L\'ID de la facture est requis.',
+        'invoice_id_integer' => 'L\'ID de la facture doit être un entier.',
     ]
 ];

@@ -11,6 +11,10 @@ return [
     'product_added' => 'Product added successfully.',
     'problem_when_adding_product' => 'There was a problem adding the product. Please try again.',
     'stock_not_found' => 'The stock was not found. Please try again.',
+    'invoice_not_found' => 'The invoice was not found. Please try again.',
+    'invoice_already_settled' => 'The invoice is already settled.',
+    'invoice_settled' => 'The invoice has been settled.',
+    'invoice_not_settled' => 'The invoice has not been settled. Please try again.',
 
     'validate' => [
         'usernmame_required' => 'Please provide your username.',

@@ -155,11 +155,57 @@ class InvoiceController extends Controller
 
     public function infoInvoice(int $invoice_id)
     {
-        return view('pages.warehouse.invoice.info');
+        $invoice = Invoice::find($invoice_id);
+
+        if (!$invoice) {
+            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
+        }
+
+        $supply = $invoice->supply;
+
+        $total_amount = $supply->supplyLines->sum(fn($supply_line) => $supply_line->unit_price * $supply_line->quantity_supplied);
+
+        return view('pages.warehouse.invoice.info', compact('invoice', 'supply', 'total_amount'));
     }
 
-    public function settleInvoice(int $invoice_id)
+    public function settleInvoice(Request $request)
     {
-        return view('pages.warehouse.invoice.settle');
+        $request->validate([
+            'invoice_id' => 'required|integer|exists:invoices,id',
+        ], [
+            'invoice_id.required' => __('messages.validate.invoice_id_required'),
+            'invoice_id.integer' => __('messages.validate.invoice_id_integer'),
+            'invoice_id.exists' => __('messages.validate.invoice_not_found'),
+        ]);
+
+        $invoice_id = $request->input('invoice_id');
+
+        $invoice = Invoice::find($invoice_id);
+
+        // Vérifier si la facture n'est pas déjà réglée
+        if ($invoice->invoice_status === Invoice::INVOICE_STATUS_PAID) {
+            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_already_settled'));
+        }
+
+        // Mettre à jour le statut de la facture
+        $success = $invoice->update([
+            'invoice_status' => Invoice::INVOICE_STATUS_PAID,
+        ]);
+
+        if ($success){
+            return redirect()->route('warehouse.invoice.info', ['invoice_id' => $invoice_id])->with('success', __('messages.invoice_settled'));
+        }
+        else {
+            return redirect()->route('warehouse.invoice.info', ['invoice_id' => $invoice_id])->with('error', __('messages.invoice_not_settled'));
+        }
+    }
+
+
+    // Vérifier avant de passer au téléchargement si tout fonctionne bien
+
+
+    public function downloadInvoice(int $invoice_id)
+    {
+        return view('pages.warehouse.invoice.download');
     }
 }

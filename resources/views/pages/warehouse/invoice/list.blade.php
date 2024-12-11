@@ -95,8 +95,8 @@
     </script>
 @endsection
 
-@section('title', __('title.warehouse_stock_list'))
-@section('description', __('description.warehouse_stock_list'))
+@section('title', __('title.invoice_list'))
+@section('description', __('description.invoice_list'))
 
 @section('content')
 
@@ -112,7 +112,7 @@
         </div>
     @endif
 
-    <h3>{{ __('title.warehouse_stock_list') }}</h3>
+    <h3>{{ __('title.invoice_list') }}</h3>
 
     <form action="{{ route('warehouse.invoice.filter') }}" method="get">
         <div>
