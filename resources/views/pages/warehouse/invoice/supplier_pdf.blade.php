@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ $warehouse_name }} - Invoice - {{ $invoice->invoice_number }}</title>
+    <title>{{ str_replace(' ', '_', $warehouse_name) }}_INVOICE_{{ $invoice->invoice_number}}_{{ str_replace(':', '_', str_replace(' ', '_', $invoice->created_at)) }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
