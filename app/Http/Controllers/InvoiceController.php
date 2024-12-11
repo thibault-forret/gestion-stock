@@ -153,7 +153,6 @@ class InvoiceController extends Controller
         return view('pages.warehouse.invoice.list', compact('invoices', 'suppliers'));
     }
 
-    // Ajouter un bouton pour rediriger vers la page pour payer la facture
     public function infoInvoice(int $invoice_id)
     {
         $invoice = Invoice::find($invoice_id);
@@ -169,15 +168,34 @@ class InvoiceController extends Controller
         return view('pages.warehouse.invoice.info', compact('invoice', 'supply', 'total_amount'));
     }
 
-    // TODO: Ajouter la fonctionnalité de paiement
-    //    - Visualiser la facture (quelque chose de réalise)
-    //    - Payer la facture
-    //    - Changer le statut de la facture
-    //    - Donner la possibilité de télécharger la facture (en PDF) -> téléchargable aussi depuis infoInvoice (dans la view)
-    //    - Rediriger vers la page de la liste des factures
-    public function settleInvoice(int $invoice_id)
+    public function settleInvoice(Request $request)
     {
-        return view('pages.warehouse.invoice.settle');
+        $request->validate([
+            'invoice_id' => 'required|integer|exists:invoices,id',
+        ], [
+            'invoice_id.required' => __('messages.validate.invoice_id_required'),
+            'invoice_id.integer' => __('messages.validate.invoice_id_integer'),
+            'invoice_id.exists' => __('messages.validate.invoice_id_exists'),
+        ]);
+
+        $invoice_id = $request->input('invoice_id');
+
+        $invoice = Invoice::find($invoice_id);
+
+        if ($invoice->invoice_status === Invoice::INVOICE_STATUS_PAID) {
+            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_already_settled'));
+        }
+
+        $success = $invoice->update([
+            'invoice_status' => Invoice::INVOICE_STATUS_PAID,
+        ]);
+
+        if ($success){
+            return redirect()->route('warehouse.invoice.info', ['invoice_id' => $invoice_id])->with('success', __('messages.invoice_settled'));
+        }
+        else {
+            return redirect()->route('warehouse.invoice.info', ['invoice_id' => $invoice_id])->with('error', __('messages.invoice_not_settled'));
+        }
     }
 
     public function downloadInvoice(int $invoice_id)
