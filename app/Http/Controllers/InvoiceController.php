@@ -175,7 +175,7 @@ class InvoiceController extends Controller
         ], [
             'invoice_id.required' => __('messages.validate.invoice_id_required'),
             'invoice_id.integer' => __('messages.validate.invoice_id_integer'),
-            'invoice_id.exists' => __('messages.validate.invoice_id_exists'),
+            'invoice_id.exists' => __('messages.validate.invoice_not_found'),
         ]);
 
         $invoice_id = $request->input('invoice_id');
