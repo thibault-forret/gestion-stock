@@ -218,7 +218,7 @@ class InvoiceController extends Controller
         $pdf = Pdf::loadView('pages.warehouse.invoice.pdf', compact('invoice', 'supply', 'total_amount', 'warehouse_name'));
 
         // Pour afficher le PDF dans le navigateur
-        return $pdf->stream($warehouse_name.'_INVOICE_'.$invoice->invoice_number.'_'.$invoice->created_at.'.pdf');
+        return $pdf->stream(str_replace(' ', '_', $warehouse_name).'_INVOICE_'.$invoice->invoice_number.'_'.$invoice->created_at.'.pdf');
     }
 
     public function downloadInvoice(int $invoice_id)
@@ -238,6 +238,6 @@ class InvoiceController extends Controller
         $pdf = Pdf::loadView('pages.warehouse.invoice.pdf', compact('invoice', 'supply', 'total_amount', 'warehouse_name'));
 
         // Pour afficher le PDF dans le navigateur
-        return $pdf->download($warehouse_name.'_INVOICE_'.$invoice->invoice_number.'_'.$invoice->created_at.'.pdf');
+        return $pdf->download(str_replace(' ', '_', $warehouse_name).'_INVOICE_'.$invoice->invoice_number.'_'.$invoice->created_at.'.pdf');
     }
 }
