@@ -139,11 +139,14 @@
         .invoices {
             width: 80%;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
 
         .invoice {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 8px;
