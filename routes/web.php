@@ -90,6 +90,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
             Route::prefix('invoice')->name('invoice.')->group(function () {
                 Route::get('/', [InvoiceController::class, 'invoiceList'])->name('list');
+                Route::post('/search', [InvoiceController::class, 'searchInvoice'])->name('search');
                 Route::get('/filter', [InvoiceController::class, 'filterInvoice'])->name('filter');
                 Route::get('/{invoice_id}/info', [InvoiceController::class, 'infoInvoice'])->name('info');
                 Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle');

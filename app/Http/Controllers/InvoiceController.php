@@ -29,6 +29,24 @@ class InvoiceController extends Controller
         return view('pages.warehouse.invoice.list', compact('invoices', 'suppliers'));
     }
 
+    public function searchInvoice(Request $request)
+    {
+        $request->validate([
+            'search' => 'required|string',
+        ], [
+            'search.required' => __('messages.validate.search_required'),
+            'search.string' => __('messages.validate.search_string'),
+        ]);
+
+        $invoice = Invoice::where('invoice_number', $request->input('search'))->first();
+
+        if (!$invoice) {
+            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
+        }
+
+        return redirect()->route('warehouse.invoice.info', ['invoice_id' => $invoice->id]);
+    }
+
     public function filterInvoice(Request $request)
     {
         $validator = Validator::make($request->all(), [

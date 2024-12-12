@@ -348,6 +348,19 @@
 
     <h3>{{ __('title.invoice_list') }}</h3>
 
+    <form action="{{ route('warehouse.invoice.search') }}" method="POST">
+        @csrf
+        <div class="search-element">
+            <div>
+                <label for="search">Recherche par numéro de facture</label>
+                <input type="text" id="search" name="search" value="{{ request('invoice_number') }}" placeholder="Numéro de facture" required>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="btn" type="submit">Rechercher</button>
+            <a class="btn red" href="{{ route('warehouse.invoice.list') }}">Rénitialiser recherche</a>
+        </div>
+
     <form action="{{ route('warehouse.invoice.filter') }}" method="get">
         <div class="search-element">
             <div>
