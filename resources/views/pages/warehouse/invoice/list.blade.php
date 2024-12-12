@@ -316,11 +316,21 @@
         </div>
 
         <div>
-            <label for="status">Status</label>
+            <label for="status">Statut du paiement</label>
             <select id="status" name="status" required>
                 <option value="all" {{ request('status') != 'all' ? '' : 'selected' }}>Tous</option>
                 <option value="settled" {{ request('status') == 'settled' ? 'selected' : '' }}>Réglé</option>
                 <option value="not-settled" {{ request('status') == 'not-settled' ? 'selected' : '' }}>Non réglé</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="priority_level">Niveau de priorité</label>
+            <select id="priority_level" name="priority_level" required>
+                <option value="all" {{ request('priority_level') == 'all' ? 'selected' : '' }}>Aucune sélection</option>
+                <option value="low" {{ request('priority_level') != 'low' ? '' : 'selected' }}>À traiter</option>
+                <option value="medium" {{ request('priority_level') == 'medium' ? 'selected' : '' }}>En attente</option>
+                <option value="high" {{ request('priority_level') == 'high' ? 'selected' : '' }}>Critique</option>
             </select>
         </div>
 

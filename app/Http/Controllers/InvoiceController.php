@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Supplier;
 use App\Models\Invoice;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class InvoiceController extends Controller
 {
@@ -33,7 +34,8 @@ class InvoiceController extends Controller
         $validator = Validator::make($request->all(), [
             'supplier' => 'nullable|string|exists:suppliers,supplier_name',
             'order' => 'required|in:desc,asc',
-            'status' => 'nullable|in:all,settled,not-settled',
+            'status' => 'required|in:all,settled,not-settled',
+            'priority_level' => 'required|in:all,low,medium,high',
             'type_date' => 'required|in:all,day,week,month,year',
             'day' => 'nullable|date|before_or_equal:today',
             'week' => 'nullable|regex:/^\d{4}-W\d{2}$/|before_or_equal:today',
@@ -44,7 +46,10 @@ class InvoiceController extends Controller
             'supplier.exists' => __('messages.validate.supplier_name_exists'),
             'order.required' => __('messages.validate.order_required'),
             'order.in' => __('messages.validate.order_in'),
+            'status.required' => __('messages.validate.status_required'),
             'status.in' => __('messages.validate.status_in'),
+            'priority_level.required' => __('messages.validate.priority_level_required'),
+            'priority_level.in' => __('messages.validate.priority_level_in'),
             'type_date.required' => __('messages.validate.type_date_required'),
             'type_date.in' => __('messages.validate.type_date_in'),
             'day.date' => __('messages.validate.day_date'),
@@ -83,7 +88,7 @@ class InvoiceController extends Controller
             ->validate();        
 
         // Réduit le tableau aux éléments non null
-        $data = array_filter($request->only(['supplier', 'order', 'status', 'type_date', 'day', 'week', 'month', 'year']), function ($value) {
+        $data = array_filter($request->only(['supplier', 'order', 'status', 'priority_level', 'type_date', 'day', 'week', 'month', 'year']), function ($value) {
             return $value !== null && $value !== '';
         });
 
@@ -113,6 +118,28 @@ class InvoiceController extends Controller
                     break;
                 case 'not-settled':
                     $query->where('invoice_status', Invoice::INVOICE_STATUS_UNPAID);
+                    break;
+                default:
+                    break;
+            }
+
+            // Filtrer par niveau de priorité
+            switch ($data['priority_level']) {
+                case 'low':
+                    // Factures non réglées depuis moins d'une semaine
+                    $query->where('invoice_status', Invoice::INVOICE_STATUS_UNPAID);
+                    $query->where('created_at', '>=', Carbon::now()->subWeek()); // Moins de 1 semaine
+                    break;
+                case 'medium':
+                    // Factures non réglées depuis plus d'une semaine mais moins de deux semaines
+                    $query->where('invoice_status', Invoice::INVOICE_STATUS_UNPAID);
+                    $query->where('created_at', '>=', Carbon::now()->subWeeks(2)) // Plus d'une semaine
+                          ->where('created_at', '<', Carbon::now()->subWeek()); // Moins de 2 semaines
+                    break;
+                case 'high':
+                    // Factures non réglées depuis plus de deux semaines
+                    $query->where('invoice_status', Invoice::INVOICE_STATUS_UNPAID);
+                    $query->where('created_at', '<', Carbon::now()->subWeeks(2)); // Plus de 2 semaines
                     break;
                 default:
                     break;
