@@ -5,6 +5,186 @@
         .hidden {
             display: none;
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        form div {
+            flex: 1 1 calc(50% - 20px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        form input,
+        form select,
+        form button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        form input:focus,
+        form select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        form button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        .alert {
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .alert-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .invoices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .invoice {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .invoice:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .invoice h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .invoice p {
+            margin: 5px 0;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .invoice a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .invoice a:hover {
+            background-color: #0056b3;
+        }
+
+        .status-paid {
+            background-color: #28a745;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .status-due-soon {
+            background-color: #ffc107;
+            color: #212529;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .status-due-week {
+            background-color: #fd7e14;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .status-overdue {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .center-child {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .error-message p {
+            color: #dc3545;
+            font-weight: bold;
+            text-align: center;
+        }
+
     </style>
     {{-- <link href="{{ mix('css/pages/warehouse/product/search-new-product.css') }}" rel="stylesheet"> --}}
 @endsection
@@ -188,61 +368,39 @@
         </div>
     @endif
 
-    <style>
-        .invoices {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .invoice {
-            border: 1px solid #ccc;
-            padding: 15px;
-            border-radius: 5px;
-            width: calc(33.333% - 20px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
-
-        .invoice:hover {
-            transform: scale(1.01);
-        }
-
-        .invoice p {
-            margin: 5px 0;
-        }
-
-        .invoice a {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 3px;
-            transition: background-color 0.2s;
-        }
-
-        .invoice a:hover {
-            background-color: #0056b3;
-        }
-    </style>
-
     <div class="invoices">
         @foreach ($invoices as $invoice)
-
             @php
                 $supplier = $invoice->supply->supplier;
                 $total_price = $invoice->supply->supplyLines->sum(function ($supply_line) {
                     return $supply_line->quantity_supplied * $supply_line->unit_price;
                 });
+
+                // Calculer la différence en jours entre aujourd'hui et la date de la facture
+                $invoiceDate = new DateTime($invoice->invoice_date);
+                $currentDate = new DateTime();
+                $daysDifference = $currentDate->diff($invoiceDate)->days;
+
+                // Déterminer la classe CSS selon le statut et la date
+                $statusClass = '';
+                if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID) {
+                    $statusClass = 'status-paid';
+                } elseif ($daysDifference <= 7) {
+                    $statusClass = 'status-due-soon';
+                } elseif ($daysDifference > 7 && $daysDifference <= 14) {
+                    $statusClass = 'status-due-week';
+                } else {
+                    $statusClass = 'status-overdue';
+                }
             @endphp
 
             <div class="invoice">
                 <div>
                     <p>Fournisseur : {{ $supplier->supplier_name }}</p>
                     <p>Date : {{ $invoice->invoice_date }}</p>
-                    <p>Status : {{ $invoice->invoice_status }}</p>
+                    <p class="{{ $statusClass }}">
+                        Status : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}
+                    </p>
                     <p>Prix total : {{ $total_price }} €</p>
                 </div>
                 <div>
