@@ -79,8 +79,12 @@
     <!-- Détails de la facture -->
     <div class="invoice-section">
         <h4>{{ __('Invoice Details') }}</h4>
+        <p><strong>{{ __('Number') }}:</strong> {{ $invoice->invoice_number }}</p>
+        <p><strong>{{ __('Date') }}:</strong> {{ $invoice->created_at->format('d/m/Y H:i') }}</p>
         <p><strong>{{ __('Status') }}:</strong> {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}</p>
-        <p><strong>{{ __('Created At') }}:</strong> {{ $invoice->created_at->format('d/m/Y H:i') }}</p>
+        @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
+            <p><strong>Settled on:</strong> {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
+        @endif
     </div>
 
     <!-- Détails de l'entrepôt -->
