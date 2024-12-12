@@ -369,45 +369,49 @@
     @endif
 
     <div class="invoices">
-        @foreach ($invoices as $invoice)
-            @php
-                $supplier = $invoice->supply->supplier;
-                $total_price = $invoice->supply->supplyLines->sum(function ($supply_line) {
-                    return $supply_line->quantity_supplied * $supply_line->unit_price;
-                });
+        @if ($invoices->isEmpty())
+            <p>Aucune facture trouvée</p>
+        @else
+            @foreach ($invoices as $invoice)
+                @php
+                    $supplier = $invoice->supply->supplier;
+                    $total_price = $invoice->supply->supplyLines->sum(function ($supply_line) {
+                        return $supply_line->quantity_supplied * $supply_line->unit_price;
+                    });
 
-                // Calculer la différence en jours entre aujourd'hui et la date de la facture
-                $invoiceDate = new DateTime($invoice->invoice_date);
-                $currentDate = new DateTime();
-                $daysDifference = $currentDate->diff($invoiceDate)->days;
+                    // Calculer la différence en jours entre aujourd'hui et la date de la facture
+                    $invoiceDate = new DateTime($invoice->invoice_date);
+                    $currentDate = new DateTime();
+                    $daysDifference = $currentDate->diff($invoiceDate)->days;
 
-                // Déterminer la classe CSS selon le statut et la date
-                $statusClass = '';
-                if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID) {
-                    $statusClass = 'status-paid';
-                } elseif ($daysDifference <= 7) {
-                    $statusClass = 'status-due-soon';
-                } elseif ($daysDifference > 7 && $daysDifference <= 14) {
-                    $statusClass = 'status-due-week';
-                } else {
-                    $statusClass = 'status-overdue';
-                }
-            @endphp
+                    // Déterminer la classe CSS selon le statut et la date
+                    $statusClass = '';
+                    if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID) {
+                        $statusClass = 'status-paid';
+                    } elseif ($daysDifference <= 7) {
+                        $statusClass = 'status-due-soon';
+                    } elseif ($daysDifference > 7 && $daysDifference <= 14) {
+                        $statusClass = 'status-due-week';
+                    } else {
+                        $statusClass = 'status-overdue';
+                    }
+                @endphp
 
-            <div class="invoice">
-                <div>
-                    <p>Fournisseur : {{ $supplier->supplier_name }}</p>
-                    <p>Date : {{ $invoice->invoice_date }}</p>
-                    <p class="{{ $statusClass }}">
-                        Status : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}
-                    </p>
-                    <p>Prix total : {{ $total_price }} €</p>
+                <div class="invoice">
+                    <div>
+                        <p>Fournisseur : {{ $supplier->supplier_name }}</p>
+                        <p>Date : {{ $invoice->invoice_date }}</p>
+                        <p class="{{ $statusClass }}">
+                            Status : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}
+                        </p>
+                        <p>Prix total : {{ $total_price }} €</p>
+                    </div>
+                    <div>
+                        <a href="{{ route('warehouse.invoice.info', ['invoice_id' => $invoice->id]) }}">Voir</a>
+                    </div>
                 </div>
-                <div>
-                    <a href="{{ route('warehouse.invoice.info', ['invoice_id' => $invoice->id]) }}">Voir</a>
-                </div>
-            </div>
-        @endforeach
+            @endforeach
+        @endif
     </div>
 
 @endsection
