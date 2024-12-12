@@ -6,32 +6,39 @@
             display: none;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
+        .content {
             padding: 20px;
-            background: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h3 {
             font-size: 1.8rem;
             margin-bottom: 20px;
-            color: #007bff;
             text-align: center;
         }
 
         form {
-            margin-bottom: 20px;
+            width: 80%;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+        form .search-element {
+            width: 90%;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            justify-content: space-between;
         }
 
         form div {
-            flex: 1 1 calc(50% - 20px);
+            flex: 1 1 calc(33% - 20px);
             display: flex;
             flex-direction: column;
         }
@@ -44,10 +51,11 @@
         form input,
         form select,
         form button {
+            background-color: #fff;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 1rem;
+            font-size: 1em;
             transition: border-color 0.3s ease;
         }
 
@@ -57,16 +65,58 @@
             outline: none;
         }
 
-        form button {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
+        form .buttons {;
+            margin: auto;
+            width: 40%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-evenly;
+            margin: 20px 0;
         }
 
-        form button:hover {
-            background-color: #0056b3;
+        /* Style pour les boutons */
+        .buttons .btn {
+            margin-bottom: 10px;
+            width: 250px;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
         }
+
+        .buttons .btn.red {
+            background-color: #dc3545;
+        }
+
+        .buttons .btn.red:hover {
+            background-color: #c82333;
+        }
+
+        .buttons .btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .buttons .btn:active {
+            background-color: #004085;
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons .btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+        }
+
 
         .alert {
             padding: 10px 15px;
@@ -87,8 +137,9 @@
         }
 
         .invoices {
+            width: 80%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
 
@@ -102,7 +153,7 @@
         }
 
         .invoice:hover {
-            transform: scale(1.02);
+            transform: scale(1.01);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
@@ -295,80 +346,85 @@
     <h3>{{ __('title.invoice_list') }}</h3>
 
     <form action="{{ route('warehouse.invoice.filter') }}" method="get">
-        <div>
-            <label for="supplier">Fournisseur :</label>
-            <select id="supplier" name="supplier">
-                <option value="all">Aucune sélection</option>
-                @foreach($suppliers as $supplier)
-                    <option value="{{ $supplier->supplier_name }}" {{ request('supplier') == $supplier->supplier_name ? 'selected' : '' }}>
-                        {{ $supplier->supplier_name }}
-                    </option>
-                @endforeach
-            </select>
+        <div class="search-element">
+            <div>
+                <label for="supplier">Fournisseur :</label>
+                <select id="supplier" name="supplier">
+                    <option value="all">Aucune sélection</option>
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->supplier_name }}" {{ request('supplier') == $supplier->supplier_name ? 'selected' : '' }}>
+                            {{ $supplier->supplier_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label for="order">Trier par ordre</label>
+                <select id="order" name="order" required>
+                    <option value="desc" {{ request('order') != 'desc' ? '' : 'selected' }}>Décroissant</option>
+                    <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Croissant</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="status">Statut du paiement</label>
+                <select id="status" name="status" required>
+                    <option value="all" {{ request('status') != 'all' ? '' : 'selected' }}>Tous</option>
+                    <option value="settled" {{ request('status') == 'settled' ? 'selected' : '' }}>Réglé</option>
+                    <option value="not-settled" {{ request('status') == 'not-settled' ? 'selected' : '' }}>Non réglé</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="priority_level">Niveau de priorité</label>
+                <select id="priority_level" name="priority_level" required>
+                    <option value="all" {{ request('priority_level') == 'all' ? 'selected' : '' }}>Aucune sélection</option>
+                    <option value="low" {{ request('priority_level') != 'low' ? '' : 'selected' }}>À traiter</option>
+                    <option value="medium" {{ request('priority_level') == 'medium' ? 'selected' : '' }}>En attente</option>
+                    <option value="high" {{ request('priority_level') == 'high' ? 'selected' : '' }}>Critique</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="type_date">Type recherche date</label>
+                <select id="type_date" name="type_date" required>
+                    <option value="all" {{ request('type_date') == 'all' ? 'selected' : '' }}>Aucune sélection</option>
+                    <option value="day" {{ request('type_date') == 'day' ? 'selected' : '' }}>Jour</option>
+                    <option value="week" {{ request('type_date') == 'week' ? 'selected' : '' }}>Semaine</option>
+                    <option value="month" {{ request('type_date') == 'month' ? 'selected' : '' }}>Mois</option>
+                    <option value="year" {{ request('type_date') == 'year' ? 'selected' : '' }}>Année</option>
+                </select>
+            </div>
+
+            <div id="day-picker" class="hidden">
+                <label for="day">Sélectionnez un jour :</label>
+                <input type="date" id="day" name="day" value="{{ request('day') == null ? '' : request('day') }}" max="">
+            </div>
+
+            <div id="week-picker" class="hidden">
+                <label for="week">Sélectionnez une semaine :</label>
+                <input type="week" id="week" name="week" value="{{ request('week') == null ? '' : request('week') }}" max="">
+            </div>
+
+            <div id="month-picker" class="hidden">
+                <label for="month">Sélectionnez un mois :</label>
+                <input type="month" id="month" name="month" value="{{ request('month') == null ? '' : request('month') }}" max="">
+            </div>
+
+            <div id="year-picker" class="hidden">
+                <label for="year">Sélectionnez une année :</label>
+                <input type="number" id="year" name="year" value="{{ request('year') == null ? '' : request('year') }}" min="1900" max="">
+            </div>        
         </div>
 
-        <div>
-            <label for="order">Trier par ordre</label>
-            <select id="order" name="order" required>
-                <option value="desc" {{ request('order') != 'desc' ? '' : 'selected' }}>Décroissant</option>
-                <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Croissant</option>
-            </select>
-        </div>
+        <div class="buttons">
+            <button class="btn" type="submit">Rechercher</button>
 
-        <div>
-            <label for="status">Statut du paiement</label>
-            <select id="status" name="status" required>
-                <option value="all" {{ request('status') != 'all' ? '' : 'selected' }}>Tous</option>
-                <option value="settled" {{ request('status') == 'settled' ? 'selected' : '' }}>Réglé</option>
-                <option value="not-settled" {{ request('status') == 'not-settled' ? 'selected' : '' }}>Non réglé</option>
-            </select>
+            <a class="btn red" href="{{ route('warehouse.invoice.list') }}">Rénitialiser recherche</a>
         </div>
-
-        <div>
-            <label for="priority_level">Niveau de priorité</label>
-            <select id="priority_level" name="priority_level" required>
-                <option value="all" {{ request('priority_level') == 'all' ? 'selected' : '' }}>Aucune sélection</option>
-                <option value="low" {{ request('priority_level') != 'low' ? '' : 'selected' }}>À traiter</option>
-                <option value="medium" {{ request('priority_level') == 'medium' ? 'selected' : '' }}>En attente</option>
-                <option value="high" {{ request('priority_level') == 'high' ? 'selected' : '' }}>Critique</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="type_date">Type recherche date</label>
-            <select id="type_date" name="type_date" required>
-                <option value="all" {{ request('type_date') == 'all' ? 'selected' : '' }}>Aucune sélection</option>
-                <option value="day" {{ request('type_date') == 'day' ? 'selected' : '' }}>Jour</option>
-                <option value="week" {{ request('type_date') == 'week' ? 'selected' : '' }}>Semaine</option>
-                <option value="month" {{ request('type_date') == 'month' ? 'selected' : '' }}>Mois</option>
-                <option value="year" {{ request('type_date') == 'year' ? 'selected' : '' }}>Année</option>
-            </select>
-        </div>
-
-        <div id="day-picker" class="hidden">
-            <label for="day">Sélectionnez un jour :</label>
-            <input type="date" id="day" name="day" value="{{ request('day') == null ? '' : request('day') }}" max="">
-        </div>
-
-        <div id="week-picker" class="hidden">
-            <label for="week">Sélectionnez une semaine :</label>
-            <input type="week" id="week" name="week" value="{{ request('week') == null ? '' : request('week') }}" max="">
-        </div>
-
-        <div id="month-picker" class="hidden">
-            <label for="month">Sélectionnez un mois :</label>
-            <input type="month" id="month" name="month" value="{{ request('month') == null ? '' : request('month') }}" max="">
-        </div>
-
-        <div id="year-picker" class="hidden">
-            <label for="year">Sélectionnez une année :</label>
-            <input type="number" id="year" name="year" value="{{ request('year') == null ? '' : request('year') }}" min="1900" max="">
-        </div>
-
-        <button type="submit">Rechercher</button>
     </form>
 
-    <a href="{{ route('warehouse.invoice.list') }}">Rénitialiser recherche</a>
 
     @if ($errors->any())
         <div class="center-child error-message">
@@ -410,14 +466,19 @@
                 <div class="invoice">
                     <div>
                         <p>Fournisseur : {{ $supplier->supplier_name }}</p>
-                        <p>Date : {{ $invoice->invoice_date }}</p>
+                        <p>Date : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
+                        <p>Prix total : {{ $total_price }} €</p>
+                        @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
+                            <p>Date réglement : {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
+                        @endif
                         <p class="{{ $statusClass }}">
                             Status : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}
                         </p>
-                        <p>Prix total : {{ $total_price }} €</p>
                     </div>
                     <div>
-                        <a href="{{ route('warehouse.invoice.info', ['invoice_id' => $invoice->id]) }}">Voir</a>
+                        <a href="{{ route('warehouse.invoice.info', ['invoice_id' => $invoice->id]) }}">Informations</a>
+                        <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_id' => $invoice->id]) }}">Voir la facture</a>
+                        <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_id' => $invoice->id]) }}">Télécharger la facture</a>
                     </div>
                 </div>
             @endforeach
