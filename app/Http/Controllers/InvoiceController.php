@@ -47,6 +47,8 @@ class InvoiceController extends Controller
         return redirect()->route('warehouse.invoice.info', ['invoice_id' => $invoice->id]);
     }
 
+
+    // Vérifier problème du in qui ne fonctionne pas
     public function filterInvoice(Request $request)
     {
         $validator = Validator::make($request->all(), [

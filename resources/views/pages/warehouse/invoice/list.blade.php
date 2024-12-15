@@ -360,6 +360,7 @@
             <button class="btn" type="submit">Rechercher</button>
             <a class="btn red" href="{{ route('warehouse.invoice.list') }}">Rénitialiser recherche</a>
         </div>
+    </form>
 
     <form action="{{ route('warehouse.invoice.filter') }}" method="get">
         <div class="search-element">
