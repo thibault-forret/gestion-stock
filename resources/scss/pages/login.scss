@@ -33,17 +33,19 @@ body, html {
     .info {
         display: flex;
         justify-content: center;
-        //margin-bottom: 2rem;
+        margin-bottom: 2rem; // Espacement entre le logo et le formulaire
 
         .container-img {
-            width: 90px;
-            height: 90px;
-
             img {
-                width: 100%;
+                width: 90px;
                 height: auto;
                 border-radius: 0; // Enlever le contour arrondi du logo
                 box-shadow: none; // Enlever l'ombre
+            }
+
+            .logo {
+                height: 75px; /* Hauteur fixe pour le logo */
+                width: auto; /* Conserver les proportions */
             }
         }
     }
@@ -53,7 +55,7 @@ body, html {
         display: flex;
         flex-direction: column;
         width: 100%;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.5rem; // Espacement entre les champs
         text-align: center; // Centrer le texte
 
         label {
@@ -99,7 +101,7 @@ body, html {
         display: flex;
         justify-content: center;
         width: 100%;
-        margin-top: 1rem; // Éloigner un peu le bouton de connexion
+        margin-top: 2rem; // Espacement entre le bouton de connexion et le formulaire
     }
 
     .login-button {
@@ -123,6 +125,25 @@ body, html {
         &:active {
             transform: translateY(0);
             box-shadow: none;
+        }
+    }
+
+    // Section des langues
+    .language {
+        margin-top: 2rem; // Espacement entre le bouton de connexion et les boutons de langue
+        display: flex;
+        justify-content: center;
+        gap: 1rem; // Espacement entre les icônes de langue
+
+        img {
+            width: 32px; // Taille des icônes
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.2s;
+
+            &:hover {
+                transform: scale(1.1); // Léger zoom sur survol
+            }
         }
     }
 }

@@ -12,13 +12,26 @@ body {
 
 .navbar {
     display: flex;
-    justify-content: space-between; /* Équilibre gauche, centre et droite */
-    align-items: center; /* Centrage vertical */
-    background-color: #ffffff; /* Couleur de fond */
+    justify-content: space-between; /* Équilibrer gauche, centre et droite */
+    align-items: center; /* Centrer verticalement les éléments */
+    background-color: #ffffff; /* Fond blanc */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre sous la navbar */
-    padding: 10px 20px;
-    position: relative; /* Ajouté pour centrer le logo */
+    padding: 0 20px; /* Espacement horizontal */
+    height: 75px; /* Ajustez cette valeur selon la taille du logo */
 }
+
+.navbar-left,
+.navbar-center,
+.navbar-right {
+    display: flex;
+    align-items: center; /* Centrer les éléments dans leur conteneur */
+}
+
+.navbar-logo {
+    height: 55px; /* Hauteur fixe pour le logo */
+    width: auto; /* Conserver les proportions */
+}
+
 
 .navbar-left, .navbar-right {
     display: flex;
@@ -54,6 +67,7 @@ body {
     height: 30px;
 }
 
+
 .sidebar {
     position: fixed;
     top: 0;
@@ -72,21 +86,26 @@ body {
 
     .close-button {
         position: absolute;
-        top: 10px;
-        left: 10px;
+        top: 20px; /* Ajustez selon l'espacement vertical du bouton menu-burger */
+        left: 20px; /* Ajustez selon l'espacement horizontal du bouton menu-burger */
         background: none;
         border: none;
-        color: $text-color;
-        font-size: 1.5rem;
+        padding: 5px; /* Ajoutez du padding pour étendre la hitbox */
+        width: 40px; /* Même taille que le bouton menu-burger */
+        height: 40px; /* Même taille que le bouton menu-burger */
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
 
-        &:hover {
-            color: lighten($text-color, 10%);
+        img {
+            width: 24px; /* Taille de l'icône */
+            height: 24px; /* Taille de l'icône */
         }
 
-        img {
-            width: 24px; /* Ajuster la taille de l'icône de fermeture */
-            height: 24px; /* Ajuster la taille de l'icône de fermeture */
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Optionnel : un léger fond sur survol */
+            border-radius: 50%; /* Optionnel : rendre le bouton rond sur survol */
         }
     }
 
@@ -139,4 +158,44 @@ body {
             flex: 1;
         }
     }
+}
+
+.custom-select {
+    position: relative;
+}
+
+.options-list {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.options-list img {
+    width: 32px;
+    height: auto;
+    cursor: pointer;
+}
+
+#language-select {
+    appearance: none; /* Supprime les styles natifs du select */
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+/* Ajout d'icônes statiques pour les langues */
+#language-select option[value="fr"] {
+    background-image: url('/images/france.png');
+}
+
+#language-select option[value="en"] {
+    background-image: url('/images/etats-unis.png');
 }

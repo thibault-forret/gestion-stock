@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Font Awesome</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
 </head>
 <body>
     <nav class="navbar">
@@ -15,7 +16,7 @@
         </div>
         <div class="navbar-center">
             <div class="logo">
-                <img src="{{ asset('images/logoNova.webp') }}" alt="Logo" width="100" height="auto">
+                <img src="{{ asset('images/logoNova.png') }}" alt="Logo" class="navbar-logo">
             </div>
         </div>
         <div class="navbar-right">
