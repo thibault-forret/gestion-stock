@@ -141,7 +141,7 @@
             productList.addEventListener('click', function (event) {
                 const button = event.target;
                 const productItem = button.closest('.product-item');
-                const productId = productItem.getAttribute('data-id');
+                const productId = productItem.querySelector('.product-id');
 
                 if (button.classList.contains('btn-select')) {
                     addSelectedProduct(productId, productItem);
@@ -153,7 +153,8 @@
             });
 
             // Recherche et filtrage des produits
-            const searchInput = document.getElementById('product-search');
+            const productIdInput = document.getElementById('product-id');
+            const productNameInput = document.getElementById('product-name');
             const categorySelect = document.getElementById('category-name');
             const supplierSelect = document.getElementById('supplier-name');
             const productItems = document.querySelectorAll('.product-list .product-item');
@@ -161,22 +162,25 @@
 
 
             function filterProducts() {
-                const query = searchInput.value.toLowerCase();
+                const productId = productIdInput.value;
+                const productName = productNameInput.value.toLowerCase();
                 const selectedCategory = categorySelect.value.toLowerCase();
                 const selectedSupplier = supplierSelect.value.toLowerCase();
 
                 let visibleProducts = 0;
 
                 productItems.forEach(productItem => {
-                    const productName = productItem.querySelector('.product_name').textContent.toLowerCase();
+                    const id = productItem.querySelector('.product_id').textContent;
+                    const name = productItem.querySelector('.product_name').textContent.toLowerCase();
                     const categories = Array.from(productItem.querySelectorAll('.product_category')).map(c => c.textContent.toLowerCase());
                     const supplier = productItem.querySelector('.product_supplier').textContent.toLowerCase();
 
-                    const matchesSearch = productName.includes(query);
+                    const matchesProductId = id.includes(productId);
+                    const matchesProductName = name.includes(productName);
                     const matchesCategory = !selectedCategory || categories.includes(selectedCategory);
                     const matchesSupplier = !selectedSupplier || supplier.includes(selectedSupplier);
 
-                    if (matchesSearch && matchesCategory && matchesSupplier) {
+                    if (matchesProductName && matchesProductId && matchesCategory && matchesSupplier) {
                         productItem.style.display = '';
                         visibleProducts++;
                     } else {
@@ -198,12 +202,14 @@
             }
 
             resetButton.addEventListener('click', () => {
-                searchInput.value = '';
+                productIdInput.value = '';
+                productNameInput.value = '';
                 categorySelect.value = '';
                 supplierSelect.value = '';
                 filterProducts();
             });
-            searchInput.addEventListener('input', filterProducts);
+            productIdInput.addEventListener('input', filterProducts);
+            productNameInput.addEventListener('input', filterProducts);
             categorySelect.addEventListener('change', filterProducts);
             supplierSelect.addEventListener('change', filterProducts);
         });
@@ -219,8 +225,12 @@
     <h3>{{ __('title.stock_new_supply') }}</h3>
 
     <div>
-        <label for="product-search">Rechercher par nom</label>
-        <input type="text" id="product-search" name="product-search">
+        <label for="product-id">Rechercher par ID</label>
+        <input type="text" id="product-id" name="product-id">
+    </div>
+    <div>
+        <label for="product-name">Rechercher par nom</label>
+        <input type="text" id="product-name" name="product-name">
     </div>
     <div>
         <label for="category_name">Catégorie :</label>
@@ -258,6 +268,9 @@
                         @foreach($product->categories as $category)
                             <span class="product_category">{{ $category->category_name }}</span>
                         @endforeach
+                    </p>
+                    <p><u>ID :</u> 
+                        <span class="product_id">{{ $product->id }}</span>
                     </p>
                     <p><u>Fournisseur :</u> 
                         <span class="product_supplier">{{ $product->supplyLines->first()->supply->supplier->supplier_name }}</span>
