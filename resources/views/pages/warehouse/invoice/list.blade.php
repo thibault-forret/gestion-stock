@@ -353,7 +353,7 @@
         <div class="search-element">
             <div>
                 <label for="search">Recherche par numéro de facture</label>
-                <input type="text" id="search" name="search" value="{{ request('invoice_number') }}" placeholder="Numéro de facture" required>
+                <input type="text" id="search" name="search" value="" placeholder="Numéro de facture" required>
             </div>
         </div>
         <div class="buttons">
