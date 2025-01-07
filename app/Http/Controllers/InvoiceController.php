@@ -92,6 +92,17 @@ class InvoiceController extends Controller
             }
         });
 
+        $validator->after(function($validator) use ($request) {
+            if ($request->order !== 'asc' && $request->order !== 'desc') {
+                $validator->errors()->add('order', __('messages.validate.order_in'));
+            }
+        });
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator);
+        }
+
         $messages = [
             'day.required' => __('messages.validate.day_required'),
             'week.required' => __('messages.validate.week_required'),

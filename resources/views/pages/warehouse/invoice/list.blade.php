@@ -367,7 +367,7 @@
             <div>
                 <label for="supplier">Fournisseur :</label>
                 <select id="supplier" name="supplier">
-                    <option value="all">Aucune sélection</option>
+                    <option value="">Aucune sélection</option>
                     @foreach($suppliers as $supplier)
                         <option value="{{ $supplier->supplier_name }}" {{ request('supplier') == $supplier->supplier_name ? 'selected' : '' }}>
                             {{ $supplier->supplier_name }}
@@ -482,6 +482,7 @@
 
                 <div class="invoice">
                     <div>
+                        <p>Numéro de facture : {{ $invoice->invoice_number }}</p>
                         <p>Fournisseur : {{ $supplier->supplier_name }}</p>
                         <p>Date : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
                         <p>Prix total : {{ $total_price }} €</p>
