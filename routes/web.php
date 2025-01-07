@@ -92,10 +92,10 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                 Route::get('/', [InvoiceController::class, 'invoiceList'])->name('list');
                 Route::post('/search', [InvoiceController::class, 'searchInvoice'])->name('search');
                 Route::get('/filter', [InvoiceController::class, 'filterInvoice'])->name('filter');
-                Route::get('/{invoice_id}/info', [InvoiceController::class, 'infoInvoice'])->name('info');
+                Route::get('/{invoice_number}/info', [InvoiceController::class, 'infoInvoice'])->name('info');
                 Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle');
-                Route::get('/{invoice_id}/show', [InvoiceController::class, 'showInvoice'])->name('show');
-                Route::get('/{invoice_id}/download', [InvoiceController::class, 'downloadInvoice'])->name('download');
+                Route::get('/{invoice_number}/show', [InvoiceController::class, 'showInvoice'])->name('show');
+                Route::get('/{invoice_number}/download', [InvoiceController::class, 'downloadInvoice'])->name('download');
             });
         });
     });

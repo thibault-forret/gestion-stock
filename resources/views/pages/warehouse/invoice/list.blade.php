@@ -494,9 +494,9 @@
                         </p>
                     </div>
                     <div>
-                        <a href="{{ route('warehouse.invoice.info', ['invoice_id' => $invoice->id]) }}">Informations</a>
-                        <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_id' => $invoice->id]) }}">Voir la facture</a>
-                        <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_id' => $invoice->id]) }}">Télécharger la facture</a>
+                        <a href="{{ route('warehouse.invoice.info', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
+                        <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
+                        <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
                     </div>
                 </div>
             @endforeach

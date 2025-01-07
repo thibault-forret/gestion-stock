@@ -44,7 +44,7 @@ class InvoiceController extends Controller
             return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
         }
 
-        return redirect()->route('warehouse.invoice.info', ['invoice_id' => $invoice->id]);
+        return redirect()->route('warehouse.invoice.info', ['invoice_number' => $invoice->invoice_number]);
     }
 
 
@@ -212,9 +212,9 @@ class InvoiceController extends Controller
         return view('pages.warehouse.invoice.list', compact('invoices', 'suppliers'));
     }
 
-    public function infoInvoice(int $invoice_id)
+    public function infoInvoice(string $invoice_number)
     {
-        $invoice = Invoice::find($invoice_id);
+        $invoice = Invoice::where('invoice_number', $invoice_number)->first();
 
         if (!$invoice) {
             return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
@@ -259,9 +259,9 @@ class InvoiceController extends Controller
         }
     }
 
-    public function showInvoice(int $invoice_id)
+    public function showInvoice(string $invoice_number)
     {
-        $invoice = Invoice::find($invoice_id);
+        $invoice = Invoice::where('invoice_number', $invoice_number)->first();
 
         if (!$invoice) {
             return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
@@ -279,9 +279,9 @@ class InvoiceController extends Controller
         return $pdf->stream(str_replace(' ', '_', $warehouse_name).'_INVOICE_'.$invoice->invoice_number.'_'.str_replace(' ', '_', $invoice->created_at).'.pdf');
     }
 
-    public function downloadInvoice(int $invoice_id)
+    public function downloadInvoice(string $invoice_number)
     {
-        $invoice = Invoice::find($invoice_id);
+        $invoice = Invoice::where('invoice_number', $invoice_number)->first();
 
         if (!$invoice) {
             return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));

@@ -148,8 +148,8 @@
             </form>
         @endif
 
-        <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_id' => $invoice->id]) }}">Voir la facture</a>
-        <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_id' => $invoice->id]) }}">Télécharger la facture</a>
+        <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
+        <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
     </div>
 </div>
 @endsection
