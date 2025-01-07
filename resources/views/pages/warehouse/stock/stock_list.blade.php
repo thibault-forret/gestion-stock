@@ -113,6 +113,20 @@
 
     <h3>{{ __('title.warehouse_stock_list') }}</h3>
 
+    <form action="{{ route('warehouse.stock.search') }}" method="POST">
+        @csrf
+        <div class="search-element">
+            <div>
+                <label for="search">Recherche par id de produit</label>
+                <input type="text" id="search" name="search" value="" placeholder="ID du produit" required>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="btn" type="submit">Rechercher</button>
+            <a class="btn red" href="{{ route('warehouse.stock.list') }}">Rénitialiser recherche</a>
+        </div>
+    </form>
+
     <div>
         <label for="product-search">Rechercher par nom</label>
         <input type="text" id="product-search" name="product-search">
@@ -154,6 +168,9 @@
                             <span class="product_category">{{ $category->category_name }}</span>
                         @endforeach
                     </p>
+                    <p><u>ID :</u> 
+                        {{ $product->id }}
+                    </p>
                     <p><u>Fournisseur :</u> 
                         <span class="product_supplier">{{ $product->supplyLines->first()->supply->supplier->supplier_name }}</span>
                     </p>
@@ -166,10 +183,10 @@
                         $stock = $product->stocks->where('warehouse_id', $warehouse->id)->first();
                     @endphp
 
-                    <a href="{{ route('warehouse.stock.product.info', ['stock_id' => $stock->id]) }}" class="btn btn-primary">Informations</a>
-                    <a href="{{ route('warehouse.stock.product.edit', ['stock_id' => $stock->id]) }}" class="btn btn-primary">Modifier</a>
-                    <a href="{{ route('warehouse.stock.product.supply', ['stock_id' => $stock->id]) }}" class="btn btn-primary">Approvisionner</a>
-                    <a href="{{ route('warehouse.stock.product.remove', ['stock_id' => $stock->id]) }}" class="btn btn-primary">Retirer</a>
+                    <a href="{{ route('warehouse.stock.product.info', ['product_id' => $stock->product_id]) }}" class="btn btn-primary">Informations</a>
+                    <a href="{{ route('warehouse.stock.product.edit', ['product_id' => $stock->product_id]) }}" class="btn btn-primary">Modifier</a>
+                    <a href="{{ route('warehouse.stock.product.supply', ['product_id' => $stock->product_id]) }}" class="btn btn-primary">Approvisionner</a>
+                    <a href="{{ route('warehouse.stock.product.remove', ['product_id' => $stock->product_id]) }}" class="btn btn-primary">Retirer</a>
                 </div>
             @endforeach
         @else
