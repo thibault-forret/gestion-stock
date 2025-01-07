@@ -20,4 +20,6 @@ return [
     'stock' => 'Affiche les options et fonctionnalités disponibles pour les stocks.',
     'stock_new_supply' => 'Permet de réaliser un nouvel approvisionnement.',
     'warehouse_stock_movement_list' => 'Affiche la liste des mouvements de stock.',
+    'invoice_list' => 'Affiche la liste des factures.',
+    'invoice_info' => 'Affiche les informations sur une facture.',
 ];

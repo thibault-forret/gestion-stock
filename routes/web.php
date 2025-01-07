@@ -10,6 +10,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\InvoiceController;
 
 
 // Redirige vers dashboard en cas d'erreur sur l'url
@@ -85,6 +86,16 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                     Route::post('/remove/quantity', [StockController::class, 'removeQuantityProductSubmit'])->name('remove.quantity.submit');
                     Route::post('/remove/product', [StockController::class, 'removeProductSubmit'])->name('remove.product.submit');
                 });
+            });
+
+            Route::prefix('invoice')->name('invoice.')->group(function () {
+                Route::get('/', [InvoiceController::class, 'invoiceList'])->name('list');
+                Route::post('/search', [InvoiceController::class, 'searchInvoice'])->name('search');
+                Route::get('/filter', [InvoiceController::class, 'filterInvoice'])->name('filter');
+                Route::get('/{invoice_number}/info', [InvoiceController::class, 'infoInvoice'])->name('info');
+                Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle');
+                Route::get('/{invoice_number}/show', [InvoiceController::class, 'showInvoice'])->name('show');
+                Route::get('/{invoice_number}/download', [InvoiceController::class, 'downloadInvoice'])->name('download');
             });
         });
     });
