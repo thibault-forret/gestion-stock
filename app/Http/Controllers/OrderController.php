@@ -58,6 +58,14 @@ class OrderController extends Controller
 
         $store = $user->storeUser->store;
 
+        // Supprimer les commandes ayant 0 produits commandés
+        $store->orders->each(function ($order) {
+            if(count($order->orderLines) == 0)
+            {
+                $order->delete();
+            }
+        });
+
         // Créer une nouvelle commande
         $order = $store->orders()->create([
             'user_id' => $user->id,
