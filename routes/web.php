@@ -136,6 +136,8 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::post('/place/add', [OrderController::class, 'addProductToOrder'])->name('add');
 
+                Route::post('/place/remove', [OrderController::class, 'removeProductFromOrder'])->name('remove');
+
                 Route::post('/place', [OrderController::class, 'placeOrderConfirm'])->name('store');
 
                 Route::get('/{order_id}/place/recap', [OrderController::class, 'recapOrder'])->name('recap');

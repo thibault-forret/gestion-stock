@@ -110,6 +110,45 @@ class OrderController extends Controller
         return redirect()->route('store.order.place', ['order_id' => $request->order_id]);
     }
 
+    public function removeProductFromOrder(Request $request)
+    {
+        // Vérification des données
+        $request->validate([
+            'order_id' => 'required|integer|exists:orders,id',
+            'product_id' => 'required|integer|exists:products,id',
+        ],
+        [
+            'order_id.required' => __('messages.order_id_required'),
+            // Faire les messages
+        ]);
+
+        // Récupérer la commande et le produit
+        $order = Order::find($request->order_id);
+
+        $product = Product::find($request->product_id);
+
+        // Vérifier si le produit est dans la commande
+        $orderLine = $order->orderLines->where('product_id', $request->product_id)->first();
+
+        if(!$orderLine)
+        {
+            return redirect()->back()->with('error', __('messages.product_not_in_order'));
+        }
+
+        // Récupérer la quantité
+        $quantity = $orderLine->quantity_ordered;
+
+        // Ajouter la quantité au stock
+        $stock = $order->store->warehouse->stock->where('product_id', $request->product_id)->first();
+
+        $stock->addQuantity($quantity);
+
+        // Supprimer la ligne de commande
+        $orderLine->delete();
+
+        return redirect()->route('store.order.place', ['order_id' => $request->order_id]);
+    }
+
     public function placeOrderConfirm(Request $request)
     {
         // Stocker les données dans le panier
