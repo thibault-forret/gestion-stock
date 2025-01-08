@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    const ORDER_STATUS_IN_PROGRESS = 'IN PROGRESS';
+    const ORDER_STATUS_PENDING = 'PENDING';
+    const ORDER_STATUS_DELIVERED = 'DELIVERED';
+
     protected $fillable = [
         'user_id',
-        'warehouse_id',
         'store_id',
         'order_date',
         'order_status',
@@ -18,12 +21,6 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    // Chaque commande est associée à un entrepôt
-    public function warehouse()
-    {
-        return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
     }
 
     // Chaque commande est associée à un magasin

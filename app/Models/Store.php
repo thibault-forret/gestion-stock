@@ -10,6 +10,7 @@ class Store extends Model
         'store_name',
         'store_address',
         'capacity',
+        'warehouse_id',
         'user_id',
     ];
 
@@ -17,6 +18,12 @@ class Store extends Model
     public function manager()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    // Chaque magasin est associé à un entrepôt
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
     }
 
     // Chaque magasin peut avoir plusieurs commandes

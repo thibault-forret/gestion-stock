@@ -42,4 +42,10 @@ class Warehouse extends Model
     {
         return $this->hasMany(Supply::class);
     }
+
+    // Chaque entrepôt peut être en charge de plusieurs magasins
+    public function stores()
+    {
+        return $this->hasMany(Store::class);
+    }
 }

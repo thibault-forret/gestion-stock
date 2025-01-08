@@ -126,15 +126,21 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
             // Tableau de bord des commandes (liste fonctionnalités commandes)
             Route::prefix('order')->name('order.')->group(function () {
-                Route::get('/', [OrderController::class, 'indexStore'])->name('index');
+                Route::get('/', [OrderController::class, 'index'])->name('index');
 
-                Route::get('/place', [OrderController::class, 'placeOrderStore'])->name('place');
+                Route::get('/list', [OrderController::class, 'listOrders'])->name('list');
 
-                Route::post('/place', [OrderController::class, 'storeDataInTheCartStore'])->name('store');
+                Route::get('/place', [OrderController::class, 'placeNewOrder'])->name('new');
 
-                Route::get('/place/recap', [OrderController::class, 'recapOrderStore'])->name('recap');
+                Route::get('/{order_id}/place', [OrderController::class, 'placeOrder'])->name('place');
+
+                Route::post('/place', [OrderController::class, 'placeOrderConfirm'])->name('store');
+
+                Route::post('/{order_id}/place/add', [OrderController::class, 'addProductToOrder'])->name('add');
+
+                Route::get('/{order_id}/place/recap', [OrderController::class, 'recapOrder'])->name('recap');
                 
-                Route::post('/place/confirm', [OrderController::class, 'confirmOrderStore'])->name('confirm');
+                Route::post('/place/confirm', [OrderController::class, 'confirmOrder'])->name('confirm');
             });
 
         });

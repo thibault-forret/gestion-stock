@@ -8,6 +8,7 @@ return [
     'dashboard' => 'Tableau de bord',
     'order' => 'Commandes',
     'place_order' => 'Passer une commande',
+    'list_orders' => 'Liste des commandes',
     'recap_order' => 'Récapitulatif de la commande',
     'search_new_product' => 'Rechercher un nouveau produit',
     'add_product' => 'Ajouter un produit',
