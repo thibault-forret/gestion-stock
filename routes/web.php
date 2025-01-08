@@ -140,8 +140,6 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::post('/place/remove/quantity', [OrderController::class, 'removeQuantityProductFromOrder'])->name('remove.quantity');
 
-                Route::post('/place', [OrderController::class, 'placeOrderConfirm'])->name('store');
-
                 Route::get('/{order_id}/place/recap', [OrderController::class, 'recapOrder'])->name('recap');
                 
                 Route::post('/place/confirm', [OrderController::class, 'confirmOrder'])->name('confirm');

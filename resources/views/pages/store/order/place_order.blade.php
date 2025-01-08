@@ -335,6 +335,10 @@
                 <span class="total-label">Total :</span>
                 <span class="total-value">{{ number_format($total, 2) }} €</span>
             </div>
+
+            <div class="confirm">
+                <a class="btn" href="{{ route('store.order.recap', ['order_id' => $order->id]) }}">Voir le récapitulatif</a>
+            </div>
         @else
             <p class="empty-order">Aucune commande en cours.</p>
         @endif

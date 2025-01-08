@@ -146,7 +146,7 @@ class OrderController extends Controller
         // Supprimer la ligne de commande
         $orderLine->delete();
 
-        return redirect()->route('store.order.place', ['order_id' => $request->order_id]);
+        return redirect()->back()->with('success', __('messages.action_success'));
     }
 
     public function removeQuantityProductFromOrder(Request $request)
@@ -197,30 +197,64 @@ class OrderController extends Controller
 
         $stock->addQuantity($quantity);
 
-        return redirect()->route('store.order.place', ['order_id' => $request->order_id]);
+        return redirect()->back()->with('success', __('messages.action_success'));
     }
 
-    public function placeOrderConfirm(Request $request)
+    public function recapOrder(int $order_id)
     {
-        // Stocker les données dans le panier
+        // Vérifier si la commande existe
+        $order = Order::find($order_id);
 
-        return redirect()->route('store.order.recap');
-    }
+        if(!$order)
+        {
+            return redirect()->route('store.order.index')->with('error', __('messages.order_not_found'));
+        }
 
-    public function recapOrder()
-    {
-        // Récupérer contenu du panier
+        // Vérifier le statut de la commande
+        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        {
+            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+        }
 
-        return view('pages.store.order.recap_order');
+        // Vérifier si la commande n'est pas vide
+        if(count($order->orderLines) == 0)
+        {
+            return redirect()->route('store.order.place', ['order_id' => $order->id])->with('error', __('messages.order_empty'));
+        } 
+        
+        return view('pages.store.order.recap_order', compact('order'));
     }
 
     public function confirmOrder(Request $request)
     {
         // Vérification des données
+        $request->validate([
+            'order_id' => 'required|integer|exists:orders,id',
+        ],
+        [
+            'order_id.required' => __('messages.order_id_required'),
+            // Faire les messages
+        ]);
 
-        // Envoyer mail avec récapitulatif commande + facture ?
+        // Récupérer la commande
+        $order = Order::find($request->order_id);
 
-        return redirect()->route('store.order.index')->with('success', __('messages.confirm_order'));
+        // Vérifier le statut de la commande
+        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        {
+            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+        }
+
+        // Vérifier si la commande n'est pas vide
+        if(count($order->orderLines) == 0)
+        {
+            return redirect()->route('store.order.place', ['order_id' => $order->id])->with('error', __('messages.order_empty'));
+        }
+
+        // Changer le statut de la commande
+        $order->order_status = Order::ORDER_STATUS_PENDING;
+        $order->save();
+
+        return redirect()->route('store.order.index')->with('success', __('messages.order_confirmed'));
     }
-
 }
