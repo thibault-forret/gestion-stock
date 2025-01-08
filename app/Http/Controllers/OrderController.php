@@ -15,7 +15,13 @@ class OrderController extends Controller
 
     public function listOrders()
     {
-        return view('pages.store.order.list');
+        $user = auth()->user();
+        
+        $store = $user->storeUser->store;
+
+        $orders = $store->orders;
+
+        return view('pages.store.order.list', compact('orders'));
     }
 
     public function placeOrder(int $order_id)
@@ -25,6 +31,12 @@ class OrderController extends Controller
         if(!$order)
         {
             return redirect()->route('store.order.index')->with('error', __('messages.order_not_found'));
+        }
+
+        // Vérifier le statut de la commande
+        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        {
+            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
         }
 
         $user = auth()->user();
@@ -73,6 +85,12 @@ class OrderController extends Controller
 
         // Récupérer la commande et le produit
         $order = Order::find($request->order_id);
+
+        // Vérifier le statut de la commande
+        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        {
+            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+        }
 
         $product = Product::find($request->product_id);
 
@@ -125,6 +143,12 @@ class OrderController extends Controller
         // Récupérer la commande et le produit
         $order = Order::find($request->order_id);
 
+        // Vérifier le statut de la commande
+        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        {
+            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+        }
+
         $product = Product::find($request->product_id);
 
         // Vérifier si le produit est dans la commande
@@ -165,9 +189,13 @@ class OrderController extends Controller
         // Récupérer la commande et le produit
         $order = Order::find($request->order_id);
 
-        $product = Product::find($request->product_id);
+        // Vérifier le statut de la commande
+        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        {
+            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+        }
 
-        $quantity = $request->quantity;        
+        $product = Product::find($request->product_id);
 
         // Vérifier si le produit est dans la commande
         $orderLine = $order->orderLines->where('product_id', $request->product_id)->first();
@@ -176,6 +204,8 @@ class OrderController extends Controller
         {
             return redirect()->back()->with('error', __('messages.product_not_in_order'));
         }
+
+        $quantity = $request->quantity;        
 
         // Vérifier si la quantité n'excède pas la quantité commandée
         if($quantity > $orderLine->quantity_ordered)
