@@ -149,6 +149,57 @@ class OrderController extends Controller
         return redirect()->route('store.order.place', ['order_id' => $request->order_id]);
     }
 
+    public function removeQuantityProductFromOrder(Request $request)
+    {
+        // Vérification des données
+        $request->validate([
+            'order_id' => 'required|integer|exists:orders,id',
+            'product_id' => 'required|integer|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+        ],
+        [
+            'order_id.required' => __('messages.order_id_required'),
+            // Faire les messages
+        ]);
+
+        // Récupérer la commande et le produit
+        $order = Order::find($request->order_id);
+
+        $product = Product::find($request->product_id);
+
+        $quantity = $request->quantity;        
+
+        // Vérifier si le produit est dans la commande
+        $orderLine = $order->orderLines->where('product_id', $request->product_id)->first();
+
+        if(!$orderLine)
+        {
+            return redirect()->back()->with('error', __('messages.product_not_in_order'));
+        }
+
+        // Vérifier si la quantité n'excède pas la quantité commandée
+        if($quantity > $orderLine->quantity_ordered)
+        {
+            return redirect()->back()->with('error', __('messages.quantity_exceed'));
+        }
+
+        // Enlever la quantité de la ligne de commande
+        $orderLine->removeQuantity($quantity);
+
+        if($orderLine->quantity_ordered == 0)
+        {
+            // Supprimer la ligne de commande
+            $orderLine->delete();
+        }
+
+        // Ajouter la quantité au stock
+        $stock = $order->store->warehouse->stock->where('product_id', $request->product_id)->first();
+
+        $stock->addQuantity($quantity);
+
+        return redirect()->route('store.order.place', ['order_id' => $request->order_id]);
+    }
+
     public function placeOrderConfirm(Request $request)
     {
         // Stocker les données dans le panier

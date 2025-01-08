@@ -309,12 +309,20 @@
                                 <td>{{ $orderLine->quantity_ordered }}</td>
                                 <td>{{ number_format($orderLine->unit_price, 2) }} €</td>
                                 <td>{{ number_format($orderLine->quantity_ordered * $orderLine->unit_price, 2) }} €</td>
-                                <td>
+                                <td style="display: flex; flex-direction: column; justify-content: center;">
                                     <form action="{{ route('store.order.remove') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <button type="submit" class="btn">Retirer</button>
+                                    </form>
+
+                                    <form action="{{ route('store.order.remove.quantity') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
+                                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                        <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->quantity_ordered }}" required>
+                                        <button type="submit" class="btn">Retirer la quantité</button>
                                     </form>
                                 </td>
                             </tr>
