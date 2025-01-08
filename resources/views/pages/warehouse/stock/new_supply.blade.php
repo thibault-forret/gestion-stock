@@ -116,6 +116,14 @@
                 }
             }
 
+            function removeSelectedProduct(productId) {
+                const productElement = selectedProductsContainer.querySelector(`.product-item[data-id="${productId}"]`);
+                if (productElement) {
+                    productElement.remove();
+                    toggleConfirmButton();
+                }
+            }
+
             // Bascule les boutons "Sélectionner" et "Retirer"
             function toggleButtons(productItem, isSelected) {
                 const selectButton = productItem.querySelector('.btn-select');
@@ -141,7 +149,8 @@
             productList.addEventListener('click', function (event) {
                 const button = event.target;
                 const productItem = button.closest('.product-item');
-                const productId = productItem.querySelector('.product-id');
+                console.log(productItem);
+                const productId = productItem.getAttribute('data-id');
 
                 if (button.classList.contains('btn-select')) {
                     addSelectedProduct(productId, productItem);
