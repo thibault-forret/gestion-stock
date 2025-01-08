@@ -24,6 +24,25 @@ class OrderController extends Controller
         return view('pages.store.order.list', compact('orders'));
     }
 
+    public function detailOrder(int $order_id)
+    {
+        $order = Order::find($order_id);
+
+        // Vérifier si la commande existe
+        if(!$order)
+        {
+            return redirect()->route('store.order.index')->with('error', __('messages.order_not_found'));
+        }
+
+        // Vérifier le statut de la commande
+        if($order->order_status == Order::ORDER_STATUS_IN_PROGRESS)
+        {
+            return redirect()->route('store.order.index')->with('error', __('messages.order_in_progress'));
+        }
+
+        return view('pages.store.order.detail', compact('order'));
+    }
+
     public function placeOrder(int $order_id)
     {
         $order = Order::find($order_id);

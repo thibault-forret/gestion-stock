@@ -130,6 +130,8 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::get('/list', [OrderController::class, 'listOrders'])->name('list');
 
+                Route::get('/{order_id}/detail', [OrderController::class, 'detailOrder'])->name('detail');
+
                 Route::get('/place', [OrderController::class, 'placeNewOrder'])->name('new');
 
                 Route::get('/{order_id}/place', [OrderController::class, 'placeOrder'])->name('place');
