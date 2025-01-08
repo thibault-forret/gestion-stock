@@ -24,6 +24,10 @@
         <p><strong>Seuil d'alerte :</strong> {{ $stock->alert_threshold }}</p>
         <p><strong>Seuil de réapprovisionnement :</strong> {{ $stock->restock_threshold }}</p>
         <p><strong>Quantité de réapprovisionnement automatique :</strong> {{ $stock->auto_restock_quantity }}</p>
+
+        <a href="{{ route('warehouse.stock.product.edit', ['product_id' => $stock->product_id]) }}" class="btn btn-primary">Modifier</a>
+        <a href="{{ route('warehouse.stock.product.supply', ['product_id' => $stock->product_id]) }}" class="btn btn-primary">Approvisionner</a>
+        <a href="{{ route('warehouse.stock.product.remove', ['product_id' => $stock->product_id]) }}" class="btn btn-primary">Retirer</a>
     </div>
 
 @endsection

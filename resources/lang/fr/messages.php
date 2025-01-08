@@ -88,5 +88,8 @@ return [
         'year_required' => 'Le champ année est obligatoire lorsque le type de date est "année".',
         'invoice_id_required' => 'L\'ID de la facture est requis.',
         'invoice_id_integer' => 'L\'ID de la facture doit être un entier.',
+        'search_required' => 'La recherche est requise.',
+        'search_string' => 'La recherche doit être une chaîne de caractères.',
+        'search_integer' => 'La recherche doit être un entier.',
     ]
 ];

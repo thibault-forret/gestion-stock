@@ -17,9 +17,8 @@ class StockController extends Controller
         return view('pages.warehouse.stock.index');
     }
 
-    public function stockList () 
+    public function stockList() 
     {
-
         $user = auth()->user();
 
         // Récupérer l'entrepôt de l'utilisateur
@@ -37,6 +36,24 @@ class StockController extends Controller
         return view('pages.warehouse.stock.stock_list', compact('products', 'warehouse', 'categories', 'suppliers'));
     }
 
+    public function searchStock(Request $request)
+    {
+        $request->validate([
+            'search' => 'required|int',
+        ], [
+            'search.required' => __('messages.validate.search_required'),
+            'search.int' => __('messages.validate.search_integer'),
+        ]);
+
+        $stock = Stock::where('product_id', $request->input('search'))->first();
+
+        if (!$stock) {
+            return redirect()->route('warehouse.stock.list')->with('error', __('messages.product_not_found'));
+        }
+
+        return redirect()->route('warehouse.stock.product.info', ['product_id' => $stock->product_id]);
+    }
+
     public function stockMovementList()
     {
         $user = auth()->user();
@@ -50,12 +67,12 @@ class StockController extends Controller
         return view('pages.warehouse.stock.movement_list', compact('stockMovements'));
     }
 
-    public function infoProduct(int $stock_id)
+    public function infoProduct(int $product_id)
     {
         $user = auth()->user();
 
         // Vérifier si le stock appartient à l'entrepôt de l'utilisateur
-        $stock = $user->warehouseUser->warehouse->stock->where('id', $stock_id)->first();
+        $stock = $user->warehouseUser->warehouse->stock->where('product_id', $product_id)->first();
 
         if (!$stock) {
             return redirect()->route('warehouse.stock.index')->with('error', __('messages.stock_not_found'));
@@ -66,12 +83,12 @@ class StockController extends Controller
         return view('pages.warehouse.stock.info_product', compact('stock', 'product'));
     }
 
-    public function editProduct(int $stock_id) 
+    public function editProduct(int $product_id) 
     {
         $user = auth()->user();
 
         // Vérifier si le stock appartient à l'entrepôt de l'utilisateur
-        $stock = $user->warehouseUser->warehouse->stock->where('id', $stock_id)->first();
+        $stock = $user->warehouseUser->warehouse->stock->where('product_id', $product_id)->first();
 
         if (!$stock) {
             return redirect()->route('warehouse.stock.index')->with('error', __('messages.stock_not_found'));
@@ -133,12 +150,12 @@ class StockController extends Controller
         }
     }
 
-    public function supplyProduct(int $stock_id) 
+    public function supplyProduct(int $product_id) 
     {
         $user = auth()->user();
 
         // Vérifier si le stock appartient à l'entrepôt de l'utilisateur
-        $stock = $user->warehouseUser->warehouse->stock->where('id', $stock_id)->first();
+        $stock = $user->warehouseUser->warehouse->stock->where('product_id', $product_id)->first();
 
         if (!$stock) {
             return redirect()->route('warehouse.stock.index')->with('error', __('messages.stock_not_found'));
@@ -199,12 +216,12 @@ class StockController extends Controller
         }
     }
 
-    public function removeProduct(int $stock_id) 
+    public function removeProduct(int $product_id) 
     {
         $user = auth()->user();
 
         // Vérifier si le stock appartient à l'entrepôt de l'utilisateur
-        $stock = $user->warehouseUser->warehouse->stock->where('id', $stock_id)->first();
+        $stock = $user->warehouseUser->warehouse->stock->where('product_id', $product_id)->first();
 
         if (!$stock) {
             return redirect()->route('warehouse.stock.index')->with('error', __('messages.stock_not_found'));
