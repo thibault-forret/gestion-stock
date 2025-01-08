@@ -134,9 +134,9 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::get('/{order_id}/place', [OrderController::class, 'placeOrder'])->name('place');
 
-                Route::post('/place', [OrderController::class, 'placeOrderConfirm'])->name('store');
+                Route::post('/place/add', [OrderController::class, 'addProductToOrder'])->name('add');
 
-                Route::post('/{order_id}/place/add', [OrderController::class, 'addProductToOrder'])->name('add');
+                Route::post('/place', [OrderController::class, 'placeOrderConfirm'])->name('store');
 
                 Route::get('/{order_id}/place/recap', [OrderController::class, 'recapOrder'])->name('recap');
                 

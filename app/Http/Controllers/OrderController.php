@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
@@ -53,7 +54,57 @@ class OrderController extends Controller
             'order_status' => Order::ORDER_STATUS_IN_PROGRESS,
         ]);
 
+        // Rediriger vers la page de commande
         return redirect()->route('store.order.place', ['order_id' => $order->id]);
+    }
+
+    public function addProductToOrder(Request $request)
+    {
+        // Vérification des données
+        $request->validate([
+            'order_id' => 'required|integer|exists:orders,id',
+            'product_id' => 'required|integer|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+        ],
+        [
+            'order_id.required' => __('messages.order_id_required'),
+            // Faire les messages
+        ]);
+
+        // Récupérer la commande et le produit
+        $order = Order::find($request->order_id);
+
+        $product = Product::find($request->product_id);
+
+        // Vérifier si la quantité n'excède pas le stock
+        $warehouse = $order->store->warehouse;
+
+        $quantity = $request->quantity;
+
+        if($quantity > $warehouse->stock->where('product_id', $request->product_id)->first()->quantity_available)
+        {
+            return redirect()->back()->with('error', __('messages.quantity_exceed_stock'));
+        }
+
+        // Vérifier si le produit n'est pas déjà dans la commande
+        if($order->orderLines->where('product_id', $request->product_id)->first())
+        {
+            // Mettre à jour la quantité
+            $orderLine = $order->orderLines->where('product_id', $request->product_id)->first();
+            
+            $orderLine->addQuantity($quantity);
+        }
+        else
+        {
+            // Ajouter le produit à la commande
+            $order->orderLines()->create([
+                'product_id' => $request->product_id,
+                'quantity_ordered' => $quantity,
+                'unit_price' => $product->reference_price,
+            ]);
+        }
+
+        return redirect()->route('store.order.place', ['order_id' => $request->order_id]);
     }
 
     public function placeOrderConfirm(Request $request)
@@ -80,17 +131,3 @@ class OrderController extends Controller
     }
 
 }
-
-// Order process :
-
-// Place order
-//    -> Add content to cart
-//    -> Confirm what he has added
-//    -> Send to recap
-// Recap order
-//   -> Show what he has added
-//   -> Confirm order
-// Confirm order
-
-// We need to store the cart in the database, maybe new database ?
-// How to store data in the cart ?

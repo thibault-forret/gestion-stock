@@ -89,6 +89,18 @@
                         <u>Quantité disponible :</u> 
                         {{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}
                     </p>
+
+                    <div class="buttons">
+                        <form class="add-to-order-form" method="POST" action="{{ route('store.order.add') }}">
+                            @csrf
+                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="number" name="quantity" class="quantity-input" value="1" 
+                                min="1" max="{{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}" 
+                                step="1" required>
+                            <button type="submit" class="btn">Ajouter à la commande</button>
+                        </form>
+                    </div>
                 </div>
             @endforeach
         @else
@@ -111,7 +123,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($order->orderLines() as $orderLine)
+                    {{-- Faire le sans marge et avec marge de l'entrepot --}}
+                    @foreach($order->orderLines as $orderLine)
                         <tr>
                             <td>{{ $orderLine->product->product_name }}</td>
                             <td>{{ $orderLine->quantity_ordered }}</td>
