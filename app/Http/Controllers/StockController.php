@@ -199,7 +199,7 @@ class StockController extends Controller
         $stock = Stock::find($request->stock_id);
 
         // Mettre à jour la quantité disponible
-        $stock->addStock($quantity);
+        $stock->addQuantity($quantity);
 
         $product = $stock->product;
 
@@ -261,7 +261,7 @@ class StockController extends Controller
         }
 
         // Mettre à jour la quantité disponible
-        $stock->removeStock($quantity);
+        $stock->removeQuantity($quantity);
 
         // Ajouter toutes les dépendances nécessaires, stock_movements, etc.
         $success = $this->removeQuantityProductFromStock($stock, $quantity);
@@ -417,7 +417,7 @@ class StockController extends Controller
                 foreach ($productsData as $productData) {
                     $stock = $warehouse->stock->whereIn('product_id', $productData['product_id'])->first();
 
-                    $stock->addStock($productData['quantity']);
+                    $stock->addQuantity($productData['quantity']);
 
                     $product = $stock->product;
 

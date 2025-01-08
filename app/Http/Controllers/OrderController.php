@@ -77,11 +77,11 @@ class OrderController extends Controller
         $product = Product::find($request->product_id);
 
         // Vérifier si la quantité n'excède pas le stock
-        $warehouse = $order->store->warehouse;
+        $stock = $order->store->warehouse->stock->where('product_id', $request->product_id)->first();
 
         $quantity = $request->quantity;
 
-        if($quantity > $warehouse->stock->where('product_id', $request->product_id)->first()->quantity_available)
+        if($quantity > $stock->quantity_available)
         {
             return redirect()->back()->with('error', __('messages.quantity_exceed_stock'));
         }
@@ -103,6 +103,9 @@ class OrderController extends Controller
                 'unit_price' => $product->reference_price,
             ]);
         }
+
+        // Retirer la quantité du stock (réserve la quantité pour cette commande)
+        $stock->removeQuantity($quantity);
 
         return redirect()->route('store.order.place', ['order_id' => $request->order_id]);
     }

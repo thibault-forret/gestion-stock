@@ -28,14 +28,14 @@ class Stock extends Model
     }
 
     // Ajout de stock
-    public function addStock(int $quantity)
+    public function addQuantity(int $quantity)
     {
         $this->quantity_available += $quantity;
         return $this->save();
     }
 
     // Retrait de stock
-    public function removeStock(int $quantity)
+    public function removeQuantity(int $quantity)
     {
         $this->quantity_available -= $quantity;
         return $this->save();
