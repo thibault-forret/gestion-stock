@@ -149,7 +149,6 @@
             productList.addEventListener('click', function (event) {
                 const button = event.target;
                 const productItem = button.closest('.product-item');
-                console.log(productItem);
                 const productId = productItem.getAttribute('data-id');
 
                 if (button.classList.contains('btn-select')) {
