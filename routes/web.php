@@ -65,6 +65,22 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                 Route::post('/add', [ProductController::class, 'addProductSubmit'])->name('add.submit');
             });
 
+            Route::prefix('order')->name('order.')->group(function () {
+                Route::get('/', [OrderController::class, 'indexWarehouse'])->name('index');
+
+                Route::get('/list', [OrderController::class, 'listOrdersWarehouse'])->name('list');
+
+                Route::get('/{order_id}/detail', [OrderController::class, 'detailOrderWarehouse'])->name('detail');
+
+                Route::post('/remove', [OrderController::class, 'removeOrder'])->name('remove');
+
+                Route::post('/refuse', [OrderController::class, 'refuseOrder'])->name('refuse');
+
+                Route::post('/deliver', [OrderController::class, 'deliverOrder'])->name('deliver');
+
+                
+            });
+
             Route::prefix('stock')->name('stock.')->group(function () {
                 Route::get('/', [StockController::class, 'index'])->name('index');
 

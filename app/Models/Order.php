@@ -9,6 +9,7 @@ class Order extends Model
     const ORDER_STATUS_IN_PROGRESS = 'IN PROGRESS';
     const ORDER_STATUS_PENDING = 'PENDING';
     const ORDER_STATUS_DELIVERED = 'DELIVERED';
+    const ORDER_STATUS_REFUSED = 'REFUSED';
 
     protected $fillable = [
         'user_id',
