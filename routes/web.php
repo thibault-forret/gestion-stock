@@ -120,7 +120,8 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::get('/supply/{invoice_number}/info', [InvoiceController::class, 'infoInvoiceSupply'])->name('info.supply');
 
-                Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle'); // Ajouter une vérification dans le controller (si c'est pas une order)
+                // Ajouter une vérification dans le controller (si c'est pas une order)
+                Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle'); 
                 Route::get('/{invoice_number}/show', [InvoiceController::class, 'showInvoice'])->name('show');
                 Route::get('/{invoice_number}/download', [InvoiceController::class, 'downloadInvoice'])->name('download');
             });
