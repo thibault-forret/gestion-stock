@@ -210,7 +210,7 @@
                                     <td>{{ number_format($orderLine->unit_price, 2) }} €</td>
                                     <td>{{ number_format($orderLine->quantity_ordered * $orderLine->unit_price, 2) }} €</td>
                                     <td>
-                                        <form action="{{ route('store.order.remove') }}" method="POST" class="inline-form">
+                                        <form action="{{ route('store.order.remove.product') }}" method="POST" class="inline-form">
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                             <input type="hidden" name="order_id" value="{{ $order->id }}">
@@ -236,7 +236,7 @@
                         <span class="total-value">{{ number_format($total, 2) }} €</span>
                     </div>
                     <div class="confirm-order">
-                        <a href="{{ route('store.order.place', ['order_id' => $order->id ]) }}" class="btn btn-secondary">Retour</a>
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Retour</a>
                         <form action="{{ route('store.order.confirm') }}" method="POST">
                             @csrf
                             <input type="hidden" name="order_id" value="{{ $order->id }}">

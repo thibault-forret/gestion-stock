@@ -310,7 +310,7 @@
                                 <td>{{ number_format($orderLine->unit_price, 2) }} €</td>
                                 <td>{{ number_format($orderLine->quantity_ordered * $orderLine->unit_price, 2) }} €</td>
                                 <td style="display: flex; flex-direction: column; justify-content: center;">
-                                    <form action="{{ route('store.order.remove') }}" method="POST">
+                                    <form action="{{ route('store.order.remove.product') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
@@ -337,7 +337,9 @@
             </div>
 
             <div class="confirm">
-                <a class="btn" href="{{ route('store.order.recap', ['order_id' => $order->id]) }}">Voir le récapitulatif</a>
+                <a class="btn" href="{{ route('store.order.recap', ['order_id' => $order->id]) }}">
+                    Voir le récapitulatif
+                </a>
             </div>
         @else
             <p class="empty-order">Aucune commande en cours.</p>

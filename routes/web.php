@@ -66,13 +66,11 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
             });
 
             Route::prefix('order')->name('order.')->group(function () {
-                Route::get('/', [OrderController::class, 'indexWarehouse'])->name('index');
-
-                Route::get('/list', [OrderController::class, 'listOrdersWarehouse'])->name('list');
+                Route::get('/', [OrderController::class, 'listOrdersWarehouse'])->name('list');
 
                 Route::get('/{order_id}/detail', [OrderController::class, 'detailOrderWarehouse'])->name('detail');
 
-                Route::post('/remove', [OrderController::class, 'removeOrder'])->name('remove');
+                Route::post('/remove', [OrderController::class, 'removeOrderWarehouse'])->name('remove');
 
                 Route::post('/refuse', [OrderController::class, 'refuseOrder'])->name('refuse');
 
@@ -146,6 +144,8 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::get('/list', [OrderController::class, 'listOrders'])->name('list');
 
+                Route::post('/remove', [OrderController::class, 'removeOrder'])->name('remove');
+
                 Route::get('/{order_id}/detail', [OrderController::class, 'detailOrder'])->name('detail');
 
                 Route::get('/place', [OrderController::class, 'placeNewOrder'])->name('new');
@@ -154,7 +154,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::post('/place/add', [OrderController::class, 'addProductToOrder'])->name('add');
 
-                Route::post('/place/remove', [OrderController::class, 'removeProductFromOrder'])->name('remove');
+                Route::post('/place/remove', [OrderController::class, 'removeProductFromOrder'])->name('remove.product');
 
                 Route::post('/place/remove/quantity', [OrderController::class, 'removeQuantityProductFromOrder'])->name('remove.quantity');
 

@@ -3,7 +3,7 @@
 @section('css')
     <style>
         .order-list {
-            max-width: 900px;
+            width: 80%;
             margin: 100px auto;
             padding: 20px;
             background-color: #f9f9f9;
@@ -48,6 +48,10 @@
             font-size: 0.9rem;
         }
 
+        .badge-red {
+            background-color: #f44336;
+        }
+
         .badge-warning {
             background-color: #ff9800;
         }
@@ -57,7 +61,7 @@
         }
 
         .badge-info {
-            background-color: #2196f3;
+            background-color: #ffc400;
         }
 
         .btn {
@@ -104,6 +108,11 @@
 @section('description', __('description.order'))
 
 @section('content')
+    
+    {{ __('description.order') }} <br>
+
+    Même système que invoice -> filtrage par magasin etc <br>
+
     <div class="order-list">
         <h3>Liste des commandes</h3>
 
@@ -111,7 +120,9 @@
             <table class="order-table">
                 <thead>
                     <tr>
-                        <th>ID de la commande</th>
+                        <th>ID</th>
+                        <th>Tarif HT</th>
+                        <th>Tarif TTC</th>
                         <th>Statut</th>
                         <th>Actions</th>
                     </tr>
@@ -120,29 +131,38 @@
                     @foreach($orders as $order)
                         <tr>
                             <td>{{ $order->id }}</td>
+                            <td>{{ number_format($order->calculateTotalPrice(), 2) }} €</td>
+                            <td>{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</td>
                             <td>
                                 @if($order->order_status == 'IN PROGRESS')
-                                    <span class="badge badge-warning">{{ __('In Progress') }}</span>
+                                    <span class="badge badge-info">{{ __('In Progress') }}</span>
                                 @elseif($order->order_status == 'DELIVERED')
                                     <span class="badge badge-success">{{ __('Delivered') }}</span>
                                 @elseif($order->order_status == 'PENDING')
-                                    <span class="badge badge-info">{{ __('Pending') }}</span>
+                                    <span class="badge badge-warning">{{ __('Pending') }}</span>
+                                @elseif($order->order_status == 'REFUSED')
+                                    <span class="badge badge-red">{{ __('Refused') }}</span>
                                 @endif
                             </td>
                             <td>
                                 @if($order->order_status == 'IN PROGRESS')
-                                    @if($order->orderLines->count() > 0)
-                                        <a href="{{ route('store.order.recap', ['order_id' => $order->id]) }}" class="btn btn-primary">
-                                            Voir récapitulatif
-                                        </a>
-                                    @endif
-                                    <a href="{{ route('store.order.place', ['order_id' => $order->id]) }}" class="btn btn-secondary">
-                                        Voir la commande
+                                    <a href="{{ route('store.order.place', ['order_id' => $order->id]) }}" class="btn btn-info">
+                                        Modifier la commande
                                     </a>
-                                @elseif($order->order_status == 'DELIVERED' || $order->order_status == 'PENDING')
-                                    <a href="{{ route('store.order.detail', ['order_id' => $order->id]) }}" class="btn btn-info">
-                                        Détails de la commande
+
+                                    <a class="btn btn-info" href="{{ route('store.order.recap', ['order_id' => $order->id]) }}">
+                                        Confirmer la commande
                                     </a>
+                                @endif
+                                <a href="{{ route('store.order.detail', ['order_id' => $order->id]) }}" class="btn btn-info">
+                                    Détails de la commande
+                                </a>
+                                @if($order->order_status != 'DELIVERED')
+                                    <form action="{{ route('store.order.remove') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                        <button class="btn btn-info" type="submit">Supprimer la commande</button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>
@@ -153,4 +173,5 @@
             <p class="empty-order">Aucune commande trouvée.</p>
         @endif
     </div>
+
 @endsection

@@ -19,9 +19,11 @@ class OrderController extends Controller
         
         $store = $user->storeUser->store;
 
+        $warehouse = $store->warehouse;
+
         $orders = $store->orders;
 
-        return view('pages.store.order.list', compact('orders'));
+        return view('pages.store.order.list', compact('orders', 'warehouse'));
     }
 
     public function detailOrder(int $order_id)
@@ -31,16 +33,42 @@ class OrderController extends Controller
         // Vérifier si la commande existe
         if(!$order)
         {
-            return redirect()->route('store.order.index')->with('error', __('messages.order_not_found'));
-        }
-
-        // Vérifier le statut de la commande
-        if($order->order_status == Order::ORDER_STATUS_IN_PROGRESS)
-        {
-            return redirect()->route('store.order.index')->with('error', __('messages.order_in_progress'));
+            return redirect()->route('store.order.list')->with('error', __('messages.order_not_found'));
         }
 
         return view('pages.store.order.detail', compact('order'));
+    }
+
+    public function removeOrder(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|integer|exists:orders,id',
+        ],
+        [
+            'order_id.required' => __('messages.order_id_required'),
+            // Faire les messages
+        ]);
+
+        // Récupérer la commande
+        $order = Order::find($request->order_id);
+
+        // Vérifier le statut de la commande
+        if($order->order_status == Order::ORDER_STATUS_DELIVERED)
+        {
+            return redirect()->route('store.order.list')->with('error', __('messages.order_not_in_progress'));
+        }
+
+        // Remettre la quantité commandée dans le stock
+        $order->orderLines->each(function ($orderLine) use ($order) {
+            $stock = $order->store->warehouse->stock->where('product_id', $orderLine->product_id)->first();
+
+            $stock->addQuantity($orderLine->quantity_ordered);
+        });
+
+        // Supprimer la commande
+        $order->delete();
+
+        return redirect()->route('store.order.list')->with('success', __('messages.order_removed'));
     }
 
     public function placeOrder(int $order_id)
@@ -319,20 +347,17 @@ class OrderController extends Controller
     //                                  WAREHOUSE
     // -----------------------------------------------------------------------------------------------
 
-    public function indexWarehouse()
-    {
-        return view('pages.warehouse.order.index');
-    }
-
     public function listOrdersWarehouse()
     {
         $user = auth()->user();
         
         $warehouse = $user->warehouseUser->warehouse;
 
-        $orders = $warehouse->orders;
+        $orders = $warehouse->stores->flatMap(function ($store) {
+            return $store->orders;
+        });
 
-        return view('pages.warehouse.order.list', compact('orders'));
+        return view('pages.warehouse.order.list', compact('orders', 'warehouse'));
     }
 
     public function detailOrderWarehouse(int $order_id)
@@ -342,13 +367,12 @@ class OrderController extends Controller
         // Vérifier si la commande existe
         if(!$order)
         {
-            return redirect()->route('warehouse.order.index')->with('error', __('messages.order_not_found'));
+            return redirect()->route('warehouse.order.list')->with('error', __('messages.order_not_found'));
         }
 
         return view('pages.warehouse.order.detail', compact('order'));
     }
 
-    // L'entrepôt valide la commande
     public function deliverOrder(Request $request)
     {
         $request->validate([
@@ -365,14 +389,14 @@ class OrderController extends Controller
         // Vérifier le statut de la commande
         if($order->order_status != Order::ORDER_STATUS_PENDING)
         {
-            return redirect()->route('warehouse.order.index')->with('error', __('messages.order_not_pending'));
+            return redirect()->route('warehouse.order.list')->with('error', __('messages.order_not_pending'));
         }
 
         // Changer le statut de la commande
         $order->order_status = Order::ORDER_STATUS_DELIVERED;
         $order->save();
 
-        return redirect()->route('warehouse.order.index')->with('success', __('messages.order_delivered'));
+        return redirect()->route('warehouse.order.list')->with('success', __('messages.order_delivered'));
     }
 
     // L'entrepôt refuse la commande
@@ -392,11 +416,11 @@ class OrderController extends Controller
         // Vérifier le statut de la commande
         if($order->order_status != Order::ORDER_STATUS_PENDING)
         {
-            return redirect()->route('warehouse.order.index')->with('error', __('messages.order_not_pending'));
+            return redirect()->route('warehouse.order.list')->with('error', __('messages.order_not_pending'));
         }
 
         // Remettre la quantité commandée dans le stock
-        $order->orderLines->each(function ($orderLine) {
+        $order->orderLines->each(function ($orderLine) use ($order) {
             $stock = $order->store->warehouse->stock->where('product_id', $orderLine->product_id)->first();
 
             $stock->addQuantity($orderLine->quantity_ordered);
@@ -406,10 +430,10 @@ class OrderController extends Controller
         $order->order_status = Order::ORDER_STATUS_REFUSED;
         $order->save();
 
-        return redirect()->route('warehouse.order.index')->with('success', __('messages.order_refused'));
+        return redirect()->route('warehouse.order.list')->with('success', __('messages.order_refused'));
     }
 
-    public function removeOrder(Request $request)
+    public function removeOrderWarehouse(Request $request)
     {
         $request->validate([
             'order_id' => 'required|integer|exists:orders,id',
@@ -423,13 +447,13 @@ class OrderController extends Controller
         $order = Order::find($request->order_id);
 
         // Vérifier le statut de la commande
-        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS && $order->order_status != Order::ORDER_STATUS_PENDING)
+        if($order->order_status == Order::ORDER_STATUS_DELIVERED)
         {
-            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+            return redirect()->route('warehouse.order.list')->with('error', __('messages.order_not_in_progress'));
         }
 
         // Remettre la quantité commandée dans le stock
-        $order->orderLines->each(function ($orderLine) {
+        $order->orderLines->each(function ($orderLine) use ($order) {
             $stock = $order->store->warehouse->stock->where('product_id', $orderLine->product_id)->first();
 
             $stock->addQuantity($orderLine->quantity_ordered);
@@ -438,6 +462,6 @@ class OrderController extends Controller
         // Supprimer la commande
         $order->delete();
 
-        return redirect()->route('warehouse.order.index')->with('success', __('messages.order_removed'));
+        return redirect()->route('warehouse.order.list')->with('success', __('messages.order_removed'));
     }
 }
