@@ -108,11 +108,19 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
             });
 
             Route::prefix('invoice')->name('invoice.')->group(function () {
-                Route::get('/', [InvoiceController::class, 'invoiceList'])->name('list');
-                Route::post('/search', [InvoiceController::class, 'searchInvoice'])->name('search');
-                Route::get('/filter', [InvoiceController::class, 'filterInvoice'])->name('filter');
-                Route::get('/{invoice_number}/info', [InvoiceController::class, 'infoInvoice'])->name('info');
-                Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle');
+                Route::get('/', [InvoiceController::class, 'index'])->name('index');
+
+                Route::post('/search', [InvoiceController::class, 'searchInvoice'])->name('search'); // Mettre back() dans le controller
+
+                Route::get('/order/list', [InvoiceController::class, 'invoiceListOrder'])->name('list.order');
+                Route::get('/order/{invoice_number}/info', [InvoiceController::class, 'infoInvoiceOrder'])->name('info.order');
+
+                Route::get('/supply/list', [InvoiceController::class, 'invoiceListSupply'])->name('list.supply');
+                Route::get('/supply/filter', [InvoiceController::class, 'filterInvoiceSupply'])->name('filter.supply');
+
+                Route::get('/supply/{invoice_number}/info', [InvoiceController::class, 'infoInvoiceSupply'])->name('info.supply');
+
+                Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle'); // Ajouter une vérification dans le controller (si c'est pas une order)
                 Route::get('/{invoice_number}/show', [InvoiceController::class, 'showInvoice'])->name('show');
                 Route::get('/{invoice_number}/download', [InvoiceController::class, 'downloadInvoice'])->name('download');
             });

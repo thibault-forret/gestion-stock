@@ -11,7 +11,46 @@ use Carbon\Carbon;
 
 class InvoiceController extends Controller
 {
-    public function invoiceList()
+    public function index()
+    {
+        return view('pages.warehouse.invoice.index');
+    }
+
+    public function invoiceListOrder()
+    {
+        $user = auth()->user();
+
+        $warehouse = $user->warehouseUser->warehouse;
+
+        // Récupère toutes les factures de l'entrepôt
+        $invoices = $warehouse->stores->flatMap(function ($store) {
+            return $store->orders->flatMap(function ($order) {
+                return $order->invoice ? [$order->invoice] : [];
+            });
+        });
+
+        $invoices = $invoices->sortByDesc('created_at');
+
+        return view('pages.warehouse.invoice.list_order', compact('invoices'));
+    }
+
+    public function infoInvoiceOrder(string $invoice_number)
+    {
+        $invoice = Invoice::where('invoice_number', $invoice_number)->first();
+
+        if (!$invoice) {
+            return redirect()->route('warehouse.invoice.index')->with('error', __('messages.invoice_not_found'));
+        }
+
+        $order = $invoice->order;
+
+        $total_amount_ht = $order->calculateTotalPrice();
+        $total_amount_ttc = $total_amount_ht * $warehouse->global_margin;
+
+        return view('pages.warehouse.invoice.info', compact('invoice', 'order', 'total_amount_ht', 'total_amount_ttc'));
+    }
+
+    public function invoiceListSupply()
     {
         $user = auth()->user();
 
@@ -26,9 +65,10 @@ class InvoiceController extends Controller
 
         $suppliers = Supplier::all();
 
-        return view('pages.warehouse.invoice.list', compact('invoices', 'suppliers'));
+        return view('pages.warehouse.invoice.list_supply', compact('invoices', 'suppliers'));
     }
 
+    // Voir où ca renvoie, faire attention à la visualisation et au téléchargement du PDF
     public function searchInvoice(Request $request)
     {
         $request->validate([
@@ -44,12 +84,18 @@ class InvoiceController extends Controller
             return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
         }
 
+        // Vérifier si la facture est une facture de commande ou de fourniture
+
+        // Rediriger vers la page correspondante
+        // return to info.supply
+        // return to info.order
+
         return redirect()->route('warehouse.invoice.info', ['invoice_number' => $invoice->invoice_number]);
     }
 
 
-    // Vérifier problème du in qui ne fonctionne pas
-    public function filterInvoice(Request $request)
+    // Vérifier problème du in qui ne fonctionne pas, voir si corriger ???
+    public function filterInvoiceSupply(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'supplier' => 'nullable|string|exists:suppliers,supplier_name',
@@ -209,15 +255,15 @@ class InvoiceController extends Controller
 
         $suppliers = Supplier::all();
 
-        return view('pages.warehouse.invoice.list', compact('invoices', 'suppliers'));
+        return view('pages.warehouse.invoice.list_supply', compact('invoices', 'suppliers'));
     }
 
-    public function infoInvoice(string $invoice_number)
+    public function infoInvoiceSupply(string $invoice_number)
     {
         $invoice = Invoice::where('invoice_number', $invoice_number)->first();
 
         if (!$invoice) {
-            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
+            return redirect()->route('warehouse.invoice.index')->with('error', __('messages.invoice_not_found'));
         }
 
         $supply = $invoice->supply;
@@ -243,7 +289,7 @@ class InvoiceController extends Controller
 
         // Vérifier si la facture n'est pas déjà réglée
         if ($invoice->invoice_status === Invoice::INVOICE_STATUS_PAID) {
-            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_already_settled'));
+            return redirect()->route('warehouse.invoice.list.supply')->with('error', __('messages.invoice_already_settled'));
         }
 
         // Mettre à jour le statut de la facture
@@ -264,7 +310,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::where('invoice_number', $invoice_number)->first();
 
         if (!$invoice) {
-            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
+            return redirect()->route('warehouse.invoice.list_supply')->with('error', __('messages.invoice_not_found'));
         }
 
         $supply = $invoice->supply;
@@ -284,7 +330,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::where('invoice_number', $invoice_number)->first();
 
         if (!$invoice) {
-            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
+            return redirect()->route('warehouse.invoice.list_supply')->with('error', __('messages.invoice_not_found'));
         }
 
         $supply = $invoice->supply;
