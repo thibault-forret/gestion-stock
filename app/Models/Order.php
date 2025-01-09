@@ -41,4 +41,13 @@ class Order extends Model
     {
         return $this->hasMany(OrderLine::class);
     }
+
+    // Permet de calculer le prix total de la commande
+    public function calculateTotalPrice()
+    {
+        return $this->orderLines->reduce(function ($total, $line) {
+            return $total + ($line->quantity_ordered * $line->unit_price);
+        }, 0);
+    }
+
 }
