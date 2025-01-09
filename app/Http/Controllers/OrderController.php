@@ -36,6 +36,12 @@ class OrderController extends Controller
             return redirect()->route('store.order.list')->with('error', __('messages.order_not_found'));
         }
 
+        // Vérifier si la commande n'est pas vide
+        if(count($order->orderLines) == 0)
+        {
+            return redirect()->route('store.order.place', ['order_id' => $order->id])->with('error', __('messages.order_empty'));
+        } 
+
         return view('pages.store.order.detail', compact('order'));
     }
 
