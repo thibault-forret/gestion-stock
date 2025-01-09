@@ -45,8 +45,9 @@ class OrderController extends Controller
             'order_id' => 'required|integer|exists:orders,id',
         ],
         [
-            'order_id.required' => __('messages.order_id_required'),
-            // Faire les messages
+            'order_id.required' => __('messages.order_not_found'),
+            'order_id.integer' => __('messages.order_not_found'),
+            'order_id.exists' => __('messages.order_not_found'),
         ]);
 
         // Récupérer la commande
@@ -122,7 +123,7 @@ class OrderController extends Controller
         ]);
 
         // Rediriger vers la page de commande
-        return redirect()->route('store.order.place', ['order_id' => $order->id]);
+        return redirect()->route('store.order.place', ['order_id' => $order->id])->with('success', __('messages.order_created'));
     }
 
     public function addProductToOrder(Request $request)
@@ -134,8 +135,15 @@ class OrderController extends Controller
             'quantity' => 'required|integer|min:1',
         ],
         [
-            'order_id.required' => __('messages.order_id_required'),
-            // Faire les messages
+            'order_id.required' => __('messages.order_not_found'),
+            'order_id.integer' => __('messages.order_not_found'),
+            'order_id.exists' => __('messages.order_not_found'),
+            'product_id.required' => __('messages.product_not_found'),
+            'product_id.integer' => __('messages.product_not_found'),
+            'product_id.exists' => __('messages.product_not_found'),
+            'quantity.required' => __('messages.quantity_required'),
+            'quantity.integer' => __('messages.quantity_integer'),
+            'quantity.min' => __('messages.quantity_min'),
         ]);
 
         // Récupérer la commande et le produit
@@ -180,7 +188,7 @@ class OrderController extends Controller
         // Retirer la quantité du stock (réserve la quantité pour cette commande)
         $stock->removeQuantity($quantity);
 
-        return redirect()->route('store.order.place', ['order_id' => $request->order_id]);
+        return redirect()->route('store.order.place', ['order_id' => $request->order_id])->with('success', __('messages.product_added'));
     }
 
     public function removeProductFromOrder(Request $request)
@@ -191,8 +199,12 @@ class OrderController extends Controller
             'product_id' => 'required|integer|exists:products,id',
         ],
         [
-            'order_id.required' => __('messages.order_id_required'),
-            // Faire les messages
+            'order_id.required' => __('messages.order_not_found'),
+            'order_id.integer' => __('messages.order_not_found'),
+            'order_id.exists' => __('messages.order_not_found'),
+            'product_id.required' => __('messages.product_not_found'),
+            'product_id.integer' => __('messages.product_not_found'),
+            'product_id.exists' => __('messages.product_not_found'),
         ]);
 
         // Récupérer la commande et le produit
@@ -225,7 +237,7 @@ class OrderController extends Controller
         // Supprimer la ligne de commande
         $orderLine->delete();
 
-        return redirect()->back()->with('success', __('messages.action_success'));
+        return redirect()->back()->with('success', __('messages.product_removed'));
     }
 
     public function removeQuantityProductFromOrder(Request $request)
@@ -237,8 +249,12 @@ class OrderController extends Controller
             'quantity' => 'required|integer|min:1',
         ],
         [
-            'order_id.required' => __('messages.order_id_required'),
-            // Faire les messages
+            'order_id.required' => __('messages.order_not_found'),
+            'order_id.integer' => __('messages.order_not_found'),
+            'order_id.exists' => __('messages.order_not_found'),
+            'product_id.required' => __('messages.product_not_found'),
+            'product_id.integer' => __('messages.product_not_found'),
+            'product_id.exists' => __('messages.product_not_found'),
         ]);
 
         // Récupérer la commande et le produit
@@ -282,7 +298,7 @@ class OrderController extends Controller
 
         $stock->addQuantity($quantity);
 
-        return redirect()->back()->with('success', __('messages.action_success'));
+        return redirect()->back()->with('success', __('messages.remove_quantity_success'));
     }
 
     public function recapOrder(int $order_id)
@@ -317,8 +333,9 @@ class OrderController extends Controller
             'order_id' => 'required|integer|exists:orders,id',
         ],
         [
-            'order_id.required' => __('messages.order_id_required'),
-            // Faire les messages
+            'order_id.required' => __('messages.order_not_found'),
+            'order_id.integer' => __('messages.order_not_found'),
+            'order_id.exists' => __('messages.order_not_found'),
         ]);
 
         // Récupérer la commande
@@ -379,8 +396,9 @@ class OrderController extends Controller
             'order_id' => 'required|integer|exists:orders,id',
         ],
         [
-            'order_id.required' => __('messages.order_id_required'),
-            // Faire les messages
+            'order_id.required' => __('messages.order_not_found'),
+            'order_id.integer' => __('messages.order_not_found'),
+            'order_id.exists' => __('messages.order_not_found'),        
         ]);
 
         // Récupérer la commande
@@ -399,15 +417,15 @@ class OrderController extends Controller
         return redirect()->route('warehouse.order.list')->with('success', __('messages.order_delivered'));
     }
 
-    // L'entrepôt refuse la commande
     public function refuseOrder(Request $request)
     {
         $request->validate([
             'order_id' => 'required|integer|exists:orders,id',
         ],
         [
-            'order_id.required' => __('messages.order_id_required'),
-            // Faire les messages
+            'order_id.required' => __('messages.order_not_found'),
+            'order_id.integer' => __('messages.order_not_found'),
+            'order_id.exists' => __('messages.order_not_found'),
         ]);
 
         // Récupérer la commande
@@ -439,8 +457,9 @@ class OrderController extends Controller
             'order_id' => 'required|integer|exists:orders,id',
         ],
         [
-            'order_id.required' => __('messages.order_id_required'),
-            // Faire les messages
+            'order_id.required' => __('messages.order_not_found'),
+            'order_id.integer' => __('messages.order_not_found'),
+            'order_id.exists' => __('messages.order_not_found'),
         ]);
 
         // Récupérer la commande
