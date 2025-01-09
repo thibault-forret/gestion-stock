@@ -219,12 +219,16 @@
                         <span class="total-label">Total :</span>
                         <span class="total-value">{{ number_format($total, 2) }} €</span>
                     </div>
-                    <div class="confirm-order">
-                        <a href="{{ route('warehouse.order.list') }}" class="btn btn-secondary">Retour</a>
-                    </div>
+                    
                 </div>
             </div>
+        @else
+            <p class="empty-order">Aucun produit dans la commande</p>
         @endif
+
+        <div class="confirm-order">
+            <a href="{{ route('warehouse.order.list') }}" class="btn btn-secondary">Retour</a>
+        </div>
     </div>    
 
 @endsection
