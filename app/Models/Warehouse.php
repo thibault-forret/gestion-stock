@@ -19,12 +19,6 @@ class Warehouse extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    // Chaque entrepôt peut avoir plusieurs commandes
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
-    }
-
     // Chaque entrepôt peut avoir plusieurs produits en stock
     public function stock()
     {
