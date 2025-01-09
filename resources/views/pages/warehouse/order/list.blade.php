@@ -168,6 +168,13 @@
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <button class="btn btn-secondary" type="submit">Supprimer la commande</button>
                                     </form>
+                                @else
+                                    <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $order->invoice->invoice_number]) }}" class="btn btn-info">
+                                        Voir la facture
+                                    </a>
+                                    <a href="{{ route('warehouse.order.invoice.download', ['invoice_number' => $order->invoice->invoice_number]) }}" class="btn btn-info">
+                                        Télécharger la facture
+                                    </a>
                                 @endif
                             </td>
                         </tr>

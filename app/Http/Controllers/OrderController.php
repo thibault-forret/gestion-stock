@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Invoice;
 
 class OrderController extends Controller
 {
@@ -420,6 +422,15 @@ class OrderController extends Controller
         $order->order_status = Order::ORDER_STATUS_DELIVERED;
         $order->save();
 
+        // Créer une facture
+        $order->invoice()->create([
+            'invoice_number' => strtoupper(uniqid()),
+            'invoice_date' => now(),
+            'invoice_status' => Invoice::INVOICE_STATUS_UNPAID,
+            'order_id' => $order->id,
+            'supply_id' => null,
+        ]);
+
         return redirect()->route('warehouse.order.list')->with('success', __('messages.order_delivered'));
     }
 
@@ -488,5 +499,55 @@ class OrderController extends Controller
         $order->delete();
 
         return redirect()->route('warehouse.order.list')->with('success', __('messages.order_removed'));
+    }
+
+    // -----------------------------------------------------------------------------------------------
+    //                                 PDF
+    // -----------------------------------------------------------------------------------------------
+
+    public function showInvoice(string $invoice_number)
+    {
+        $invoice = Invoice::where('invoice_number', $invoice_number)->first();
+
+        if (!$invoice) {
+            return redirect()->back()->with('error', __('messages.invoice_not_found'));
+        }
+
+        $order = $invoice->order;
+
+        $warehouse = $order->store->warehouse;
+
+        $total_amount_ht = $order->calculateTotalPrice();
+        $total_amount_ttc = $total_amount_ht * $warehouse->global_margin;
+
+        $store = $order->store;
+
+        $pdf = Pdf::loadView('pages.pdf.order_pdf', compact('invoice', 'order', 'warehouse', 'store', 'total_amount_ht', 'total_amount_ttc'));
+
+        // Pour afficher le PDF dans le navigateur
+        return $pdf->stream(str_replace(' ', '_', $warehouse->warehouse_name).'_INVOICE_'.$invoice->invoice_number.'_'.str_replace(' ', '_', $invoice->created_at).'.pdf');
+    }
+
+    public function downloadInvoice(string $invoice_number)
+    {
+        $invoice = Invoice::where('invoice_number', $invoice_number)->first();
+
+        if (!$invoice) {
+            return redirect()->back()->with('error', __('messages.invoice_not_found'));
+        }
+
+        $order = $invoice->order;
+
+        $warehouse = $order->store->warehouse;
+
+        $total_amount_ht = $order->calculateTotalPrice();
+        $total_amount_ttc = $total_amount_ht * $warehouse->global_margin;
+
+        $store = $order->store;
+
+        $pdf = Pdf::loadView('pages.pdf.order_pdf', compact('invoice', 'order', 'warehouse', 'store', 'total_amount_ht', 'total_amount_ttc'));
+
+        // Pour afficher le PDF dans le navigateur
+        return $pdf->download(str_replace(' ', '_', $warehouse->warehouse_name).'_INVOICE_'.$invoice->invoice_number.'_'.str_replace(' ', '_', $invoice->created_at).'.pdf');
     }
 }

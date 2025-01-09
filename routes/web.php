@@ -76,6 +76,9 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::post('/deliver', [OrderController::class, 'deliverOrder'])->name('deliver');
 
+                Route::get('/{invoice_number}/show', [OrderController::class, 'showInvoice'])->name('invoice.show');
+
+                Route::get('/{invoice_number}/download', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
                 
             });
 
@@ -161,6 +164,10 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                 Route::get('/{order_id}/place/recap', [OrderController::class, 'recapOrder'])->name('recap');
                 
                 Route::post('/place/confirm', [OrderController::class, 'confirmOrder'])->name('confirm');
+
+                Route::get('/{invoice_number}/show', [OrderController::class, 'showInvoice'])->name('invoice.show');
+
+                Route::get('/{invoice_number}/download', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
             });
 
         });
