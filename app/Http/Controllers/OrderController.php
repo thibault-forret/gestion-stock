@@ -488,12 +488,15 @@ class OrderController extends Controller
             return redirect()->route('warehouse.order.list')->with('error', __('messages.order_not_in_progress'));
         }
 
-        // Remettre la quantité commandée dans le stock
-        $order->orderLines->each(function ($orderLine) use ($order) {
-            $stock = $order->store->warehouse->stock->where('product_id', $orderLine->product_id)->first();
+        if($order->order_status != Order::ORDER_STATUS_REFUSED)
+        {
+            // Remettre la quantité commandée dans le stock
+            $order->orderLines->each(function ($orderLine) use ($order) {
+                $stock = $order->store->warehouse->stock->where('product_id', $orderLine->product_id)->first();
 
-            $stock->addQuantity($orderLine->quantity_ordered);
-        });
+                $stock->addQuantity($orderLine->quantity_ordered);
+            });
+        }
 
         // Supprimer la commande
         $order->delete();
