@@ -48,9 +48,10 @@ class InvoiceController extends Controller
 
         $order = $invoice->order;
 
+        // Vérifier si la facture est une facture de commande ou de fourniture
         if (!$order) 
         {
-            return redirect()->back()->with('error', __('messages.action_failed'));
+            return redirect()->back()->with('error', __('messages.invoice_not_found'));
         }
 
         $warehouse = $order->store->warehouse;
@@ -441,9 +442,10 @@ class InvoiceController extends Controller
 
         $supply = $invoice->supply;
 
+        // Vérifier si la facture est une facture de commande ou de fourniture
         if (!$supply) 
         {
-            return redirect()->back()->with('error', __('messages.action_failed'));
+            return redirect()->back()->with('error', __('messages.invoice_not_found'));
         }
 
         $total_amount = $supply->supplyLines->sum(fn($supply_line) => $supply_line->unit_price * $supply_line->quantity_supplied);
@@ -456,8 +458,8 @@ class InvoiceController extends Controller
         $request->validate([
             'invoice_id' => 'required|integer|exists:invoices,id',
         ], [
-            'invoice_id.required' => __('messages.validate.invoice_id_required'),
-            'invoice_id.integer' => __('messages.validate.invoice_id_integer'),
+            'invoice_id.required' => __('messages.validate.invoice_not_found'),
+            'invoice_id.integer' => __('messages.validate.invoice_not_found'),
             'invoice_id.exists' => __('messages.validate.invoice_not_found'),
         ]);
 
@@ -473,7 +475,7 @@ class InvoiceController extends Controller
         // Vérifier si la facture n'est pas une commande
         if ($invoice->order)
         {
-            return redirect()->route('warehouse.invoice.list.supply')->with('error', __('messages.action_failed'));
+            return redirect()->route('warehouse.invoice.list.supply')->with('error', __('messages.invoice_not_found'));
         }
 
         // Mettre à jour le statut de la facture
@@ -499,6 +501,11 @@ class InvoiceController extends Controller
 
         $supply = $invoice->supply;
 
+        if (!$supply) 
+        {
+            return redirect()->route('warehouse.invoice.list_supply')->with('error', __('messages.invoice_not_found'));
+        }
+
         $total_amount = $supply->supplyLines->sum(fn($supply_line) => $supply_line->unit_price * $supply_line->quantity_supplied);
 
         $warehouse_name = $supply->warehouse->warehouse_name;
@@ -518,6 +525,11 @@ class InvoiceController extends Controller
         }
 
         $supply = $invoice->supply;
+
+        if (!$supply) 
+        {
+            return redirect()->route('warehouse.invoice.list_supply')->with('error', __('messages.invoice_not_found'));
+        }
 
         $total_amount = $supply->supplyLines->sum(fn($supply_line) => $supply_line->unit_price * $supply_line->quantity_supplied);
 
@@ -687,7 +699,26 @@ class InvoiceController extends Controller
 
     public function searchInvoiceStore(Request $request)
     {
+        $request->validate([
+            'search' => 'required|string',
+        ], [
+            'search.required' => __('messages.validate.search_required'),
+            'search.string' => __('messages.validate.search_string'),
+        ]);
 
+        $invoice = Invoice::where('invoice_number', $request->input('search'))->first();
+
+        if (!$invoice) {
+            return redirect()->back()->with('error', __('messages.invoice_not_found'));
+        }
+
+        // Vérifier si la facture est une facture de commande ou de fourniture
+        if ($invoice->order) {
+            return redirect()->route('store.invoice.info', ['invoice_number' => $invoice->invoice_number]);
+        }
+        else {
+            return redirect()->route('store.invoice.list')->with('error', __('messages.invoice_not_found'));
+        }
     }
 
     public function infoInvoiceStore(string $invoice_number)
@@ -702,7 +733,7 @@ class InvoiceController extends Controller
 
         if (!$order) 
         {
-            return redirect()->back()->with('error', __('messages.action_failed'));
+            return redirect()->back()->with('error', __('messages.invoice_not_found'));
         }
 
         $warehouse = $order->store->warehouse;
@@ -718,8 +749,8 @@ class InvoiceController extends Controller
         $request->validate([
             'invoice_id' => 'required|integer|exists:invoices,id',
         ], [
-            'invoice_id.required' => __('messages.validate.invoice_id_required'),
-            'invoice_id.integer' => __('messages.validate.invoice_id_integer'),
+            'invoice_id.required' => __('messages.validate.invoice_not_found'),
+            'invoice_id.integer' => __('messages.validate.invoice_not_found'),
             'invoice_id.exists' => __('messages.validate.invoice_not_found'),
         ]);
 
@@ -735,7 +766,7 @@ class InvoiceController extends Controller
         // Vérifier si la facture n'est pas un approvisionnement
         if ($invoice->supply)
         {
-            return redirect()->route('store.invoice.list')->with('error', __('messages.action_failed'));
+            return redirect()->route('store.invoice.list')->with('error', __('messages.invoice_not_found'));
         }
 
         // Mettre à jour le statut de la facture
