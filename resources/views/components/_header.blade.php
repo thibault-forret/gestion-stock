@@ -10,9 +10,11 @@
 <body>
     <nav class="navbar">
         <div class="navbar-left">
+            @auth
             <button id="sidebar-toggle" class="nav-button">
                 <img src="{{ asset('images/menu-burger.svg') }}" alt="sidebar">
             </button>
+            @endauth
         </div>
         <div class="navbar-center">
             <div class="logo">

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'welcome_title' => 'Nova Logistique - Accueil',
     'warehouse_service_title' => 'Gestion des entrepôts',
     'warehouse_service_description' => 'Supervisez vos stocks, suivez les entrées et sorties, et optimisez l’espace de vos entrepôts.',
     'store_service_title' => 'Gestion des magasins',
