@@ -12,10 +12,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\InvoiceController;
 
-
-// Redirige vers dashboard en cas d'erreur sur l'url
-Route::fallback([RedirectionController::class, 'redirectToHome']);
-
 // Permet de checker la langue défini par l'utilisateur
 Route::middleware(['web', 'lang.toggle'])->group(function () {
 

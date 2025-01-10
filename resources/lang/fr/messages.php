@@ -16,6 +16,8 @@ return [
     'invoice_settled' => 'La facture a été réglée.',
     'invoice_not_settled' => 'La facture n\'a pas été réglée. Veuillez réessayer.',
 
+    'login_required' => 'Vous devez être connecté pour accéder à cette page.',
+
     'order_not_found' => 'La commande n\'a pas été trouvée. Veuillez réessayer.',
     'order_not_in_progress' => 'La commande n\'est pas en cours. Veuillez réessayer.',
     'order_not_pending' => 'La commande n\'est pas en attente. Veuillez réessayer.',

@@ -16,6 +16,8 @@ return [
     'invoice_settled' => 'The invoice has been settled.',
     'invoice_not_settled' => 'The invoice has not been settled. Please try again.',
 
+    'login_required' => 'You must be logged in to access this page.',
+
     'order_not_found' => 'The order was not found. Please try again.',
     'order_not_in_progress' => 'The order is not in progress. Please try again.',
     'order_not_pending' => 'The order is not pending. Please try again.',
