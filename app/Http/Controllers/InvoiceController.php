@@ -43,7 +43,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::where('invoice_number', $invoice_number)->first();
 
         if (!$invoice) {
-            return redirect()->route('warehouse.invoice.index')->with('error', __('messages.invoice_not_found'));
+            return redirect()->back()->with('error', __('messages.invoice_not_found'));
         }
 
         $order = $invoice->order;
@@ -431,7 +431,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::where('invoice_number', $invoice_number)->first();
 
         if (!$invoice) {
-            return redirect()->route('warehouse.invoice.index')->with('error', __('messages.invoice_not_found'));
+            return redirect()->back()->with('error', __('messages.invoice_not_found'));
         }
 
         $supply = $invoice->supply;
@@ -466,10 +466,10 @@ class InvoiceController extends Controller
         ]);
 
         if ($success){
-            return redirect()->route('warehouse.invoice.info', ['invoice_id' => $invoice_id])->with('success', __('messages.invoice_settled'));
+            return redirect()->route('warehouse.invoice.info.supply', ['invoice_number' => $invoice->invoice_number])->with('success', __('messages.invoice_settled'));
         }
         else {
-            return redirect()->route('warehouse.invoice.info', ['invoice_id' => $invoice_id])->with('error', __('messages.invoice_not_settled'));
+            return redirect()->route('warehouse.invoice.info.supply', ['invoice_number' => $invoice->invoice_number])->with('error', __('messages.invoice_not_settled'));
         }
     }
 
