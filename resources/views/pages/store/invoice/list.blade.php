@@ -336,7 +336,7 @@
 
     <h3>{{ __('title.invoice_list') }}</h3>
 
-    <form action="{{ route('warehouse.invoice.search') }}" method="POST">
+    <form action="{{ route('store.invoice.search') }}" method="POST">
         @csrf
         <div class="search-element">
             <div>
@@ -346,11 +346,11 @@
         </div>
         <div class="buttons">
             <button class="btn" type="submit">Rechercher</button>
-            <a class="btn red" href="{{ route('warehouse.invoice.list.order') }}">Rénitialiser recherche</a>
+            <a class="btn red" href="{{ route('store.invoice.list') }}">Rénitialiser recherche</a>
         </div>
     </form>
 
-    <form action="{{ route('warehouse.invoice.filter.order') }}" method="get">
+    <form action="{{ route('store.invoice.filter') }}" method="get">
         <div class="search-element">
             <div>
                 <label for="order">Trier par ordre</label>
@@ -404,7 +404,7 @@
         <div class="buttons">
             <button class="btn" type="submit">Rechercher</button>
 
-            <a class="btn red" href="{{ route('warehouse.invoice.list.order') }}">Rénitialiser recherche</a>
+            <a class="btn red" href="{{ route('store.invoice.list') }}">Rénitialiser recherche</a>
         </div>
     </form>
 

@@ -549,9 +549,140 @@ class InvoiceController extends Controller
         return view('pages.store.invoice.list', compact('invoices'));
     }
 
-    public function filterInvoiceStore()
+    public function filterInvoiceStore(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'order' => 'required|in:desc,asc',
+            'status' => 'required|in:all,settled,not-settled',
+            'type_date' => 'required|in:all,day,week,month,year',
+            'day' => 'nullable|date|before_or_equal:today',
+            'week' => 'nullable|regex:/^\d{4}-W\d{2}$/|before_or_equal:today',
+            'month' => 'nullable|date_format:Y-m|before_or_equal:today',
+            'year' => 'nullable|integer|min:1900|max:' . date('Y'),
+        ], [
+            'order.required' => __('messages.validate.order_required'),
+            'order.in' => __('messages.validate.order_in'),
+            'status.required' => __('messages.validate.status_required'),
+            'status.in' => __('messages.validate.status_in'),
+            'type_date.required' => __('messages.validate.type_date_required'),
+            'type_date.in' => __('messages.validate.type_date_in'),
+            'day.date' => __('messages.validate.day_date'),
+            'day.before_or_equal' => __('messages.validate.day_before_or_equal'),
+            'week.regex' => __('messages.validate.week_regex'),
+            'week.before_or_equal' => __('messages.validate.week_before_or_equal'),
+            'month.date_format' => __('messages.validate.month_date_format'),
+            'month.before_or_equal' => __('messages.validate.month_before_or_equal'),
+            'year.integer' => __('messages.validate.year_integer'),
+            'year.min' => __('messages.validate.year_min'),
+            'year.max' => __('messages.validate.year_max'),
+        ]);
 
+        // Vérification qu'un seul champ est rempli (type de date)
+        $validator->after(function ($validator) use ($request) {
+            $fields = ['day', 'week', 'month', 'year', 'all'];
+            $filledFields = array_filter($fields, fn($field) => !empty($request->$field));
+            if (count($filledFields) > 1) {
+                $validator->errors()->add('fields', __('messages.validate.invoice_only_one_field'));
+            }
+        });
+
+        $validator->after(function($validator) use ($request) {
+            if ($request->order !== 'asc' && $request->order !== 'desc') {
+                $validator->errors()->add('order', __('messages.validate.order_in'));
+            }
+        });
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator);
+        }
+
+        $messages = [
+            'day.required' => __('messages.validate.day_required'),
+            'week.required' => __('messages.validate.week_required'),
+            'month.required' => __('messages.validate.month_required'),
+            'year.required' => __('messages.validate.year_required'),
+        ];
+        
+        // Vérification des champs en fonction du type de date
+        Validator::make($request->all(), [], $messages)
+            ->sometimes('day', 'required', fn($input) => $input->type_date === 'day')
+            ->sometimes('week', 'required', fn($input) => $input->type_date === 'week')
+            ->sometimes('month', 'required', fn($input) => $input->type_date === 'month')
+            ->sometimes('year', 'required', fn($input) => $input->type_date === 'year')
+            ->validate();        
+
+        // Réduit le tableau aux éléments non null
+        $data = array_filter($request->only(['store', 'order', 'status', 'priority_level', 'type_date', 'day', 'week', 'month', 'year']), function ($value) {
+            return $value !== null && $value !== '';
+        });
+
+        $user = auth()->user();
+
+        $store = $user->storeUser->store;
+
+        $orders = $store->orders;
+
+        // Récupère les factures en fonction des critères
+        $invoices = $orders->flatMap(function ($order) use ($data) {
+            // Appliquer les filtres sur la relation invoice
+            $query = $order->invoice()->orderBy('created_at', $data['order']);
+
+            // Filtrer par statut
+            switch ($data['status']) {
+                case 'settled':
+                    $query->where('invoice_status', Invoice::INVOICE_STATUS_PAID);
+                    break;
+                case 'not-settled':
+                    $query->where('invoice_status', Invoice::INVOICE_STATUS_UNPAID);
+                    break;
+                default:
+                    break;
+            }
+
+            // Filtrer par type de date
+            switch ($data['type_date']) {
+                case 'day':
+                    $query->whereDate('created_at', $data['day']);
+                    break;
+                case 'week':
+                    // Extraire l'année et le numéro de la semaine
+                    list($year, $week) = explode('-W', $data['week']);
+
+                    // Convertir en entiers
+                    $year = (int)$year;
+                    $week = (int)$week;
+
+                    // Récupérer les dates de début (lundi) et de fin (dimanche) de la semaine
+                    $startOfWeek = (new DateTime())->setISODate($year, $week, 1); // Lundi
+                    $endOfWeek = (new DateTime())->setISODate($year, $week, 7);  // Dimanche
+
+                    $query->whereBetween('created_at', [
+                        $startOfWeek->format('Y-m-d'),
+                        $endOfWeek->format('Y-m-d'),
+                    ]);
+                    break;
+                case 'month':
+                    $query->whereYear('created_at', substr($data['month'], 0, 4))
+                        ->whereMonth('created_at', substr($data['month'], 5, 2));
+                    break;
+                case 'year':
+                    $query->whereYear('created_at', $data['year']);
+                    break;
+                default:
+                    break;
+            }
+
+            // Récupérer les factures
+            return $query->get();
+        });
+
+        // Trier les factures par date (ascendant ou descendant)
+        $invoices = $data['order'] === 'asc'
+            ? $invoices->sortBy('created_at')
+            : $invoices->sortByDesc('created_at');
+
+        return view('pages.store.invoice.list', compact('invoices'));
     }
 
     public function searchInvoiceStore(Request $request)
