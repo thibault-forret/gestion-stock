@@ -9,6 +9,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockController;
+use App\Http\Controllers\InvoiceController;
 
 
 // Redirige vers dashboard en cas d'erreur sur l'url
@@ -61,6 +63,41 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                 Route::get('/search/results', [ProductController::class, 'searchProducts'])->name('search');
                 Route::get('/{product_id}/add', [ProductController::class, 'addProduct'])->name('add');
                 Route::post('/add', [ProductController::class, 'addProductSubmit'])->name('add.submit');
+            });
+
+            Route::prefix('stock')->name('stock.')->group(function () {
+                Route::get('/', [StockController::class, 'index'])->name('index');
+
+                Route::get('/list', [StockController::class, 'stockList'])->name('list');
+                Route::get('/list-movement', [StockController::class, 'stockMovementList'])->name('list.movement');
+
+                Route::post('/search', [StockController::class, 'searchStock'])->name('search');
+
+                Route::prefix('supply')->name('supply.')->group(function() {
+                    Route::get('/new', [StockController::class, 'newSupplyStock'])->name('new');
+                    Route::post('/new', [StockController::class, 'newSupplyStockSubmit'])->name('new.submit');
+                });
+
+                Route::prefix('product')->name('product.')->group(function () {
+                    Route::get('/{product_id}/info', [StockController::class, 'infoProduct'])->name('info');
+                    Route::get('/{product_id}/edit', [StockController::class, 'editProduct'])->name('edit');
+                    Route::post('/edit', [StockController::class, 'editProductSubmit'])->name('edit.submit');
+                    Route::get('/{product_id}/supply', [StockController::class, 'supplyProduct'])->name('supply');
+                    Route::post('/supply', [StockController::class, 'supplyProductSubmit'])->name('supply.submit');
+                    Route::get('/{product_id}/remove', [StockController::class, 'removeProduct'])->name('remove');
+                    Route::post('/remove/quantity', [StockController::class, 'removeQuantityProductSubmit'])->name('remove.quantity.submit');
+                    Route::post('/remove/product', [StockController::class, 'removeProductSubmit'])->name('remove.product.submit');
+                });
+            });
+
+            Route::prefix('invoice')->name('invoice.')->group(function () {
+                Route::get('/', [InvoiceController::class, 'invoiceList'])->name('list');
+                Route::post('/search', [InvoiceController::class, 'searchInvoice'])->name('search');
+                Route::get('/filter', [InvoiceController::class, 'filterInvoice'])->name('filter');
+                Route::get('/{invoice_number}/info', [InvoiceController::class, 'infoInvoice'])->name('info');
+                Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle');
+                Route::get('/{invoice_number}/show', [InvoiceController::class, 'showInvoice'])->name('show');
+                Route::get('/{invoice_number}/download', [InvoiceController::class, 'downloadInvoice'])->name('download');
             });
         });
     });

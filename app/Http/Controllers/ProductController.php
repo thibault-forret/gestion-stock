@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Supplier;
 use App\Models\StockMovement;
 use App\Models\Invoice;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -20,8 +21,6 @@ class ProductController extends Controller
         return view('pages.warehouse.product.search_new_product', compact('categories', 'suppliers'));
     }
 
-
-    // Retirer les produits qui sont déjà dans l'entrepot (BDD)
     public function searchProducts(Request $request)
     {
         // Valider les données de la requête
@@ -140,7 +139,6 @@ class ProductController extends Controller
         return view('pages.warehouse.product.add_product', compact('product'));
     }
 
-    // A faire : Ajouter un produit à l'entrepôt
     public function addProductSubmit(Request $request)
     {
         // Validation des données
@@ -220,6 +218,8 @@ class ProductController extends Controller
         // Vérifier si le produit est pas déjà dans la base de données globales, de tous les entrepôts
         $dbProduct = Product::find($product['id']);
 
+        DB::beginTransaction();
+
         if ($dbProduct != null) {
             // Ajouter le produit à l'entrepôt, donc au stock
             $success = $this->addProductToWarehouse($dbProduct, $dataSupplier, $user, $warehouse, $request);
@@ -240,9 +240,11 @@ class ProductController extends Controller
         }
 
         if ($success) {
+            DB::commit();
             return redirect()->route('warehouse.product.index')->with('success', __('messages.product_added'));
         }
         else {
+            DB::rollBack();
             return redirect()->route('warehouse.product.index')->with('error', __('messages.problem_when_adding_product'));
         }
     }
@@ -259,7 +261,7 @@ class ProductController extends Controller
      */
     private function addProductToWarehouse($product, $supplier, $user, $warehouse, $request)
     {
-        try {
+        try {            
             // Ajouter le produit au stock de l'entrepôt
             $warehouse->stock()->create([
                 'product_id' => $product->id,
@@ -278,7 +280,7 @@ class ProductController extends Controller
                 'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
                 'movement_date' => now(),
                 'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
-                'movement_source' => 'THRESHOLD',
+                'movement_source' => StockMovement::MOVEMENT_SOURCE_SUPPLY,
             ]);
 
             // Créer un approvisionnement
@@ -302,6 +304,7 @@ class ProductController extends Controller
                 'order_id' => null,
                 'supply_id' => $supply->id,
             ]);
+
         } catch (\Exception $e) {
             return false;
         }

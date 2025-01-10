@@ -14,6 +14,11 @@ class StockMovement extends Model
     const MOVEMENT_STATUS_COMPLETED = 'COMPLETED';
     const MOVEMENT_STATUS_CANCELLED = 'CANCELLED';
 
+    // Les constantes pour les sources de mouvement
+    const MOVEMENT_SOURCE_ORDER = 'ORDER';
+    const MOVEMENT_SOURCE_SUPPLY = 'SUPPLY';
+    const MOVEMENT_SOUCRE_USER = 'USER';
+
     protected $fillable = [
         'product_id',
         'warehouse_id',
