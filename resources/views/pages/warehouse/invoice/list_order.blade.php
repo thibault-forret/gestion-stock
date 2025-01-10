@@ -350,6 +350,76 @@
         </div>
     </form>
 
+    <form action="{{ route('warehouse.invoice.filter.order') }}" method="get">
+        <div class="search-element">
+            <div>
+                <label for="store">Magasin :</label>
+                <select id="store" name="store">
+                    <option value="">Aucune sélection</option>
+                    @foreach($stores as $store)
+                        <option value="{{ $store->store_name }}" {{ request('store') == $store->store_name ? 'selected' : '' }}>
+                            {{ $store->store_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label for="order">Trier par ordre</label>
+                <select id="order" name="order" required>
+                    <option value="desc" {{ request('order') != 'desc' ? '' : 'selected' }}>Décroissant</option>
+                    <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Croissant</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="status">Statut du paiement</label>
+                <select id="status" name="status" required>
+                    <option value="all" {{ request('status') != 'all' ? '' : 'selected' }}>Tous</option>
+                    <option value="settled" {{ request('status') == 'settled' ? 'selected' : '' }}>Réglé</option>
+                    <option value="not-settled" {{ request('status') == 'not-settled' ? 'selected' : '' }}>Non réglé</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="type_date">Type recherche date</label>
+                <select id="type_date" name="type_date" required>
+                    <option value="all" {{ request('type_date') == 'all' ? 'selected' : '' }}>Aucune sélection</option>
+                    <option value="day" {{ request('type_date') == 'day' ? 'selected' : '' }}>Jour</option>
+                    <option value="week" {{ request('type_date') == 'week' ? 'selected' : '' }}>Semaine</option>
+                    <option value="month" {{ request('type_date') == 'month' ? 'selected' : '' }}>Mois</option>
+                    <option value="year" {{ request('type_date') == 'year' ? 'selected' : '' }}>Année</option>
+                </select>
+            </div>
+
+            <div id="day-picker" class="hidden">
+                <label for="day">Sélectionnez un jour :</label>
+                <input type="date" id="day" name="day" value="{{ request('day') == null ? '' : request('day') }}" max="">
+            </div>
+
+            <div id="week-picker" class="hidden">
+                <label for="week">Sélectionnez une semaine :</label>
+                <input type="week" id="week" name="week" value="{{ request('week') == null ? '' : request('week') }}" max="">
+            </div>
+
+            <div id="month-picker" class="hidden">
+                <label for="month">Sélectionnez un mois :</label>
+                <input type="month" id="month" name="month" value="{{ request('month') == null ? '' : request('month') }}" max="">
+            </div>
+
+            <div id="year-picker" class="hidden">
+                <label for="year">Sélectionnez une année :</label>
+                <input type="number" id="year" name="year" value="{{ request('year') == null ? '' : request('year') }}" min="1900" max="">
+            </div>        
+        </div>
+
+        <div class="buttons">
+            <button class="btn" type="submit">Rechercher</button>
+
+            <a class="btn red" href="{{ route('warehouse.invoice.list.order') }}">Rénitialiser recherche</a>
+        </div>
+    </form>
+
     @if ($errors->any())
         <div class="center-child error-message">
             @foreach ($errors->all() as $error)

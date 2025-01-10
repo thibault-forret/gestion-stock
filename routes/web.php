@@ -114,6 +114,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::get('/order/list', [InvoiceController::class, 'invoiceListOrder'])->name('list.order');
                 Route::get('/order/{invoice_number}/info', [InvoiceController::class, 'infoInvoiceOrder'])->name('info.order');
+                Route::get('/order/filter', [InvoiceController::class, 'filterInvoiceOrder'])->name('filter.order');
 
                 Route::get('/supply/list', [InvoiceController::class, 'invoiceListSupply'])->name('list.supply');
                 Route::get('/supply/filter', [InvoiceController::class, 'filterInvoiceSupply'])->name('filter.supply');
