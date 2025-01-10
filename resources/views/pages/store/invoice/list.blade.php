@@ -353,18 +353,6 @@
     <form action="{{ route('warehouse.invoice.filter.order') }}" method="get">
         <div class="search-element">
             <div>
-                <label for="store">Magasin :</label>
-                <select id="store" name="store">
-                    <option value="">Aucune sélection</option>
-                    @foreach($stores as $store)
-                        <option value="{{ $store->store_name }}" {{ request('store') == $store->store_name ? 'selected' : '' }}>
-                            {{ $store->store_name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div>
                 <label for="order">Trier par ordre</label>
                 <select id="order" name="order" required>
                     <option value="desc" {{ request('order') != 'desc' ? '' : 'selected' }}>Décroissant</option>
@@ -464,7 +452,6 @@
                 <div class="invoice">
                     <div>
                         <p>Numéro de facture : {{ $invoice->invoice_number }}</p>
-                        <p>Fournisseur : {{ $store->store_name }}</p>
                         <p>Date : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
                         <p>Total HT : {{ number_format($total_amount_ht, 2) }} €</p>
                         <p>Total TTC : {{ number_format($total_amount_ttc, 2) }} €</p>
@@ -476,9 +463,9 @@
                         </p>
                     </div>
                     <div>
-                        <a href="{{ route('warehouse.invoice.info.order', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
-                        <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
-                        <a target="_blank" href="{{ route('warehouse.order.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
+                        <a href="{{ route('store.invoice.info', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
+                        <a target="_blank" href="{{ route('store.order.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
+                        <a target="_blank" href="{{ route('store.order.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
                     </div>
                 </div>
             @endforeach

@@ -176,6 +176,14 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                 Route::get('/{invoice_number}/download', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
             });
 
+            Route::prefix('invoice')->name('invoice.')->group(function () {
+                Route::get('/', [InvoiceController::class, 'invoiceListStore'])->name('list');
+                Route::post('/search', [InvoiceController::class, 'searchInvoiceStore'])->name('search');
+                Route::get('/filter', [InvoiceController::class, 'filterInvoiceStore'])->name('filter');
+                Route::get('/{invoice_number}/info', [InvoiceController::class, 'infoInvoiceStore'])->name('info');
+                Route::post('/settle', [InvoiceController::class, 'settleInvoiceStore'])->name('settle'); 
+            });
+
         });
     });
 });

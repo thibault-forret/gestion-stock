@@ -48,6 +48,11 @@ class InvoiceController extends Controller
 
         $order = $invoice->order;
 
+        if (!$order) 
+        {
+            return redirect()->back()->with('error', __('messages.action_failed'));
+        }
+
         $warehouse = $order->store->warehouse;
         
         $total_amount_ht = $order->calculateTotalPrice();
@@ -436,6 +441,11 @@ class InvoiceController extends Controller
 
         $supply = $invoice->supply;
 
+        if (!$supply) 
+        {
+            return redirect()->back()->with('error', __('messages.action_failed'));
+        }
+
         $total_amount = $supply->supplyLines->sum(fn($supply_line) => $supply_line->unit_price * $supply_line->quantity_supplied);
 
         return view('pages.warehouse.invoice.info_supply', compact('invoice', 'supply', 'total_amount'));
@@ -458,6 +468,12 @@ class InvoiceController extends Controller
         // Vérifier si la facture n'est pas déjà réglée
         if ($invoice->invoice_status === Invoice::INVOICE_STATUS_PAID) {
             return redirect()->route('warehouse.invoice.list.supply')->with('error', __('messages.invoice_already_settled'));
+        }
+
+        // Vérifier si la facture n'est pas une commande
+        if ($invoice->order)
+        {
+            return redirect()->route('warehouse.invoice.list.supply')->with('error', __('messages.action_failed'));
         }
 
         // Mettre à jour le statut de la facture
@@ -511,5 +527,96 @@ class InvoiceController extends Controller
 
         // Pour afficher le PDF dans le navigateur
         return $pdf->download(str_replace(' ', '_', $warehouse_name).'_INVOICE_'.$invoice->invoice_number.'_'.str_replace(' ', '_', $invoice->created_at).'.pdf');
+    }
+
+    // ------------------------------------------
+    //                  STORE
+    // ------------------------------------------
+
+    public function invoiceListStore()
+    {
+        $user = auth()->user();
+
+        $store = $user->storeUser->store;
+
+        // Récupère toutes les factures de l'entrepôt
+        $invoices = $store->orders->flatMap(function ($order) {
+            return $order->invoice ? [$order->invoice] : [];
+        });
+
+        $invoices = $invoices->sortByDesc('created_at');
+
+        return view('pages.store.invoice.list', compact('invoices'));
+    }
+
+    public function filterInvoiceStore()
+    {
+
+    }
+
+    public function searchInvoiceStore(Request $request)
+    {
+
+    }
+
+    public function infoInvoiceStore(string $invoice_number)
+    {
+        $invoice = Invoice::where('invoice_number', $invoice_number)->first();
+
+        if (!$invoice) {
+            return redirect()->back()->with('error', __('messages.invoice_not_found'));
+        }
+
+        $order = $invoice->order;
+
+        if (!$order) 
+        {
+            return redirect()->back()->with('error', __('messages.action_failed'));
+        }
+
+        $warehouse = $order->store->warehouse;
+        
+        $total_amount_ht = $order->calculateTotalPrice();
+        $total_amount_ttc = $total_amount_ht * $warehouse->global_margin;
+
+        return view('pages.store.invoice.info', compact('invoice', 'order', 'warehouse', 'total_amount_ht', 'total_amount_ttc'));
+    } 
+
+    public function settleInvoiceStore(Request $request)
+    {
+        $request->validate([
+            'invoice_id' => 'required|integer|exists:invoices,id',
+        ], [
+            'invoice_id.required' => __('messages.validate.invoice_id_required'),
+            'invoice_id.integer' => __('messages.validate.invoice_id_integer'),
+            'invoice_id.exists' => __('messages.validate.invoice_not_found'),
+        ]);
+
+        $invoice_id = $request->input('invoice_id');
+
+        $invoice = Invoice::find($invoice_id);
+
+        // Vérifier si la facture n'est pas déjà réglée
+        if ($invoice->invoice_status === Invoice::INVOICE_STATUS_PAID) {
+            return redirect()->route('store.invoice.list')->with('error', __('messages.invoice_already_settled'));
+        }
+
+        // Vérifier si la facture n'est pas un approvisionnement
+        if ($invoice->supply)
+        {
+            return redirect()->route('store.invoice.list')->with('error', __('messages.action_failed'));
+        }
+
+        // Mettre à jour le statut de la facture
+        $success = $invoice->update([
+            'invoice_status' => Invoice::INVOICE_STATUS_PAID,
+        ]);
+
+        if ($success){
+            return redirect()->route('store.invoice.info', ['invoice_number' => $invoice->invoice_number])->with('success', __('messages.invoice_settled'));
+        }
+        else {
+            return redirect()->route('store.invoice.info', ['invoice_number' => $invoice->invoice_number])->with('error', __('messages.invoice_not_settled'));
+        }
     }
 }
