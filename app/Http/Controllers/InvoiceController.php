@@ -44,10 +44,12 @@ class InvoiceController extends Controller
 
         $order = $invoice->order;
 
+        $warehouse = $order->store->warehouse;
+
         $total_amount_ht = $order->calculateTotalPrice();
         $total_amount_ttc = $total_amount_ht * $warehouse->global_margin;
 
-        return view('pages.warehouse.invoice.info', compact('invoice', 'order', 'total_amount_ht', 'total_amount_ttc'));
+        return view('pages.warehouse.invoice.info_order', compact('invoice', 'order', 'warehouse', 'total_amount_ht', 'total_amount_ttc'));
     }
 
     public function invoiceListSupply()
@@ -68,7 +70,6 @@ class InvoiceController extends Controller
         return view('pages.warehouse.invoice.list_supply', compact('invoices', 'suppliers'));
     }
 
-    // Voir où ca renvoie, faire attention à la visualisation et au téléchargement du PDF
     public function searchInvoice(Request $request)
     {
         $request->validate([
@@ -81,16 +82,16 @@ class InvoiceController extends Controller
         $invoice = Invoice::where('invoice_number', $request->input('search'))->first();
 
         if (!$invoice) {
-            return redirect()->route('warehouse.invoice.list')->with('error', __('messages.invoice_not_found'));
+            return redirect()->back()->with('error', __('messages.invoice_not_found'));
         }
 
         // Vérifier si la facture est une facture de commande ou de fourniture
-
-        // Rediriger vers la page correspondante
-        // return to info.supply
-        // return to info.order
-
-        return redirect()->route('warehouse.invoice.info', ['invoice_number' => $invoice->invoice_number]);
+        if ($invoice->order) {
+            return redirect()->route('warehouse.invoice.info.order', ['invoice_number' => $invoice->invoice_number]);
+        }
+        else {
+            return redirect()->route('warehouse.invoice.info.supply', ['invoice_number' => $invoice->invoice_number]);
+        }
     }
 
 
@@ -270,7 +271,7 @@ class InvoiceController extends Controller
 
         $total_amount = $supply->supplyLines->sum(fn($supply_line) => $supply_line->unit_price * $supply_line->quantity_supplied);
 
-        return view('pages.warehouse.invoice.info', compact('invoice', 'supply', 'total_amount'));
+        return view('pages.warehouse.invoice.info_supply', compact('invoice', 'supply', 'total_amount'));
     }
 
     public function settleInvoice(Request $request)

@@ -334,18 +334,6 @@
 
 @section('content')
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <h3>{{ __('title.invoice_list') }}</h3>
 
     <form action="{{ route('warehouse.invoice.search') }}" method="POST">
