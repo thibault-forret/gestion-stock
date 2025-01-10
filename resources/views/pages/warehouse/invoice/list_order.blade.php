@@ -477,6 +477,8 @@
                     </div>
                     <div>
                         <a href="{{ route('warehouse.invoice.info.order', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
+                        <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
+                        <a target="_blank" href="{{ route('warehouse.order.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
                     </div>
                 </div>
             @endforeach
