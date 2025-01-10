@@ -11,9 +11,9 @@ class OrderController extends Controller
         return view('pages.store.order.index');
     }
 
-    public function placeOrderStore() 
+    public function placeOrderStore()
     {
-        // Ajouter des contenues au panier
+        // Ajouter des contenus au panier
 
         return view('pages.store.order.place_order');
     }
