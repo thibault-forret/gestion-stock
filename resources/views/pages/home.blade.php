@@ -8,17 +8,6 @@
 
 @section('content')
     <div class="container">
-        <div class="header-section">
-            <img src="/images/logoNova.png" alt="Logo Nova" class="logo">
-            <div class="description">
-                <h1>{{ __('home.welcome_title') }}</h1>
-                <p>{{ __('home.welcome_message') }}</p>
-            </div>
-            <div class="language-switcher">
-                <a href="{{ route('lang.switch', 'en') }}" class="btn-lang {{ $current_locale === 'en' ? 'active' : '' }}">English</a>
-                <a href="{{ route('lang.switch', 'fr') }}" class="btn-lang {{ $current_locale === 'fr' ? 'active' : '' }}">Français</a>
-            </div>
-        </div>
         <div class="role-selection">
             <div class="role-card">
                 <a href="{{ route('warehouse.login') }}">
@@ -29,7 +18,6 @@
                     <p class="role-description">{{ __('home.warehouse_service_description') }}</p>
                 </a>
             </div>
-
             <div class="role-card">
                 <a href="{{ route('store.login') }}">
                     <div class="icon">
