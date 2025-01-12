@@ -32,6 +32,10 @@ return [
     'order_delivered' => 'La commande a été validée.',
     'order_refused' => 'La commande a été refusée.',
 
+    'supply_not_found' => 'L\'approvisionnement n\'a pas été trouvé. Veuillez réessayer.',
+    'supply_not_in_progress' => 'L\'approvisionnement n\'est pas en cours. Veuillez réessayer.',
+    'supply_removed' => 'L\'approvisionnement a été supprimé.',
+
     'validate' => [
         'usernmame_required' => 'Veuillez fournir votre nom d\'utilisateur.',
         'username_string' => 'Veuillez fournir un nom d\'utilisateur valide.',

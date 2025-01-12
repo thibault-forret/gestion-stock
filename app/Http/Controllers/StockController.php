@@ -9,6 +9,8 @@ use App\Models\Invoice;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\DB;
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\Supply;
 
 class StockController extends Controller
 {
@@ -321,40 +323,40 @@ class StockController extends Controller
         return view('pages.warehouse.stock.supply.list', compact('supplies', 'warehouse'));
     }
 
-    // -----------------------------------------------
-
     public function removeSupply()
     {
         $request->validate([
-            'order_id' => 'required|integer|exists:orders,id',
+            'supply_id' => 'required|integer|exists:supplies,id',
         ],
         [
-            'order_id.required' => __('messages.order_not_found'),
-            'order_id.integer' => __('messages.order_not_found'),
-            'order_id.exists' => __('messages.order_not_found'),
+            'supply_id.required' => __('messages.supply_not_found'),
+            'supply_id.integer' => __('messages.supply_not_found'),
+            'supply_id.exists' => __('messages.supply_not_found'),
         ]);
 
         // Récupérer la commande
-        $order = Order::find($request->order_id);
+        $supply = Supply::find($request->supply_id);
 
         // Vérifier le statut de la commande
-        if($order->order_status == Order::ORDER_STATUS_DELIVERED)
+        if($supply->supply_status == Supply::SUPPLY_STATUS_DELIVERED)
         {
-            return redirect()->route('store.order.list')->with('error', __('messages.order_not_in_progress'));
+            return redirect()->route('warehouse.stock.supply.list')->with('error', __('messages.supply_not_in_progress'));
         }
 
         // Remettre la quantité commandée dans le stock
-        $order->orderLines->each(function ($orderLine) use ($order) {
-            $stock = $order->store->warehouse->stock->where('product_id', $orderLine->product_id)->first();
+        $supply->supplyLines->each(function ($supplyLines) use ($supply) {
+            $stock = $supply->warehouse->stock->where('product_id', $supplyLines->product_id)->first();
 
-            $stock->addQuantity($orderLine->quantity_ordered);
+            $stock->addQuantity($supplyLines->quantity_supplied);
         });
 
         // Supprimer la commande
-        $order->delete();
+        $supply->delete();
 
-        return redirect()->route('store.order.list')->with('success', __('messages.order_removed'));
+        return redirect()->route('warehouse.stock.supply.list')->with('success', __('messages.supply_removed'));
     }
+
+    // -----------------------------------------------
 
     public function detailSupply()
     {

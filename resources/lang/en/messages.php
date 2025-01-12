@@ -32,6 +32,10 @@ return [
     'order_delivered' => 'The order has been delivered.',
     'order_refused' => 'The order has been refused.',
 
+    'supply_not_found' => 'The supply was not found. Please try again.',
+    'supply_not_in_progress' => 'The supply is not in progress. Please try again.',
+    'supply_removed' => 'The supply has been removed.',
+
     'validate' => [
         'usernmame_required' => 'Please provide your username.',
         'username_string' => 'Please provide a valid username.',
