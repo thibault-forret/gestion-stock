@@ -24,7 +24,7 @@ class OrderController extends Controller
 
         $warehouse = $store->warehouse;
 
-        $orders = $store->orders;
+        $orders = $store->orders->sortByDesc('created_at');
 
         return view('pages.store.order.list', compact('orders', 'warehouse'));
     }
@@ -43,9 +43,11 @@ class OrderController extends Controller
         if(count($order->orderLines) == 0)
         {
             return redirect()->route('store.order.place', ['order_id' => $order->id])->with('error', __('messages.order_empty'));
-        } 
+        }
 
-        return view('pages.store.order.detail', compact('order'));
+        $warehouse = $order->store->warehouse;
+
+        return view('pages.store.order.detail', compact('order', 'warehouse'));
     }
 
     public function removeOrder(Request $request)
@@ -330,9 +332,11 @@ class OrderController extends Controller
         if(count($order->orderLines) == 0)
         {
             return redirect()->route('store.order.place', ['order_id' => $order->id])->with('error', __('messages.order_empty'));
-        } 
+        }
+
+        $warehouse = $order->store->warehouse;
         
-        return view('pages.store.order.recap_order', compact('order'));
+        return view('pages.store.order.recap_order', compact('order', 'warehouse'));
     }
 
     public function confirmOrder(Request $request)
@@ -383,6 +387,8 @@ class OrderController extends Controller
             return $store->orders;
         });
 
+        $orders = $orders->sortByDesc('created_at');
+
         return view('pages.warehouse.order.list', compact('orders', 'warehouse'));
     }
 
@@ -396,7 +402,9 @@ class OrderController extends Controller
             return redirect()->route('warehouse.order.list')->with('error', __('messages.order_not_found'));
         }
 
-        return view('pages.warehouse.order.detail', compact('order'));
+        $warehouse = $order->store->warehouse;
+
+        return view('pages.warehouse.order.detail', compact('order', 'warehouse'));
     }
 
     public function deliverOrder(Request $request)

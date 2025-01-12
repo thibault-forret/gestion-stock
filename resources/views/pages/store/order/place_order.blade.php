@@ -254,8 +254,11 @@
                             {{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}
                         </p>
                     @endif
-                    <p><u>Prix unitaire :</u> 
+                    <p><u>Prix unitaire HT :</u> 
                         <span class="product_price">{{ number_format($product->reference_price, 2) }} €</span>
+                    </p>
+                    <p><u>Prix unitaire TTC :</u> 
+                        <span class="product_price">{{ number_format($product->reference_price * $warehouse->global_margin, 2, ',', ' ') }} €</span>
                     </p>
 
                     @if($product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available != 0)  
@@ -290,7 +293,8 @@
                             <th>Nom</th>
                             <th>Quantité</th>
                             <th>Prix unitaire</th>
-                            <th>Total</th>
+                            <th>Total HT</th>
+                            <th>Total TTC</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -307,8 +311,9 @@
                                 </td>
                                 <td>{{ $orderLine->product->product_name }}</td>
                                 <td>{{ $orderLine->quantity_ordered }}</td>
-                                <td>{{ number_format($orderLine->unit_price, 2) }} €</td>
-                                <td>{{ number_format($orderLine->quantity_ordered * $orderLine->unit_price, 2) }} €</td>
+                                <td>{{ number_format($orderLine->unit_price, 2, ',', ' ') }} €</td>
+                                <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered, 2, ',', ' ') }} €</td>                            
+                                <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered * $warehouse->global_margin, 2, ',', ' ') }} €</td>
                                 <td style="display: flex; flex-direction: column; justify-content: center;">
                                     <form action="{{ route('store.order.remove.product') }}" method="POST">
                                         @csrf
@@ -332,8 +337,10 @@
             </div>
     
             <div class="order-total">
-                <span class="total-label">Total :</span>
+                <span class="total-label">Total HT :</span>
                 <span class="total-value">{{ number_format($total, 2) }} €</span>
+                <span class="total-label">Total TTC :</span>
+                <span class="total-value">{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</span>
             </div>
 
             <div class="confirm">

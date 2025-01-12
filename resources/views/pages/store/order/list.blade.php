@@ -121,6 +121,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Last updated</th>
                         <th>Tarif HT</th>
                         <th>Tarif TTC</th>
                         <th>Statut</th>
@@ -131,6 +132,7 @@
                     @foreach($orders as $order)
                         <tr>
                             <td>{{ $order->id }}</td>
+                            <td>{{ $order->updated_at->format('d/m/Y H:i:s') }}</td>
                             <td>{{ number_format($order->calculateTotalPrice(), 2) }} €</td>
                             <td>{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</td>
                             <td>

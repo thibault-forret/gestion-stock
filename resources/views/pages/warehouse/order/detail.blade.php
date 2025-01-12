@@ -189,7 +189,8 @@
                                 <th>Nom</th>
                                 <th>Quantité</th>
                                 <th>Prix unitaire</th>
-                                <th>Total</th>
+                                <th>Total HT</th>
+                                <th>Total TTC</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -206,8 +207,9 @@
                                     </td>
                                     <td>{{ $orderLine->product->product_name }}</td>
                                     <td>{{ $orderLine->quantity_ordered }}</td>
-                                    <td>{{ number_format($orderLine->unit_price, 2) }} €</td>
-                                    <td>{{ number_format($orderLine->quantity_ordered * $orderLine->unit_price, 2) }} €</td>
+                                    <td>{{ number_format($orderLine->unit_price, 2, ',', ' ') }} €</td>
+                                    <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered, 2, ',', ' ') }} €</td>                            
+                                    <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered * $warehouse->global_margin, 2, ',', ' ') }} €</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -216,8 +218,10 @@
     
                 <div class="order-summary">
                     <div class="order-total">
-                        <span class="total-label">Total :</span>
-                        <span class="total-value">{{ number_format($total, 2) }} €</span>
+                        <span class="total-label">Total HT :</span>
+                        <span class="total-value">{{ number_format($order->calculateTotalPrice(), 2) }} €</span>
+                        <span class="total-label">Total TTC :</span>
+                        <span class="total-value">{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</span>
                     </div>
                     
                 </div>

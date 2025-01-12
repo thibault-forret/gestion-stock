@@ -3,7 +3,7 @@
 @section('css')
     <style>
         .order-recap-container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             background: #ffffff;
             border: 1px solid #ddd;
@@ -189,7 +189,8 @@
                                 <th>Nom</th>
                                 <th>Quantité</th>
                                 <th>Prix unitaire</th>
-                                <th>Total</th>
+                                <th>Total HT</th>
+                                <th>Total TTC</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -208,7 +209,8 @@
                                     <td>{{ $orderLine->product->product_name }}</td>
                                     <td>{{ $orderLine->quantity_ordered }}</td>
                                     <td>{{ number_format($orderLine->unit_price, 2) }} €</td>
-                                    <td>{{ number_format($orderLine->quantity_ordered * $orderLine->unit_price, 2) }} €</td>
+                                    <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered, 2, ',', ' ') }} €</td>                            
+                                    <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered * $warehouse->global_margin, 2, ',', ' ') }} €</td> 
                                     <td>
                                         <form action="{{ route('store.order.remove.product') }}" method="POST" class="inline-form">
                                             @csrf
@@ -232,8 +234,10 @@
     
                 <div class="order-summary">
                     <div class="order-total">
-                        <span class="total-label">Total :</span>
+                        <span class="total-label">Total HT :</span>
                         <span class="total-value">{{ number_format($total, 2) }} €</span>
+                        <span class="total-label">Total TTC :</span>
+                        <span class="total-value">{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</span>
                     </div>
                     <div class="confirm-order">
                         <a href="{{ url()->previous() }}" class="btn btn-secondary">Retour</a>
