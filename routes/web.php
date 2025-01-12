@@ -86,7 +86,21 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::post('/search', [StockController::class, 'searchStock'])->name('search');
 
-                Route::prefix('supply')->name('supply.')->group(function() {
+                Route::prefix('supply')->name('supply.')->group(function () {
+                    Route::get('/', [StockController::class, 'indexSupply'])->name('index');
+                    Route::get('/list', [StockController::class, 'listSupplies'])->name('list');
+                    Route::post('/remove', [StockController::class, 'removeSupply'])->name('remove');
+                    Route::get('/{order_id}/detail', [StockController::class, 'detailSupply'])->name('detail');
+                    Route::get('/place', [StockController::class, 'placeNewSupply'])->name('new');
+                    Route::get('/{order_id}/place', [StockController::class, 'placeSupply'])->name('place');
+                    Route::post('/place/add', [StockController::class, 'addProductToSupply'])->name('add');
+                    Route::post('/place/remove', [StockController::class, 'removeProductFromSupply'])->name('remove.product');
+                    Route::post('/place/remove/quantity', [StockController::class, 'removeQuantityProductFromSupply'])->name('remove.quantity');
+                    Route::get('/{order_id}/place/recap', [StockController::class, 'recapSupply'])->name('recap');
+                    Route::post('/place/confirm', [StockController::class, 'confirmSupply'])->name('confirm');
+                });
+
+                Route::prefix('supplys')->name('supply.')->group(function() {
                     Route::get('/new', [StockController::class, 'newSupplyStock'])->name('new');
                     Route::post('/new', [StockController::class, 'newSupplyStockSubmit'])->name('new.submit');
                 });
@@ -117,7 +131,6 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::get('/supply/{invoice_number}/info', [InvoiceController::class, 'infoInvoiceSupply'])->name('info.supply');
 
-                // Ajouter une vérification dans le controller (si c'est pas une order)
                 Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle'); 
                 Route::get('/{invoice_number}/show', [InvoiceController::class, 'showInvoice'])->name('show');
                 Route::get('/{invoice_number}/download', [InvoiceController::class, 'downloadInvoice'])->name('download');
