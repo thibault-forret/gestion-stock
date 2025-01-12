@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Supply;
+use App\Models\SupplyLine;
+use App\Models\Order;
 
 class StockController extends Controller
 {
@@ -323,7 +325,7 @@ class StockController extends Controller
         return view('pages.warehouse.stock.supply.list', compact('supplies', 'warehouse'));
     }
 
-    public function removeSupply()
+    public function removeSupply(Request $request)
     {
         $request->validate([
             'supply_id' => 'required|integer|exists:supplies,id',
@@ -356,95 +358,145 @@ class StockController extends Controller
         return redirect()->route('warehouse.stock.supply.list')->with('success', __('messages.supply_removed'));
     }
 
-    // -----------------------------------------------
-
-    public function detailSupply()
+    public function detailSupply(int $supply_id)
     {
-        $order = Order::find($order_id);
+        $supply = Supply::find($supply_id);
 
         // Vérifier si la commande existe
-        if(!$order)
+        if(!$supply)
         {
-            return redirect()->route('store.order.list')->with('error', __('messages.order_not_found'));
+            return redirect()->route('warehouse.stock.supply.list')->with('error', __('messages.supply_not_found'));
         }
 
         // Vérifier si la commande n'est pas vide
-        if(count($order->orderLines) == 0)
+        if(count($supply->supplyLines) == 0)
         {
-            return redirect()->route('store.order.place', ['order_id' => $order->id])->with('error', __('messages.order_empty'));
+            return redirect()->route('warehouse.stock.supply.place', ['supply_id' => $supply->id])->with('error', __('messages.order_empty'));
         }
 
-        $warehouse = $order->store->warehouse;
+        $warehouse = $supply->warehouse;
 
-        return view('pages.store.order.detail', compact('order', 'warehouse'));
+        return view('pages.warehouse.stock.supply.detail', compact('supply', 'warehouse'));
     }
 
-    public function placeNewSupply()
+    public function newSupply()
     {
         $user = auth()->user();
 
-        $store = $user->storeUser->store;
+        $warehouse = $user->warehouseUser->warehouse;
+
+        // Récupérer les fournisseurs
+        $suppliers = $warehouse->stock->flatMap(function ($stock) {
+            // Récupérer toutes les lignes d'approvisionnement associées au produit
+            return $stock->product->supplyLines->map(function ($supplyLine) {
+                // Retourner le fournisseur associé à la ligne d'approvisionnement
+                return $supplyLine->supply->supplier;
+            });
+        })->unique();
+        
+        return view('pages.warehouse.stock.supply.new', compact('suppliers'));
+    }
+
+    public function placeNewSupply(Request $request)
+    {
+        $request->validate([
+            'supplier_id' => 'required|integer|exists:suppliers,id',
+        ],
+        [
+            'supplier_id.required' => __('messages.supplier_not_found'),
+            'supplier_id.integer' => __('messages.supplier_not_found'),
+            'supplier_id.exists' => __('messages.supplier_not_found'),
+        ]);
+
+        $supplier = Supplier::find($request->supplier_id);
+
+        $user = auth()->user();
+
+        $warehouse = $user->warehouseUser->warehouse;
 
         // Supprimer les commandes ayant 0 produits commandés
-        $store->orders->each(function ($order) {
-            if(count($order->orderLines) == 0)
+        $warehouse->supplies->each(function ($supply) {
+            if(count($supply->supplyLines) == 0)
             {
-                $order->delete();
+                $supply->delete();
             }
         });
 
-        // Créer une nouvelle commande
-        $order = $store->orders()->create([
+        // Créer un nouvel approvisionnement
+        $supply = $warehouse->supplies()->create([
             'user_id' => $user->id,
-            'store_id' => $store->id,
-            'order_date' => now(),
-            'order_status' => Order::ORDER_STATUS_IN_PROGRESS,
+            'supplier_id' => $supplier->id,
+            'supply_status' => Supply::SUPPLY_STATUS_IN_PROGRESS,
         ]);
 
-        // Rediriger vers la page de commande
-        return redirect()->route('store.order.place', ['order_id' => $order->id])->with('success', __('messages.order_created'));
+        return redirect()->route('warehouse.stock.supply.place', ['supply_id' => $supply->id])->with('success', __('messages.supply_created'));
     }
 
     public function placeSupply(int $supply_id)
     {
-        $order = Order::find($order_id);
+        $supply = Supply::find($supply_id);
 
-        if(!$order)
+        if(!$supply)
         {
-            return redirect()->route('store.order.index')->with('error', __('messages.order_not_found'));
+            return redirect()->route('warehouse.stock.supply.index')->with('error', __('messages.supply_not_found'));
         }
 
         // Vérifier le statut de la commande
-        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        if($supply->supply_status != Supply::SUPPLY_STATUS_IN_PROGRESS)
         {
-            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+            return redirect()->route('warehouse.stock.supply.index')->with('error', __('messages.supply_not_in_progress'));
         }
 
         $user = auth()->user();
 
         // Récupérer les produits de l'entrepot
-        $warehouse = $user->storeUser->store->warehouse;
+        $warehouse = $user->warehouseUser->warehouse;
 
-        // Récupérer les produits de l'entrepôt
-        $products = $warehouse->stock->map(function ($stock) {
-            return $stock->product;
+        $supplier = $supply->supplier;
+
+        // Récupérer les produits de l'entrepôt qui sont associés au fournisseur
+        $products = Product::whereHas('supplyLines.supply', function ($query) use ($supplier) {
+            $query->where('supplier_id', $supplier->id);
+        })->whereHas('stocks', function ($query) use ($warehouse) {
+            $query->where('warehouse_id', $warehouse->id);
+        })->get();
+
+        $warehouse = $supply->warehouse;
+
+        // Récupérer toutes les commandes IN PROGRESS et PENDING (des magasins associés à l'entrepôt)
+        $orders = $warehouse->stores->flatMap(function ($store) {
+            return $store->orders->where('order_status', Order::ORDER_STATUS_IN_PROGRESS)->concat($store->orders->where('order_status', Order::ORDER_STATUS_PENDING));
+        })->flatMap(function ($order) {
+            return $order->orderLines;
         });
+        
+        // Récupérer la quantité restante du stock
+        $total_quantity_ordered = $orders->sum('quantity_ordered');
 
-        return view('pages.store.order.place_order', compact('order', 'products', 'warehouse'));
+        $total_quantity_stock = $warehouse->stock->sum('quantity_available');
+
+        $total_quantity_supplied = $supply->supplyLines->sum('quantity_supplied');
+
+        $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
+
+        $total_quantity = $warehouse->capacity - $total;
+            
+        return view('pages.warehouse.stock.supply.place_supply', compact('supply', 'products', 'warehouse', 'total_quantity'));
     }
 
-    public function addProductToSupply()
+
+    public function addProductToSupply(Request $request)
     {
         // Vérification des données
         $request->validate([
-            'order_id' => 'required|integer|exists:orders,id',
+            'supply_id' => 'required|integer|exists:supplies,id',
             'product_id' => 'required|integer|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ],
         [
-            'order_id.required' => __('messages.order_not_found'),
-            'order_id.integer' => __('messages.order_not_found'),
-            'order_id.exists' => __('messages.order_not_found'),
+            'supply_id.required' => __('messages.supply_not_found'),
+            'supply_id.integer' => __('messages.supply_not_found'),
+            'supply_id.exists' => __('messages.supply_not_found'),
             'product_id.required' => __('messages.product_not_found'),
             'product_id.integer' => __('messages.product_not_found'),
             'product_id.exists' => __('messages.product_not_found'),
@@ -454,131 +506,133 @@ class StockController extends Controller
         ]);
 
         // Récupérer la commande et le produit
-        $order = Order::find($request->order_id);
+        $supply = Supply::find($request->supply_id);
 
         // Vérifier le statut de la commande
-        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        if($supply->supply_status != Supply::SUPPLY_STATUS_IN_PROGRESS)
         {
-            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+            return redirect()->route('warehouse.supply.index')->with('error', __('messages.supply_not_in_progress'));
         }
 
         $product = Product::find($request->product_id);
 
-        // Vérifier si la quantité n'excède pas le stock
-        $stock = $order->store->warehouse->stock->where('product_id', $request->product_id)->first();
+        // Vérifier si la quantité n'excède pas la capacité du stock
+        $warehouse = $supply->warehouse;
 
-        $quantity = $request->quantity;
+        // Récupérer toutes les commandes IN PROGRESS et PENDING (des magasins associés à l'entrepôt)
+        $orders = $warehouse->stores->flatMap(function ($store) {
+            return $store->orders->where('order_status', Order::ORDER_STATUS_IN_PROGRESS)->concat($store->orders->where('order_status', Order::ORDER_STATUS_PENDING));
+        })->flatMap(function ($order) {
+            return $order->orderLines;
+        });
 
-        if($quantity > $stock->quantity_available)
-        {
-            return redirect()->back()->with('error', __('messages.quantity_exceed_stock'));
+        // Récupérer la quantité totale du stock
+        $total_quantity_ordered = $orders->sum('quantity_ordered');
+
+        $total_quantity_stock = $warehouse->stock->sum('quantity_available');
+
+        $total_quantity_supplied = $supply->supplyLines->sum('quantity_supplied');
+
+        $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
+
+        if ($total + $request->quantity > $warehouse->capacity) {
+            return redirect()->back()->with('error', __('messages.quantity_exceeds_capacity'));
         }
 
         // Vérifier si le produit n'est pas déjà dans la commande
-        if($order->orderLines->where('product_id', $request->product_id)->first())
+        if($supply->supplyLines->where('product_id', $request->product_id)->first())
         {
             // Mettre à jour la quantité
-            $orderLine = $order->orderLines->where('product_id', $request->product_id)->first();
+            $supplyLine = $supply->supplyLines->where('product_id', $request->product_id)->first();
             
-            $orderLine->addQuantity($quantity);
+            $supplyLine->addQuantity($request->quantity);
         }
         else
         {
             // Ajouter le produit à la commande
-            $order->orderLines()->create([
+            $supply->supplyLines()->create([
                 'product_id' => $request->product_id,
-                'quantity_ordered' => $quantity,
+                'quantity_supplied' => $request->quantity,
                 'unit_price' => $product->reference_price,
             ]);
         }
 
-        // Retirer la quantité du stock (réserve la quantité pour cette commande)
-        $stock->removeQuantity($quantity);
-
-        return redirect()->route('store.order.place', ['order_id' => $request->order_id])->with('success', __('messages.product_added'));
+        return redirect()->route('warehouse.stock.supply.place', ['supply_id' => $request->supply_id])->with('success', __('messages.product_added'));
     }
 
-    public function removeProductFromSupply()
+    public function removeProductFromSupply(Request $request)
     {
         // Vérification des données
         $request->validate([
-            'order_id' => 'required|integer|exists:orders,id',
+            'supply_id' => 'required|integer|exists:supplies,id',
             'product_id' => 'required|integer|exists:products,id',
         ],
         [
-            'order_id.required' => __('messages.order_not_found'),
-            'order_id.integer' => __('messages.order_not_found'),
-            'order_id.exists' => __('messages.order_not_found'),
+            'supply_id.required' => __('messages.supply_not_found'),
+            'supply_id.integer' => __('messages.supply_not_found'),
+            'supply_id.exists' => __('messages.supply_not_found'),
             'product_id.required' => __('messages.product_not_found'),
             'product_id.integer' => __('messages.product_not_found'),
             'product_id.exists' => __('messages.product_not_found'),
         ]);
 
         // Récupérer la commande et le produit
-        $order = Order::find($request->order_id);
+        $supply = Supply::find($request->supply_id);
 
         // Vérifier le statut de la commande
-        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        if($supply->supply_status != Supply::SUPPLY_STATUS_IN_PROGRESS)
         {
-            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+            return redirect()->route('warehouse.stock.supply.index')->with('error', __('messages.supply_not_in_progress'));
         }
 
         $product = Product::find($request->product_id);
 
         // Vérifier si le produit est dans la commande
-        $orderLine = $order->orderLines->where('product_id', $request->product_id)->first();
+        $supplyLine = $supply->supplyLines->where('product_id', $request->product_id)->first();
 
-        if(!$orderLine)
+        if(!$supplyLine)
         {
             return redirect()->back()->with('error', __('messages.product_not_in_order'));
         }
 
-        // Récupérer la quantité
-        $quantity = $orderLine->quantity_ordered;
-
-        // Ajouter la quantité au stock
-        $stock = $order->store->warehouse->stock->where('product_id', $request->product_id)->first();
-
-        $stock->addQuantity($quantity);
-
         // Supprimer la ligne de commande
-        $orderLine->delete();
+        $supplyLine->delete();
 
         return redirect()->back()->with('success', __('messages.product_removed'));
     }
 
-    public function removeQuantityProductFromSupply()
+    public function removeQuantityProductFromSupply(Request $request)
     {
         // Vérification des données
         $request->validate([
-            'order_id' => 'required|integer|exists:orders,id',
+            'supply_id' => 'required|integer|exists:supplies,id',
             'product_id' => 'required|integer|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ],
         [
-            'order_id.required' => __('messages.order_not_found'),
-            'order_id.integer' => __('messages.order_not_found'),
-            'order_id.exists' => __('messages.order_not_found'),
+            'supply_id.required' => __('messages.supply_not_found'),
+            'supply_id.integer' => __('messages.supply_not_found'),
+            'supply_id.exists' => __('messages.supply_not_found'),
             'product_id.required' => __('messages.product_not_found'),
             'product_id.integer' => __('messages.product_not_found'),
             'product_id.exists' => __('messages.product_not_found'),
         ]);
 
         // Récupérer la commande et le produit
-        $order = Order::find($request->order_id);
+        $supply = Supply::find($request->supply_id);
 
         // Vérifier le statut de la commande
-        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        if($supply->supply_status != Supply::SUPPLY_STATUS_IN_PROGRESS)
         {
-            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+            return redirect()->route('warehouse.stock.supply.index')->with('error', __('messages.supply_not_in_progress'));
         }
 
         $product = Product::find($request->product_id);
 
         // Vérifier si le produit est dans la commande
-        $orderLine = $order->orderLines->where('product_id', $request->product_id)->first();
+        $supplyLine = $supply->supplyLines->where('product_id', $request->product_id)->first();
 
-        if(!$orderLine)
+        if(!$supplyLine)
         {
             return redirect()->back()->with('error', __('messages.product_not_in_order'));
         }
@@ -586,245 +640,134 @@ class StockController extends Controller
         $quantity = $request->quantity;        
 
         // Vérifier si la quantité n'excède pas la quantité commandée
-        if($quantity > $orderLine->quantity_ordered)
+        if($quantity > $supplyLine->quantity_supplied)
         {
             return redirect()->back()->with('error', __('messages.quantity_exceed'));
         }
 
         // Enlever la quantité de la ligne de commande
-        $orderLine->removeQuantity($quantity);
+        $supplyLine->removeQuantity($quantity);
 
-        if($orderLine->quantity_ordered == 0)
+        if($supplyLine->quantity_supplied == 0)
         {
             // Supprimer la ligne de commande
-            $orderLine->delete();
+            $supplyLine->delete();
         }
-
-        // Ajouter la quantité au stock
-        $stock = $order->store->warehouse->stock->where('product_id', $request->product_id)->first();
-
-        $stock->addQuantity($quantity);
 
         return redirect()->back()->with('success', __('messages.remove_quantity_success'));
     }
 
-    public function recapSupply()
+    public function recapSupply(int $supply_id)
     {
         // Vérifier si la commande existe
-        $order = Order::find($order_id);
+        $supply = Supply::find($supply_id);
 
-        if(!$order)
+        if(!$supply)
         {
-            return redirect()->route('store.order.index')->with('error', __('messages.order_not_found'));
+            return redirect()->route('warehouse.stock.supply.index')->with('error', __('messages.supply_not_found'));
         }
 
         // Vérifier le statut de la commande
-        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        if($supply->supply_status != Supply::SUPPLY_STATUS_IN_PROGRESS)
         {
-            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+            return redirect()->route('warehouse.stock.supply.index')->with('error', __('messages.supply_not_in_progress'));
         }
 
         // Vérifier si la commande n'est pas vide
-        if(count($order->orderLines) == 0)
+        if(count($supply->supplyLines) == 0)
         {
-            return redirect()->route('store.order.place', ['order_id' => $order->id])->with('error', __('messages.order_empty'));
+            return redirect()->route('warehouse.stock.supply.place', ['supply_id' => $supply->id])->with('error', __('messages.supply_empty'));
         }
 
-        $warehouse = $order->store->warehouse;
+        $warehouse = $supply->warehouse;
         
-        return view('pages.store.order.recap_order', compact('order', 'warehouse'));
+        return view('pages.warehouse.stock.supply.recap_supply', compact('supply', 'warehouse'));
     }
 
-    public function confirmSupply()
+    public function confirmSupply(Request $request)
     {
         // Vérification des données
         $request->validate([
-            'order_id' => 'required|integer|exists:orders,id',
+            'supply_id' => 'required|integer|exists:supplies,id',
         ],
         [
-            'order_id.required' => __('messages.order_not_found'),
-            'order_id.integer' => __('messages.order_not_found'),
-            'order_id.exists' => __('messages.order_not_found'),
+            'supply_id.required' => __('messages.supply_not_found'),
+            'supply_id.integer' => __('messages.supply_not_found'),
+            'supply_id.exists' => __('messages.supply_not_found'),
         ]);
 
         // Récupérer la commande
-        $order = Order::find($request->order_id);
+        $supply = Supply::find($request->supply_id);
 
         // Vérifier le statut de la commande
-        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        if($supply->supply_status != Supply::SUPPLY_STATUS_IN_PROGRESS)
         {
-            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+            return redirect()->route('warehouse.stock.supply.index')->with('error', __('messages.supply_not_in_progress'));
         }
 
         // Vérifier si la commande n'est pas vide
-        if(count($order->orderLines) == 0)
+        if(count($supply->supplyLines) == 0)
         {
-            return redirect()->route('store.order.place', ['order_id' => $order->id])->with('error', __('messages.order_empty'));
+            return redirect()->route('warehouse.stock.supply.place', ['supply_id' => $supply->id])->with('error', __('messages.supply_empty'));
+        }
+
+        // Vérifier si la quantité commandée n'excède pas la capacité de l'entrepôt
+        $warehouse = $supply->warehouse;
+
+        // Récupérer toutes les commandes IN PROGRESS et PENDING (des magasins associés à l'entrepôt)
+        $orders = $warehouse->stores->flatMap(function ($store) {
+            return $store->orders->where('order_status', Order::ORDER_STATUS_IN_PROGRESS)->concat($store->orders->where('order_status', Order::ORDER_STATUS_PENDING));
+        })->flatMap(function ($order) {
+            return $order->orderLines;
+        });
+
+        // Récupérer la quantité totale du stock
+        $total_quantity_ordered = $orders->sum('quantity_ordered');
+
+        $total_quantity_stock = $warehouse->stock->sum('quantity_available');
+
+        $total_quantity_supplied = $supply->supplyLines->sum('quantity_supplied');
+
+        $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
+
+        if ($total + $request->quantity > $warehouse->capacity) {
+            return redirect()->back()->with('error', __('messages.quantity_exceeds_capacity'));
         }
 
         // Changer le statut de la commande
-        $order->order_status = Order::ORDER_STATUS_PENDING;
-        $order->save();
+        $supply->supply_status = supply::SUPPLY_STATUS_DELIVERED;
+        $supply->save();
 
-        return redirect()->route('store.order.index')->with('success', __('messages.order_confirmed'));
-    }
+        // Approvisionner le stock
+        $supply->supplyLines->each(function ($supplyLine) use ($supply) {
+            $stock = $supply->warehouse->stock->where('product_id', $supplyLine->product_id)->first();
 
-    // -----------------------------------------------
-
-    public function newSupplyStock()
-    {
-        $user = auth()->user();
-
-        // Récupérer l'entrepôt de l'utilisateur
-        $warehouse = $user->warehouseUser->warehouse;
-
-        // Récupérer les produits déjà dans l'entrepôt
-        $products = $warehouse->stock->map(function ($stock) {
-            return $stock->product;
+            $stock->addQuantity($supplyLine->quantity_supplied);
         });
 
-        // Récupérer toutes les catégories et tous les fournisseurs
-        $categories = Category::all();
-        $suppliers = Supplier::all();
+        // Réaliser les mouvements de stock pour chaque produits
+        $supply->supplyLines->each(function ($supplyLine) use ($warehouse) {
+            $warehouse->stockMovements()->create([
+                'product_id' => $supplyLine->product_id,
+                'user_id' => auth()->id(),
+                'quantity_moved' => $supplyLine->quantity_supplied,
+                'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
+                'movement_date' => now(),
+                'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
+                'movement_source' => StockMovement::MOVEMENT_SOURCE_SUPPLY,
+            ]);
+        });
 
-        return view('pages.warehouse.stock.new_supply', compact('products', 'warehouse', 'categories', 'suppliers'));
-    }
-
-    public function newSupplyStockSubmit(Request $request)
-    {
-        // Validation des produits et des quantités
-        $request->validate([
-            'products' => 'required|array', // Le champ 'products' doit être un tableau
-            'products.*' => 'required|integer|exists:products,id', // Chaque produit doit être un entier existant dans la table products
-            
-            'quantities' => 'required|array', // Le champ 'quantities' doit être un tableau
-            'quantities.*' => 'required|integer|min:1', // Chaque quantité doit être un entier et au minimum 1
-        ],
-        [
-            'products.required' => __('messages.validate.products_required'),
-            'products.array' => __('messages.validate.products_array'),
-            'products.*.required' => __('messages.validate.products_each_required'),
-            'products.*.integer' => __('messages.validate.products_each_integer'),
-            'products.*.exists' => __('messages.validate.products_each_exists'),
-            'quantities.required' => __('messages.validate.quantities_required'),
-            'quantities.array' => __('messages.validate.quantities_array'),
-            'quantities.*.required' => __('messages.validate.quantities_each_required'),
-            'quantities.*.integer' => __('messages.validate.quantities_each_integer'),
-            'quantities.*.min' => __('messages.validate.quantities_each_min'),
+        // Editer une facture
+        $supply->invoice()->create([
+            'invoice_number' => strtoupper(uniqid()),
+            'invoice_date' => now(),
+            'invoice_status' => Invoice::INVOICE_STATUS_UNPAID,
+            'order_id' => null,
+            'supply_id' => $supply->id,
         ]);
 
-        $user = auth()->user();
-
-        $warehouse = $user->warehouseUser->warehouse;
-
-        $request->merge($request->except('products', 'quantities'));
-
-        // Vérifier si la quantité totale inférieure à la capacité maximale
-        if (array_sum($request->quantities) + $warehouse->stock->sum('quantity_available') > $warehouse->capacity) {
-            return redirect()->back()->withErrors(__('messages.validate.quantity_exceeds_capacity'))->withInput();
-        }
-
-        // Vérifier si les produits sont dans le stock
-        $warehouseProducts = $warehouse->stock->whereIn('product_id', $request->products);
-
-        if ($warehouseProducts->count() != count($request->products)) {
-            return redirect()->back()->withErrors(__('messages.validate.product_not_in_stock'))->withInput();
-        }
-
-        // Récupérer les fournisseurs des produits et trier le produits selon leurs fournisseurs
-        $suppliersData = [];
-
-        foreach ($request->products as $index => $productId) {
-            $product = $warehouseProducts->where('product_id', $productId)->first()->product;
-
-            $supplier = $product->supplyLines->first()->supply->supplier;
-
-             // Initialiser l'entrée pour ce fournisseur si elle n'existe pas
-            if (!isset($suppliersData[$supplier->id])) {
-                $suppliersData[$supplier->id] = [];
-            }
-
-            // Ajouter le produit et la quantité sous ce fournisseur
-            $suppliersData[$supplier->id][] = [
-                'product_id' => $productId,
-                'quantity' => $request->quantities[$index],
-            ];
-        }
-
-        // Créer les approvisionnements en fonction des fournisseurs
-        $success = $this->createSupplyBySupplier($suppliersData, $warehouse, $user);
-
-        if ($success) {
-            return redirect()->route('warehouse.stock.index')->with('success', __('messages.action_success'));
-        } 
-        else {
-            return redirect()->route('warehouse.stock.index')->with('error', __('messages.action_failed'));
-        }
-    }
-
-    
-    /**
-    * Crée un approvisionnement par fournisseur.
-    *
-    * @param array $suppliersData Les données des fournisseurs.
-    * @param mixed $warehouse L'entrepôt associé.
-    * @param mixed $user L'utilisateur associé.
-    * @return void
-    */
-    private function createSupplyBySupplier($suppliersData, $warehouse, $user)
-    {
-        try {
-            DB::beginTransaction(); // Démarrer une transaction
-
-            // Pour chaque fournisseur, créer un approvisionnement
-            foreach ($suppliersData as $supplierId => $productsData) {
-                $supplier = Supplier::find($supplierId);
-
-                $supply = $warehouse->supplies()->create([
-                    'supplier_id' => $supplier->id,
-                ]);
-
-                foreach ($productsData as $productData) {
-                    $stock = $warehouse->stock->whereIn('product_id', $productData['product_id'])->first();
-
-                    $stock->addQuantity($productData['quantity']);
-
-                    $product = $stock->product;
-
-                    $warehouse->stockMovements()->create([
-                        'product_id' => $product->id,
-                        'user_id' => $user->id,
-                        'quantity_moved' => $productData['quantity'],
-                        'movement_type' => StockMovement::MOVEMENT_TYPE_IN,
-                        'movement_date' => now(),
-                        'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
-                        'movement_source' => StockMovement::MOVEMENT_SOURCE_SUPPLY,
-                    ]);
-
-                    $supply->supplyLines()->create([
-                        'product_id' => $product->id,
-                        'quantity_supplied' => $productData['quantity'],
-                        'unit_price' => $product->reference_price,
-                    ]);
-                }
-
-                $supply->invoice()->create([
-                    'invoice_number' => strtoupper(uniqid()),
-                    'invoice_date' => now(),
-                    'invoice_status' => Invoice::INVOICE_STATUS_UNPAID,
-                    'order_id' => null,
-                    'supply_id' => $supply->id,
-                ]);
-            }
-
-            DB::commit(); // Valider les changements si tout se passe bien
-        } catch (\Exception $e) {
-            DB::rollBack(); // Annuler toutes les opérations en cas d'erreur
-
-            return false;
-        }
-
-        return true;
+        return redirect()->route('warehouse.stock.supply.index')->with('success', __('messages.supply_confirmed'));
     }
 
     /**
@@ -854,7 +797,10 @@ class StockController extends Controller
 
             // Créer un approvisionnement
             $supply = $warehouse->supplies()->create([
+                'user_id' => $user->id,
+                'warehouse_id' => $warehouse->id,
                 'supplier_id' => $supplier->id,
+                'supply_status' => Supply::SUPPLY_STATUS_DELIVERED,
             ]);
 
             // Créer une ligne d'approvisionnement

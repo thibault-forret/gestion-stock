@@ -35,6 +35,10 @@ return [
     'supply_not_found' => 'The supply was not found. Please try again.',
     'supply_not_in_progress' => 'The supply is not in progress. Please try again.',
     'supply_removed' => 'The supply has been removed.',
+    'supply_empty' => 'The supply is empty. Please add products.',
+    'supply_created' => 'The supply has been created.',
+    'supplier_not_found' => 'The supplier was not found. Please try again.',
+    'supply_confirmed' => 'The supply has been confirmed.',
 
     'validate' => [
         'usernmame_required' => 'Please provide your username.',

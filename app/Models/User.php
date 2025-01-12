@@ -28,6 +28,12 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    // Chaque utilisateur peut faire plusieurs approvisionnements
+    public function supplies()
+    {
+        return $this->hasMany(Supply::class);
+    }
+
     // Chaque utilisateur peut avoir plusieurs mouvements de stock
     public function stock_movements()
     {

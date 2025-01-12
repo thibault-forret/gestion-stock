@@ -90,19 +90,15 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                     Route::get('/', [StockController::class, 'indexSupply'])->name('index');
                     Route::get('/list', [StockController::class, 'listSupplies'])->name('list');
                     Route::post('/remove', [StockController::class, 'removeSupply'])->name('remove');
-                    Route::get('/{order_id}/detail', [StockController::class, 'detailSupply'])->name('detail');
-                    Route::get('/place', [StockController::class, 'placeNewSupply'])->name('new');
-                    Route::get('/{order_id}/place', [StockController::class, 'placeSupply'])->name('place');
+                    Route::get('/{supply_id}/detail', [StockController::class, 'detailSupply'])->name('detail');
+                    Route::get('/new', [StockController::class, 'newSupply'])->name('new');
+                    Route::post('/place', [StockController::class, 'placeNewSupply'])->name('place.new');
+                    Route::get('/{supply_id}/place', [StockController::class, 'placeSupply'])->name('place');
                     Route::post('/place/add', [StockController::class, 'addProductToSupply'])->name('add');
                     Route::post('/place/remove', [StockController::class, 'removeProductFromSupply'])->name('remove.product');
                     Route::post('/place/remove/quantity', [StockController::class, 'removeQuantityProductFromSupply'])->name('remove.quantity');
-                    Route::get('/{order_id}/place/recap', [StockController::class, 'recapSupply'])->name('recap');
+                    Route::get('/{supply_id}/place/recap', [StockController::class, 'recapSupply'])->name('recap');
                     Route::post('/place/confirm', [StockController::class, 'confirmSupply'])->name('confirm');
-                });
-
-                Route::prefix('supplys')->name('supply.')->group(function() {
-                    Route::get('/new', [StockController::class, 'newSupplyStock'])->name('new');
-                    Route::post('/new', [StockController::class, 'newSupplyStockSubmit'])->name('new.submit');
                 });
 
                 Route::prefix('product')->name('product.')->group(function () {

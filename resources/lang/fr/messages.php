@@ -35,6 +35,10 @@ return [
     'supply_not_found' => 'L\'approvisionnement n\'a pas été trouvé. Veuillez réessayer.',
     'supply_not_in_progress' => 'L\'approvisionnement n\'est pas en cours. Veuillez réessayer.',
     'supply_removed' => 'L\'approvisionnement a été supprimé.',
+    'supply_empty' => 'L\'approvisionnement est vide. Veuillez ajouter des produits.',
+    'supply_created' => 'L\'approvisionnement a été créé.',
+    'supplier_not_found' => 'Le fournisseur n\'a pas été trouvé. Veuillez réessayer.',
+    'supply_confirmed' => 'L\'approvisionnement a été confirmé.',
 
     'validate' => [
         'usernmame_required' => 'Veuillez fournir votre nom d\'utilisateur.',
