@@ -6,12 +6,6 @@
     <title>@yield('title') - {{ config('app.name') }}</title>
     <meta name="description" content="@yield('description')">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link
-        rel="icon"
-        type="image/png"
-        sizes="32x25"
-        href="{{ asset('images/logo.webp') }}"
-    >
 
     <link href="{{ mix('css/style.css') }}" rel="stylesheet">
 
@@ -42,7 +36,7 @@
     @endif
 </head>
 
-@if (!isset($login))
+@if (!isset($removeHeader))
     @include('components._header')
 @endif
 

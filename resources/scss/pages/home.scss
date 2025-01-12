@@ -48,13 +48,14 @@ body {
 // Section d'en-tête avec logo et description
 .header-section {
     display: flex;
+    flex-direction: column;
     align-items: center; // Aligne verticalement au centre
     justify-content: space-between;
     padding: 10px 20px;
     margin-bottom: 20px;
 
     .logo {
-        width: 150px;
+        width: 300px;
         height: auto;
     }
 
@@ -62,6 +63,7 @@ body {
         text-align: center;
         max-width: 600px;
         margin: 0 auto;
+        margin-top: 50px;
 
         h1 {
             font-size: 1.5rem;
@@ -79,11 +81,12 @@ body {
 // Gestion des langues
 .language-switcher {
     display: flex;
-    justify-content: flex-end;
-    margin: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
     padding-right: 20px;
 
-    a, span {
+    a, p, span {
         margin-left: 15px;
         font-size: 1rem;
         color: $gray;
@@ -97,6 +100,11 @@ body {
 
     span {
         text-decoration: underline;
+    }
+
+    .active {
+        color: $orange;
+        user-select: none;
     }
 }
 
@@ -219,8 +227,15 @@ body {
     }
 }
 
-.container {
-    margin-bottom: 50px;
+body {
+    height: 100vh;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
 }
 
 .thin-bar {

@@ -109,9 +109,10 @@ body, html {
 .content-form .language img {
   width: 32px;
   height: auto;
-  cursor: pointer;
+}
+.content-form .language a {
   transition: transform 0.2s;
 }
-.content-form .language img:hover {
+.content-form .language a:hover {
   transform: scale(1.1);
 }

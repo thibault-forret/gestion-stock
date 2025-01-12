@@ -2,7 +2,7 @@
 
 {{-- Retirer le header --}}
 @php
-    $login = true;    
+    $removeHeader = true;    
 @endphp
 
 @section('css')
