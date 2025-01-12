@@ -138,7 +138,9 @@ body, html {
         img {
             width: 32px; // Taille des icônes
             height: auto;
-            cursor: pointer;
+        }
+
+        a {
             transition: transform 0.2s;
 
             &:hover {
