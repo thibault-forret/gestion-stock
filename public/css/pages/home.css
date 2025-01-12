@@ -38,19 +38,21 @@ body {
 
 .header-section {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
   margin-bottom: 20px;
 }
 .header-section .logo {
-  width: 150px;
+  width: 300px;
   height: auto;
 }
 .header-section .description {
   text-align: center;
   max-width: 600px;
   margin: 0 auto;
+  margin-top: 50px;
 }
 .header-section .description h1 {
   font-size: 1.5rem;
@@ -64,22 +66,29 @@ body {
 
 .language-switcher {
   display: flex;
-  justify-content: flex-end;
-  margin: 10px;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
   padding-right: 20px;
 }
-.language-switcher a, .language-switcher span {
+.language-switcher a, .language-switcher p, .language-switcher span {
   margin-left: 15px;
   font-size: 1rem;
   color: #5a5a5c;
   text-decoration: none;
   font-weight: bold;
 }
-.language-switcher a:hover, .language-switcher span:hover {
+.language-switcher a:hover, .language-switcher p:hover, .language-switcher span:hover {
   color: #f05c2b;
 }
 .language-switcher span {
   text-decoration: underline;
+}
+.language-switcher .active {
+  color: #f05c2b;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 
 .services-section {
@@ -182,8 +191,15 @@ body {
      object-fit: contain;
 }
 
-.container {
-  margin-bottom: 50px;
+body {
+  height: 100vh;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
 }
 
 .thin-bar {
