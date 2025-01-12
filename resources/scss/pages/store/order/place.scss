@@ -23,28 +23,34 @@ body {
 }
 
 .product-list {
-    flex: 70%;
+    flex: 50%; // Prend environ 60% de l'espace
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr); // Limite à 2 produits par ligne
     gap: 20px;
     background-color: $white;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .order-container {
     display: flex;
+    margin-top: 20px;
 }
+
 .order-recap {
-    flex: 30%;
-    max-width: 1000px;
-    //margin: 50px auto;
+    flex: 50%; // Prend environ 40% de l'espace
+    max-width: 100%; // Évite de dépasser la largeur
     background-color: $white;
     border: 1px solid $light-gray;
     border-radius: 8px;
-    padding: 20px;
+    padding: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky; // Reste fixe lors du scroll
+    top: 20px; // Distance par rapport au haut de la page
+    height: fit-content; // Ajuste la hauteur pour contenir le contenu
 }
+
 .order-recap > div {
     display: flex;
     justify-content: flex-end; // Décale tout le contenu à droite
@@ -84,7 +90,7 @@ body {
         span {
             white-space: nowrap;
             color: rgba(255, 255, 255, 0.6);
-            transform: rotate(-70deg);
+            transform: rotate(-35deg);
         }
     }
 
@@ -109,6 +115,11 @@ body {
     .btn {
         @extend .btn-common;
     }
+    
+}
+.product-item p u {
+    text-decoration: none; // Retirer le soulignement
+    font-weight: bold; // Mettre en gras
 }
 
 // Table des commandes
@@ -128,6 +139,7 @@ body {
         text-align: left;
         padding: 10px;
         border-bottom: 1px solid $light-gray;
+        min-width: 60px;
     }
 
     tfoot {
@@ -253,4 +265,19 @@ button.disabled {
     &:hover {
         background-color: $dark-orange;
     }
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px; // Ajouter un peu plus d'espace
+    //background-color: lighten($gray, 10%);
+    border-radius: 8px;
+
+}
+
+img.product_image, img.product-thumbnail {
+    border-radius: 5px; // Arrondir les coins
+    background-color: $white; // Forcer un fond blanc
 }

@@ -77,6 +77,7 @@
                             <th>Prix unitaire</th>
                             <th>Total HT</th>
                             <th>Total TTC</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,6 +110,7 @@
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->quantity_ordered }}" required>
+                                        <button type="submit" class="btn">Ajouter la quantité</button>
                                         <button type="submit" class="btn">Retirer la quantité</button>
                                     </form>
                                 </td>
