@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Invoice;
+use App\Models\StockMovement;
 
 class OrderController extends Controller
 {
@@ -421,6 +422,25 @@ class OrderController extends Controller
         // Changer le statut de la commande
         $order->order_status = Order::ORDER_STATUS_DELIVERED;
         $order->save();
+
+        // Faire les mouvements de stock
+        $user = auth()->user();
+
+        $warehouse = $user->warehouseUser->warehouse;
+
+        // Parcourir chaque ligne de commande (orderLines) pour créer les mouvements de stock
+        foreach ($order->orderLines as $orderLine) {
+            $warehouse->stockMovements()->create([
+                'product_id' => $orderLine->product_id,
+                'user_id' => $user->id,
+                'quantity_moved' => $orderLine->quantity_ordered,
+                'movement_type' => StockMovement::MOVEMENT_TYPE_OUT,
+                'movement_date' => now(),
+                'movement_status' => StockMovement::MOVEMENT_STATUS_COMPLETED,
+                'movement_source' => StockMovement::MOVEMENT_SOURCE_ORDER,
+            ]);
+        }
+        
 
         // Créer une facture
         $order->invoice()->create([
