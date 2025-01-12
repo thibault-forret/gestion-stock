@@ -1,0 +1,256 @@
+// Variables de couleur
+$orange: #f05c2b;
+$gray: #5a5a5c;
+$white: #ffffff;
+$light-gray: lighten($gray, 20%);
+$dark-orange: darken($orange, 10%);
+
+// Styles généraux
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: $white;
+    color: $gray;
+}
+
+// Layout principal
+.main-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: $white;
+}
+
+.product-list {
+    flex: 70%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    background-color: $white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.order-container {
+    display: flex;
+}
+.order-recap {
+    flex: 30%;
+    max-width: 1000px;
+    //margin: 50px auto;
+    background-color: $white;
+    border: 1px solid $light-gray;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.order-recap > div {
+    display: flex;
+    justify-content: flex-end; // Décale tout le contenu à droite
+}
+
+// Produit individuel
+.product-item {
+    position: relative;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: $gray;
+    color:$white;
+    transition: 0.3s ease;
+
+    &.not-available {
+        opacity: 0.6;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $white;
+        font-size: 3rem;
+        font-weight: bold;
+        pointer-events: none;
+
+        span {
+            white-space: nowrap;
+            color: rgba(255, 255, 255, 0.6);
+            transform: rotate(-70deg);
+        }
+    }
+
+    img {
+        max-width: 100px;
+        max-height: 100px;
+        display: block;
+        margin: 10px auto;
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 1.2em;
+        color: $white;
+    }
+
+    p {
+        margin: 5px 0;
+        color: $white;
+    }
+
+    .btn {
+        @extend .btn-common;
+    }
+}
+
+// Table des commandes
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: $white;
+
+    thead {
+        background: $orange;
+        color: $white;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 10px;
+        border-bottom: 1px solid $light-gray;
+    }
+
+    tfoot {
+        font-weight: bold;
+        background: lighten($gray, 10%);
+    }
+
+    tbody tr:hover {
+        background: lighten($gray, 15%);
+    }
+}
+
+// Scrollable div pour le récapitulatif
+.scrollable {
+    max-height: 450px;
+    overflow-y: auto;
+    border: 1px solid $light-gray;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: lighten($gray, 10%);
+
+    .product-item {
+        background-color: #e0e0e0; /* Fond gris */
+    }
+
+    img.product_image {
+        max-width: 50px;
+        max-height: 50px;
+        display: block;
+        margin: 10px 0;
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $light-gray;
+        border-radius: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $orange;
+        border-radius: 8px;
+
+        &:hover {
+            background: $dark-orange;
+        }
+    }
+}
+
+// Boutons communs
+.btn-common {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: $white;
+    background-color: $orange;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 5px 0;
+
+    &:hover {
+        background-color: $dark-orange;
+    }
+}
+
+button.disabled {
+    background-color: lighten($gray, 30%);
+    color: darken($white, 20%);
+    cursor: not-allowed;
+
+    &:hover {
+        background-color: lighten($gray, 30%);
+    }
+}
+
+// Titre de commande
+.order-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.product-thumbnail{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.total-value{
+    font-size: 1.8rem;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: $orange;
+}
+
+.total-label{
+    margin-top: 20px;
+}
+
+.btn{
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: $white;
+    background-color: $orange;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 5px 0;
+
+    &:hover {
+        background-color: $dark-orange;
+    }
+}
