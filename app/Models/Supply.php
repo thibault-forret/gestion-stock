@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supply extends Model
 {
+    const SUPPLY_STATUS_IN_PROGRESS = 'IN PROGRESS';
+    const SUPPLY_STATUS_DELIVERED = 'DELIVERED';
+
     protected $fillable = [
         'supplier_id',
         'warehouse_id',
+        'supply_status'
     ];
     
     // Chaque approvisionnement est associé à un fournisseur
