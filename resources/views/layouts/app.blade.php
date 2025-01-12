@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - {{ config('app.name') }}</title>
     <meta name="description" content="@yield('description')">
-    <link 
-        rel="icon" 
-        type="image/png" 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link
+        rel="icon"
+        type="image/png"
         sizes="32x25"
         href="{{ asset('images/logo.webp') }}"
     >
@@ -41,7 +42,7 @@
     @endif
 </head>
 
-@if (!isset($login))  
+@if (!isset($login))
     @include('components._header')
 @endif
 
@@ -64,16 +65,16 @@
         @yield('content')
 
     </div>
-    
+
     <script src="{{ mix('js/app.js') }}"></script>
 
     @hasSection('js')
     	@yield('js')
-    @endif    
+    @endif
 
 </body>
 
-@if (!isset($login))  
+@if (!isset($login))
     @include('components._footer')
 @endif
 
