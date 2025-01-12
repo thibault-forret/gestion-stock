@@ -27,6 +27,7 @@ return [
     'product_not_in_order' => 'Le produit n\'est pas dans la commande. Veuillez réessayer.',
     'product_removed' => 'Le produit a été supprimé.',
     'remove_quantity_success' => 'La quantité a été retirée avec succès.',
+    'add_quantity_success' => 'La quantité a été ajoutée avec succès.',
     'order_empty' => 'La commande est vide. Veuillez ajouter des produits.',
     'order_confirmed' => 'La commande a été confirmée.',
     'order_delivered' => 'La commande a été validée.',

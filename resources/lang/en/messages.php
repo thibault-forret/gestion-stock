@@ -27,6 +27,7 @@ return [
     'product_not_in_order' => 'The product is not in the order. Please try again.',
     'product_removed' => 'The product has been removed.',
     'remove_quantity_success' => 'The quantity has been removed successfully.',
+    'add_quantity_success' => 'The quantity has been added successfully.',
     'order_empty' => 'The order is empty. Please add products.',
     'order_confirmed' => 'The order has been confirmed.',
     'order_delivered' => 'The order has been delivered.',

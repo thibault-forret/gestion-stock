@@ -309,6 +309,14 @@
                                         <input type="number" name="quantity" value="1" min="1" max="{{ $supplyLine->quantity_supplied }}" required>
                                         <button type="submit" class="btn">Retirer la quantité</button>
                                     </form>
+
+                                    <form action="{{ route('warehouse.stock.supply.add.quantity') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
+                                        <input type="hidden" name="supply_id" value="{{ $supply->id }}">
+                                        <input type="number" name="quantity" value="1" min="1" max="{{ $total_quantity }}" required>
+                                        <button type="submit" class="btn">Ajouter la quantité</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

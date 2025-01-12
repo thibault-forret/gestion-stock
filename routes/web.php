@@ -63,27 +63,18 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
             Route::prefix('order')->name('order.')->group(function () {
                 Route::get('/', [OrderController::class, 'listOrdersWarehouse'])->name('list');
-
                 Route::get('/{order_id}/detail', [OrderController::class, 'detailOrderWarehouse'])->name('detail');
-
                 Route::post('/remove', [OrderController::class, 'removeOrderWarehouse'])->name('remove');
-
                 Route::post('/refuse', [OrderController::class, 'refuseOrder'])->name('refuse');
-
                 Route::post('/deliver', [OrderController::class, 'deliverOrder'])->name('deliver');
-
                 Route::get('/{invoice_number}/show', [OrderController::class, 'showInvoice'])->name('invoice.show');
-
                 Route::get('/{invoice_number}/download', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
-                
             });
 
             Route::prefix('stock')->name('stock.')->group(function () {
                 Route::get('/', [StockController::class, 'index'])->name('index');
-
                 Route::get('/list', [StockController::class, 'stockList'])->name('list');
                 Route::get('/list-movement', [StockController::class, 'stockMovementList'])->name('list.movement');
-
                 Route::post('/search', [StockController::class, 'searchStock'])->name('search');
 
                 Route::prefix('supply')->name('supply.')->group(function () {
@@ -97,6 +88,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                     Route::post('/place/add', [StockController::class, 'addProductToSupply'])->name('add');
                     Route::post('/place/remove', [StockController::class, 'removeProductFromSupply'])->name('remove.product');
                     Route::post('/place/remove/quantity', [StockController::class, 'removeQuantityProductFromSupply'])->name('remove.quantity');
+                    Route::post('/place/add/quantity', [StockController::class, 'addQuantityProductFromSupply'])->name('add.quantity');
                     Route::get('/{supply_id}/place/recap', [StockController::class, 'recapSupply'])->name('recap');
                     Route::post('/place/confirm', [StockController::class, 'confirmSupply'])->name('confirm');
                 });
