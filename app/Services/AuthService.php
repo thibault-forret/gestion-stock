@@ -18,7 +18,12 @@ class AuthService
         // Si l'utilisateur est déjà connecté avec ce guard
         if (Auth::guard($guard)->check()) {
             // Redirige vers le dashboard avec un message d'erreur
-            return redirect()->route($guard . '.dashboard')->with('error', __('auth.error.logout_first_store'));
+            if ($guard === 'warehouse') {
+                return redirect()->route($guard . '.dashboard')->with('error', __('auth.error.logout_redirect_warehouse'));
+            }
+            if ($guard === 'store') {
+                return redirect()->route($guard . '.dashboard')->with('error', __('auth.error.logout_redirect_store'));
+            }
         }
 
         // Retourne null si l'utilisateur n'est pas connecté, ce qui permet de continuer normalement

@@ -8,6 +8,7 @@ return [
     'dashboard' => 'Dashboard',
     'order' => 'Orders',
     'place_order' => 'Place an order',
+    'list_orders' => 'List of orders',
     'recap_order' => 'Recap order',
     'search_new_product' => 'Search new product',
     'add_product' => 'Add product',

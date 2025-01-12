@@ -334,18 +334,6 @@
 
 @section('content')
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <h3>{{ __('title.invoice_list') }}</h3>
 
     <form action="{{ route('warehouse.invoice.search') }}" method="POST">
@@ -358,11 +346,11 @@
         </div>
         <div class="buttons">
             <button class="btn" type="submit">Rechercher</button>
-            <a class="btn red" href="{{ route('warehouse.invoice.list') }}">Rénitialiser recherche</a>
+            <a class="btn red" href="{{ route('warehouse.invoice.list.supply') }}">Rénitialiser recherche</a>
         </div>
     </form>
 
-    <form action="{{ route('warehouse.invoice.filter') }}" method="get">
+    <form action="{{ route('warehouse.invoice.filter.supply') }}" method="get">
         <div class="search-element">
             <div>
                 <label for="supplier">Fournisseur :</label>
@@ -438,7 +426,7 @@
         <div class="buttons">
             <button class="btn" type="submit">Rechercher</button>
 
-            <a class="btn red" href="{{ route('warehouse.invoice.list') }}">Rénitialiser recherche</a>
+            <a class="btn red" href="{{ route('warehouse.invoice.list.supply') }}">Rénitialiser recherche</a>
         </div>
     </form>
 
@@ -494,7 +482,7 @@
                         </p>
                     </div>
                     <div>
-                        <a href="{{ route('warehouse.invoice.info', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
+                        <a href="{{ route('warehouse.invoice.info.supply', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
                         <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
                         <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
                     </div>

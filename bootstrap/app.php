@@ -14,12 +14,15 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->redirectTo(
             guests: function () {
-                // Redirige vers la page de connexion en fonction du guard
-                if (Auth::guard('warehouse')->guest()) {
+                // Récupère le segment de l'URL pour déterminer le contexte
+                $segment = request()->segment(1);
+
+                // Redirige vers le login en fonction du contexte dans l'URL
+                if ($segment === 'warehouse' && Auth::guard('warehouse')->guest()) {
                     return route('warehouse.login');
                 }
 
-                if (Auth::guard('store')->guest()) {
+                if ($segment === 'store' && Auth::guard('store')->guest()) {
                     return route('store.login');
                 }
 

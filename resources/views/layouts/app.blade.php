@@ -15,6 +15,28 @@
 
     <link href="{{ mix('css/style.css') }}" rel="stylesheet">
 
+    <style>
+        .alert {
+            width: 60%;
+            padding: 10px 15px;
+            margin: 10px auto;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .alert-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+
     @hasSection('css')
     	@yield('css')
     @endif
@@ -25,6 +47,18 @@
 @endif
 
 <body>
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <div class="content">
 

@@ -11,6 +11,7 @@
     
     {{ __('description.order') }}
 
-    <a href="{{ route('store.order.place') }}">{{ __('title.place_order') }}</a>
+    <a href="{{ route('store.order.new') }}">Nouvelle commande</a> {{-- {{ __('title.place_order') }} --}}
+    <a href="{{ route('store.order.list') }}">{{ __('title.list_orders') }}</a>
 
 @endsection

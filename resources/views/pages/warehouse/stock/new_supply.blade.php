@@ -310,7 +310,6 @@
         </div>
 
         <button type="submit" id="confirm-supply-btn" disabled>Confirmer l'approvisionnement</button>
-
     </form>
 
     @if ($errors->any())

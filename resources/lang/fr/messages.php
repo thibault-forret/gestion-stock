@@ -16,6 +16,22 @@ return [
     'invoice_settled' => 'La facture a été réglée.',
     'invoice_not_settled' => 'La facture n\'a pas été réglée. Veuillez réessayer.',
 
+    'login_required' => 'Vous devez être connecté pour accéder à cette page.',
+
+    'order_not_found' => 'La commande n\'a pas été trouvée. Veuillez réessayer.',
+    'order_not_in_progress' => 'La commande n\'est pas en cours. Veuillez réessayer.',
+    'order_not_pending' => 'La commande n\'est pas en attente. Veuillez réessayer.',
+    'order_removed' => 'La commande a été supprimée.',
+    'order_created' => 'La commande a été créée.',
+    'quantity_exceed_stock' => 'La quantité dépasse le stock. Veuillez réessayer.',
+    'product_not_in_order' => 'Le produit n\'est pas dans la commande. Veuillez réessayer.',
+    'product_removed' => 'Le produit a été supprimé.',
+    'remove_quantity_success' => 'La quantité a été retirée avec succès.',
+    'order_empty' => 'La commande est vide. Veuillez ajouter des produits.',
+    'order_confirmed' => 'La commande a été confirmée.',
+    'order_delivered' => 'La commande a été validée.',
+    'order_refused' => 'La commande a été refusée.',
+
     'validate' => [
         'usernmame_required' => 'Veuillez fournir votre nom d\'utilisateur.',
         'username_string' => 'Veuillez fournir un nom d\'utilisateur valide.',
