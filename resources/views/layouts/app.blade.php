@@ -42,7 +42,7 @@
     @endif
 </head>
 
-@if (!isset($login))
+@if (!isset($removeHeader))
     @include('components._header')
 @endif
 

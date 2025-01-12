@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@php
+    $removeHeader = true;
+@endphp
+
 @section('css')
     <link rel="stylesheet" href="{{ mix('css/pages/home.css') }}">
 @endsection
