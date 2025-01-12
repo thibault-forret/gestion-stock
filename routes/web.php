@@ -151,29 +151,18 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
             // Tableau de bord des commandes (liste fonctionnalités commandes)
             Route::prefix('order')->name('order.')->group(function () {
                 Route::get('/', [OrderController::class, 'index'])->name('index');
-
                 Route::get('/list', [OrderController::class, 'listOrders'])->name('list');
-
                 Route::post('/remove', [OrderController::class, 'removeOrder'])->name('remove');
-
                 Route::get('/{order_id}/detail', [OrderController::class, 'detailOrder'])->name('detail');
-
                 Route::get('/place', [OrderController::class, 'placeNewOrder'])->name('new');
-
                 Route::get('/{order_id}/place', [OrderController::class, 'placeOrder'])->name('place');
-
                 Route::post('/place/add', [OrderController::class, 'addProductToOrder'])->name('add');
-
                 Route::post('/place/remove', [OrderController::class, 'removeProductFromOrder'])->name('remove.product');
-
+                Route::post('/place/add/quantity', [OrderController::class, 'addQuantityProductFromOrder'])->name('add.quantity');
                 Route::post('/place/remove/quantity', [OrderController::class, 'removeQuantityProductFromOrder'])->name('remove.quantity');
-
                 Route::get('/{order_id}/place/recap', [OrderController::class, 'recapOrder'])->name('recap');
-                
                 Route::post('/place/confirm', [OrderController::class, 'confirmOrder'])->name('confirm');
-
                 Route::get('/{invoice_number}/show', [OrderController::class, 'showInvoice'])->name('invoice.show');
-
                 Route::get('/{invoice_number}/download', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
             });
 

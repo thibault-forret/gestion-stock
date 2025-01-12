@@ -647,12 +647,18 @@ class StockController extends Controller
             return $order->orderLines;
         });
 
+        /////// A TESTER ///////
+
+        $supplies = $warehouse->supplies->where('supply_status', Supply::SUPPLY_STATUS_IN_PROGRESS)->flatMap(function ($supply) {
+            return $supply->supplyLines;
+        });
+
         // Récupérer la quantité totale du stock
         $total_quantity_ordered = $orders->sum('quantity_ordered');
 
         $total_quantity_stock = $warehouse->stock->sum('quantity_available');
 
-        $total_quantity_supplied = $supply->supplyLines->sum('quantity_supplied');
+        $total_quantity_supplied = $supplies->sum('quantity_supplied');
 
         $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
 

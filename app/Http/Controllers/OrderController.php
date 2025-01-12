@@ -8,6 +8,7 @@ use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Invoice;
 use App\Models\StockMovement;
+use App\Models\Supply;
 
 class OrderController extends Controller
 {
@@ -249,6 +250,74 @@ class OrderController extends Controller
         $orderLine->delete();
 
         return redirect()->back()->with('success', __('messages.product_removed'));
+    }
+
+    public function addQuantityProductFromOrder(Request $request)
+    {        
+        // Vérification des données
+        $request->validate([
+            'order_id' => 'required|integer|exists:orders,id',
+            'product_id' => 'required|integer|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+        ],
+        [
+            'order_id.required' => __('messages.order_not_found'),
+            'order_id.integer' => __('messages.order_not_found'),
+            'order_id.exists' => __('messages.order_not_found'),
+            'product_id.required' => __('messages.product_not_found'),
+            'product_id.integer' => __('messages.product_not_found'),
+            'product_id.exists' => __('messages.product_not_found'),
+        ]);
+
+        // Récupérer la commande et le produit
+        $order = Order::find($request->order_id);
+
+        // Vérifier le statut de la commande
+        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        {
+            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+        }
+
+        $product = Product::find($request->product_id);
+
+        // Vérifier si le produit est dans la commande
+        $orderLine = $order->orderLines->where('product_id', $request->product_id)->first();
+
+        if(!$orderLine)
+        {
+            return redirect()->back()->with('error', __('messages.product_not_in_order'));
+        }
+
+        // Vérifier si la quantité commandée n'excède pas la capacité de l'entrepôt
+        $warehouse = $order->store->warehouse;
+
+        // Récupérer toutes les commandes IN PROGRESS et PENDING (des magasins associés à l'entrepôt)
+        $orders = $warehouse->stores->flatMap(function ($store) {
+            return $store->orders->where('order_status', Order::ORDER_STATUS_IN_PROGRESS)->concat($store->orders->where('order_status', Order::ORDER_STATUS_PENDING));
+        })->flatMap(function ($order) {
+            return $order->orderLines;
+        });
+
+        $supplies = $warehouse->supplies->where('supply_status', Supply::SUPPLY_STATUS_IN_PROGRESS)->flatMap(function ($supply) {
+            return $supply->supplyLines;
+        });
+
+        // Récupérer la quantité totale du stock
+        $total_quantity_ordered = $orders->sum('quantity_ordered');
+
+        $total_quantity_stock = $warehouse->stock->sum('quantity_available');
+
+        $total_quantity_supplied = $supplies->sum('quantity_supplied');
+
+        $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
+
+        if ($total + $request->quantity > $warehouse->capacity) {
+            return redirect()->back()->with('error', __('messages.quantity_exceeds_capacity'));
+        }
+        // Ajouter la quantité de la ligne de commande
+        $orderLine->addQuantity($request->quantity);
+
+        return redirect()->back()->with('success', __('messages.add_quantity_success'));
     }
 
     public function removeQuantityProductFromOrder(Request $request)

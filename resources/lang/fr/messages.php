@@ -41,6 +41,8 @@ return [
     'supplier_not_found' => 'Le fournisseur n\'a pas été trouvé. Veuillez réessayer.',
     'supply_confirmed' => 'L\'approvisionnement a été confirmé.',
 
+    'quantity_exceeds_capacity' => 'La quantité de produits dépasse la capacité de l\'entrepôt. Veuillez réessayer.',
+
     'validate' => [
         'usernmame_required' => 'Veuillez fournir votre nom d\'utilisateur.',
         'username_string' => 'Veuillez fournir un nom d\'utilisateur valide.',

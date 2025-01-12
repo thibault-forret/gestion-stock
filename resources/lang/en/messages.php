@@ -41,6 +41,8 @@ return [
     'supplier_not_found' => 'The supplier was not found. Please try again.',
     'supply_confirmed' => 'The supply has been confirmed.',
 
+    'quantity_exceeds_capacity' => 'The quantity of products exceeds the warehouse capacity. Please try again.',
+
     'validate' => [
         'usernmame_required' => 'Please provide your username.',
         'username_string' => 'Please provide a valid username.',

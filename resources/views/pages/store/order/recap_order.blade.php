@@ -225,6 +225,14 @@
                                             <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->quantity_ordered }}" required>
                                             <button type="submit" class="btn btn-warning">Retirer quantité</button>
                                         </form>
+
+                                        <form action="{{ route('store.order.add.quantity') }}" method="POST" class="inline-form">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
+                                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                            <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}" required>
+                                            <button type="submit" class="btn btn-warning">Ajouter quantité</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
