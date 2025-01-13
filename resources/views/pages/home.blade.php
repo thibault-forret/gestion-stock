@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ mix('css/pages/home.css') }}">
 @endsection
 
-@section('title', __('home.welcome_title'))
+@section('title', __('title.home'))
 
 @section('content')
     <div class="container">
@@ -29,7 +29,6 @@
                     <p class="role-description">{{ __('home.warehouse_service_description') }}</p>
                 </a>
             </div>
-
             <div class="role-card">
                 <a href="{{ route('store.login') }}">
                     <div class="icon">
