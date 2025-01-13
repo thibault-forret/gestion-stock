@@ -304,6 +304,12 @@ class ProductController extends Controller
                 'invoice_number' => strtoupper(uniqid()),
                 'invoice_date' => now(),
                 'invoice_status' => Invoice::INVOICE_STATUS_UNPAID,
+                'warehouse_name' => $warehouse->warehouse_name,
+                'warehouse_address' => $warehouse->warehouse_address,
+                'warehouse_director' => $warehouse->manager->last_name . ' ' . $warehouse->manager->first_name,
+                'entity_name' => $supplier->supplier_name,
+                'entity_address' => $supplier->supplier_address,
+                'entity_director' => $supplier->supplier_contact,
                 'order_id' => null,
                 'supply_id' => $supply->id,
             ]);

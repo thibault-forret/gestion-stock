@@ -471,7 +471,7 @@
                 <div class="invoice">
                     <div>
                         <p>Numéro de facture : {{ $invoice->invoice_number }}</p>
-                        <p>Fournisseur : {{ $supplier->supplier_name }}</p>
+                        <p>Fournisseur : {{ $invoice->entity_name }}</p>
                         <p>Date : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
                         <p>Prix total : {{ $total_price }} €</p>
                         @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)

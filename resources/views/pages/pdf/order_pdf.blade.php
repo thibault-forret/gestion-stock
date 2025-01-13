@@ -121,20 +121,20 @@
             <div>
                 <div class="supplier-client-title">{{ __('Warehouse') }}</div>
                 <div class="details">
-                    <p><strong>{{ __('Name') }}:</strong> {{ $warehouse->warehouse_name }}</p>
-                    <p><strong>{{ __('Address') }}:</strong> {{ $warehouse->warehouse_address }}</p>
+                    <p><strong>{{ __('Name') }}:</strong> {{ $invoice->warehouse_name }}</p>
+                    <p><strong>{{ __('Location') }}:</strong> {{ $invoice->warehouse_address }}</p>
                     <p><strong>{{ __('Email') }}:</strong> {{ $warehouse->warehouse_email }}</p>
                     <p><strong>{{ __('Phone') }}:</strong> {{ $warehouse->warehouse_phone }}</p>
-                    <p><strong>{{ __('Director') }}:</strong> {{ $warehouse->manager->username }}</p>
+                    <p><strong>{{ __('Manager') }}:</strong> {{ $invoice->warehouse_director }}</p>
                 </div>
 
                 <div class="supplier-client-title">{{ __('Client') }}</div>
                 <div class="details">
-                    <p><strong>{{ __('Name') }}:</strong> {{ $store->store_name }}</p>
-                    <p><strong>{{ __('Address') }}:</strong> {{ $store->store_address }}</p>
-                    <p><strong>{{ __('Email') }}:</strong> {{ $store->store_email }}</p>
-                    <p><strong>{{ __('Phone') }}:</strong> {{ $store->store_phone }}</p>
-                    <p><strong>{{ __('Director') }}:</strong> {{ $store->manager->username }}</p>
+                    <p><strong>{{ __('Name') }}:</strong> {{ $invoice->entity_name }}</p>
+                    <p><strong>{{ __('Email') }}:</strong> {{ $order->store->store_email }}</p>
+                    <p><strong>{{ __('Phone') }}:</strong> {{ $order->store->store_phone }}</p>
+                    <p><strong>{{ __('Address') }}:</strong> {{ $invoice->entity_address }}</p>
+                    <p><strong>{{ __('Manager') }}:</strong> {{ $invoice->entity_director }}</p>
                 </div>
             </div>
             <div class="invoice-info">
