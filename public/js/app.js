@@ -2113,6 +2113,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+
 /***/ "./resources/scss/pages/store/dashboard.scss":
 /*!***************************************************!*\
   !*** ./resources/scss/pages/store/dashboard.scss ***!
@@ -2121,6 +2122,29 @@ __webpack_require__.r(__webpack_exports__);
 
   "use strict";
   __webpack_require__.r(__webpack_exports__);
+
+/***/ "./resources/scss/pages/store/order/liste.scss":
+/*!*****************************************************!*\
+  !*** ./resources/scss/pages/store/order/liste.scss ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/store/order/recap.scss":
+/*!*****************************************************!*\
+  !*** ./resources/scss/pages/store/order/recap.scss ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
 
 
 /***/ }),
@@ -7293,6 +7317,8 @@ const asap = typeof queueMicrotask !== 'undefined' ?
 /******/ 			"css/style": 0,
 /******/ 			"css/pages/store/dashboard": 0,
 /******/ 			"css/pages/store/order/place": 0,
+/******/ 			"css/pages/store/order/recap": 0,
+/******/ 			"css/pages/store/order/liste": 0,
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
