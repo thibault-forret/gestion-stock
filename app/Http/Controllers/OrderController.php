@@ -501,13 +501,18 @@ class OrderController extends Controller
                 'movement_source' => StockMovement::MOVEMENT_SOURCE_ORDER,
             ]);
         }
-        
 
         // Créer une facture
         $order->invoice()->create([
             'invoice_number' => strtoupper(uniqid()),
             'invoice_date' => now(),
             'invoice_status' => Invoice::INVOICE_STATUS_UNPAID,
+            'warehouse_name' => $warehouse->warehouse_name,
+            'warehouse_address' => $warehouse->warehouse_address,
+            'warehouse_director' => $warehouse->manager->last_name + ' ' + $warehouse->manager->first_name,
+            'entity_name' => $order->store->store_name,
+            'entity_address' => $order->store->store_address,
+            'entity_director' => $order->store->manager->last_name + ' ' + $order->store->manager->first_name,
             'order_id' => $order->id,
             'supply_id' => null,
         ]);
