@@ -28,4 +28,8 @@ return [
     'invoice_info' => 'Informations sur la facture',
     'order_list' => 'Liste des commandes',
     'new_order' => 'Nouvelle commande',
+    'supply_warehouse' => 'Approvisionnement entrepôt',
+    'order_store' => 'Commande magasin',
+    'invoice_list_supply' => 'Liste des factures d\'approvisionnement',
+    'invoice_list_order' => 'Liste des factures de commande',
 ];
