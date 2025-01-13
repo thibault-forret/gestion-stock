@@ -2100,6 +2100,19 @@ module.exports = Array.isArray || function (arr) {
 
 /***/ }),
 
+/***/ "./resources/scss/pages/store/dashboard.scss":
+/*!***************************************************!*\
+  !*** ./resources/scss/pages/store/dashboard.scss ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/scss/pages/store/order/place.scss":
 /*!*****************************************************!*\
   !*** ./resources/scss/pages/store/order/place.scss ***!
@@ -2112,16 +2125,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-
-
-/***/ "./resources/scss/pages/store/dashboard.scss":
-/*!***************************************************!*\
-  !*** ./resources/scss/pages/store/dashboard.scss ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-  "use strict";
-  __webpack_require__.r(__webpack_exports__);
 
 /***/ "./resources/scss/pages/store/order/liste.scss":
 /*!*****************************************************!*\
@@ -7315,10 +7318,10 @@ const asap = typeof queueMicrotask !== 'undefined' ?
 /******/ 			"css/pages/home": 0,
 /******/ 			"css/pages/login": 0,
 /******/ 			"css/style": 0,
-/******/ 			"css/pages/store/dashboard": 0,
-/******/ 			"css/pages/store/order/place": 0,
 /******/ 			"css/pages/store/order/recap": 0,
 /******/ 			"css/pages/store/order/liste": 0,
+/******/ 			"css/pages/store/order/place": 0,
+/******/ 			"css/pages/store/dashboard": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -7368,20 +7371,16 @@ const asap = typeof queueMicrotask !== 'undefined' ?
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/dashboard"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/style.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/login.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/home.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/warehouse/dashboard.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/warehouse/search_new_product.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/store/dashboard.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/pages/store/dashboard","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/place"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/pages/store/dashboard","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/place"], () => (__webpack_require__("./resources/scss/style.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/pages/store/dashboard","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/place"], () => (__webpack_require__("./resources/scss/pages/login.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/pages/store/dashboard","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/place"], () => (__webpack_require__("./resources/scss/pages/home.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/pages/store/dashboard","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/place"], () => (__webpack_require__("./resources/scss/pages/warehouse/dashboard.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/pages/store/dashboard","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/place"], () => (__webpack_require__("./resources/scss/pages/store/dashboard.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/pages/store/dashboard","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/place"], () => (__webpack_require__("./resources/scss/pages/store/order/place.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/store/dashboard"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/style.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/login.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/home.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/warehouse/dashboard.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/warehouse/search_new_product.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/store/dashboard.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/store/order/place.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/store/order/liste.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/warehouse/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/store/dashboard"], () => (__webpack_require__("./resources/scss/pages/store/order/recap.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
