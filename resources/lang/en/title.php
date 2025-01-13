@@ -28,4 +28,6 @@ return [
     'invoice_info' => 'Invoice information',
     'order_list' => 'Order list',
     'new_order' => 'New order',
+    'supply_warehouse' => 'Supply warehouse',
+    'order_store' => 'Order store',
 ];
