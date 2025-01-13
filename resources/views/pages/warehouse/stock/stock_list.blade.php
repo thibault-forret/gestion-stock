@@ -1,51 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-    <style>
-        .product-item {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        .product-item h3 {
-            margin: 0;
-            font-size: 1.2em;
-        }
-        .product-item p {
-            margin: 5px 0;
-        }
-        .product-item img {
-            max-width: 100px;
-            max-height: 100px;
-            display: block;
-            margin: 10px 0;
-        }
-
-        .product-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 1em;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin: 5px 0;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
-    {{-- <link href="{{ mix('css/pages/warehouse/product/search-new-product.css') }}" rel="stylesheet"> --}}
+    <link href="{{ mix('css/pages/warehouse/stock/stock_list.css') }}" rel="stylesheet">
 @endsection
 
 @section('js')
@@ -112,8 +68,6 @@
             {{ session('error') }}
         </div>
     @endif
-
-    <h3>{{ __('title.warehouse_stock_list') }}</h3>
 
     <form action="{{ route('warehouse.stock.search') }}" method="POST">
         @csrf
