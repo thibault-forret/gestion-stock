@@ -15,7 +15,9 @@
         </div>
         <div class="navbar-center">
             <div class="logo">
-                <img src="{{ asset('images/logoNova.png') }}" alt="Logo" class="navbar-logo">
+                <a href="{{ route('warehouse.dashboard') }}">
+                    <img src="{{ asset('images/logoNova.png') }}" alt="Logo" class="navbar-logo">
+                </a>
             </div>
         </div>
         <div class="navbar-right">
