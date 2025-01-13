@@ -46,6 +46,15 @@
 
 <body>
 
+    <div class="title-content">
+        <a href="{{ url()->previous() }}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            {{ __('basics.return') }}
+        </a>
+
+        <p>@yield('title-content')ddsd<p>
+    </div>
+
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
