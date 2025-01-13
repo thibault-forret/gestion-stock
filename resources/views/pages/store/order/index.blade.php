@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-{{-- @section('css')
-    <link href="{{ mix('css/pages/store/order/index.css') }}" rel="stylesheet">
-@endsection --}}
+@section('css')
+    <link rel="stylesheet" href="{{ mix('css/pages/home.css') }}">
+@endsection
 
 @section('title', __('title.order'))
 @section('description', __('description.order'))
@@ -11,9 +11,29 @@
 
 @section('content')
     
-    {{ __('description.order') }}
+    <div class="container">
 
-    <a href="{{ route('store.order.new') }}">Nouvelle commande</a> {{-- {{ __('title.place_order') }} --}}
-    <a href="{{ route('store.order.list') }}">{{ __('title.list_orders') }}</a>
+        <div class="role-selection">
+            <div class="role-card">
+                <a href="{{ route('store.order.new') }}">
+                    <div class="icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="role-title">{{ __('title.new_order') }}</div>
+                    <p class="role-description">{{ __('description.new_order') }}</p>
+                </a>
+            </div>
+            <div class="role-card">
+                <a href="{{ route('store.order.list') }}">
+                    <div class="icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="role-title">{{ __('title.order_list') }}</div>
+                    <p class="role-description">{{ __('description.order_list') }}</p>
+                </a>
+            </div>
+        </div>
+
+    </div>
 
 @endsection

@@ -441,56 +441,56 @@
         </div>
     @endif
 
+    @if ($invoices->isEmpty())
+        <p style="margin: auto">Aucune facture trouvée</p>
+    @endif
     <div class="invoices">
-        @if ($invoices->isEmpty())
-            <p>Aucune facture trouvée</p>
-        @else
-            @foreach ($invoices as $invoice)
-                @php
-                    $supplier = $invoice->supply->supplier;
-                    $total_price = $invoice->supply->supplyLines->sum(function ($supply_line) {
-                        return $supply_line->quantity_supplied * $supply_line->unit_price;
-                    });
+        
+        @foreach ($invoices as $invoice)
+            @php
+                $supplier = $invoice->supply->supplier;
+                $total_price = $invoice->supply->supplyLines->sum(function ($supply_line) {
+                    return $supply_line->quantity_supplied * $supply_line->unit_price;
+                });
 
-                    // Calculer la différence en jours entre aujourd'hui et la date de la facture
-                    $invoiceDate = new DateTime($invoice->invoice_date);
-                    $currentDate = new DateTime();
-                    $daysDifference = $currentDate->diff($invoiceDate)->days;
+                // Calculer la différence en jours entre aujourd'hui et la date de la facture
+                $invoiceDate = new DateTime($invoice->invoice_date);
+                $currentDate = new DateTime();
+                $daysDifference = $currentDate->diff($invoiceDate)->days;
 
-                    // Déterminer la classe CSS selon le statut et la date
-                    $statusClass = '';
-                    if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID) {
-                        $statusClass = 'status-paid';
-                    } elseif ($daysDifference <= 7) {
-                        $statusClass = 'status-due-soon';
-                    } elseif ($daysDifference > 7 && $daysDifference <= 14) {
-                        $statusClass = 'status-due-week';
-                    } else {
-                        $statusClass = 'status-overdue';
-                    }
-                @endphp
+                // Déterminer la classe CSS selon le statut et la date
+                $statusClass = '';
+                if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID) {
+                    $statusClass = 'status-paid';
+                } elseif ($daysDifference <= 7) {
+                    $statusClass = 'status-due-soon';
+                } elseif ($daysDifference > 7 && $daysDifference <= 14) {
+                    $statusClass = 'status-due-week';
+                } else {
+                    $statusClass = 'status-overdue';
+                }
+            @endphp
 
-                <div class="invoice">
-                    <div>
-                        <p>Numéro de facture : {{ $invoice->invoice_number }}</p>
-                        <p>Fournisseur : {{ $invoice->entity_name }}</p>
-                        <p>Date : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
-                        <p>Prix total : {{ $total_price }} €</p>
-                        @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
-                            <p>Date réglement : {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
-                        @endif
-                        <p class="{{ $statusClass }}">
-                            Status : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}
-                        </p>
-                    </div>
-                    <div>
-                        <a href="{{ route('warehouse.invoice.info.supply', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
-                        <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
-                        <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
-                    </div>
+            <div class="invoice">
+                <div>
+                    <p>Numéro de facture : {{ $invoice->invoice_number }}</p>
+                    <p>Fournisseur : {{ $invoice->entity_name }}</p>
+                    <p>Date : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
+                    <p>Prix total : {{ $total_price }} €</p>
+                    @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
+                        <p>Date réglement : {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
+                    @endif
+                    <p class="{{ $statusClass }}">
+                        Status : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}
+                    </p>
                 </div>
-            @endforeach
-        @endif
+                <div>
+                    <a href="{{ route('warehouse.invoice.info.supply', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
+                    <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
+                    <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
+                </div>
+            </div>
+        @endforeach
     </div>
 
 @endsection
