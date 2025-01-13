@@ -281,3 +281,20 @@ img.product_image, img.product-thumbnail {
     border-radius: 5px; // Arrondir les coins
     background-color: $white; // Forcer un fond blanc
 }
+
+#btn-retirer {
+    background-color: #f44336;
+    color: $white;
+}
+#btn-ajouter-quantite {
+    background-color: #17a2b8;
+    color: $white;
+}
+#btn-retirer-quantite {
+    background-color: #17a2b8;
+    color: $white;
+}
+#btn-recapitulatif {
+    //background-color: #17a2b8;
+    color: $white;
+}

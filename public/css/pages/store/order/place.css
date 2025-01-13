@@ -243,3 +243,22 @@ img.product_image, img.product-thumbnail {
   border-radius: 5px;
   background-color: #ffffff;
 }
+
+#btn-retirer {
+  background-color: #f44336;
+  color: #ffffff;
+}
+
+#btn-ajouter-quantite {
+  background-color: #17a2b8;
+  color: #ffffff;
+}
+
+#btn-retirer-quantite {
+  background-color: #17a2b8;
+  color: #ffffff;
+}
+
+#btn-recapitulatif {
+  color: #ffffff;
+}

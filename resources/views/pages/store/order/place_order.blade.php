@@ -102,7 +102,7 @@
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                        <button type="submit" class="btn">Retirer</button>
+                                        <button type="submit" class="btn" id="btn-retirer">Retirer</button>
                                     </form>
 
                                     <form action="{{ route('store.order.remove.quantity') }}" method="POST">
@@ -110,8 +110,8 @@
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->quantity_ordered }}" required>
-                                        <button type="submit" class="btn">Ajouter la quantité</button>
-                                        <button type="submit" class="btn">Retirer la quantité</button>
+                                        <button type="submit" class="btn" id="btn-retirer-quantite">Retirer la quantité</button>
+                                        <button type="submit" class="btn" id="btn-ajouter-quantite">Ajouter la quantité</button>
                                     </form>
                                 </td>
                             </tr>
@@ -128,7 +128,7 @@
             </div>
 
             <div class="confirm">
-                <a class="btn" href="{{ route('store.order.recap', ['order_id' => $order->id]) }}">
+                <a class="btn" href="{{ route('store.order.recap', ['order_id' => $order->id]) }}" id="btn-recapitulatif">
                     Voir le récapitulatif
                 </a>
             </div>
