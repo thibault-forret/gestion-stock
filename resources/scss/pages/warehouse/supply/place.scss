@@ -66,6 +66,7 @@ body {
     background-color: $gray;
     color:$white;
     transition: 0.3s ease;
+    max-height: 300px;
 
     &.not-available {
         opacity: 0.6;
