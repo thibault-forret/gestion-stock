@@ -37,7 +37,11 @@
 </head>
 
 @if (!isset($removeHeader))
-    @include('components._header')
+    @if (request()->is('warehouse*'))
+        @include('components._warehouse_header')
+    @elseif (request()->is('store*'))
+        @include('components._store_header')
+    @endif
 @endif
 
 <body>
@@ -61,6 +65,10 @@
     </div>
 
     <script src="{{ mix('js/app.js') }}"></script>
+
+    @if (!isset($removeHeader))
+        <script src="{{ mix('js/sidebar.js') }}"></script>
+    @endif
 
     @hasSection('js')
     	@yield('js')

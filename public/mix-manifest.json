@@ -1,9 +1,10 @@
 {
-    "/js/app.js": "/js/app.js?id=478f09eb5d0c2520af6f8c5d28f20122",
+    "/js/app.js": "/js/app.js?id=f113669204a4490a2df77440ebea4916",
+    "/js/sidebar.js": "/js/sidebar.js?id=7457901df46da33a618cb094842f7709",
     "/css/pages/store/dashboard.css": "/css/pages/store/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940",
     "/css/pages/warehouse/dashboard.css": "/css/pages/warehouse/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940",
-    "/css/pages/home.css": "/css/pages/home.css?id=a599022d375beeda3c66e6243436926f",
-    "/css/pages/login.css": "/css/pages/login.css?id=7a723f359cab0550ea59a62453ff6084",
-    "/css/style.css": "/css/style.css?id=768d6ce0ae0ca1db3d6ca5f3c76e1a04",
+    "/css/pages/home.css": "/css/pages/home.css?id=5c459f55bd8af97db0f8e30749a213af",
+    "/css/pages/login.css": "/css/pages/login.css?id=e08ad7a3a5b26f3e152af24a75ad6ed0",
+    "/css/style.css": "/css/style.css?id=de42621d2ecf3ea25a220d4a4e6782ca",
     "/css/pages/store/order/place.css": "/css/pages/store/order/place.css?id=5b3dd007cd1fe209c6c0852f5f2dbc22"
 }
