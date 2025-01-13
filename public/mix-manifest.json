@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=67864d2f1e9756d64ec0c89df682b388",
+    "/js/app.js": "/js/app.js?id=fb474e823196f9f0a7223c1d31ed93cc",
     "/js/sidebar.js": "/js/sidebar.js?id=7457901df46da33a618cb094842f7709",
     "/css/pages/warehouse/search_new_product.css": "/css/pages/warehouse/search_new_product.css?id=f719bd46534727d83924851a37ae602e",
     "/css/pages/warehouse/dashboard.css": "/css/pages/warehouse/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940",
@@ -9,5 +9,6 @@
     "/css/pages/store/order/recap.css": "/css/pages/store/order/recap.css?id=e834550426ce58c75a4795eb184b2b3a",
     "/css/pages/store/order/liste.css": "/css/pages/store/order/liste.css?id=31f05c24e2902360b0dcac6d4c4b2deb",
     "/css/pages/store/order/place.css": "/css/pages/store/order/place.css?id=83175f62bb58b8dafb0580c013855e93",
-    "/css/pages/store/dashboard.css": "/css/pages/store/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940"
+    "/css/pages/store/dashboard.css": "/css/pages/store/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940",
+    "/css/pages/warehouse/supply/index.css": "/css/pages/warehouse/supply/index.css?id=68217f34cc5e47751f88aac29f56cdc3"
 }

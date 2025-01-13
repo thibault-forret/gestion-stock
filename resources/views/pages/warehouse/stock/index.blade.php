@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-{{-- @section('css')
-    <link href="{{ mix('css/pages/warehouse/product/add-product.css') }}" rel="stylesheet">
-@endsection --}}
+@section('css')
+    <link rel="stylesheet" href="{{ mix('css/pages/home.css') }}">
+@endsection
 
 @section('title', __('title.stock'))
 @section('description', __('description.stock'))
@@ -11,12 +11,38 @@
 
 @section('content')
 
-    <div>
-        <h2>{{ __('title.stock') }}</h2>
-        
-        <a href="{{ route('warehouse.stock.supply.index') }}">Approvisionner le stock</a>
-        <a href="{{ route('warehouse.stock.list') }}">Liste des produits en stock</a>
-        <a href="{{ route('warehouse.stock.list.movement') }}">Liste des mouvements de stock</a>
+    <div class="container">
+
+        <div class="role-selection">
+            <div class="role-card">
+                <a href="{{ route('warehouse.stock.supply.index') }}">
+                    <div class="icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="role-title">{{ __('title.stock_supply_product') }}</div>
+                    <p class="role-description">{{ __('description.stock_supply_product') }}</p>
+                </a>
+            </div>
+            <div class="role-card">
+                <a href="{{ route('warehouse.stock.list') }}">
+                    <div class="icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="role-title">{{ __('title.warehouse_stock_list') }}</div>
+                    <p class="role-description">{{ __('description.warehouse_stock_list') }}</p>
+                </a>
+            </div>
+            <div class="role-card">
+                <a href="{{ route('warehouse.stock.list.movement') }}">
+                    <div class="icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="role-title">{{ __('title.warehouse_stock_movement_list') }}</div>
+                    <p class="role-description">{{ __('description.warehouse_stock_movement_list') }}</p>
+                </a>
+            </div>
+        </div>
+
     </div>
 
 @endsection
