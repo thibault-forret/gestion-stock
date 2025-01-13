@@ -50,16 +50,18 @@
                                         <img src="{{ asset('images/rouage.svg') }}" alt="ModifierCommande">
                                         Modifier la commande
                                     </a>
-
                                 @endif
                                 <a href="{{ route('store.order.detail', ['order_id' => $order->id]) }}" class="btn btn-info">
                                     <img src="{{ asset('images/loupe.svg') }}" alt="DétailsCommande">
                                     Détails de la commande
                                 </a>
-                                <a class="btn badge-success" href="{{ route('store.order.recap', ['order_id' => $order->id]) }}">
-                                    <img src="{{ asset('images/valide.svg') }}" alt="ConfirmerCommande">
-                                     Confirmer la commande
-                                </a>
+                                @if($order->order_status == 'IN PROGRESS')
+                                    <a class="btn badge-success" href="{{ route('store.order.recap', ['order_id' => $order->id]) }}">
+                                        <img src="{{ asset('images/valide.svg') }}" alt="ConfirmerCommande">
+                                        Confirmer la commande
+                                    </a>
+                                @endif
+                                
                                 @if($order->order_status != 'DELIVERED')
                                     <form action="{{ route('store.order.remove') }}" method="POST">
                                         @csrf
