@@ -61,6 +61,7 @@ body {
   background-color: #5a5a5c;
   color: #ffffff;
   transition: 0.3s ease;
+  max-height: 300px;
 }
 .product-item.not-available {
   opacity: 0.6;
