@@ -153,7 +153,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            background-color: #5a5a5c;
+            background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 20px;
@@ -164,12 +164,6 @@
         .invoice:hover {
             transform: scale(1.01);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .invoice h4 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: #007bff;
         }
 
         .invoice p {

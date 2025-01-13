@@ -166,12 +166,6 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .invoice h4 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: #007bff;
-        }
-
         .invoice p {
             margin: 5px 0;
             line-height: 1.5;
