@@ -27,10 +27,21 @@ return [
     'product_not_in_order' => 'The product is not in the order. Please try again.',
     'product_removed' => 'The product has been removed.',
     'remove_quantity_success' => 'The quantity has been removed successfully.',
+    'add_quantity_success' => 'The quantity has been added successfully.',
     'order_empty' => 'The order is empty. Please add products.',
     'order_confirmed' => 'The order has been confirmed.',
     'order_delivered' => 'The order has been delivered.',
     'order_refused' => 'The order has been refused.',
+
+    'supply_not_found' => 'The supply was not found. Please try again.',
+    'supply_not_in_progress' => 'The supply is not in progress. Please try again.',
+    'supply_removed' => 'The supply has been removed.',
+    'supply_empty' => 'The supply is empty. Please add products.',
+    'supply_created' => 'The supply has been created.',
+    'supplier_not_found' => 'The supplier was not found. Please try again.',
+    'supply_confirmed' => 'The supply has been confirmed.',
+
+    'quantity_exceeds_capacity' => 'The quantity of products exceeds the warehouse capacity. Please try again.',
 
     'validate' => [
         'usernmame_required' => 'Please provide your username.',

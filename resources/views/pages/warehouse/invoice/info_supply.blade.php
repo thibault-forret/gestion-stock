@@ -90,20 +90,21 @@
     <!-- Détails de l'entrepôt -->
     <div class="invoice-section">
         <h4>{{ __('Warehouse Details') }}</h4>
-        <p><strong>{{ __('Name') }}:</strong> {{ $supply->warehouse->warehouse_name }}</p>
-        <p><strong>{{ __('Location') }}:</strong> {{ $supply->warehouse->warehouse_address }}</p>
-        <p><strong>{{ __('Email') }}:</strong> {{ $supply->warehouse->warehouse_contact }}</p>
-        <p><strong>{{ __('Phone') }}:</strong> {{ $supply->warehouse->warehouse_contact }}</p>
-        <p><strong>{{ __('Manager') }}:</strong> {{ $supply->warehouse->manager->username }}</p>
+        <p><strong>{{ __('Name') }}:</strong> {{ $invoice->warehouse_name }}</p>
+        <p><strong>{{ __('Location') }}:</strong> {{ $invoice->warehouse_address }}</p>
+        <p><strong>{{ __('Email') }}:</strong> {{ $supply->warehouse->warehouse_email }}</p>
+        <p><strong>{{ __('Phone') }}:</strong> {{ $supply->warehouse->warehouse_phone }}</p>
+        <p><strong>{{ __('Manager') }}:</strong> {{ $invoice->warehouse_director }}</p>
     </div>
 
     <!-- Détails du fournisseur -->
     <div class="invoice-section">
         <h4>{{ __('Supplier Details') }}</h4>
-        <p><strong>{{ __('Name') }}:</strong> {{ $supply->supplier->supplier_name }}</p>
+        <p><strong>{{ __('Name') }}:</strong> {{ $invoice->entity_name }}</p>
         <p><strong>{{ __('Email') }}:</strong> {{ $supply->supplier->supplier_email }}</p>
         <p><strong>{{ __('Phone') }}:</strong> {{ $supply->supplier->supplier_phone }}</p>
-        <p><strong>{{ __('Address') }}:</strong> {{ $supply->supplier->supplier_address }}</p>
+        <p><strong>{{ __('Address') }}:</strong> {{ $invoice->entity_address }}</p>
+        <p><strong>{{ __('Contact') }}:</strong> {{ $invoice->entity_director }}</p>
     </div>
 
     <!-- Détails de l'approvisionnement -->
