@@ -229,10 +229,6 @@
         @else
             <p class="empty-order">Aucun produit dans la commande</p>
         @endif
-
-        <div class="confirm-order">
-            <a href="{{ route('warehouse.order.list') }}" class="btn btn-secondary">Retour</a>
-        </div>
     </div>    
 
 @endsection
