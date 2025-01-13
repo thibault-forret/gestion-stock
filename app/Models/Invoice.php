@@ -14,6 +14,12 @@ class Invoice extends Model
         'invoice_number',
         'invoice_date',
         'invoice_status',
+        'warehouse_name',
+        'warehouse_address',
+        'warehouse_director',
+        'entity_name',
+        'entity_address',
+        'entity_director',
         'order_id',
         'supply_id'
     ];
