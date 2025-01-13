@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ mix('css/pages/home.css') }}">
 @endsection
 
-@section('title', __('home.welcome_title'))
+@section('title', __('title.home'))
 
 @section('content')
     <div class="container">

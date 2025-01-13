@@ -11,6 +11,7 @@ mix.js('resources/js/app.js', 'public/js')
 
     // Warehouse
     .sass('resources/scss/pages/warehouse/dashboard.scss', 'public/css/pages/warehouse/')
+    .sass('resources/scss/pages/warehouse/search_new_product.scss', 'public/css/pages/warehouse/')
 
     // Store
     .sass('resources/scss/pages/store/dashboard.scss', 'public/css/pages/store/')

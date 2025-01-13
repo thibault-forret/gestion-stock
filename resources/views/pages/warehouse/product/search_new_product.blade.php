@@ -1,50 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-    <style>
-        .product-item {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        .product-item h3 {
-            margin: 0;
-            font-size: 1.2em;
-        }
-        .product-item p {
-            margin: 5px 0;
-        }
-        .product-item img {
-            max-width: 100px;
-            max-height: 100px;
-            display: block;
-            margin: 10px 0;
-        }
-
-        .product-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 1em;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
-    {{-- <link href="{{ mix('css/pages/warehouse/product/search-new-product.css') }}" rel="stylesheet"> --}}
+     <link href="{{ mix('css/pages/warehouse/search_new_product.css') }}" rel="stylesheet">
 @endsection
 
 @section('title', __('title.search_new_product'))
@@ -64,44 +21,56 @@
         </div>
     @endif
 
-    <form action="{{ route('warehouse.product.search') }}" method="GET">
-        <div>
-            <label for="search_by_name">Rechercher par nom</label>
-            <input type="text" id="search-by-name" name="search_by_name" value="{{ request('search_by_name') }}">
-        </div>
-        <div>
-            <label for="category_name">Catégorie :</label>
-            <select id="category-name" name="category_name">
-                <option value="">Sélectionner une catégorie</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->category_name }}" {{ request('category_name') == $category->category_name ? 'selected' : '' }}>
-                        {{ $category->category_name }}
-                    </option>
-                @endforeach
-            </select>
-        
-        </div>
-        <div>
-            <label for="supplier_name">Fournisseur :</label>
-            <select id="supplier-name" name="supplier_name" required>
-                <option value="">Sélectionner un fournisseur</option>
-                @foreach($suppliers as $supplier)
-                    <option value="{{ $supplier->supplier_name }}" {{ request('supplier_name') == $supplier->supplier_name ? 'selected' : '' }}>
-                        {{ $supplier->supplier_name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div>
-            <label for="page_number">Page</label>
-            <input type="number" id="page-number" name="page_number" value="{{ request('page_number') == null ? 1 : request('page_number') }}" min="1">
-        </div>
-        <div>
-            <button type="submit">Rechercher</button>
-        </div>
-    </form>
+    <div class="filter-buttons">
+        <form action="{{ route('warehouse.product.search') }}" method="GET">
+            <div class="filter-group">
+                <!-- Recherche par nom -->
+                <div class="filter-item">
+                    <label for="search_by_name">{{ __('search_product.search_by_name') }} :</label>
+                    <input type="text" id="search-by-name" name="search_by_name" value="{{ request('search_by_name') }}">
+                </div>
 
-    <a href="{{ route('warehouse.product.index') }}">Rénitialiser recherche</a>
+                <!-- Filtre par catégorie -->
+                <div class="filter-item">
+                    <label for="category_name">{{ __('search_product.categories') }} :</label>
+                    <select id="category-name" name="category_name">
+                        <option value="">{{ __('search_product.all_categories') }}</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->category_name }}"
+                                {{ request('category_name') == $category->category_name ? 'selected' : '' }}>
+                                {{ $category->category_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Filtre par fournisseur -->
+                <div class="filter-item">
+                    <label for="supplier_name">{{ __('search_product.suppliers') }} :</label>
+                    <select id="supplier-name" name="supplier_name">
+                        <option value="">{{ __('search_product.select_supplier') }}</option>
+                        @foreach($suppliers as $supplier)
+                            <option value="{{ $supplier->supplier_name }}"
+                                {{ request('supplier_name') == $supplier->supplier_name ? 'selected' : '' }}>
+                                {{ $supplier->supplier_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Pagination -->
+                <div class="filter-item">
+                    <label for="page_number">Page :</label>
+                    <input type="number" id="page-number" name="page_number" value="{{ request('page_number') ?? 1 }}" min="1">
+                </div>
+
+                <div class="filter-item filter-actions">
+                    <button type="submit" class="btn-filter">{{ __('search_product.search') }}</button>
+                    <a href="{{ route('warehouse.product.index') }}" class="btn-reset">{{ __('search_product.reset') }}</a>
+                </div>
+            </div>
+        </form>
+    </div>
 
     @if ($errors->any())
         <div class="center-child error-message">
@@ -111,28 +80,35 @@
         </div>
     @endif
 
-    <div class="product-list">
-        @if(isset($products) && count($products) > 0)
-            @foreach($products as $product)
-                <div class="product-item">
-                    <h3>{{ $product['name'] }}</h3>
-                    <img src="{{ $product['image_url'] }}" alt="{{ $product['name'] }}">
-                    <p><u>Catégorie(s) :</u>
-                        @foreach($product['categories'] as $category)
-                            <p>{{ $category->category_name }}</p>
-                        @endforeach
-                    </p>
-                    <p>
-                        <u>Fournisseur(s) :</u> {{ $product['supplier']->supplier_name }}
-                    </p>
-
-                    
-                    <a href="{{ route('warehouse.product.add', ['product_id' => $product['id']]) }}" class="btn btn-primary">Ajouter le produit</a>
-                </div>
-            @endforeach
-        @else
-            <p>Aucun produit trouvé.</p>
-        @endif
+    <div class="product-list-wrapper">
+        <div class="product-list">
+            @if(isset($products) && count($products) > 0)
+                @foreach($products as $product)
+                    <div class="product-card">
+                        <div class="product-info">
+                            <img src="{{ $product['image_url'] }}" alt="{{ $product['name'] }}" class="product-image">
+                            <div class="product-details">
+                                <h3>{{ $product['name'] }}</h3>
+                                <p><strong>Catégories :</strong>
+                                    @foreach($product['categories'] as $category)
+                                        {{ $category->category_name }}@if(!$loop->last), @endif
+                                    @endforeach
+                                </p>
+                                <p><strong>Fournisseur :</strong> {{ $product['supplier']->supplier_name }}</p>
+                            </div>
+                        </div>
+                        <!-- Actions placées à droite -->
+                        <div class="product-actions">
+                            <a href="{{ route('warehouse.product.add', ['product_id' => $product['id']]) }}" class="btn btn-success add-to-cart">
+                                Ajouter le produit
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <p>Aucun produit trouvé.</p>
+            @endif
+        </div>
     </div>
 
 

@@ -1,8 +1,9 @@
 {
-    "/js/app.js": "/js/app.js?id=7586838c02f1ae737c96bca1c14ca223",
-    "/css/pages/store/dashboard.css": "/css/pages/store/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940",
+    "/js/app.js": "/js/app.js?id=439fc0e7e47d7a40faccd20dc93ad742",
+    "/css/pages/warehouse/search_new_product.css": "/css/pages/warehouse/search_new_product.css?id=f2980430dab27c3feca350066e604d84",
     "/css/pages/warehouse/dashboard.css": "/css/pages/warehouse/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940",
     "/css/pages/home.css": "/css/pages/home.css?id=fa24b9b652bc59a434aa961634ea9463",
     "/css/pages/login.css": "/css/pages/login.css?id=7a723f359cab0550ea59a62453ff6084",
-    "/css/style.css": "/css/style.css?id=768d6ce0ae0ca1db3d6ca5f3c76e1a04"
+    "/css/style.css": "/css/style.css?id=768d6ce0ae0ca1db3d6ca5f3c76e1a04",
+    "/css/pages/store/dashboard.css": "/css/pages/store/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940"
 }
