@@ -41,9 +41,9 @@
                     @break
                 @endswitch
             @endforeach
-            <button class="nav-button">
+            <a href="{{ route('warehouse.logout') }}" class="nav-button">
                 <img src="{{ asset('images/porte.svg') }}" alt="deconnexion">
-            </button>
+            </a>
             <button class="nav-button">
                 <img src="{{ asset('images/utilisateur.svg') }}" alt="utilisateurActuel">
             </button>

@@ -6,9 +6,8 @@
 
 @section('title', __('title.dashboard'))
 @section('description', __('description.dashboard.store'))
+@section('title-content', mb_strtoupper(__('title.dashboard')))
 
 @section('content')
     Dashboard magasin
-
-    <a href="{{ route('store.logout') }}">{{ __('auth.logout') }}</a>
 @endsection

@@ -13,6 +13,7 @@ return [
     'place_order' => 'Place an order',
     'list_orders' => 'List of orders',
     'recap_order' => 'Recap order',
+    'detail_order' => 'Order detail',
     'search_new_product' => 'Search new product',
     'add_product' => 'Add product',
     'warehouse_stock_list' => 'Warehouse stock list',
@@ -25,4 +26,6 @@ return [
     'warehouse_stock_movement_list' => 'Stock movement list',
     'invoice_list' => 'Invoice list',
     'invoice_info' => 'Invoice information',
+    'order_list' => 'Order list',
+    'new_order' => 'New order',
 ];

@@ -221,12 +221,11 @@
 
 @section('title', __('title.place_order'))
 @section('description', __('description.place_order.store'))
+@section('parent-route', route('warehouse.stock.supply.list'))
+@section('title-content', mb_strtoupper(__('title.place_order')))
 
 @section('content')
     
-    {{ __('description.place_order.store') }}
-
-
     <div class="product-list">
         @if(isset($products) && count($products) > 0)
             @foreach($products as $product)

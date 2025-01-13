@@ -331,6 +331,8 @@
 
 @section('title', __('title.invoice_list'))
 @section('description', __('description.invoice_list'))
+@section('parent-route', route('warehouse.invoice.index'))
+@section('title-content', mb_strtoupper(__('title.invoice_list')))
 
 @section('content')
 

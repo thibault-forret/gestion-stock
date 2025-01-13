@@ -171,6 +171,8 @@
 
 @section('title', __('title.recap_order'))
 @section('description', __('description.recap_order'))
+@section('parent-route', route('warehouse.stock.supply.place', ['supply_id' => $supply->id]))
+@section('title-content', mb_strtoupper(__('title.recap_order')))
 
 @section('content')
     
@@ -244,7 +246,6 @@
                         <span class="total-value">{{ number_format($total, 2) }} €</span>
                     </div>
                     <div class="confirm-order">
-                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Retour</a>
                         <form action="{{ route('warehouse.stock.supply.confirm') }}" method="POST">
                             @csrf
                             <input type="hidden" name="supply_id" value="{{ $supply->id }}">

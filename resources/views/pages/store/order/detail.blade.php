@@ -169,13 +169,13 @@
     {{-- <link href="{{ mix('css/pages/store/order/recap.css') }}" rel="stylesheet"> --}}
 @endsection
 
-@section('title', 'Détail de la commande')
-@section('description', __('description.recap_order'))
+@section('title', __('title.detail_order'))
+@section('description', __('description.detail_order'))
+@section('parent-route', route('store.order.list'))
+@section('title-content', mb_strtoupper(__('title.detail_order')))
 
 @section('content')
     
-    {{ __('description.recap_order') }}
-
     <div class="order-recap-container">
         <h2 class="order-title">Détail de la commande</h2>
     

@@ -13,7 +13,6 @@ body {
 .navbar {
     z-index: 30;
     position: relative;
-    width: calc(100% - 20px);
     display: flex;
     justify-content: space-between; /* Équilibrer gauche, centre et droite */
     align-items: center; /* Centrer verticalement les éléments */
