@@ -58,9 +58,6 @@
                         <span class="total-label">Total TTC :</span>
                         <span class="total-value">{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</span>
                     </div>
-                    <div class="confirm-order">
-                        <a href="{{ route('store.order.list') }}" class="btn btn-secondary">Retour</a>
-                    </div>
                 </div>
             </div>
         @endif

@@ -46,8 +46,6 @@ body {
   border: 1px solid rgb(140.7582417582, 140.7582417582, 143.2417582418);
   border-radius: 8px;
   padding: 10px;
-  background-color: rgb(115.2197802198, 115.2197802198, 117.7802197802);
-  color: #ffffff;
 }
 
 .scrollable::-webkit-scrollbar {
@@ -92,7 +90,7 @@ body {
   padding: 10px;
   border-bottom: 1px solid rgb(140.7582417582, 140.7582417582, 143.2417582418);
   min-width: 60px;
-  color: #ffffff;
+  color: #5a5a5c;
 }
 
 .order-table th {
@@ -100,10 +98,6 @@ body {
   color: #ffffff;
   font-weight: bold;
   text-transform: uppercase;
-}
-
-.order-table tr:hover {
-  background: rgb(127.8681318681, 127.8681318681, 130.6318681319);
 }
 
 .order-summary {
@@ -152,11 +146,11 @@ body {
 }
 
 .confirm-order .btn-success {
-  background-color: #28a745;
+  background-color: #f05c2b;
 }
 
 .confirm-order .btn-success:hover {
-  background-color: #218838;
+  background-color: #f05c2b;
 }
 
 .confirm-order .btn:focus {
@@ -273,4 +267,12 @@ button.disabled {
 
 button.disabled:hover {
   background-color: rgb(166.5384615385, 166.5384615385, 168.4615384615);
+}
+
+.inline-form {
+  margin: 5px 0;
+}
+.inline-form .btn {
+  color: #ffffff;
+  border: none;
 }

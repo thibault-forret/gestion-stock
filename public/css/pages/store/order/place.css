@@ -107,7 +107,7 @@ body {
   border-collapse: collapse;
   margin-top: 10px;
   font-size: 0.9rem;
-  color: #ffffff;
+  color: #5a5a5c;
 }
 .order-table thead {
   background: #f05c2b;
@@ -123,9 +123,6 @@ body {
   font-weight: bold;
   background: rgb(115.2197802198, 115.2197802198, 117.7802197802);
 }
-.order-table tbody tr:hover {
-  background: rgb(127.8681318681, 127.8681318681, 130.6318681319);
-}
 
 .scrollable {
   max-height: 450px;
@@ -133,7 +130,6 @@ body {
   border: 1px solid rgb(140.7582417582, 140.7582417582, 143.2417582418);
   border-radius: 8px;
   padding: 10px;
-  background-color: rgb(115.2197802198, 115.2197802198, 117.7802197802);
 }
 .scrollable .product-item {
   background-color: #e0e0e0; /* Fond gris */
@@ -255,7 +251,7 @@ img.product_image, img.product-thumbnail {
 }
 
 #btn-retirer-quantite {
-  background-color: #17a2b8;
+  background-color: #ffc107;
   color: #ffffff;
 }
 

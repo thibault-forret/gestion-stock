@@ -113,7 +113,6 @@
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->quantity_ordered }}" required>
                                         <button type="submit" class="btn" id="btn-retirer-quantite">Retirer la quantité</button>
-                                        <button type="submit" class="btn" id="btn-ajouter-quantite">Ajouter la quantité</button>
                                     </form>
 
                                     <form action="{{ route('store.order.add.quantity') }}" method="POST">
