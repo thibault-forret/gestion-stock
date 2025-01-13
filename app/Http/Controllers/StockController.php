@@ -167,9 +167,32 @@ class StockController extends Controller
 
         $product = $stock->product;
 
+        // Vérifier si la quantité commandée n'excède pas la capacité de l'entrepôt
         $warehouse = $stock->warehouse;
 
-        return view('pages.warehouse.stock.supply_product', compact('stock', 'product', 'warehouse'));
+        // Récupérer toutes les commandes IN PROGRESS et PENDING (des magasins associés à l'entrepôt)
+        $orders = $warehouse->stores->flatMap(function ($store) {
+            return $store->orders->where('order_status', Order::ORDER_STATUS_IN_PROGRESS)->concat($store->orders->where('order_status', Order::ORDER_STATUS_PENDING));
+        })->flatMap(function ($order) {
+            return $order->orderLines;
+        });
+
+        $supplies = $warehouse->supplies->where('supply_status', Supply::SUPPLY_STATUS_IN_PROGRESS)->flatMap(function ($supply) {
+            return $supply->supplyLines;
+        });
+
+        // Récupérer la quantité totale du stock
+        $total_quantity_ordered = $orders->sum('quantity_ordered');
+
+        $total_quantity_stock = $warehouse->stock->sum('quantity_available');
+
+        $total_quantity_supplied = $supplies->sum('quantity_supplied');
+
+        $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
+
+        $total_quantity = $warehouse->capacity - $total;
+
+        return view('pages.warehouse.stock.supply_product', compact('stock', 'product', 'warehouse', 'total_quantity'));
     }
 
     public function supplyProductSubmit(Request $request) 
@@ -190,17 +213,37 @@ class StockController extends Controller
         // Vérifier si la quantité est inférieure à la capacité maximale
         $quantity = $request->input('quantity');
 
-        $user = auth()->user();
-
-        $warehouse = $user->warehouseUser->warehouse;
-
-        // Vérifier si la quantité dépasse la capacité de l'entrepôt
-        if (($quantity + $warehouse->stock->sum('quantity_available')) > $warehouse->capacity) {
-            return redirect()->back()->withErrors(__('messages.validate.quantity_exceeds_capacity'))->withInput();
-        }
-
         // Récupérer le stock
         $stock = Stock::find($request->stock_id);
+
+        $user = auth()->user();
+
+        // Vérifier si la quantité commandée n'excède pas la capacité de l'entrepôt
+        $warehouse = $stock->warehouse;
+
+        // Récupérer toutes les commandes IN PROGRESS et PENDING (des magasins associés à l'entrepôt)
+        $orders = $warehouse->stores->flatMap(function ($store) {
+            return $store->orders->where('order_status', Order::ORDER_STATUS_IN_PROGRESS)->concat($store->orders->where('order_status', Order::ORDER_STATUS_PENDING));
+        })->flatMap(function ($order) {
+            return $order->orderLines;
+        });
+
+        $supplies = $warehouse->supplies->where('supply_status', Supply::SUPPLY_STATUS_IN_PROGRESS)->flatMap(function ($supply) {
+            return $supply->supplyLines;
+        });
+
+        // Récupérer la quantité totale du stock
+        $total_quantity_ordered = $orders->sum('quantity_ordered');
+
+        $total_quantity_stock = $warehouse->stock->sum('quantity_available');
+
+        $total_quantity_supplied = $supplies->sum('quantity_supplied');
+
+        $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
+
+        if ($total + $quantity > $warehouse->capacity) {
+            return redirect()->back()->with('error', __('messages.quantity_exceeds_capacity'));
+        }
 
         // Mettre à jour la quantité disponible
         $stock->addQuantity($quantity);
@@ -345,13 +388,6 @@ class StockController extends Controller
             return redirect()->route('warehouse.stock.supply.list')->with('error', __('messages.supply_not_in_progress'));
         }
 
-        // Remettre la quantité commandée dans le stock
-        $supply->supplyLines->each(function ($supplyLines) use ($supply) {
-            $stock = $supply->warehouse->stock->where('product_id', $supplyLines->product_id)->first();
-
-            $stock->addQuantity($supplyLines->quantity_supplied);
-        });
-
         // Supprimer la commande
         $supply->delete();
 
@@ -461,6 +497,7 @@ class StockController extends Controller
             $query->where('warehouse_id', $warehouse->id);
         })->get();
 
+        // Vérifier si la quantité commandée n'excède pas la capacité de l'entrepôt
         $warehouse = $supply->warehouse;
 
         // Récupérer toutes les commandes IN PROGRESS et PENDING (des magasins associés à l'entrepôt)
@@ -469,13 +506,17 @@ class StockController extends Controller
         })->flatMap(function ($order) {
             return $order->orderLines;
         });
-        
-        // Récupérer la quantité restante du stock
+
+        $supplies = $warehouse->supplies->where('supply_status', Supply::SUPPLY_STATUS_IN_PROGRESS)->flatMap(function ($supply) {
+            return $supply->supplyLines;
+        });
+
+        // Récupérer la quantité totale du stock
         $total_quantity_ordered = $orders->sum('quantity_ordered');
 
         $total_quantity_stock = $warehouse->stock->sum('quantity_available');
 
-        $total_quantity_supplied = $supply->supplyLines->sum('quantity_supplied');
+        $total_quantity_supplied = $supplies->sum('quantity_supplied');
 
         $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
 
@@ -516,7 +557,7 @@ class StockController extends Controller
 
         $product = Product::find($request->product_id);
 
-        // Vérifier si la quantité n'excède pas la capacité du stock
+        // Vérifier si la quantité commandée n'excède pas la capacité de l'entrepôt
         $warehouse = $supply->warehouse;
 
         // Récupérer toutes les commandes IN PROGRESS et PENDING (des magasins associés à l'entrepôt)
@@ -526,12 +567,16 @@ class StockController extends Controller
             return $order->orderLines;
         });
 
+        $supplies = $warehouse->supplies->where('supply_status', Supply::SUPPLY_STATUS_IN_PROGRESS)->flatMap(function ($supply) {
+            return $supply->supplyLines;
+        });
+
         // Récupérer la quantité totale du stock
         $total_quantity_ordered = $orders->sum('quantity_ordered');
 
         $total_quantity_stock = $warehouse->stock->sum('quantity_available');
 
-        $total_quantity_supplied = $supply->supplyLines->sum('quantity_supplied');
+        $total_quantity_supplied = $supplies->sum('quantity_supplied');
 
         $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
 
@@ -647,8 +692,6 @@ class StockController extends Controller
             return $order->orderLines;
         });
 
-        /////// A TESTER ///////
-
         $supplies = $warehouse->supplies->where('supply_status', Supply::SUPPLY_STATUS_IN_PROGRESS)->flatMap(function ($supply) {
             return $supply->supplyLines;
         });
@@ -759,12 +802,26 @@ class StockController extends Controller
             return $order->orderLines;
         });
 
+        // Vérifier si la quantité commandée n'excède pas la capacité de l'entrepôt
+        $warehouse = $supply->warehouse;
+
+        // Récupérer toutes les commandes IN PROGRESS et PENDING (des magasins associés à l'entrepôt)
+        $orders = $warehouse->stores->flatMap(function ($store) {
+            return $store->orders->where('order_status', Order::ORDER_STATUS_IN_PROGRESS)->concat($store->orders->where('order_status', Order::ORDER_STATUS_PENDING));
+        })->flatMap(function ($order) {
+            return $order->orderLines;
+        });
+
+        $supplies = $warehouse->supplies->where('supply_status', Supply::SUPPLY_STATUS_IN_PROGRESS)->flatMap(function ($supply) {
+            return $supply->supplyLines;
+        });
+
         // Récupérer la quantité restante du stock
         $total_quantity_ordered = $orders->sum('quantity_ordered');
 
         $total_quantity_stock = $warehouse->stock->sum('quantity_available');
 
-        $total_quantity_supplied = $supply->supplyLines->sum('quantity_supplied');
+        $total_quantity_supplied = $supplies->sum('quantity_supplied');
 
         $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
 
@@ -810,12 +867,16 @@ class StockController extends Controller
             return $order->orderLines;
         });
 
+        $supplies = $warehouse->supplies->where('supply_status', Supply::SUPPLY_STATUS_IN_PROGRESS)->flatMap(function ($supply) {
+            return $supply->supplyLines;
+        });
+
         // Récupérer la quantité totale du stock
         $total_quantity_ordered = $orders->sum('quantity_ordered');
 
         $total_quantity_stock = $warehouse->stock->sum('quantity_available');
 
-        $total_quantity_supplied = $supply->supplyLines->sum('quantity_supplied');
+        $total_quantity_supplied = $supplies->sum('quantity_supplied');
 
         $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
 

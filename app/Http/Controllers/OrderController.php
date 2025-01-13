@@ -288,32 +288,16 @@ class OrderController extends Controller
             return redirect()->back()->with('error', __('messages.product_not_in_order'));
         }
 
-        // Vérifier si la quantité commandée n'excède pas la capacité de l'entrepôt
+        // Vérifier si la quantité commandée n'excède pas le stock
         $warehouse = $order->store->warehouse;
 
-        // Récupérer toutes les commandes IN PROGRESS et PENDING (des magasins associés à l'entrepôt)
-        $orders = $warehouse->stores->flatMap(function ($store) {
-            return $store->orders->where('order_status', Order::ORDER_STATUS_IN_PROGRESS)->concat($store->orders->where('order_status', Order::ORDER_STATUS_PENDING));
-        })->flatMap(function ($order) {
-            return $order->orderLines;
-        });
+        $stock = $warehouse->stock->where('product_id', $request->product_id)->first();
 
-        $supplies = $warehouse->supplies->where('supply_status', Supply::SUPPLY_STATUS_IN_PROGRESS)->flatMap(function ($supply) {
-            return $supply->supplyLines;
-        });
-
-        // Récupérer la quantité totale du stock
-        $total_quantity_ordered = $orders->sum('quantity_ordered');
-
-        $total_quantity_stock = $warehouse->stock->sum('quantity_available');
-
-        $total_quantity_supplied = $supplies->sum('quantity_supplied');
-
-        $total = $total_quantity_ordered + $total_quantity_stock + $total_quantity_supplied;
-
-        if ($total + $request->quantity > $warehouse->capacity) {
-            return redirect()->back()->with('error', __('messages.quantity_exceeds_capacity'));
+        if($request->quantity > $stock->quantity_available)
+        {
+            return redirect()->back()->with('error', __('messages.quantity_exceed_stock'));
         }
+
         // Ajouter la quantité de la ligne de commande
         $orderLine->addQuantity($request->quantity);
 
