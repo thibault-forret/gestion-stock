@@ -7,6 +7,8 @@ return [
     'username' => 'Username',
     'email' => 'Email',
     'password' => 'Password',
+    'warehouse_form' => 'Connect to a warehouse',
+    'store_form' => 'Connect to a store',
 
     'success' => [
         'login' => 'You have been successfully logged in.',

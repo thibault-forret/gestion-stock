@@ -1,10 +1,18 @@
 body, html {
   height: 100%;
+  width: 100%;
   margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #f5f5f5;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .content-form {
@@ -30,8 +38,14 @@ body, html {
   box-shadow: none;
 }
 .content-form .info .container-img .logo {
-  height: 75px; /* Hauteur fixe pour le logo */
+  height: 90px; /* Hauteur fixe pour le logo */
   width: auto; /* Conserver les proportions */
+}
+.content-form .title-page {
+  color: #f05c2b;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
 }
 .content-form .item-form {
   display: flex;
@@ -109,9 +123,10 @@ body, html {
 .content-form .language img {
   width: 32px;
   height: auto;
-  cursor: pointer;
+}
+.content-form .language a {
   transition: transform 0.2s;
 }
-.content-form .language img:hover {
+.content-form .language a:hover {
   transform: scale(1.1);
 }

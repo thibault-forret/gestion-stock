@@ -6,6 +6,8 @@
 
 @section('title', __('title.stock_supply_product'))
 @section('description', __('description.stock_supply_product'))
+@section('parent-route', route('warehouse.stock.list'))
+@section('title-content', mb_strtoupper(__('title.stock_supply_product')))
 
 @section('content')
 
@@ -33,7 +35,7 @@
 
         <div>
             <label for="quantity">Quantité à approvisionner :</label>
-            <input type="number" id="quantity" name="quantity" value="{{ old('quantity') == null ? 1 : old('quantity') }}" min="1" required>
+            <input type="number" id="quantity" name="quantity" value="{{ old('quantity') == null ? 1 : old('quantity') }}" min="1" max="{{ $total_quantity }}" required>
         </div>
 
         <button type="submit">Approvisionner le produit</button>

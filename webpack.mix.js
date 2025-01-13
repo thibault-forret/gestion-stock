@@ -3,6 +3,8 @@ const mix = require('laravel-mix');
 // Compile les fichiers JavaScript et SCSS en fichiers CSS et JS respectifs.
 mix.js('resources/js/app.js', 'public/js')
 
+    .js('resources/js/sidebar.js', 'public/js/')
+
     .sass('resources/scss/style.scss', 'public/css/')
 
     // Pages
@@ -15,6 +17,7 @@ mix.js('resources/js/app.js', 'public/js')
 
     // Store
     .sass('resources/scss/pages/store/dashboard.scss', 'public/css/pages/store/')
+    .sass('resources/scss/pages/store/order/place.scss', 'public/css/pages/store/order/')
 
     // Fonctionnement :
     // JS : mix.js('chemin_du_fichier_js', 'chemin_du_fichier_js') -> Voir exemple ci-dessus

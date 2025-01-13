@@ -71,6 +71,8 @@
 
 @section('title', __('title.invoice_info'))
 @section('description', __('description.invoice_info'))
+@section('parent-route', route('warehouse.invoice.list.order'))
+@section('title-content', mb_strtoupper(__('title.invoice_info')))
 
 @section('content')
 <div class="invoice-container">
@@ -90,43 +92,46 @@
     <!-- Détails de l'entrepôt -->
     <div class="invoice-section">
         <h4>{{ __('Warehouse Details') }}</h4>
-        <p><strong>{{ __('Name') }}:</strong> {{ $supply->warehouse->warehouse_name }}</p>
-        <p><strong>{{ __('Location') }}:</strong> {{ $supply->warehouse->warehouse_address }}</p>
-        <p><strong>{{ __('Email') }}:</strong> {{ $supply->warehouse->warehouse_contact }}</p>
-        <p><strong>{{ __('Phone') }}:</strong> {{ $supply->warehouse->warehouse_contact }}</p>
-        <p><strong>{{ __('Manager') }}:</strong> {{ $supply->warehouse->manager->username }}</p>
+        <p><strong>{{ __('Name') }}:</strong> {{ $invoice->warehouse_name }}</p>
+        <p><strong>{{ __('Location') }}:</strong> {{ $invoice->warehouse_address }}</p>
+        <p><strong>{{ __('Email') }}:</strong> {{ $warehouse->warehouse_email }}</p>
+        <p><strong>{{ __('Phone') }}:</strong> {{ $warehouse->warehouse_phone }}</p>
+        <p><strong>{{ __('Manager') }}:</strong> {{ $invoice->warehouse_director }}</p>
     </div>
 
     <!-- Détails du fournisseur -->
     <div class="invoice-section">
-        <h4>{{ __('Supplier Details') }}</h4>
-        <p><strong>{{ __('Name') }}:</strong> {{ $supply->supplier->supplier_name }}</p>
-        <p><strong>{{ __('Email') }}:</strong> {{ $supply->supplier->supplier_email }}</p>
-        <p><strong>{{ __('Phone') }}:</strong> {{ $supply->supplier->supplier_phone }}</p>
-        <p><strong>{{ __('Address') }}:</strong> {{ $supply->supplier->supplier_address }}</p>
+        <h4>{{ __('Store Details') }}</h4>
+        <p><strong>{{ __('Name') }}:</strong> {{ $invoice->entity_name }}</p>
+        <p><strong>{{ __('Email') }}:</strong> {{ $order->store->store_email }}</p>
+        <p><strong>{{ __('Phone') }}:</strong> {{ $order->store->store_phone }}</p>
+        <p><strong>{{ __('Address') }}:</strong> {{ $invoice->entity_address }}</p>
+        <p><strong>{{ __('Manager') }}:</strong> {{ $invoice->entity_director }}</p>
     </div>
 
     <!-- Détails de l'approvisionnement -->
     <div class="invoice-section">
-        <h4>{{ __('Supply Details') }}</h4>
+        <h4>{{ __('Order Details') }}</h4>
         <table class="invoice-table">
             <thead>
                 <tr>
                     <th>{{ __('ID') }}</th>
                     <th>{{ __('Product') }}</th>
-                    <th>{{ __('Quantity Supplied') }}</th>
+                    <th>{{ __('Quantity Ordered') }}</th>
                     <th>{{ __('Unit Price (€)') }}</th>
-                    <th>{{ __('Total (€)') }}</th>
+                    <th>{{ __('Total HT (€)') }}</th>
+                    <th>{{ __('Total TTC (€)') }}</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($supply->supplyLines as $line)
+                @foreach ($order->orderLines as $line)
                     <tr>
                         <td>{{ $line->product->id }}</td>
                         <td>{{ $line->product->product_name }}</td>
-                        <td>{{ $line->quantity_supplied }}</td>
+                        <td>{{ $line->quantity_ordered }}</td>
                         <td>{{ number_format($line->unit_price, 2, ',', ' ') }}</td>
-                        <td>{{ number_format($line->unit_price * $line->quantity_supplied, 2, ',', ' ') }}</td>
+                        <td>{{ number_format($line->unit_price * $line->quantity_ordered, 2, ',', ' ') }}</td>                            
+                        <td>{{ number_format($line->unit_price * $line->quantity_ordered * $warehouse->global_margin, 2, ',', ' ') }}</td>    
                     </tr>
                 @endforeach
             </tbody>
@@ -135,21 +140,15 @@
 
     <!-- Total et bouton de règlement -->
     <div class="total-section">
-        <h4>{{ __('Total Amount') }}: 
-            <span class="text-primary">{{ number_format($total_amount, 2, ',', ' ') }} €</span>
+        <h4>{{ __('Total Amount HT') }}: 
+            <span class="text-primary">{{ number_format($total_amount_ht, 2) }} €</span>
         </h4>
-        @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_UNPAID)
-            <form action="{{ route('warehouse.invoice.settle') }}" method="POST">
-                @csrf
-                <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
-                <button type="submit" class="btn">
-                    {{ __('Settle Invoice') }}
-                </button>
-            </form>
-        @endif
+        <h4>{{ __('Total Amount TTC') }}: 
+            <span class="text-primary">{{ number_format($total_amount_ttc, 2) }} €</span>
+        </h4>
 
-        <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
-        <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
+        <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
+        <a target="_blank" href="{{ route('warehouse.order.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
     </div>
 </div>
 @endsection

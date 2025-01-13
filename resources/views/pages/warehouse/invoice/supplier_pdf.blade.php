@@ -121,19 +121,20 @@
             <div>
                 <div class="supplier-client-title">{{ __('Supplier') }}</div>
                 <div class="details">
-                    <p><strong>{{ __('Name') }}:</strong> {{ $supply->supplier->supplier_name }}</p>
-                    <p><strong>{{ __('Address') }}:</strong> {{ $supply->supplier->supplier_address }}</p>
+                    <p><strong>{{ __('Name') }}:</strong> {{ $invoice->entity_name }}</p>
                     <p><strong>{{ __('Email') }}:</strong> {{ $supply->supplier->supplier_email }}</p>
                     <p><strong>{{ __('Phone') }}:</strong> {{ $supply->supplier->supplier_phone }}</p>
+                    <p><strong>{{ __('Address') }}:</strong> {{ $invoice->entity_address }}</p>
+                    <p><strong>{{ __('Contact') }}:</strong> {{ $invoice->entity_director }}</p>
                 </div>
 
                 <div class="supplier-client-title">{{ __('Client') }}</div>
                 <div class="details">
-                    <p><strong>{{ __('Name') }}:</strong> {{ $supply->warehouse->warehouse_name }}</p>
-                    <p><strong>{{ __('Address') }}:</strong> {{ $supply->warehouse->warehouse_address }}</p>
+                    <p><strong>{{ __('Name') }}:</strong> {{ $invoice->warehouse_name }}</p>
+                    <p><strong>{{ __('Location') }}:</strong> {{ $invoice->warehouse_address }}</p>
                     <p><strong>{{ __('Email') }}:</strong> {{ $supply->warehouse->warehouse_email }}</p>
                     <p><strong>{{ __('Phone') }}:</strong> {{ $supply->warehouse->warehouse_phone }}</p>
-                    <p><strong>{{ __('Director') }}:</strong> {{ $supply->warehouse->manager->username }}</p>
+                    <p><strong>{{ __('Manager') }}:</strong> {{ $invoice->warehouse_director }}</p>
                 </div>
             </div>
             <div class="invoice-info">
@@ -151,10 +152,12 @@
                         <th>{{ __('Status') }}:</th>
                         <td>{{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}</td>
                     </tr>
-                    <tr>
-                        <th>{{ __('Settled on') }}:</th>
-                        <td>{{ $invoice->updated_at->format('d/m/Y H:i:s') }}</td>
-                    </tr>
+                    @if($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
+                        <tr>
+                            <th>{{ __('Settled on') }}:</th>
+                            <td>{{ $invoice->updated_at->format('d/m/Y H:i:s') }}</td>
+                        </tr>
+                    @endif
                 </table>
             </div>
         </div>

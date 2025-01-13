@@ -9,6 +9,8 @@ class Warehouse extends Model
     protected $fillable = [
         'warehouse_name',
         'warehouse_address',
+        'warehouse_email',
+        'warehouse_phone',
         'capacity',
         'user_id',
     ];
@@ -17,12 +19,6 @@ class Warehouse extends Model
     public function manager()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    // Chaque entrepôt peut avoir plusieurs commandes
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
     }
 
     // Chaque entrepôt peut avoir plusieurs produits en stock
@@ -41,5 +37,11 @@ class Warehouse extends Model
     public function supplies()
     {
         return $this->hasMany(Supply::class);
+    }
+
+    // Chaque entrepôt peut être en charge de plusieurs magasins
+    public function stores()
+    {
+        return $this->hasMany(Store::class);
     }
 }

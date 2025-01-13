@@ -24,4 +24,18 @@ class OrderLine extends Model
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
+
+    // Ajout de quantité
+    public function addQuantity(int $quantity)
+    {
+        $this->quantity_ordered += $quantity;
+        return $this->save();
+    }
+
+    // Retrait de quantité
+    public function removeQuantity(int $quantity)
+    {
+        $this->quantity_ordered -= $quantity;
+        return $this->save();
+    }
 }

@@ -331,24 +331,14 @@
 
 @section('title', __('title.invoice_list'))
 @section('description', __('description.invoice_list'))
+@section('parent-route', route('store.dashboard'))
+@section('title-content', mb_strtoupper(__('title.invoice_list')))
 
 @section('content')
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <h3>{{ __('title.invoice_list') }}</h3>
 
-    <form action="{{ route('warehouse.invoice.search') }}" method="POST">
+    <form action="{{ route('store.invoice.search') }}" method="POST">
         @csrf
         <div class="search-element">
             <div>
@@ -358,24 +348,12 @@
         </div>
         <div class="buttons">
             <button class="btn" type="submit">Rechercher</button>
-            <a class="btn red" href="{{ route('warehouse.invoice.list') }}">Rénitialiser recherche</a>
+            <a class="btn red" href="{{ route('store.invoice.list') }}">Rénitialiser recherche</a>
         </div>
     </form>
 
-    <form action="{{ route('warehouse.invoice.filter') }}" method="get">
+    <form action="{{ route('store.invoice.filter') }}" method="get">
         <div class="search-element">
-            <div>
-                <label for="supplier">Fournisseur :</label>
-                <select id="supplier" name="supplier">
-                    <option value="">Aucune sélection</option>
-                    @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier->supplier_name }}" {{ request('supplier') == $supplier->supplier_name ? 'selected' : '' }}>
-                            {{ $supplier->supplier_name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
             <div>
                 <label for="order">Trier par ordre</label>
                 <select id="order" name="order" required>
@@ -390,16 +368,6 @@
                     <option value="all" {{ request('status') != 'all' ? '' : 'selected' }}>Tous</option>
                     <option value="settled" {{ request('status') == 'settled' ? 'selected' : '' }}>Réglé</option>
                     <option value="not-settled" {{ request('status') == 'not-settled' ? 'selected' : '' }}>Non réglé</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="priority_level">Niveau de priorité</label>
-                <select id="priority_level" name="priority_level" required>
-                    <option value="all" {{ request('priority_level') == 'all' ? 'selected' : '' }}>Aucune sélection</option>
-                    <option value="low" {{ request('priority_level') != 'low' ? '' : 'selected' }}>À traiter</option>
-                    <option value="medium" {{ request('priority_level') == 'medium' ? 'selected' : '' }}>En attente</option>
-                    <option value="high" {{ request('priority_level') == 'high' ? 'selected' : '' }}>Critique</option>
                 </select>
             </div>
 
@@ -438,10 +406,9 @@
         <div class="buttons">
             <button class="btn" type="submit">Rechercher</button>
 
-            <a class="btn red" href="{{ route('warehouse.invoice.list') }}">Rénitialiser recherche</a>
+            <a class="btn red" href="{{ route('store.invoice.list') }}">Rénitialiser recherche</a>
         </div>
     </form>
-
 
     @if ($errors->any())
         <div class="center-child error-message">
@@ -451,16 +418,20 @@
         </div>
     @endif
 
+    {{-- Faire système de trie par magasin etc si on a le temps (reprendre le code de supply) --}}
+
     <div class="invoices">
         @if ($invoices->isEmpty())
             <p>Aucune facture trouvée</p>
         @else
             @foreach ($invoices as $invoice)
                 @php
-                    $supplier = $invoice->supply->supplier;
-                    $total_price = $invoice->supply->supplyLines->sum(function ($supply_line) {
-                        return $supply_line->quantity_supplied * $supply_line->unit_price;
-                    });
+                    $store = $invoice->order->store;
+                    $warehouse = $store->warehouse;
+                    $order = $invoice->order;
+
+                    $total_amount_ht = $order->calculateTotalPrice();
+                    $total_amount_ttc = $total_amount_ht * $warehouse->global_margin;
 
                     // Calculer la différence en jours entre aujourd'hui et la date de la facture
                     $invoiceDate = new DateTime($invoice->invoice_date);
@@ -483,9 +454,9 @@
                 <div class="invoice">
                     <div>
                         <p>Numéro de facture : {{ $invoice->invoice_number }}</p>
-                        <p>Fournisseur : {{ $supplier->supplier_name }}</p>
                         <p>Date : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
-                        <p>Prix total : {{ $total_price }} €</p>
+                        <p>Total HT : {{ number_format($total_amount_ht, 2) }} €</p>
+                        <p>Total TTC : {{ number_format($total_amount_ttc, 2) }} €</p>
                         @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
                             <p>Date réglement : {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
                         @endif
@@ -494,9 +465,9 @@
                         </p>
                     </div>
                     <div>
-                        <a href="{{ route('warehouse.invoice.info', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
-                        <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
-                        <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
+                        <a href="{{ route('store.invoice.info', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
+                        <a target="_blank" href="{{ route('store.order.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
+                        <a target="_blank" href="{{ route('store.order.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
                     </div>
                 </div>
             @endforeach

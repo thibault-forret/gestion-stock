@@ -16,6 +16,33 @@ return [
     'invoice_settled' => 'La facture a été réglée.',
     'invoice_not_settled' => 'La facture n\'a pas été réglée. Veuillez réessayer.',
 
+    'login_required' => 'Vous devez être connecté pour accéder à cette page.',
+
+    'order_not_found' => 'La commande n\'a pas été trouvée. Veuillez réessayer.',
+    'order_not_in_progress' => 'La commande n\'est pas en cours. Veuillez réessayer.',
+    'order_not_pending' => 'La commande n\'est pas en attente. Veuillez réessayer.',
+    'order_removed' => 'La commande a été supprimée.',
+    'order_created' => 'La commande a été créée.',
+    'quantity_exceed_stock' => 'La quantité dépasse le stock. Veuillez réessayer.',
+    'product_not_in_order' => 'Le produit n\'est pas dans la commande. Veuillez réessayer.',
+    'product_removed' => 'Le produit a été supprimé.',
+    'remove_quantity_success' => 'La quantité a été retirée avec succès.',
+    'add_quantity_success' => 'La quantité a été ajoutée avec succès.',
+    'order_empty' => 'La commande est vide. Veuillez ajouter des produits.',
+    'order_confirmed' => 'La commande a été confirmée.',
+    'order_delivered' => 'La commande a été validée.',
+    'order_refused' => 'La commande a été refusée.',
+
+    'supply_not_found' => 'L\'approvisionnement n\'a pas été trouvé. Veuillez réessayer.',
+    'supply_not_in_progress' => 'L\'approvisionnement n\'est pas en cours. Veuillez réessayer.',
+    'supply_removed' => 'L\'approvisionnement a été supprimé.',
+    'supply_empty' => 'L\'approvisionnement est vide. Veuillez ajouter des produits.',
+    'supply_created' => 'L\'approvisionnement a été créé.',
+    'supplier_not_found' => 'Le fournisseur n\'a pas été trouvé. Veuillez réessayer.',
+    'supply_confirmed' => 'L\'approvisionnement a été confirmé.',
+
+    'quantity_exceeds_capacity' => 'La quantité de produits dépasse la capacité de l\'entrepôt. Veuillez réessayer.',
+
     'validate' => [
         'usernmame_required' => 'Veuillez fournir votre nom d\'utilisateur.',
         'username_string' => 'Veuillez fournir un nom d\'utilisateur valide.',

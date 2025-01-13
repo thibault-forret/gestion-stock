@@ -17,7 +17,7 @@ class StockMovement extends Model
     // Les constantes pour les sources de mouvement
     const MOVEMENT_SOURCE_ORDER = 'ORDER';
     const MOVEMENT_SOURCE_SUPPLY = 'SUPPLY';
-    const MOVEMENT_SOUCRE_USER = 'USER';
+    const MOVEMENT_SOURCE_USER = 'USER';
 
     protected $fillable = [
         'product_id',
