@@ -14,8 +14,12 @@ mix.js('resources/js/app.js', 'public/js')
     // Warehouse
     .sass('resources/scss/pages/warehouse/dashboard.scss', 'public/css/pages/warehouse/')
     .sass('resources/scss/pages/warehouse/search_new_product.scss', 'public/css/pages/warehouse/')
+
+    .sass('resources/scss/pages/warehouse/add_product.scss', 'public/css/pages/warehouse/')
+
     .sass('resources/scss/pages/warehouse/supply/index.scss', 'public/css/pages/warehouse/supply/')
     .sass('resources/scss/pages/warehouse/invoice/index.scss', 'public/css/pages/warehouse/invoice/')
+
 
     // Store
     .sass('resources/scss/pages/store/dashboard.scss', 'public/css/pages/store/')
