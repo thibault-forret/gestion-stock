@@ -172,7 +172,7 @@
 @section('title', __('title.recap_order'))
 @section('description', __('description.recap_order'))
 @section('parent-route', route('warehouse.stock.supply.place', ['supply_id' => $supply->id]))
-@section('title-content', strtoupper(__('title.recap_order')))
+@section('title-content', mb_strtoupper(__('title.recap_order')))
 
 @section('content')
     

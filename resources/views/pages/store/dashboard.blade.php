@@ -6,7 +6,7 @@
 
 @section('title', __('title.dashboard'))
 @section('description', __('description.dashboard.store'))
-@section('title-content', strtoupper(__('title.dashboard')))
+@section('title-content', mb_strtoupper(__('title.dashboard')))
 
 @section('content')
     Dashboard magasin

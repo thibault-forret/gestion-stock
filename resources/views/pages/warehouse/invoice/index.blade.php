@@ -246,7 +246,7 @@
 @section('title', __('title.invoice_list'))
 @section('description', __('description.invoice_list'))
 @section('parent-route', route('warehouse.dashboard'))
-@section('title-content', strtoupper(__('title.invoice_list')))
+@section('title-content', mb_strtoupper(__('title.invoice_list')))
 
 @section('content')
 

@@ -97,7 +97,7 @@
 @section('title', __('title.warehouse_stock_list'))
 @section('description', __('description.warehouse_stock_list'))
 @section('parent-route', route('warehouse.stock.index'))
-@section('title-content', strtoupper(__('title.warehouse_stock_list')))
+@section('title-content', mb_strtoupper(__('title.warehouse_stock_list')))
 
 @section('content')
 

@@ -172,7 +172,7 @@
 @section('title', __('title.detail_order'))
 @section('description', __('description.detail_order'))
 @section('parent-route', route('store.order.list'))
-@section('title-content', strtoupper(__('title.detail_order')))
+@section('title-content', mb_strtoupper(__('title.detail_order')))
 
 @section('content')
     

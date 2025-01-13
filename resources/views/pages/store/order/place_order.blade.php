@@ -7,7 +7,7 @@
 @section('title', __('title.place_order'))
 @section('description', __('description.place_order.store'))
 @section('parent-route', route('store.order.index'))
-@section('title-content', strtoupper(__('title.place_order')))
+@section('title-content', mb_strtoupper(__('title.place_order')))
 
 @section('content')
 <div class="order-container">

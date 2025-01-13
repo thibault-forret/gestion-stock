@@ -7,7 +7,7 @@
 @section('title', __('title.new_order'))
 @section('description', __('description.new_order'))
 @section('parent-route', route('warehouse.stock.supply.index'))
-@section('title-content', strtoupper(__('title.new_order')))
+@section('title-content', mb_strtoupper(__('title.new_order')))
 
 @section('content')
     

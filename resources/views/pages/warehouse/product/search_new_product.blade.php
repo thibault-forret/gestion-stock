@@ -50,7 +50,7 @@
 @section('title', __('title.search_new_product'))
 @section('description', __('description.search_new_product'))
 @section('parent-route', route('warehouse.dashboard'))
-@section('title-content', strtoupper(__('title.search_new_product')))
+@section('title-content', mb_strtoupper(__('title.search_new_product')))
 
 @section('content')
 

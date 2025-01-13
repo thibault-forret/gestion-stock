@@ -6,7 +6,7 @@
 
 @section('title', __('title.dashboard'))
 @section('description', __('description.dashboard.warehouse'))
-@section('title-content', strtoupper(__('title.dashboard')))
+@section('title-content', mb_strtoupper(__('title.dashboard'), 'UTF-8'))
 
 @section('content')
     Dashboard entrepot
