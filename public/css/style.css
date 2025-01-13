@@ -1,8 +1,4 @@
 @charset "UTF-8";
-.content {
-  padding-top: 75px;
-}
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -11,7 +7,7 @@ body {
 
 .navbar {
   z-index: 30;
-  position: fixed;
+  position: relative;
   width: calc(100% - 20px);
   display: flex;
   justify-content: space-between; /* Équilibrer gauche, centre et droite */
