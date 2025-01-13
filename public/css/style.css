@@ -198,4 +198,5 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 10; /* S'assurer qu'il est au-dessus du contenu */
   display: none; /* L'overlay est invisible au départ */
+  cursor: pointer;
 }
