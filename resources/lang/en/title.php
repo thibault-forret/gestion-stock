@@ -32,4 +32,10 @@ return [
     'order_store' => 'Order store',
     'invoice_list_supply' => 'Supply invoice list',
     'invoice_list_order' => 'Order invoice list',
+    'supply' => 'Supply',
+    'supply_list' => 'Supply list',
+    'new_supply' => 'New supply',
+    'place_supply' => 'Place supply',
+    'recap_supply' => 'Recap supply',
+    'detail_supply' => 'Supply detail',
 ];

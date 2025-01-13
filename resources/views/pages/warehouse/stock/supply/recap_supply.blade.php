@@ -4,15 +4,15 @@
     <link href="{{ mix('css/pages/store/order/recap.css') }}" rel="stylesheet">
 @endsection
 
-@section('title', __('title.recap_order'))
-@section('description', __('description.recap_order'))
+@section('title', __('title.recap_supply'))
+@section('description', __('description.recap_supply'))
 @section('parent-route', route('warehouse.stock.supply.place', ['supply_id' => $supply->id]))
-@section('title-content', mb_strtoupper(__('title.recap_order')))
+@section('title-content', mb_strtoupper(__('title.recap_supply')))
 
 @section('content')
 
     <div class="order-recap-container">
-        <h2 class="order-title">Récapitulatif de la commande</h2>
+        <h2 class="order-title">{{ __('title.recap_supply') }}</h2>
     
         @if(isset($supply) && count($supply->supplyLines) > 0)
             <div class="order-details">
@@ -82,7 +82,7 @@
                         <form action="{{ route('warehouse.stock.supply.confirm') }}" method="POST">
                             @csrf
                             <input type="hidden" name="supply_id" value="{{ $supply->id }}">
-                            <button type="submit" class="btn btn-success">Confirmer la commande</button>
+                            <button type="submit" class="btn btn-success">Confirmer l'approvisionnement</button>
                         </form>
                     </div>
                 </div>

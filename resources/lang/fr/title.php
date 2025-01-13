@@ -32,4 +32,10 @@ return [
     'order_store' => 'Commande magasin',
     'invoice_list_supply' => 'Liste des factures d\'approvisionnement',
     'invoice_list_order' => 'Liste des factures de commande',
+    'supply' => 'Approvisionnement',
+    'supply_list' => 'Liste des approvisionnements',
+    'new_supply' => 'Nouvel approvisionnement',
+    'place_supply' => 'Réaliser un approvisionnement',
+    'recap_supply' => 'Récapitulatif de l\'approvisionnement',
+    'detail_supply' => 'Détail de l\'approvisionnement',
 ];

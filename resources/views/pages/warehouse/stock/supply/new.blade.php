@@ -4,10 +4,10 @@
     <link href="{{ mix('css/pages/warehouse/supply/index.css') }}" rel="stylesheet">
 @endsection
 
-@section('title', __('title.new_order'))
-@section('description', __('description.new_order'))
+@section('title', __('title.new_supply'))
+@section('description', __('description.new_supply'))
 @section('parent-route', route('warehouse.stock.supply.index'))
-@section('title-content', mb_strtoupper(__('title.new_order')))
+@section('title-content', mb_strtoupper(__('title.new_supply')))
 
 @section('content')
     
@@ -23,7 +23,7 @@
                 <input type="hidden" name="supplier_id" value="{{ $supplier->id }}">
                 <button class="role-card" type="submit">
                     <div class="role-title">{{ $supplier->supplier_name }}</div>
-                    <p class="role-description">{{ __('description.new_order') }}</p>
+                    <p class="role-description">{{ __('description.new_supply') }}</p>
                 </button>
             </form>
         @endforeach

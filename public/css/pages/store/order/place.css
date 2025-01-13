@@ -48,6 +48,10 @@ body {
   justify-content: flex-end;
 }
 
+.empty-order {
+  text-align: center;
+}
+
 .product-item {
   position: relative;
   border: 1px solid black;

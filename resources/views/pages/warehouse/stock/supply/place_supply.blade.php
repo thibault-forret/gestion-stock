@@ -4,10 +4,10 @@
     <link href="{{ mix('css/pages/warehouse/supply/place.css') }}" rel="stylesheet">
 @endsection
 
-@section('title', __('title.place_order'))
-@section('description', __('description.place_order.store'))
+@section('title', __('title.place_supply'))
+@section('description', __('description.place_order.warehouse'))
 @section('parent-route', route('warehouse.stock.supply.index'))
-@section('title-content', mb_strtoupper(__('title.place_order')))
+@section('title-content', mb_strtoupper(__('title.place_supply')))
 
 @section('content')
 <div class="order-container">
@@ -37,7 +37,7 @@
                             <input type="number" name="quantity" class="quantity-input" value="1" 
                                 min="1" max="{{ $total_quantity }}" 
                                 step="1" required>
-                            <button type="submit" class="btn">Ajouter à la commande</button>
+                            <button type="submit" class="btn">Ajouter à l'approvisionnement</button>
                         </form>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
     </div>
 
     <div class="order-recap">
-        <h3 class="order-title">Récapitulatif de la commande</h3>
+        <h3 class="order-title">Récapitulatif de l'approvisionnement</h3>
     
         @if(isset($supply) && count($supply->supplyLines) > 0)
             <div class="scrollable">
@@ -120,7 +120,7 @@
                 </a>
             </div>
         @else
-            <p class="empty-order">Aucune commande en cours.</p>
+            <p class="empty-order">Aucun approvisionnement en cours.</p>
         @endif
     </div>
 </div>

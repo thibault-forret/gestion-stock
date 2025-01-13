@@ -4,15 +4,15 @@
     <link href="{{ mix('css/pages/store/order/liste.css') }}" rel="stylesheet">
 @endsection
 
-@section('title', __('title.order_list'))
-@section('description', __('description.order_list'))
+@section('title', __('title.supply_list'))
+@section('description', __('description.supply_list'))
 @section('parent-route', route('warehouse.stock.supply.index'))
-@section('title-content', mb_strtoupper(__('title.order_list')))
+@section('title-content', mb_strtoupper(__('title.supply_list')))
 
 @section('content')
 
     <div class="order-list">
-        <h3>Liste des commandes</h3>
+        <h3>{{ __('title.supply_list') }}</h3>
 
         @if($supplies->count() > 0)
             <table class="order-table">
@@ -42,17 +42,17 @@
                                 @if($supply->supply_status == 'IN PROGRESS')
                                     <a href="{{ route('warehouse.stock.supply.place', ['supply_id' => $supply->id]) }}" class="btn btn-info">
                                         <img src="{{ asset('images/rouage.svg') }}" alt="ModifierCommande">
-                                        Modifier la commande
+                                        Modifier l'approsionnement
                                     </a>
                                 @endif
                                 <a href="{{ route('warehouse.stock.supply.detail', ['supply_id' => $supply->id]) }}" class="btn btn-info">
                                     <img src="{{ asset('images/loupe.svg') }}" alt="DétailsCommande">
-                                    Détails de la commande
+                                    Détails de l'approvisionnement
                                 </a>
                                 @if($supply->supply_status == 'IN PROGRESS')
                                     <a class="btn badge-success" href="{{ route('warehouse.stock.supply.recap', ['supply_id' => $supply->id]) }}">
                                         <img src="{{ asset('images/valide.svg') }}" alt="ConfirmerCommande">
-                                        Confirmer la commande
+                                        Confirmer l'approvisionnement
                                     </a>
                                 @endif
                                 @if($supply->supply_status != 'DELIVERED')
@@ -61,7 +61,7 @@
                                         <input type="hidden" name="supply_id" value="{{ $supply->id }}">
                                         <button class="btn badge-red supprimer-bouton" type="submit">
                                             <img src="{{ asset('images/croix2(1).svg') }}" alt="SupprimerCommande">
-                                            Supprimer la commande
+                                            Supprimer l'approvisionnement
                                         </button>
                                     </form>
                                 @else

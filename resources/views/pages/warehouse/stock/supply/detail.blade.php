@@ -4,15 +4,15 @@
     <link href="{{ mix('css/pages/store/order/recap.css') }}" rel="stylesheet">
 @endsection
 
-@section('title', __('title.detail_order'))
-@section('description', __('description.detail_order'))
+@section('title', __('title.detail_supply'))
+@section('description', __('description.detail_supply'))
 @section('parent-route', route('warehouse.stock.supply.list'))
-@section('title-content', mb_strtoupper(__('title.detail_order')))
+@section('title-content', mb_strtoupper(__('title.detail_supply')))
 
 @section('content')
 
     <div class="order-recap-container">
-        <h2 class="order-title">Détail de la commande</h2>
+        <h2 class="order-title">{{ __('title.detail_supply') }}</h2>
     
         @if(isset($supply) && count($supply->supplyLines) > 0)
             <div class="order-details">

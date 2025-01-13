@@ -4,10 +4,10 @@
     <link rel="stylesheet" href="{{ mix('css/pages/home.css') }}">
 @endsection
 
-@section('title', __('title.order'))
-@section('description', __('description.order'))
+@section('title', __('title.supply'))
+@section('description', __('description.supply'))
 @section('parent-route', route('warehouse.stock.index'))
-@section('title-content', mb_strtoupper(__('title.order')))
+@section('title-content', mb_strtoupper(__('title.supply')))
 
 @section('content')
 
@@ -19,8 +19,8 @@
                     <div class="icon">
                         <i class="fas fa-box-open"></i>
                     </div>
-                    <div class="role-title">{{ __('title.new_order') }}</div>
-                    <p class="role-description">{{ __('description.new_order') }}</p>
+                    <div class="role-title">{{ __('title.new_supply') }}</div>
+                    <p class="role-description">{{ __('description.new_supply') }}</p>
                 </a>
             </div>
             <div class="role-card">
@@ -28,8 +28,8 @@
                     <div class="icon">
                         <i class="fas fa-clipboard-list"></i>
                     </div>
-                    <div class="role-title">{{ __('title.order_list') }}</div>
-                    <p class="role-description">{{ __('description.order_list') }}</p>
+                    <div class="role-title">{{ __('title.supply_list') }}</div>
+                    <p class="role-description">{{ __('description.supply_list') }}</p>
                 </a>
             </div>
         </div>
