@@ -47,23 +47,67 @@
             text-align: right;
             margin-top: 20px;
         }
+
         .total-section h4 {
             font-size: 20px;
             color: #333;
         }
+
+        .total-section h4 .text-primary {
+            color: #f05c2b;
+            font-weight: bold;
+        }
+
         .total-section .btn {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #28a745;
-            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
             border: none;
             border-radius: 5px;
             text-decoration: none;
-            font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
         }
-        .total-section .btn:hover {
-            background-color: #218838;
+
+        /* Style pour le bouton "Settle Invoice" */
+        .total-section .btn.settle-btn {
+            background-color: #5a5a5c;
+            color: #fff;
+        }
+
+        .total-section .btn.settle-btn:hover {
+            background-color: #494949;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Style pour les boutons secondaires */
+        .total-section .btn.secondary-btn {
+            background-color: #f05c2b;
+            color: #fff;
+            margin-left: 10px;
+        }
+
+        .total-section .btn.secondary-btn:hover {
+            background-color: #d94b21;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Alignement et marges des liens */
+        .total-section .action-links {
+            margin-top: 10px;
+        }
+
+        .total-section .action-links a {
+            margin-left: 5px;
+        }
+
+        /* Formulaire de règlement */
+        .total-section .action-form {
+            margin-top: 15px;
         }
     </style>
     {{-- <link href="{{ mix('css/pages/warehouse/product/add-product.css') }}" rel="stylesheet"> --}}
@@ -76,7 +120,6 @@
 
 @section('content')
 <div class="invoice-container">
-    <h1 class="invoice-title">{{ __('title.invoice_info') }}</h1>
 
     <!-- Détails de la facture -->
     <div class="invoice-section">
@@ -141,18 +184,25 @@
         <h4>{{ __('Total Amount') }}: 
             <span class="text-primary">{{ number_format($total_amount, 2, ',', ' ') }} €</span>
         </h4>
+
         @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_UNPAID)
-            <form action="{{ route('warehouse.invoice.settle') }}" method="POST">
+            <form action="{{ route('warehouse.invoice.settle') }}" method="POST" class="action-form">
                 @csrf
                 <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
-                <button type="submit" class="btn">
+                <button type="submit" class="btn settle-btn">
                     {{ __('Settle Invoice') }}
                 </button>
             </form>
         @endif
 
-        <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
-        <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
+        <div class="action-links">
+            <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}" class="btn secondary-btn">
+                Voir la facture
+            </a>
+            <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}" class="btn secondary-btn">
+                Télécharger la facture
+            </a>
+        </div>
     </div>
 </div>
 @endsection
