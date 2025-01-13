@@ -71,6 +71,8 @@
 
 @section('title', __('title.invoice_info'))
 @section('description', __('description.invoice_info'))
+@section('parent-route', route('warehouse.invoice.list.supply'))
+@section('title-content', strtoupper(__('title.invoice_info')))
 
 @section('content')
 <div class="invoice-container">

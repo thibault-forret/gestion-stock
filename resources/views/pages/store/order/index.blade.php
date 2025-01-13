@@ -6,6 +6,8 @@
 
 @section('title', __('title.order'))
 @section('description', __('description.order'))
+@section('parent-route', route('store.dashboard'))
+@section('title-content', strtoupper(__('title.order')))
 
 @section('content')
     

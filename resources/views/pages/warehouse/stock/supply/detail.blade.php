@@ -169,8 +169,10 @@
     {{-- <link href="{{ mix('css/pages/store/order/recap.css') }}" rel="stylesheet"> --}}
 @endsection
 
-@section('title', 'Détail de la commande')
-@section('description', __('description.recap_order'))
+@section('title', __('title.detail_order'))
+@section('description', __('description.detail_order'))
+@section('parent-route', route('warehouse.stock.supply.list'))
+@section('title-content', strtoupper(__('title.detail_order')))
 
 @section('content')
     
@@ -218,9 +220,6 @@
                     <div class="order-total">
                         <span class="total-label">Total :</span>
                         <span class="total-value">{{ number_format($supply->calculateTotalPrice(), 2) }} €</span>
-                    </div>
-                    <div class="confirm-order">
-                        <a href="{{ route('warehouse.stock.supply.list') }}" class="btn btn-secondary">Retour</a>
                     </div>
                 </div>
             </div>

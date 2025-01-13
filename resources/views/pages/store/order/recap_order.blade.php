@@ -171,6 +171,8 @@
 
 @section('title', __('title.recap_order'))
 @section('description', __('description.recap_order'))
+@section('parent-route', route('store.order.place', ['order_id' => $order->id]))
+@section('title-content', strtoupper(__('title.recap_order')))
 
 @section('content')
     
@@ -248,7 +250,6 @@
                         <span class="total-value">{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</span>
                     </div>
                     <div class="confirm-order">
-                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Retour</a>
                         <form action="{{ route('store.order.confirm') }}" method="POST">
                             @csrf
                             <input type="hidden" name="order_id" value="{{ $order->id }}">

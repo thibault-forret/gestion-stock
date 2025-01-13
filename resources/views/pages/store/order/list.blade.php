@@ -104,15 +104,13 @@
     </style>
 @endsection
 
-@section('title', __('title.order'))
-@section('description', __('description.order'))
+@section('title', __('title.order_list'))
+@section('description', __('description.order_list'))
+@section('parent-route', route('store.order.index'))
+@section('title-content', strtoupper(__('title.order_list')))
 
 @section('content')
     
-    {{ __('description.order') }} <br>
-
-    Même système que invoice -> filtrage par magasin etc <br>
-
     <div class="order-list">
         <h3>Liste des commandes</h3>
 

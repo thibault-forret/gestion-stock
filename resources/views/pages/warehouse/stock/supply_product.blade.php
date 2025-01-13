@@ -6,6 +6,8 @@
 
 @section('title', __('title.stock_supply_product'))
 @section('description', __('description.stock_supply_product'))
+@section('parent-route', route('warehouse.stock.list'))
+@section('title-content', strtoupper(__('title.stock_supply_product')))
 
 @section('content')
 

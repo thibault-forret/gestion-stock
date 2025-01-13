@@ -12,6 +12,7 @@ return [
     'invoice' => 'Factures',
     'place_order' => 'Passer une commande',
     'list_orders' => 'Liste des commandes',
+    'detail_order' => 'Détail de la commande',
     'recap_order' => 'Récapitulatif de la commande',
     'search_new_product' => 'Rechercher un nouveau produit',
     'add_product' => 'Ajouter un produit',
@@ -25,4 +26,6 @@ return [
     'warehouse_stock_movement_list' => 'Liste des mouvements de stock',
     'invoice_list' => 'Liste des factures',
     'invoice_info' => 'Informations sur la facture',
+    'order_list' => 'Liste des commandes',
+    'new_order' => 'Nouvelle commande',
 ];
