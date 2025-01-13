@@ -1,26 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 18px;
-            text-align: left;
-        }
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-    </style>
-    {{-- <link href="{{ mix('css/pages/warehouse/product/search-new-product.css') }}" rel="stylesheet"> --}}
+    <link href="{{ mix('css/pages/warehouse/stock/movement_list.css') }}" rel="stylesheet">
 @endsection
 
 @section('title', __('title.warehouse_stock_movement_list'))
@@ -29,7 +10,6 @@
 @section('title-content', mb_strtoupper(__('title.warehouse_stock_movement_list')))
 
 @section('content')
-    <h2>Liste des mouvements de stock</h2>
 
     @if($stockMovements && count($stockMovements) > 0)
         
@@ -65,7 +45,7 @@
         </table>
 
     @else
-        <p>Aucun mouvement de stock.</p>
+        <p style="text-align: center">Aucun mouvement de stock.</p>
     @endif
 
 @endsection
