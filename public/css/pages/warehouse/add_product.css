@@ -1,0 +1,93 @@
+div.main-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  border: 1px solid #5a5a5c;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+div.product-info .text-container {
+  margin-bottom: 1rem;
+}
+div.product-info img {
+  max-width: 100px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+form {
+  margin-top: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+form .form-fields {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+form .form-fields label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #5a5a5c;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+form .form-fields input,
+form .form-fields textarea {
+  width: 92%;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid rgb(140.7582417582, 140.7582417582, 143.2417582418);
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  color: #5a5a5c;
+  outline: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+form .form-fields input:focus,
+form .form-fields textarea:focus {
+  border-color: #f05c2b;
+  background-color: rgb(253.4801762115, 238.4845814978, 233.5198237885);
+  box-shadow: 0 0 5px rgba(240, 92, 43, 0.5);
+}
+form .form-fields textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+form button[type=submit] {
+  background-color: #f05c2b;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+form button[type=submit]:hover {
+  background-color: rgb(216.6696035242, 65.40969163, 15.3303964758);
+}
+
+div.error-message {
+  margin-top: 1.5rem;
+  background-color: rgba(230, 74, 25, 0.1);
+  color: #f05c2b;
+  padding: 1rem;
+  border-left: 5px solid #f05c2b;
+  border-radius: 5px;
+}
+div.error-message p {
+  margin: 0;
+}
