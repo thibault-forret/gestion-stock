@@ -19,6 +19,7 @@
             font-size: 1.8rem;
             margin-bottom: 20px;
             text-align: center;
+            color: #f05c2b;
         }
 
         form {
@@ -28,6 +29,13 @@
             align-items: center;
         }
 
+        form .search-input {
+            width: 400px;
+            margin-bottom: 20px;
+            display: flex;
+            margin: auto;
+            text-align: center;
+        }
 
         form .search-element {
             width: 90%;
@@ -61,7 +69,7 @@
 
         form input:focus,
         form select:focus {
-            border-color: #007bff;
+            border-color: #f05c2b;
             outline: none;
         }
 
@@ -80,7 +88,7 @@
             margin-bottom: 10px;
             width: 250px;
             padding: 12px;
-            background-color: #007bff;
+            background-color: #f05c2b;
             color: white;
             font-weight: bold;
             text-align: center;
@@ -101,20 +109,18 @@
         }
 
         .buttons .btn:hover {
-            background-color: #0056b3;
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         .buttons .btn:active {
-            background-color: #004085;
             transform: translateY(1px);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .buttons .btn:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5);
         }
 
 
@@ -147,7 +153,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            background-color: #fff;
+            background-color: #5a5a5c;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 20px;
@@ -176,7 +182,7 @@
             display: inline-block;
             margin-top: 10px;
             padding: 8px 12px;
-            background-color: #007bff;
+            background-color: #f05c2b;
             color: white;
             text-decoration: none;
             border-radius: 4px;
@@ -184,7 +190,7 @@
         }
 
         .invoice a:hover {
-            background-color: #0056b3;
+            background-color: #ff5b24;
         }
 
         .status-paid {
@@ -329,18 +335,18 @@
     </script>
 @endsection
 
-@section('title', __('title.invoice_list'))
+@section('title', __('title.invoice_list_order'))
 @section('description', __('description.invoice_list'))
 @section('parent-route', route('warehouse.invoice.index'))
-@section('title-content', mb_strtoupper(__('title.invoice_list')))
+@section('title-content', mb_strtoupper(__('title.invoice_list_order')))
 
 @section('content')
 
-    <h3>{{ __('title.invoice_list') }}</h3>
+    <h3>{{ __('title.invoice_list_order') }}</h3>
 
     <form action="{{ route('warehouse.invoice.search') }}" method="POST">
         @csrf
-        <div class="search-element">
+        <div class="search-input">
             <div>
                 <label for="search">Recherche par numéro de facture</label>
                 <input type="text" id="search" name="search" value="" placeholder="Numéro de facture" required>

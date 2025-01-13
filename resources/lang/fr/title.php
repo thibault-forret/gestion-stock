@@ -30,4 +30,6 @@ return [
     'new_order' => 'Nouvelle commande',
     'supply_warehouse' => 'Approvisionnement entrepôt',
     'order_store' => 'Commande magasin',
+    'invoice_list_supply' => 'Liste des factures d\'approvisionnement',
+    'invoice_list_order' => 'Liste des factures de commande',
 ];
