@@ -52,8 +52,6 @@ body {
     border: 1px solid $light-gray;
     border-radius: 8px;
     padding: 10px;
-    background-color: lighten($gray, 10%);
-    color: $white;
 }
 
 .scrollable::-webkit-scrollbar {
@@ -98,7 +96,7 @@ body {
     padding: 10px;
     border-bottom: 1px solid $light-gray;
     min-width: 60px;
-    color: $white;
+    color: $gray;
 }
 
 .order-table th {
@@ -106,10 +104,6 @@ body {
     color: $white;
     font-weight: bold;
     text-transform: uppercase;
-}
-
-.order-table tr:hover {
-    background: lighten($gray, 15%);
 }
 
 .order-summary {
@@ -158,11 +152,11 @@ body {
 }
 
 .confirm-order .btn-success {
-    background-color: #28a745;
+    background-color: #f05c2b;
 }
 
 .confirm-order .btn-success:hover {
-    background-color: #218838;
+    background-color: #f05c2b;
 }
 
 .confirm-order .btn:focus {
@@ -195,6 +189,7 @@ body {
 .btn-warning:hover {
     background-color: #e0a800;
 }
+
 
 .product-list {
     flex: 50%;
@@ -278,4 +273,14 @@ button.disabled {
 
 button.disabled:hover {
     background-color: lighten($gray, 30%);
+}
+
+.inline-form {
+
+    margin: 5px 0;
+
+    .btn {
+        color: $white;
+        border: none;
+    }
 }

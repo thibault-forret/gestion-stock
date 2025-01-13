@@ -1,0 +1,82 @@
+// Variables de couleur
+$orange: #f05c2b;
+$gray: #5a5a5c;
+$white: #ffffff;
+
+// Section utilisateur
+.role-selection {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; // Permet le retour à la ligne automatique
+    gap: 5rem;
+    margin-top: 70px;
+    margin-bottom: 105px;
+    max-width: 70%;
+
+    form {
+        display: flex;
+
+        .role-card {
+            border: none;
+            position: relative; // Important pour l'animation avec ::before
+            background-color: $gray;
+            color: $white;
+            text-align: center;
+            padding: 5rem;
+            border-radius: 10px;
+            width: 250px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden; // Cache l'animation qui dépasse
+            transition: transform 0.2s ease;
+            cursor: pointer;
+
+            &:hover {
+                transform: scale(1.05); // Agrandit légèrement au survol
+            }
+
+            // Animation
+            &::before {
+                content: '';
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: $orange;
+                z-index: 0;
+                transition: top 0.5s ease; // Animation fluide de montée
+            }
+
+            &:hover::before {
+                top: 0; // Monte l'animation à plein écran
+            }
+
+            .role-title {
+                font-size: 1.4rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+                position: relative;
+                z-index: 1; // S'assurer que le texte est au-dessus de l'animation
+            }
+
+            .role-description {
+                font-size: 1rem;
+                position: relative;
+                z-index: 1;
+            }
+        }
+    }
+}
+
+
+body {
+    height: 100vh;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+}
+

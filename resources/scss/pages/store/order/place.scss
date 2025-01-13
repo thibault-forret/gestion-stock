@@ -128,7 +128,7 @@ body {
     border-collapse: collapse;
     margin-top: 10px;
     font-size: 0.9rem;
-    color: $white;
+    color: $gray;
 
     thead {
         background: $orange;
@@ -147,9 +147,6 @@ body {
         background: lighten($gray, 10%);
     }
 
-    tbody tr:hover {
-        background: lighten($gray, 15%);
-    }
 }
 
 // Scrollable div pour le récapitulatif
@@ -159,7 +156,6 @@ body {
     border: 1px solid $light-gray;
     border-radius: 8px;
     padding: 10px;
-    background-color: lighten($gray, 10%);
 
     .product-item {
         background-color: #e0e0e0; /* Fond gris */
@@ -291,7 +287,7 @@ img.product_image, img.product-thumbnail {
     color: $white;
 }
 #btn-retirer-quantite {
-    background-color: #17a2b8;
+    background-color: #ffc107;
     color: $white;
 }
 #btn-recapitulatif {

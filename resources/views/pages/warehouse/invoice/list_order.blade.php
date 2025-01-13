@@ -19,6 +19,7 @@
             font-size: 1.8rem;
             margin-bottom: 20px;
             text-align: center;
+            color: #f05c2b;
         }
 
         form {
@@ -28,6 +29,13 @@
             align-items: center;
         }
 
+        form .search-input {
+            width: 400px;
+            margin-bottom: 20px;
+            display: flex;
+            margin: auto;
+            text-align: center;
+        }
 
         form .search-element {
             width: 90%;
@@ -61,7 +69,7 @@
 
         form input:focus,
         form select:focus {
-            border-color: #007bff;
+            border-color: #f05c2b;
             outline: none;
         }
 
@@ -80,7 +88,7 @@
             margin-bottom: 10px;
             width: 250px;
             padding: 12px;
-            background-color: #007bff;
+            background-color: #f05c2b;
             color: white;
             font-weight: bold;
             text-align: center;
@@ -101,20 +109,18 @@
         }
 
         .buttons .btn:hover {
-            background-color: #0056b3;
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         .buttons .btn:active {
-            background-color: #004085;
             transform: translateY(1px);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .buttons .btn:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5);
         }
 
 
@@ -160,12 +166,6 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .invoice h4 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: #007bff;
-        }
-
         .invoice p {
             margin: 5px 0;
             line-height: 1.5;
@@ -176,7 +176,7 @@
             display: inline-block;
             margin-top: 10px;
             padding: 8px 12px;
-            background-color: #007bff;
+            background-color: #f05c2b;
             color: white;
             text-decoration: none;
             border-radius: 4px;
@@ -184,7 +184,7 @@
         }
 
         .invoice a:hover {
-            background-color: #0056b3;
+            background-color: #ff5b24;
         }
 
         .status-paid {
@@ -329,18 +329,18 @@
     </script>
 @endsection
 
-@section('title', __('title.invoice_list'))
+@section('title', __('title.invoice_list_order'))
 @section('description', __('description.invoice_list'))
 @section('parent-route', route('warehouse.invoice.index'))
-@section('title-content', mb_strtoupper(__('title.invoice_list')))
+@section('title-content', mb_strtoupper(__('title.invoice_list_order')))
 
 @section('content')
 
-    <h3>{{ __('title.invoice_list') }}</h3>
+    <h3>{{ __('title.invoice_list_order') }}</h3>
 
     <form action="{{ route('warehouse.invoice.search') }}" method="POST">
         @csrf
-        <div class="search-element">
+        <div class="search-input">
             <div>
                 <label for="search">Recherche par numéro de facture</label>
                 <input type="text" id="search" name="search" value="" placeholder="Numéro de facture" required>
@@ -431,60 +431,59 @@
     @endif
 
     {{-- Faire système de trie par magasin etc si on a le temps (reprendre le code de supply) --}}
-
+    @if ($invoices->isEmpty())
+        <p style="margin: auto">Aucune facture trouvée</p>
+    @endif
     <div class="invoices">
-        @if ($invoices->isEmpty())
-            <p>Aucune facture trouvée</p>
-        @else
-            @foreach ($invoices as $invoice)
-                @php
-                    $store = $invoice->order->store;
-                    $warehouse = $store->warehouse;
-                    $order = $invoice->order;
+        
+        @foreach ($invoices as $invoice)
+            @php
+                $store = $invoice->order->store;
+                $warehouse = $store->warehouse;
+                $order = $invoice->order;
 
-                    $total_amount_ht = $order->calculateTotalPrice();
-                    $total_amount_ttc = $total_amount_ht * $warehouse->global_margin;
+                $total_amount_ht = $order->calculateTotalPrice();
+                $total_amount_ttc = $total_amount_ht * $warehouse->global_margin;
 
-                    // Calculer la différence en jours entre aujourd'hui et la date de la facture
-                    $invoiceDate = new DateTime($invoice->invoice_date);
-                    $currentDate = new DateTime();
-                    $daysDifference = $currentDate->diff($invoiceDate)->days;
+                // Calculer la différence en jours entre aujourd'hui et la date de la facture
+                $invoiceDate = new DateTime($invoice->invoice_date);
+                $currentDate = new DateTime();
+                $daysDifference = $currentDate->diff($invoiceDate)->days;
 
-                    // Déterminer la classe CSS selon le statut et la date
-                    $statusClass = '';
-                    if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID) {
-                        $statusClass = 'status-paid';
-                    } elseif ($daysDifference <= 7) {
-                        $statusClass = 'status-due-soon';
-                    } elseif ($daysDifference > 7 && $daysDifference <= 14) {
-                        $statusClass = 'status-due-week';
-                    } else {
-                        $statusClass = 'status-overdue';
-                    }
-                @endphp
+                // Déterminer la classe CSS selon le statut et la date
+                $statusClass = '';
+                if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID) {
+                    $statusClass = 'status-paid';
+                } elseif ($daysDifference <= 7) {
+                    $statusClass = 'status-due-soon';
+                } elseif ($daysDifference > 7 && $daysDifference <= 14) {
+                    $statusClass = 'status-due-week';
+                } else {
+                    $statusClass = 'status-overdue';
+                }
+            @endphp
 
-                <div class="invoice">
-                    <div>
-                        <p>Numéro de facture : {{ $invoice->invoice_number }}</p>
-                        <p>Magasin : {{ $invoice->entity_name }}</p>
-                        <p>Date : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
-                        <p>Total HT : {{ number_format($total_amount_ht, 2) }} €</p>
-                        <p>Total TTC : {{ number_format($total_amount_ttc, 2) }} €</p>
-                        @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
-                            <p>Date réglement : {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
-                        @endif
-                        <p class="{{ $statusClass }}">
-                            Status : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}
-                        </p>
-                    </div>
-                    <div>
-                        <a href="{{ route('warehouse.invoice.info.order', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
-                        <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
-                        <a target="_blank" href="{{ route('warehouse.order.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
-                    </div>
+            <div class="invoice">
+                <div>
+                    <p>Numéro de facture : {{ $invoice->invoice_number }}</p>
+                    <p>Magasin : {{ $invoice->entity_name }}</p>
+                    <p>Date : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
+                    <p>Total HT : {{ number_format($total_amount_ht, 2) }} €</p>
+                    <p>Total TTC : {{ number_format($total_amount_ttc, 2) }} €</p>
+                    @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
+                        <p>Date réglement : {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
+                    @endif
+                    <p class="{{ $statusClass }}">
+                        Status : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}
+                    </p>
                 </div>
-            @endforeach
-        @endif
+                <div>
+                    <a href="{{ route('warehouse.invoice.info.order', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
+                    <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
+                    <a target="_blank" href="{{ route('warehouse.order.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
+                </div>
+            </div>
+        @endforeach
     </div>
 
 @endsection
