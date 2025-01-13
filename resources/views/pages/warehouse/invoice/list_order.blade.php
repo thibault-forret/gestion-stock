@@ -331,6 +331,8 @@
 
 @section('title', __('title.invoice_list'))
 @section('description', __('description.invoice_list'))
+@section('parent-route', route('warehouse.invoice.index'))
+@section('title-content', mb_strtoupper(__('title.invoice_list')))
 
 @section('content')
 
@@ -464,7 +466,7 @@
                 <div class="invoice">
                     <div>
                         <p>Numéro de facture : {{ $invoice->invoice_number }}</p>
-                        <p>Magasin : {{ $store->store_name }}</p>
+                        <p>Magasin : {{ $invoice->entity_name }}</p>
                         <p>Date : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
                         <p>Total HT : {{ number_format($total_amount_ht, 2) }} €</p>
                         <p>Total TTC : {{ number_format($total_amount_ttc, 2) }} €</p>

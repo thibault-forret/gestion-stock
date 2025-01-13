@@ -1,11 +1,12 @@
 {
-    "/js/app.js": "/js/app.js?id=af637348fe37e2aa708b288b841ba711",
+    "/js/app.js": "/js/app.js?id=f113669204a4490a2df77440ebea4916",
+    "/js/sidebar.js": "/js/sidebar.js?id=7457901df46da33a618cb094842f7709",
     "/css/pages/store/dashboard.css": "/css/pages/store/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940",
     "/css/pages/warehouse/dashboard.css": "/css/pages/warehouse/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940",
     "/css/pages/home.css": "/css/pages/home.css?id=5c459f55bd8af97db0f8e30749a213af",
-    "/css/pages/login.css": "/css/pages/login.css?id=c80c038691e67c04ecec61cd1c57b9f4",
-    "/css/style.css": "/css/style.css?id=768d6ce0ae0ca1db3d6ca5f3c76e1a04",
+    "/css/pages/login.css": "/css/pages/login.css?id=e08ad7a3a5b26f3e152af24a75ad6ed0",
+    "/css/style.css": "/css/style.css?id=16e40c0bb4f2bef16ca96f5e1cd4b8bc",
     "/css/pages/store/order/recap.css": "/css/pages/store/order/recap.css?id=e834550426ce58c75a4795eb184b2b3a",
     "/css/pages/store/order/liste.css": "/css/pages/store/order/liste.css?id=31f05c24e2902360b0dcac6d4c4b2deb",
-    "/css/pages/store/order/place.css": "/css/pages/store/order/place.css?id=83175f62bb58b8dafb0580c013855e93"
+    "/css/pages/store/order/place.css": "/css/pages/store/order/place.css?id=5b3dd007cd1fe209c6c0852f5f2dbc22"
 }

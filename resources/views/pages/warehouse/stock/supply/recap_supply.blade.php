@@ -3,7 +3,7 @@
 @section('css')
     <style>
         .order-recap-container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             background: #ffffff;
             border: 1px solid #ddd;
@@ -169,17 +169,19 @@
     {{-- <link href="{{ mix('css/pages/store/order/recap.css') }}" rel="stylesheet"> --}}
 @endsection
 
-@section('title', __('title.detail_order'))
-@section('description', __('description.detail_order'))
-@section('parent-route', route('warehouse.order.list'))
-@section('title-content', mb_strtoupper(__('title.detail_order')))
+@section('title', __('title.recap_order'))
+@section('description', __('description.recap_order'))
+@section('parent-route', route('warehouse.stock.supply.place', ['supply_id' => $supply->id]))
+@section('title-content', mb_strtoupper(__('title.recap_order')))
 
 @section('content')
+    
+    {{ __('description.recap_order') }}
 
     <div class="order-recap-container">
-        <h2 class="order-title">Détail de la commande</h2>
+        <h2 class="order-title">Récapitulatif de la commande</h2>
     
-        @if(isset($order) && count($order->orderLines) > 0)
+        @if(isset($supply) && count($supply->supplyLines) > 0)
             <div class="order-details">
                 <div class="scrollable">
                     <table class="order-table">
@@ -189,27 +191,49 @@
                                 <th>Nom</th>
                                 <th>Quantité</th>
                                 <th>Prix unitaire</th>
-                                <th>Total HT</th>
-                                <th>Total TTC</th>
+                                <th>Total</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @php
                                 $total = 0;
                             @endphp
-                            @foreach($order->orderLines as $orderLine)
+                            @foreach($supply->supplyLines as $supplyLine)
                                 @php
-                                    $total += $orderLine->quantity_ordered * $orderLine->unit_price;
+                                    $total += $supplyLine->quantity_supplied * $supplyLine->unit_price;
                                 @endphp
                                 <tr>
                                     <td>
-                                        <img src="{{ $orderLine->product->image_url }}" class="product-thumbnail" alt="Produit">
+                                        <img src="{{ $supplyLine->product->image_url }}" class="product-thumbnail" alt="Produit">
                                     </td>
-                                    <td>{{ $orderLine->product->product_name }}</td>
-                                    <td>{{ $orderLine->quantity_ordered }}</td>
-                                    <td>{{ number_format($orderLine->unit_price, 2, ',', ' ') }} €</td>
-                                    <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered, 2, ',', ' ') }} €</td>                            
-                                    <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered * $warehouse->global_margin, 2, ',', ' ') }} €</td>
+                                    <td>{{ $supplyLine->product->product_name }}</td>
+                                    <td>{{ $supplyLine->quantity_supplied }}</td>
+                                    <td>{{ number_format($supplyLine->unit_price, 2) }} €</td>
+                                    <td>{{ number_format($supplyLine->unit_price * $supplyLine->quantity_supplied, 2, ',', ' ') }} €</td>                            
+                                    <td>
+                                        <form action="{{ route('warehouse.stock.supply.remove.product') }}" method="POST" class="inline-form">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
+                                            <input type="hidden" name="supply_id" value="{{ $supply->id }}">
+                                            <button type="submit" class="btn btn-danger">Retirer</button>
+                                        </form>
+                                        <form action="{{ route('warehouse.stock.supply.remove.quantity') }}" method="POST" class="inline-form">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
+                                            <input type="hidden" name="supply_id" value="{{ $supply->id }}">
+                                            <input type="number" name="quantity" value="1" min="1" max="{{ $supplyLine->quantity_supplied }}" required>
+                                            <button type="submit" class="btn btn-warning">Retirer quantité</button>
+                                        </form>
+
+                                        <form action="{{ route('warehouse.stock.supply.add.quantity') }}" method="POST" class="inline-form">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
+                                            <input type="hidden" name="supply_id" value="{{ $supply->id }}">
+                                            <input type="number" name="quantity" value="1" min="1" max="{{ $total_quantity }}" required>
+                                            <button type="submit" class="btn btn-warning">Ajouter quantité</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -218,16 +242,18 @@
     
                 <div class="order-summary">
                     <div class="order-total">
-                        <span class="total-label">Total HT :</span>
-                        <span class="total-value">{{ number_format($order->calculateTotalPrice(), 2) }} €</span>
-                        <span class="total-label">Total TTC :</span>
-                        <span class="total-value">{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</span>
+                        <span class="total-label">Total :</span>
+                        <span class="total-value">{{ number_format($total, 2) }} €</span>
                     </div>
-                    
+                    <div class="confirm-order">
+                        <form action="{{ route('warehouse.stock.supply.confirm') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="supply_id" value="{{ $supply->id }}">
+                            <button type="submit" class="btn btn-success">Confirmer la commande</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        @else
-            <p class="empty-order">Aucun produit dans la commande</p>
         @endif
     </div>    
 

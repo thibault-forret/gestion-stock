@@ -27,10 +27,21 @@ return [
     'product_not_in_order' => 'Le produit n\'est pas dans la commande. Veuillez réessayer.',
     'product_removed' => 'Le produit a été supprimé.',
     'remove_quantity_success' => 'La quantité a été retirée avec succès.',
+    'add_quantity_success' => 'La quantité a été ajoutée avec succès.',
     'order_empty' => 'La commande est vide. Veuillez ajouter des produits.',
     'order_confirmed' => 'La commande a été confirmée.',
     'order_delivered' => 'La commande a été validée.',
     'order_refused' => 'La commande a été refusée.',
+
+    'supply_not_found' => 'L\'approvisionnement n\'a pas été trouvé. Veuillez réessayer.',
+    'supply_not_in_progress' => 'L\'approvisionnement n\'est pas en cours. Veuillez réessayer.',
+    'supply_removed' => 'L\'approvisionnement a été supprimé.',
+    'supply_empty' => 'L\'approvisionnement est vide. Veuillez ajouter des produits.',
+    'supply_created' => 'L\'approvisionnement a été créé.',
+    'supplier_not_found' => 'Le fournisseur n\'a pas été trouvé. Veuillez réessayer.',
+    'supply_confirmed' => 'L\'approvisionnement a été confirmé.',
+
+    'quantity_exceeds_capacity' => 'La quantité de produits dépasse la capacité de l\'entrepôt. Veuillez réessayer.',
 
     'validate' => [
         'usernmame_required' => 'Veuillez fournir votre nom d\'utilisateur.',

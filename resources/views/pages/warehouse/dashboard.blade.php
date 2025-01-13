@@ -6,9 +6,8 @@
 
 @section('title', __('title.dashboard'))
 @section('description', __('description.dashboard.warehouse'))
+@section('title-content', mb_strtoupper(__('title.dashboard'), 'UTF-8'))
 
 @section('content')
     Dashboard entrepot
-
-    <a href="{{ route('warehouse.logout') }}">{{ __('auth.logout') }}</a>
 @endsection

@@ -9,6 +9,8 @@ class Store extends Model
     protected $fillable = [
         'store_name',
         'store_address',
+        'store_email',
+        'store_phone',
         'capacity',
         'warehouse_id',
         'user_id',

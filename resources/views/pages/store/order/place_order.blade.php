@@ -6,6 +6,8 @@
 
 @section('title', __('title.place_order'))
 @section('description', __('description.place_order.store'))
+@section('parent-route', route('store.order.index'))
+@section('title-content', mb_strtoupper(__('title.place_order')))
 
 @section('content')
 <div class="order-container">
@@ -112,6 +114,14 @@
                                         <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->quantity_ordered }}" required>
                                         <button type="submit" class="btn" id="btn-retirer-quantite">Retirer la quantité</button>
                                         <button type="submit" class="btn" id="btn-ajouter-quantite">Ajouter la quantité</button>
+                                    </form>
+
+                                    <form action="{{ route('store.order.add.quantity') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
+                                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                        <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}" required>
+                                        <button type="submit" class="btn">Ajouter la quantité</button>
                                     </form>
                                 </td>
                             </tr>

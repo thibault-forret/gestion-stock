@@ -25,6 +25,8 @@
 
 @section('title', __('title.warehouse_stock_movement_list'))
 @section('description', __('description.warehouse_stock_movement_list'))
+@section('parent-route', route('warehouse.stock.index'))
+@section('title-content', mb_strtoupper(__('title.warehouse_stock_movement_list')))
 
 @section('content')
     <h2>Liste des mouvements de stock</h2>

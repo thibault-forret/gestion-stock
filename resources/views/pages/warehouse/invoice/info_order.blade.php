@@ -71,6 +71,8 @@
 
 @section('title', __('title.invoice_info'))
 @section('description', __('description.invoice_info'))
+@section('parent-route', route('warehouse.invoice.list.order'))
+@section('title-content', mb_strtoupper(__('title.invoice_info')))
 
 @section('content')
 <div class="invoice-container">
@@ -90,21 +92,21 @@
     <!-- Détails de l'entrepôt -->
     <div class="invoice-section">
         <h4>{{ __('Warehouse Details') }}</h4>
-        <p><strong>{{ __('Name') }}:</strong> {{ $warehouse->warehouse_name }}</p>
-        <p><strong>{{ __('Location') }}:</strong> {{ $warehouse->warehouse_address }}</p>
-        <p><strong>{{ __('Email') }}:</strong> {{ $warehouse->warehouse_contact }}</p>
-        <p><strong>{{ __('Phone') }}:</strong> {{ $warehouse->warehouse_contact }}</p>
-        <p><strong>{{ __('Manager') }}:</strong> {{ $warehouse->manager->username }}</p>
+        <p><strong>{{ __('Name') }}:</strong> {{ $invoice->warehouse_name }}</p>
+        <p><strong>{{ __('Location') }}:</strong> {{ $invoice->warehouse_address }}</p>
+        <p><strong>{{ __('Email') }}:</strong> {{ $warehouse->warehouse_email }}</p>
+        <p><strong>{{ __('Phone') }}:</strong> {{ $warehouse->warehouse_phone }}</p>
+        <p><strong>{{ __('Manager') }}:</strong> {{ $invoice->warehouse_director }}</p>
     </div>
 
     <!-- Détails du fournisseur -->
     <div class="invoice-section">
         <h4>{{ __('Store Details') }}</h4>
-        <p><strong>{{ __('Name') }}:</strong> {{ $order->store->store_name }}</p>
+        <p><strong>{{ __('Name') }}:</strong> {{ $invoice->entity_name }}</p>
         <p><strong>{{ __('Email') }}:</strong> {{ $order->store->store_email }}</p>
         <p><strong>{{ __('Phone') }}:</strong> {{ $order->store->store_phone }}</p>
-        <p><strong>{{ __('Address') }}:</strong> {{ $order->store->store_address }}</p>
-        <p><strong>{{ __('Manager') }}:</strong> {{ $order->store->manager->username }}</p>
+        <p><strong>{{ __('Address') }}:</strong> {{ $invoice->entity_address }}</p>
+        <p><strong>{{ __('Manager') }}:</strong> {{ $invoice->entity_director }}</p>
     </div>
 
     <!-- Détails de l'approvisionnement -->

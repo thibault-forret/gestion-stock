@@ -22,4 +22,7 @@ return [
     'warehouse_stock_movement_list' => 'Displays the list of stock movements.',
     'invoice_list' => 'Displays the list of invoices.',
     'invoice_info' => 'Displays information about an invoice.',
+    'detail_order' => 'Displays the details of an order.',
+    'order_list' => 'Order list',
+    'new_order' => 'New order',
 ];

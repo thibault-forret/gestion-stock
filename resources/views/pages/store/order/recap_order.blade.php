@@ -6,6 +6,8 @@
 
 @section('title', __('title.recap_order'))
 @section('description', __('description.recap_order'))
+@section('parent-route', route('store.order.place', ['order_id' => $order->id]))
+@section('title-content', mb_strtoupper(__('title.recap_order')))
 
 @section('content')
 
@@ -59,6 +61,14 @@
                                             <button type="submit" class="btn btn-success">Ajouter quantité</button>
                                             <button type="submit" class="btn btn-warning">Retirer quantité</button>
                                         </form>
+
+                                        <form action="{{ route('store.order.add.quantity') }}" method="POST" class="inline-form">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
+                                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                            <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}" required>
+                                            <button type="submit" class="btn btn-warning">Ajouter quantité</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -74,7 +84,6 @@
                         <span class="total-value">{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</span>
                     </div>
                     <div class="confirm-order">
-                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Retour</a>
                         <form action="{{ route('store.order.confirm') }}" method="POST">
                             @csrf
                             <input type="hidden" name="order_id" value="{{ $order->id }}">

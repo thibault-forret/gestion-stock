@@ -11,12 +11,6 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-document.getElementById('sidebar-toggle').addEventListener('click', function () {
-  document.getElementById('sidebar').style.left = '0';
-});
-document.getElementById('close-sidebar').addEventListener('click', function () {
-  document.getElementById('sidebar').style.left = '-100%';
-});
 
 /***/ }),
 

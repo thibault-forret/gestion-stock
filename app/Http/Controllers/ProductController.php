@@ -10,6 +10,7 @@ use App\Models\Supplier;
 use App\Models\StockMovement;
 use App\Models\Invoice;
 use Illuminate\Support\Facades\DB;
+use App\Models\Supply;
 
 class ProductController extends Controller
 {
@@ -285,8 +286,10 @@ class ProductController extends Controller
 
             // Créer un approvisionnement
             $supply = $warehouse->supplies()->create([
+                'user_id' => $user->id,
+                'warehouse_id' => $warehouse->id,
                 'supplier_id' => $supplier->id,
-                'quantity' => $request->input('quantity'),
+                'supply_status' => Supply::SUPPLY_STATUS_DELIVERED,
             ]);
 
             // Créer une ligne d'approvisionnement
@@ -301,6 +304,12 @@ class ProductController extends Controller
                 'invoice_number' => strtoupper(uniqid()),
                 'invoice_date' => now(),
                 'invoice_status' => Invoice::INVOICE_STATUS_UNPAID,
+                'warehouse_name' => $warehouse->warehouse_name,
+                'warehouse_address' => $warehouse->warehouse_address,
+                'warehouse_director' => $warehouse->manager->last_name . ' ' . $warehouse->manager->first_name,
+                'entity_name' => $supplier->supplier_name,
+                'entity_address' => $supplier->supplier_address,
+                'entity_director' => $supplier->supplier_contact,
                 'order_id' => null,
                 'supply_id' => $supply->id,
             ]);

@@ -37,10 +37,39 @@
 </head>
 
 @if (!isset($removeHeader))
-    @include('components._header')
+    @if (request()->is('warehouse*'))
+        @include('components._warehouse_header')
+    @elseif (request()->is('store*'))
+        @include('components._store_header')
+    @endif
 @endif
 
 <body>
+
+    @if (!isset($removeHeader))
+        @php
+            if (request()->is('warehouse*'))
+                $page = 'warehouse';    
+            if (request()->is('store*'))
+                $page = 'store';    
+            
+            // Vérification de la section parent.route et définition du lien href en conséquence
+            $href = View::hasSection('parent-route') 
+                ? View::getSection('parent-route')
+                : route($page . '.dashboard');
+        @endphp
+
+        <div class="title-content">
+            @if (!Route::is($page . '.dashboard'))
+                <a href="{{ $href }}" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                    {{ __('basics.return') }}
+                </a>
+            @endif
+
+            <p>@yield('title-content')<p>
+        </div>
+    @endif
 
     @if (session('success'))
         <div class="alert alert-success">
@@ -61,6 +90,10 @@
     </div>
 
     <script src="{{ mix('js/app.js') }}"></script>
+
+    @if (!isset($removeHeader))
+        <script src="{{ mix('js/sidebar.js') }}"></script>
+    @endif
 
     @hasSection('js')
     	@yield('js')

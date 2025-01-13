@@ -6,24 +6,15 @@
 
 @section('title', __('title.stock'))
 @section('description', __('description.stock'))
+@section('parent-route', route('warehouse.dashboard'))
+@section('title-content', mb_strtoupper(__('title.stock')))
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
 
     <div>
         <h2>{{ __('title.stock') }}</h2>
         
-        <a href="{{ route('warehouse.stock.supply.new') }}">Approvisionner le stock</a>
+        <a href="{{ route('warehouse.stock.supply.index') }}">Approvisionner le stock</a>
         <a href="{{ route('warehouse.stock.list') }}">Liste des produits en stock</a>
         <a href="{{ route('warehouse.stock.list.movement') }}">Liste des mouvements de stock</a>
     </div>

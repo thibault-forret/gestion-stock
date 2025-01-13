@@ -22,4 +22,7 @@ return [
     'warehouse_stock_movement_list' => 'Affiche la liste des mouvements de stock.',
     'invoice_list' => 'Affiche la liste des factures.',
     'invoice_info' => 'Affiche les informations sur une facture.',
+    'detail_order' => 'Affiche les détails d\'une commande.',
+    'order_list' => 'Liste des commandes',
+    'new_order' => 'Nouvelle commande',
 ];

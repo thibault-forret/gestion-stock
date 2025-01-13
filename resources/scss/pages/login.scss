@@ -10,11 +10,19 @@ $input-text-color: #fff; // Texte des zones de saisie en blanc
 // Style global pour centrer le formulaire au milieu de l'écran
 body, html {
     height: 100%;
+    width: 100%;
     margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: $background-color;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 // Style du conteneur du formulaire
@@ -44,10 +52,17 @@ body, html {
             }
 
             .logo {
-                height: 75px; /* Hauteur fixe pour le logo */
+                height: 90px; /* Hauteur fixe pour le logo */
                 width: auto; /* Conserver les proportions */
             }
         }
+    }
+
+    .title-page {
+        color: $active-color;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
     }
 
     // Style pour chaque élément du formulaire

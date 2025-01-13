@@ -8,6 +8,7 @@ use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Invoice;
 use App\Models\StockMovement;
+use App\Models\Supply;
 
 class OrderController extends Controller
 {
@@ -251,6 +252,58 @@ class OrderController extends Controller
         return redirect()->back()->with('success', __('messages.product_removed'));
     }
 
+    public function addQuantityProductFromOrder(Request $request)
+    {        
+        // Vérification des données
+        $request->validate([
+            'order_id' => 'required|integer|exists:orders,id',
+            'product_id' => 'required|integer|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+        ],
+        [
+            'order_id.required' => __('messages.order_not_found'),
+            'order_id.integer' => __('messages.order_not_found'),
+            'order_id.exists' => __('messages.order_not_found'),
+            'product_id.required' => __('messages.product_not_found'),
+            'product_id.integer' => __('messages.product_not_found'),
+            'product_id.exists' => __('messages.product_not_found'),
+        ]);
+
+        // Récupérer la commande et le produit
+        $order = Order::find($request->order_id);
+
+        // Vérifier le statut de la commande
+        if($order->order_status != Order::ORDER_STATUS_IN_PROGRESS)
+        {
+            return redirect()->route('store.order.index')->with('error', __('messages.order_not_in_progress'));
+        }
+
+        $product = Product::find($request->product_id);
+
+        // Vérifier si le produit est dans la commande
+        $orderLine = $order->orderLines->where('product_id', $request->product_id)->first();
+
+        if(!$orderLine)
+        {
+            return redirect()->back()->with('error', __('messages.product_not_in_order'));
+        }
+
+        // Vérifier si la quantité commandée n'excède pas le stock
+        $warehouse = $order->store->warehouse;
+
+        $stock = $warehouse->stock->where('product_id', $request->product_id)->first();
+
+        if($request->quantity > $stock->quantity_available)
+        {
+            return redirect()->back()->with('error', __('messages.quantity_exceed_stock'));
+        }
+
+        // Ajouter la quantité de la ligne de commande
+        $orderLine->addQuantity($request->quantity);
+
+        return redirect()->back()->with('success', __('messages.add_quantity_success'));
+    }
+
     public function removeQuantityProductFromOrder(Request $request)
     {
         // Vérification des données
@@ -448,13 +501,18 @@ class OrderController extends Controller
                 'movement_source' => StockMovement::MOVEMENT_SOURCE_ORDER,
             ]);
         }
-        
 
         // Créer une facture
         $order->invoice()->create([
             'invoice_number' => strtoupper(uniqid()),
             'invoice_date' => now(),
             'invoice_status' => Invoice::INVOICE_STATUS_UNPAID,
+            'warehouse_name' => $warehouse->warehouse_name,
+            'warehouse_address' => $warehouse->warehouse_address,
+            'warehouse_director' => $warehouse->manager->last_name . ' ' . $warehouse->manager->first_name,
+            'entity_name' => $order->store->store_name,
+            'entity_address' => $order->store->store_address,
+            'entity_director' => $order->store->manager->last_name . ' ' . $order->store->manager->first_name,
             'order_id' => $order->id,
             'supply_id' => null,
         ]);

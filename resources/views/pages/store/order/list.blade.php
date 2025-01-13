@@ -4,8 +4,10 @@
     <link href="{{ mix('css/pages/store/order/liste.css') }}" rel="stylesheet">
 @endsection
 
-@section('title', __('title.order'))
-@section('description', __('description.order'))
+@section('title', __('title.order_list'))
+@section('description', __('description.order_list'))
+@section('parent-route', route('store.order.index'))
+@section('title-content', mb_strtoupper(__('title.order_list')))
 
 @section('content')
 

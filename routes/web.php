@@ -63,32 +63,34 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
             Route::prefix('order')->name('order.')->group(function () {
                 Route::get('/', [OrderController::class, 'listOrdersWarehouse'])->name('list');
-
                 Route::get('/{order_id}/detail', [OrderController::class, 'detailOrderWarehouse'])->name('detail');
-
                 Route::post('/remove', [OrderController::class, 'removeOrderWarehouse'])->name('remove');
-
                 Route::post('/refuse', [OrderController::class, 'refuseOrder'])->name('refuse');
-
                 Route::post('/deliver', [OrderController::class, 'deliverOrder'])->name('deliver');
-
                 Route::get('/{invoice_number}/show', [OrderController::class, 'showInvoice'])->name('invoice.show');
-
                 Route::get('/{invoice_number}/download', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
-                
             });
 
             Route::prefix('stock')->name('stock.')->group(function () {
                 Route::get('/', [StockController::class, 'index'])->name('index');
-
                 Route::get('/list', [StockController::class, 'stockList'])->name('list');
                 Route::get('/list-movement', [StockController::class, 'stockMovementList'])->name('list.movement');
-
                 Route::post('/search', [StockController::class, 'searchStock'])->name('search');
 
-                Route::prefix('supply')->name('supply.')->group(function() {
-                    Route::get('/new', [StockController::class, 'newSupplyStock'])->name('new');
-                    Route::post('/new', [StockController::class, 'newSupplyStockSubmit'])->name('new.submit');
+                Route::prefix('supply')->name('supply.')->group(function () {
+                    Route::get('/', [StockController::class, 'indexSupply'])->name('index');
+                    Route::get('/list', [StockController::class, 'listSupplies'])->name('list');
+                    Route::post('/remove', [StockController::class, 'removeSupply'])->name('remove');
+                    Route::get('/{supply_id}/detail', [StockController::class, 'detailSupply'])->name('detail');
+                    Route::get('/new', [StockController::class, 'newSupply'])->name('new');
+                    Route::post('/place', [StockController::class, 'placeNewSupply'])->name('place.new');
+                    Route::get('/{supply_id}/place', [StockController::class, 'placeSupply'])->name('place');
+                    Route::post('/place/add', [StockController::class, 'addProductToSupply'])->name('add');
+                    Route::post('/place/remove', [StockController::class, 'removeProductFromSupply'])->name('remove.product');
+                    Route::post('/place/remove/quantity', [StockController::class, 'removeQuantityProductFromSupply'])->name('remove.quantity');
+                    Route::post('/place/add/quantity', [StockController::class, 'addQuantityProductFromSupply'])->name('add.quantity');
+                    Route::get('/{supply_id}/place/recap', [StockController::class, 'recapSupply'])->name('recap');
+                    Route::post('/place/confirm', [StockController::class, 'confirmSupply'])->name('confirm');
                 });
 
                 Route::prefix('product')->name('product.')->group(function () {
@@ -117,7 +119,6 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::get('/supply/{invoice_number}/info', [InvoiceController::class, 'infoInvoiceSupply'])->name('info.supply');
 
-                // Ajouter une vérification dans le controller (si c'est pas une order)
                 Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle'); 
                 Route::get('/{invoice_number}/show', [InvoiceController::class, 'showInvoice'])->name('show');
                 Route::get('/{invoice_number}/download', [InvoiceController::class, 'downloadInvoice'])->name('download');
@@ -150,29 +151,18 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
             // Tableau de bord des commandes (liste fonctionnalités commandes)
             Route::prefix('order')->name('order.')->group(function () {
                 Route::get('/', [OrderController::class, 'index'])->name('index');
-
                 Route::get('/list', [OrderController::class, 'listOrders'])->name('list');
-
                 Route::post('/remove', [OrderController::class, 'removeOrder'])->name('remove');
-
                 Route::get('/{order_id}/detail', [OrderController::class, 'detailOrder'])->name('detail');
-
                 Route::get('/place', [OrderController::class, 'placeNewOrder'])->name('new');
-
                 Route::get('/{order_id}/place', [OrderController::class, 'placeOrder'])->name('place');
-
                 Route::post('/place/add', [OrderController::class, 'addProductToOrder'])->name('add');
-
                 Route::post('/place/remove', [OrderController::class, 'removeProductFromOrder'])->name('remove.product');
-
+                Route::post('/place/add/quantity', [OrderController::class, 'addQuantityProductFromOrder'])->name('add.quantity');
                 Route::post('/place/remove/quantity', [OrderController::class, 'removeQuantityProductFromOrder'])->name('remove.quantity');
-
                 Route::get('/{order_id}/place/recap', [OrderController::class, 'recapOrder'])->name('recap');
-                
                 Route::post('/place/confirm', [OrderController::class, 'confirmOrder'])->name('confirm');
-
                 Route::get('/{invoice_number}/show', [OrderController::class, 'showInvoice'])->name('invoice.show');
-
                 Route::get('/{invoice_number}/download', [OrderController::class, 'downloadInvoice'])->name('invoice.download');
             });
 
