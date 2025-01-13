@@ -23,7 +23,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 WORKDIR /var/www
 
 # Changer le propriétaire du répertoire de travail
-RUN chown -R www-data:www-data /var/www
+RUN chown -R www-data:www-data /var/www 
 
 # Ajoute le répertoire de travail dans la configuration de git
 RUN git config --global --add safe.directory /var/www 

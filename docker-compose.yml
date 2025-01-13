@@ -6,7 +6,12 @@ services:
         working_dir: /var/www/
         ports:
             - 9000:9000
-        command: sh -c "composer install --no-interaction --prefer-dist && php-fpm"
+        command: > # Réalise l'installation des dépendances, change les permissions pour permettre à Laravel de bien fonctionner et démarre PHP-FPM
+            sh -c "
+            composer install --no-interaction --prefer-dist && 
+            chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && 
+            php-fpm
+            "
         depends_on:
             - db
         volumes:
@@ -18,10 +23,6 @@ services:
         image: mariadb:10.5
         container_name: db-container
         restart: on-failure:5
-        # command:
-        #     --log-error=/var/log/mysql/error.log
-        #     --general-log=1
-        #     --general-log-file=/var/log/mysql/general.log
         environment:
             MYSQL_DATABASE: ${DB_DATABASE}
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -32,7 +33,6 @@ services:
         volumes:
             - ./docker-compose/mariadb:/docker-entrypoint-initdb.d      # Pour les scripts d'initialisation
             - ./db:/var/lib/mysql                                       # Pour les données de la base de données
-            # - ./docker-compose/mariadb/logs:/var/log/mysql
         networks:
             - pma-network
             - db-network
@@ -45,7 +45,7 @@ services:
             - db
             - php
         ports:
-            - 443:80
+            - 7099:80
         volumes:
             - ./public:/var/www/public                            # Monté pour l'application web
             - ./docker-compose/nginx/gestion-stock.conf:/etc/nginx/conf.d/default.conf # Configuration de Nginx
