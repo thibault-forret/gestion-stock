@@ -108,7 +108,7 @@
                     </div>
                 @endforeach
             @else
-                <p>Aucun produit trouvé.</p>
+                <p style="text-align: center">Aucun produit trouvé.</p>
             @endif
         </div>
     </div>
