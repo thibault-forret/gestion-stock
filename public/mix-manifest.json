@@ -1,8 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=c3a4cff1b626511d5e18f564bf18ee8c",
-=======
-    "/js/app.js": "/js/app.js?id=c9171d0af13693e47125c72ed56df424",
-
+    "/js/app.js": "/js/app.js?id=5754ab84bb4bc77c649a4a1e1c2ea6f1",
     "/js/sidebar.js": "/js/sidebar.js?id=7457901df46da33a618cb094842f7709",
     "/css/pages/warehouse/search_new_product.css": "/css/pages/warehouse/search_new_product.css?id=f719bd46534727d83924851a37ae602e",
     "/css/pages/dashboard.css": "/css/pages/dashboard.css?id=d978923d3e82439a8e12b567f85570d1",
@@ -12,13 +9,11 @@
     "/css/pages/store/order/recap.css": "/css/pages/store/order/recap.css?id=c0e3774f75a1833afe5c5d4c34aacc8d",
     "/css/pages/store/order/liste.css": "/css/pages/store/order/liste.css?id=1f511e4c86fb0ec695f18b91cb3b098b",
     "/css/pages/store/order/place.css": "/css/pages/store/order/place.css?id=28d8e55a296a119da751c40ecf34a5a0",
-    "/css/pages/store/dashboard.css": "/css/pages/store/dashboard.css?id=68b329da9893e34099c7d8ad5cb9c940",
+    "/css/pages/warehouse/stock/stock_list.css": "/css/pages/warehouse/stock/stock_list.css?id=dad3a49ba3ab82c56dcc9c3ebc62ff96",
     "/css/pages/warehouse/stock/remove_product.css": "/css/pages/warehouse/stock/remove_product.css?id=746c79edc23af4663e55615d32935ce2",
     "/css/pages/warehouse/stock/supply_product.css": "/css/pages/warehouse/stock/supply_product.css?id=753f643a6806a90fc11ca2cf57b1d174",
     "/css/pages/warehouse/stock/edit_product.css": "/css/pages/warehouse/stock/edit_product.css?id=b5c13aa4423c353255099b2e8f8919ae",
-    "/css/pages/warehouse/stock/info_product.css": "/css/pages/warehouse/stock/info_product.css?id=13ae0630bcfc83800cfc68ad866de2b5",
-
-    "/css/pages/warehouse/stock/stock_list.css": "/css/pages/warehouse/stock/stock_list.css?id=dad3a49ba3ab82c56dcc9c3ebc62ff96",
+    "/css/pages/warehouse/stock/info_product.css": "/css/pages/warehouse/stock/info_product.css?id=27a4c62e6983a8c29c82ded5bd0428e9",
     "/css/pages/warehouse/stock/movement_list.css": "/css/pages/warehouse/stock/movement_list.css?id=e858d3032049e03b7022abd905744215",
     "/css/pages/warehouse/supply/place.css": "/css/pages/warehouse/supply/place.css?id=2115550740ff86658b05b6cde8ed8510",
     "/css/pages/warehouse/invoice/index.css": "/css/pages/warehouse/invoice/index.css?id=bc75af5f3088572105220bc2e5c332f5",

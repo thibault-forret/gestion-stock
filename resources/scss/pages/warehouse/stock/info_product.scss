@@ -66,19 +66,28 @@ $white: #ffffff;
             transition: all 0.3s ease-in-out;
             text-decoration: none;
 
-            &.btn-outline-primary:hover {
+            &.btn-outline-primary {
                 background-color: $orange;
                 color: white;
+                &:hover {
+                    background-color: darken($orange, 10%);
+                }
             }
 
-            &.btn-outline-success:hover {
+            &.btn-outline-success {
                 background-color: #28a745;
                 color: white;
+                &:hover {
+                    background-color: darken(#28a745, 10%);
+                }
             }
 
-            &.btn-outline-danger:hover {
+            &.btn-outline-danger {
                 background-color: #dc3545;
                 color: white;
+                &:hover {
+                    background-color: darken(#dc3545, 10%);
+                }
             }
         }
     }

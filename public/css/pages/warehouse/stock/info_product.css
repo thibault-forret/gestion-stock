@@ -57,15 +57,24 @@
   transition: all 0.3s ease-in-out;
   text-decoration: none;
 }
-.card .card-footer .btn.btn-outline-primary:hover {
+.card .card-footer .btn.btn-outline-primary {
   background-color: #f05c2b;
   color: white;
 }
-.card .card-footer .btn.btn-outline-success:hover {
+.card .card-footer .btn.btn-outline-primary:hover {
+  background-color: rgb(216.6696035242, 65.40969163, 15.3303964758);
+}
+.card .card-footer .btn.btn-outline-success {
   background-color: #28a745;
   color: white;
 }
-.card .card-footer .btn.btn-outline-danger:hover {
+.card .card-footer .btn.btn-outline-success:hover {
+  background-color: rgb(30.1449275362, 125.8550724638, 52);
+}
+.card .card-footer .btn.btn-outline-danger {
   background-color: #dc3545;
   color: white;
+}
+.card .card-footer .btn.btn-outline-danger:hover {
+  background-color: rgb(189.2151898734, 32.7848101266, 47.7721518987);
 }
