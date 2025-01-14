@@ -13,6 +13,112 @@ body {
   color: $text-color;
   background-color: $background-color;
 }
+// --------------------------------------------
+$orange: #f05c2b;
+$gray: #5a5a5c;
+$white: #ffffff;
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  margin: 20px auto;
+
+  &.search-form {
+      background-color: transparent;
+      border: none;
+  }
+
+  .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: flex-start;
+      align-items: flex-end;
+      margin-top: 20px;
+  }
+
+  .filter-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+
+      label {
+          width: 100%;
+          font-size: 14px;
+          font-weight: bold;
+          color: #5a5a5c;
+          text-align: center;
+      }
+
+      input,
+      select {
+          width: 200px;
+          padding: 8px;
+          font-size: 14px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background: #fff;
+          color: #5a5a5c;
+
+          &:focus {
+              border-color: $orange;
+              outline: none;
+              box-shadow: 0 0 5px rgba(240, 92, 43, 0.5);
+          }
+      }
+  }
+
+  .filter-actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+
+      .btn-filter {
+          padding: 10px 20px;
+          background-color: $orange;
+          color: $white;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+              background-color: darken($orange, 10%);
+          }
+      }
+
+      .btn-reset {
+          padding: 10px 20px;
+          background-color: #d9534f;
+          color: $white;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          font-weight: bold;
+          cursor: pointer;
+          text-decoration: none;
+          text-align: center;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+              background-color: darken(#d9534f, 10%);
+          }
+      }
+  }
+}
+
+// --------------------------------------------
 
 // Form styles
 form {
@@ -66,118 +172,137 @@ form {
   }
 }
 
-// Select dropdown styles
-div {
-  margin-bottom: 15px;
 
-  label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-  }
+.content {
 
-  select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid $border-color;
-    border-radius: 5px;
-    font-size: 14px;
-  }
+  // Select dropdown styles
+  div {
+    margin-bottom: 15px;
 
-  select:focus {
-    outline: none;
-    border-color: $orange;
-  }
-}
-
-// Product list styles
-.product-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-
-  .product-item {
-    background-color: white;
-    border: 1px solid $border-color;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-    h3.product_name {
-      font-size: 18px;
-      margin-bottom: 10px;
-      color: $orange;
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
     }
 
-    img.product_image {
+    select {
       width: 100%;
-      height: auto;
+      padding: 10px;
+      border: 1px solid $border-color;
       border-radius: 5px;
-      margin-bottom: 10px;
+      font-size: 14px;
     }
 
-    p {
-      font-size: 14px;
-      margin-bottom: 8px;
-
-      u {
-        font-weight: bold;
-      }
-
-      span {
-        color: $gray;
-      }
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 15px;
-      font-size: 14px;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      text-decoration: none;
-      background-color: $orange;
-
-      &:hover {
-        background-color: $btn-hover-color;
-      }
+    select:focus {
+      outline: none;
+      border-color: $orange;
     }
   }
+
 }
 
-// Reset button
-#reset-button {
-  display: inline-block;
-  padding: 10px 15px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  background-color: $gray;
-  cursor: pointer;
+.actions-buttons {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 
-  &:hover {
-    background-color: darken($gray, 10%);
-  }
+  gap: 10px;
 }
 
-// Responsive design
-@media (max-width: 768px) {
-  form {
-    .search-element {
-      input[type="text"] {
-        font-size: 12px;
-      }
-    }
+.no-product {
+  grid-column: 1 / -1; /* Prend toutes les colonnes d'une ligne */
+  text-align: center;
+}
 
-    .buttons .btn {
-      font-size: 12px;
-    }
-  }
+
+.product-list-wrapper {
+  border-radius: 20px;
+  padding: 20px;
 
   .product-list {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+    .product-item {
+      position: relative;
+      display: flex;
+      flex-direction: column; // Alignement vertical pour correspondre à la structure
+      gap: 10px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      h3.product_name {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      .product_image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      p {
+        margin: 5px 0;
+
+        .product_category,
+        .product_supplier {
+          color: inherit; // Assurez-vous que les couleurs fonctionnent bien sur les arrière-plans alternés
+        }
+      }
+
+      .btn {
+        padding: 8px 15px;
+        background-color: $gray;
+        color: $white;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: $orange;
+        }
+
+        &.btn-primary {
+          background-color: $orange;
+          &:hover {
+            transform: translateY(-3px);
+          }
+        }
+      }
+
+      &:nth-child(odd) {
+        background-color: $orange;
+        color: $white;
+
+        .btn {
+          background-color: $white;
+          color: $orange;
+        }
+      }
+
+      &:nth-child(even) {
+        background-color: $gray;
+        color: $white;
+
+        .btn {
+          background-color: $white;
+          color: $gray;
+        }
+      }
+    }
   }
 }
+
