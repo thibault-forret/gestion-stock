@@ -2100,10 +2100,10 @@ module.exports = Array.isArray || function (arr) {
 
 /***/ }),
 
-/***/ "./resources/scss/pages/accueil.scss":
-/*!*******************************************!*\
-  !*** ./resources/scss/pages/accueil.scss ***!
-  \*******************************************/
+/***/ "./resources/scss/pages/warehouse/add_product.scss":
+/*!*********************************************************!*\
+  !*** ./resources/scss/pages/warehouse/add_product.scss ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2113,10 +2113,166 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/scss/pages/dashboard.scss":
-/*!*********************************************!*\
-  !*** ./resources/scss/pages/dashboard.scss ***!
-  \*********************************************/
+/***/ "./resources/scss/pages/warehouse/supply/index.scss":
+/*!**********************************************************!*\
+  !*** ./resources/scss/pages/warehouse/supply/index.scss ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/warehouse/invoice/index.scss":
+/*!***********************************************************!*\
+  !*** ./resources/scss/pages/warehouse/invoice/index.scss ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/warehouse/supply/place.scss":
+/*!**********************************************************!*\
+  !*** ./resources/scss/pages/warehouse/supply/place.scss ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/warehouse/stock/movement_list.scss":
+/*!*****************************************************************!*\
+  !*** ./resources/scss/pages/warehouse/stock/movement_list.scss ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/warehouse/stock/info_product.scss":
+/*!****************************************************************!*\
+  !*** ./resources/scss/pages/warehouse/stock/info_product.scss ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/warehouse/stock/edit_product.scss":
+/*!****************************************************************!*\
+  !*** ./resources/scss/pages/warehouse/stock/edit_product.scss ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/warehouse/stock/supply_product.scss":
+/*!******************************************************************!*\
+  !*** ./resources/scss/pages/warehouse/stock/supply_product.scss ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/warehouse/stock/remove_product.scss":
+/*!******************************************************************!*\
+  !*** ./resources/scss/pages/warehouse/stock/remove_product.scss ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/warehouse/stock/stock_list.scss":
+/*!**************************************************************!*\
+  !*** ./resources/scss/pages/warehouse/stock/stock_list.scss ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/store/order/place.scss":
+/*!*****************************************************!*\
+  !*** ./resources/scss/pages/store/order/place.scss ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/store/order/liste.scss":
+/*!*****************************************************!*\
+  !*** ./resources/scss/pages/store/order/liste.scss ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/store/order/recap.scss":
+/*!*****************************************************!*\
+  !*** ./resources/scss/pages/store/order/recap.scss ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/style.scss":
+/*!***********************************!*\
+  !*** ./resources/scss/style.scss ***!
+  \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2139,10 +2295,36 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/scss/style.scss":
-/*!***********************************!*\
-  !*** ./resources/scss/style.scss ***!
-  \***********************************/
+/***/ "./resources/scss/pages/home.scss":
+/*!****************************************!*\
+  !*** ./resources/scss/pages/home.scss ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/dashboard.scss":
+/*!*********************************************!*\
+  !*** ./resources/scss/pages/dashboard.scss ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/scss/pages/warehouse/search_new_product.scss":
+/*!****************************************************************!*\
+  !*** ./resources/scss/pages/warehouse/search_new_product.scss ***!
+  \****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -7248,10 +7430,24 @@ const asap = typeof queueMicrotask !== 'undefined' ?
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
-/******/ 			"css/style": 0,
-/******/ 			"css/pages/login": 0,
+/******/ 			"css/pages/warehouse/search_new_product": 0,
 /******/ 			"css/pages/dashboard": 0,
-/******/ 			"css/pages/accueil": 0
+/******/ 			"css/pages/home": 0,
+/******/ 			"css/pages/login": 0,
+/******/ 			"css/style": 0,
+/******/ 			"css/pages/store/order/recap": 0,
+/******/ 			"css/pages/store/order/liste": 0,
+/******/ 			"css/pages/store/order/place": 0,
+/******/ 			"css/pages/warehouse/stock/stock_list": 0,
+/******/ 			"css/pages/warehouse/stock/remove_product": 0,
+/******/ 			"css/pages/warehouse/stock/supply_product": 0,
+/******/ 			"css/pages/warehouse/stock/edit_product": 0,
+/******/ 			"css/pages/warehouse/stock/info_product": 0,
+/******/ 			"css/pages/warehouse/stock/movement_list": 0,
+/******/ 			"css/pages/warehouse/supply/place": 0,
+/******/ 			"css/pages/warehouse/invoice/index": 0,
+/******/ 			"css/pages/warehouse/supply/index": 0,
+/******/ 			"css/pages/warehouse/add_product": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -7301,11 +7497,25 @@ const asap = typeof queueMicrotask !== 'undefined' ?
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/style","css/pages/login","css/pages/dashboard","css/pages/accueil"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/style","css/pages/login","css/pages/dashboard","css/pages/accueil"], () => (__webpack_require__("./resources/scss/pages/accueil.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/style","css/pages/login","css/pages/dashboard","css/pages/accueil"], () => (__webpack_require__("./resources/scss/pages/dashboard.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/style","css/pages/login","css/pages/dashboard","css/pages/accueil"], () => (__webpack_require__("./resources/scss/pages/login.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/style","css/pages/login","css/pages/dashboard","css/pages/accueil"], () => (__webpack_require__("./resources/scss/style.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/style.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/login.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/home.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/dashboard.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/warehouse/search_new_product.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/warehouse/add_product.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/warehouse/supply/index.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/warehouse/invoice/index.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/warehouse/supply/place.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/warehouse/stock/movement_list.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/warehouse/stock/info_product.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/warehouse/stock/edit_product.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/warehouse/stock/supply_product.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/warehouse/stock/remove_product.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/warehouse/stock/stock_list.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/store/order/place.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/store/order/liste.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/pages/warehouse/search_new_product","css/pages/dashboard","css/pages/home","css/pages/login","css/style","css/pages/store/order/recap","css/pages/store/order/liste","css/pages/store/order/place","css/pages/warehouse/stock/stock_list","css/pages/warehouse/stock/remove_product","css/pages/warehouse/stock/supply_product","css/pages/warehouse/stock/edit_product","css/pages/warehouse/stock/info_product","css/pages/warehouse/stock/movement_list","css/pages/warehouse/supply/place","css/pages/warehouse/invoice/index","css/pages/warehouse/supply/index","css/pages/warehouse/add_product"], () => (__webpack_require__("./resources/scss/pages/store/order/recap.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

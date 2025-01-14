@@ -1,0 +1,255 @@
+// Variables de couleur
+$orange: #f05c2b;
+$gray: #5a5a5c;
+$white: #ffffff;
+
+// Styles généraux
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: $white;
+    color: $gray;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+// Boutons génériques
+.btn-primary,
+.btn-secondary {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: $orange;
+    color: $white;
+    border: 1px solid $orange;
+
+    &:hover {
+        background-color: darken($orange, 10%);
+    }
+}
+
+.btn-secondary {
+    background-color: $white;
+    color: $gray;
+
+    &:hover {
+        background-color: lighten($gray, 50%);
+    }
+}
+
+// Section d'en-tête avec logo et description
+.header-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; // Aligne verticalement au centre
+    justify-content: space-between;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+
+    .logo {
+        width: 300px;
+        height: auto;
+    }
+
+    .description {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+        margin-top: 50px;
+
+        h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: $orange;
+        }
+
+        p {
+            font-size: 0.9rem; // Taille ajustée pour le texte descriptif
+            margin: 0;
+        }
+    }
+}
+
+// Gestion des langues
+.language-switcher {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    padding-right: 20px;
+
+    a, p, span {
+        margin-left: 15px;
+        font-size: 1rem;
+        color: $gray;
+        text-decoration: none;
+        font-weight: bold;
+
+        &:hover {
+            color: $orange;
+        }
+    }
+
+    span {
+        text-decoration: underline;
+    }
+
+    .active {
+        color: $orange;
+        user-select: none;
+    }
+}
+
+// Section "Services"
+.services-section {
+    padding: 40px 20px;
+    background-color: $gray;
+    color: $white;
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .services-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+
+        .service-item {
+            background-color: $white;
+            color: $gray;
+            padding: 20px;
+            border-radius: 10px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 2px 5px rgba(0, 0, 0, 0.1);
+
+            h3 {
+                font-size: 1.5rem;
+                color: $orange;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+    }
+}
+
+// Section utilisateur
+.role-selection {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    margin-top: 70px;
+    margin-bottom: 105px;
+
+    .role-card {
+        position: relative; // Important pour l'animation avec ::before
+        background-color: $gray;
+        color: $white;
+        text-align: center;
+        padding: 5rem;
+        border-radius: 10px;
+        width: 250px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden; // Cache l'animation qui dépasse
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: scale(1.05); // Agrandit légèrement au survol
+        }
+
+        // Animation
+        &::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: $orange;
+            z-index: 0;
+            transition: top 0.5s ease; // Animation fluide de montée
+        }
+
+        &:hover::before {
+            top: 0; // Monte l'animation à plein écran
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            z-index: 1; // Positionne le contenu au-dessus de l'animation
+            position: relative;
+
+            .icon {
+                margin-bottom: 1rem;
+
+                i {
+                    font-size: 4rem;
+                    color: $orange;
+                    transition: color 0.15s ease 0.15s;
+                }
+            }
+
+            &:hover .icon i {
+                color: $white;
+            }
+
+
+            .role-title {
+                font-size: 1.4rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+            }
+
+            .role-description {
+                font-size: 1rem;
+            }
+
+            .img {
+                width: 80px;
+                height: 80px;
+                object-fit: contain;
+            }
+        }
+    }
+}
+
+body {
+    height: 100vh;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+}
+
+.thin-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: $orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    color: $white;
+    z-index: 1000;
+    padding: 10px 0;
+}

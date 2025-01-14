@@ -1,0 +1,265 @@
+// Variables de couleur
+$background-menu: #5a5a5c;
+$active-color: #f05c2b;
+$text-color: #ffffff;
+$divider-color: rgba(255, 255, 255, 0.15);
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.navbar {
+    z-index: 30;
+    position: relative;
+    display: flex;
+    justify-content: space-between; /* Équilibrer gauche, centre et droite */
+    align-items: center; /* Centrer verticalement les éléments */
+    background-color: #ffffff; /* Fond blanc */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre sous la navbar */
+    padding: 0 20px; /* Espacement horizontal */
+    height: 75px; /* Ajustez cette valeur selon la taille du logo */
+}
+
+.navbar-left,
+.navbar-center,
+.navbar-right {
+    display: flex;
+    align-items: center; /* Centrer les éléments dans leur conteneur */
+}
+
+.navbar-logo {
+    height: 55px; /* Hauteur fixe pour le logo */
+    width: auto; /* Conserver les proportions */
+}
+
+
+.navbar-left, .navbar-right {
+    display: flex;
+    align-items: center; /* Centrer les éléments verticalement */
+}
+
+.navbar-center {
+    position: absolute; /* Ajouté */
+    left: 50%; /* Ajouté */
+    transform: translateX(-50%); /* Ajouté pour centrer */
+}
+
+.navbar-right {
+    gap: 10px; /* Espacement entre les boutons */
+}
+
+.navbar-right img {
+    margin-right: 10px; /* Espacement entre les drapeaux et les boutons */
+}
+
+.nav-button {
+    border: none;
+    background: none;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Centrer l'image dans le bouton */
+    justify-content: center;
+}
+
+.nav-button img {
+    width: 30px;
+    height: 30px;
+}
+
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 400px;
+    height: 100%;
+    background-color: $background-menu; // Appliquer la couleur de fond
+    color: $text-color;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+    transition: left 0.3s ease;
+    z-index: 1100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .close-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: none;
+        border: none;
+        padding: 5px;
+        width: 40px; 
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        img {
+            width: 24px;
+            height: 24px; 
+        }
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+    }
+
+    ul {
+        width: 100%;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        flex: 1;
+
+        li {
+            a {
+                color: #fff;
+                text-decoration: none;
+                padding: 12px 20px;
+                font-size: 18px;
+                font-weight: 500;
+                transition: background-color 0.3s, padding-left 0.3s;
+
+                display: flex;
+                align-items: center;
+
+                .img-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+
+                .text {
+                    margin-left: 10px;
+                }
+
+                &:hover {
+                    font-weight: bold;
+                    padding-left: 25px;
+                    border-left: 5px solid $active-color;
+                }
+
+                &.active-page {
+                    color: #fff;
+                    background-color: $active-color;
+                    padding-left: 25px;
+                    border-left: 5px solid $active-color;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    // .menu-list {
+    //     list-style: none;
+    //     padding: 0 20px; /* Ajouter des espaces internes à droite et à gauche */
+    //     margin: 0;
+    //     flex-grow: 1; /* S'assurer que la liste de menu prend tout l'espace disponible */
+    //     display: flex; /* Ajouter */
+    //     flex-direction: column; /* Ajouter */
+    //     justify-content: center; /* Centrer les items de la liste verticalement */
+
+    //     .menu-item {
+    //         display: flex;
+    //         align-items: center;
+    //         padding: 0.8rem 1rem;
+    //         font-size: 1rem;
+    //         color: $text-color;
+    //         cursor: pointer;
+    //         transition: background-color 0.3s;
+
+    //         .icon-container {
+    //             margin-right: 10px;
+    //             width: 24px; /* Taille de l'icône */
+    //             height: 24px; /* Taille de l'icône */
+    //             display: flex;
+    //             align-items: center;
+    //             justify-content: center;
+    //         }
+
+    //         .icon-container img {
+    //             width: 24px; /* Réduire la taille de l'image SVG */
+    //             height: 24px; /* Réduire la taille de l'image SVG */
+    //         }
+
+    //         &:hover {
+    //             background-color: lighten($background-menu, 5%);
+    //         }
+
+    //         &.active {
+    //             color: $active-color;
+    //         }
+
+    //         &:not(:last-child) {
+    //             border-bottom: 1px solid $divider-color;
+    //         }
+    //     }
+
+    //     .text-container {
+    //         flex: 1;
+    //     }
+    // }
+}
+
+.custom-select {
+    position: relative;
+}
+
+.options-list {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.options-list img {
+    width: 32px;
+    height: auto;
+    cursor: pointer;
+}
+
+#language-select {
+    appearance: none; /* Supprime les styles natifs du select */
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+/* Ajout d'icônes statiques pour les langues */
+#language-select option[value="fr"] {
+    background-image: url('/images/france.png');
+}
+
+#language-select option[value="en"] {
+    background-image: url('/images/etats-unis.png');
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10; /* S'assurer qu'il est au-dessus du contenu */
+    display: none; /* L'overlay est invisible au départ */
+    cursor: pointer;
+  }

@@ -1,0 +1,48 @@
+// Variables
+$primary-color: #f05c2b;
+$secondary-color: #6c757d;
+$background-color: #f8f9fa;
+$border-color: #dee2e6;
+$text-color: #343a40;
+$hover-color: #e9ecef;
+
+// Reset styles for table
+table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    margin-top: 50px;
+    background-color: $background-color;
+    text-align: center;
+
+    thead {
+        background-color: $primary-color;
+        color: white;
+
+        th {
+            padding: 10px;
+            border: 1px solid $border-color;
+            font-size: 16px;
+        }
+    }
+
+    tbody {
+
+        tr {
+            &:nth-child(odd) {
+                background-color: $hover-color;
+            }
+
+            &:hover {
+                background-color: lighten($hover-color, 10%);
+            }
+
+            td {
+                padding: 10px;
+                border: 1px solid $border-color;
+                font-size: 15px;
+                color: $text-color;
+            }
+        }
+    }
+}

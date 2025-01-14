@@ -9,16 +9,16 @@ class RedirectionController extends Controller
 {
     public function redirectToHome()
     {
-        return redirect('/');//->route('index');
+        return redirect()->route('index');
     }
 
-    public function redirectToDashboardEntrepot()
+    public function redirectToDashboardWarehouse()
     {
-        return redirect()->route('entrepot.dashboard');
+        return redirect()->route('warehouse.dashboard');
     }
 
-    public function redirectToDashboardMagasin()
+    public function redirectToDashboardStore()
     {
-        return redirect()->route('magasin.dashboard');
+        return redirect()->route('store.dashboard');
     }
 }

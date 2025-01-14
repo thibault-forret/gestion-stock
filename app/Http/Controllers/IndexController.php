@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\AuthService;
+
 
 class IndexController extends Controller
 {
@@ -11,14 +13,14 @@ class IndexController extends Controller
     {
         // Ajouter une page au début pour choisir si on est un entrepot ou un magasin, cf. le login de l'ent de l'upjv pour exemple
 
-        if (Auth::guard('entrepot')->check()) {
-            return redirect('/entrepot/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section entrepot.');
+        if ($redirect = AuthService::verifyIfConnected('warehouse')) {
+            return $redirect;  // Si redirection, on redirige
         }
-    
-        if (Auth::guard('magasin')->check()) {
-            return redirect('/magasin/dashboard')->with('error', 'Veuillez d\'abord vous déconnecter de la section magasin.');
+        
+        if ($redirect = AuthService::verifyIfConnected('store')) {
+            return $redirect;  // Si redirection, on redirige
         }
 
-        return view('pages.accueil');
+        return view('pages.home');
     }
 }

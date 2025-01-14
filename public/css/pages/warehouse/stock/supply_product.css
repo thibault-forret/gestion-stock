@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.card {
+  max-width: 800px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+.card .card-header {
+  background-color: #f05c2b;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 15px;
+}
+.card .card-body {
+  padding: 20px;
+}
+.card .card-body h4 {
+  color: #6c757d;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.card .card-body p, .card .card-body ul {
+  font-size: 0.9rem;
+  color: #495057;
+  margin-bottom: 15px;
+}
+.card .card-body img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  display: block;
+}
+.card .card-body .form-label {
+  font-weight: bold;
+  color: #6c757d;
+}
+.card .card-body .form-control {
+  margin-top: 5px;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease-in-out;
+}
+.card .card-body .form-control:focus {
+  border-color: #f05c2b;
+  box-shadow: 0 0 0 2px rgba(240, 92, 43, 0.2);
+  outline: none;
+}
+.card .card-footer {
+  background-color: #f8f9fa;
+  text-align: center;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+}
+.card .btn {
+  font-size: 0.9rem;
+  margin: 5px;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+}
+.card .btn.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+.card .btn.btn-success:hover {
+  background-color: rgb(30.1449275362, 125.8550724638, 52);
+}
+.card .btn:disabled {
+  background-color: rgb(92.8405797101, 216.1594202899, 121);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+}
+.card .error-message {
+  color: #dc3545;
+  font-weight: bold;
+  font-size: 0.8rem;
+  margin-top: 15px;
+}

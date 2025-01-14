@@ -1,0 +1,80 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.card {
+  max-width: 800px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+.card .card-header {
+  background-color: #f05c2b;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 15px;
+}
+.card .card-body {
+  padding: 20px;
+}
+.card .card-body h4 {
+  color: #6c757d;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.card .card-body p, .card .card-body ul {
+  font-size: 0.9rem;
+  color: #495057;
+  margin-bottom: 15px;
+}
+.card .card-body img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  display: block;
+}
+.card .card-footer {
+  background-color: #f8f9fa;
+  text-align: center;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+}
+.card .card-footer .btn {
+  font-size: 0.9rem;
+  margin: 5px;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+}
+.card .card-footer .btn.btn-outline-primary {
+  background-color: #f05c2b;
+  color: white;
+}
+.card .card-footer .btn.btn-outline-primary:hover {
+  background-color: rgb(216.6696035242, 65.40969163, 15.3303964758);
+}
+.card .card-footer .btn.btn-outline-success {
+  background-color: #28a745;
+  color: white;
+}
+.card .card-footer .btn.btn-outline-success:hover {
+  background-color: rgb(30.1449275362, 125.8550724638, 52);
+}
+.card .card-footer .btn.btn-outline-danger {
+  background-color: #dc3545;
+  color: white;
+}
+.card .card-footer .btn.btn-outline-danger:hover {
+  background-color: rgb(189.2151898734, 32.7848101266, 47.7721518987);
+}
