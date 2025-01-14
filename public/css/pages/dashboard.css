@@ -1,0 +1,76 @@
+@charset "UTF-8";
+.content {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  text-align: center;
+  animation: fadeIn 1s ease-out;
+}
+
+.icon {
+  margin-bottom: 20px;
+  color: #ff6f61;
+  animation: bounce 5s infinite ease-in-out;
+}
+.icon i {
+  font-size: 150px;
+}
+
+.container h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.container p {
+  font-size: 1.2rem;
+  margin: 10px 0 30px;
+  color: #555;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff6f61;
+  border-radius: 5px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  background-color: #e65a50;
+}
+
+.btn .icon {
+  color: #fff;
+  margin-bottom: 0; /* Évite des marges indésirables */
+  animation: none; /* Désactive l'animation bounce pour les icônes dans les boutons */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

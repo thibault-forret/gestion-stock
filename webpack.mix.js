@@ -10,9 +10,9 @@ mix.js('resources/js/app.js', 'public/js')
     // Pages
     .sass('resources/scss/pages/login.scss', 'public/css/pages/')
     .sass('resources/scss/pages/home.scss', 'public/css/pages/')
+    .sass('resources/scss/pages//dashboard.scss', 'public/css/pages//')
 
     // Warehouse
-    .sass('resources/scss/pages/warehouse/dashboard.scss', 'public/css/pages/warehouse/')
     .sass('resources/scss/pages/warehouse/search_new_product.scss', 'public/css/pages/warehouse/')
 
     .sass('resources/scss/pages/warehouse/add_product.scss', 'public/css/pages/warehouse/')
@@ -25,7 +25,6 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/scss/pages/warehouse/stock/stock_list.scss', 'public/css/pages/warehouse/stock/')
 
     // Store
-    .sass('resources/scss/pages/store/dashboard.scss', 'public/css/pages/store/')
     .sass('resources/scss/pages/store/order/place.scss', 'public/css/pages/store/order/')
     .sass('resources/scss/pages/store/order/liste.scss', 'public/css/pages/store/order/')
     .sass('resources/scss/pages/store/order/recap.scss', 'public/css/pages/store/order/')
