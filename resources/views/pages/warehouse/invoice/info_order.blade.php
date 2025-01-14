@@ -189,16 +189,6 @@
             <span class="text-primary">{{ number_format($total_amount_ttc, 2) }} €</span>
         </h4>
 
-        @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_UNPAID)
-            <form action="{{ route('warehouse.invoice.settle') }}" method="POST" class="action-form">
-                @csrf
-                <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
-                <button type="submit" class="btn settle-btn">
-                    {{ __('Settle Invoice') }}
-                </button>
-            </form>
-        @endif
-
         <div class="action-links">
             <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}" class="btn secondary-btn">
                 Voir la facture
