@@ -11,7 +11,7 @@
 @section('content')
     <div class="content">
         <div class="container">
-            <div class="icon">
+            <div class="icon-construct">
                 <i class="fas fa-tools icon"></i>
             </div>
             <h1>@lang('Oops! Page en construction')</h1>

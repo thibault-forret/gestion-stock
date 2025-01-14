@@ -11,12 +11,12 @@
   animation: fadeIn 1s ease-out;
 }
 
-.icon {
+.icon-construct {
   margin-bottom: 20px;
   color: #ff6f61;
   animation: bounce 5s infinite ease-in-out;
 }
-.icon i {
+.icon-construct i {
   font-size: 150px;
 }
 
