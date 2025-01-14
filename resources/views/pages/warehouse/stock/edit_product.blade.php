@@ -20,13 +20,14 @@
             <div class="card-body p-4">
                 {{-- Section principale : Nom et Image --}}
                 <div class="row mb-4">
+                    <div class="col-lg-6 text-center">
+                        <img src="{{ $product->image_url }}" alt="{{ $product->product_name }}" class="img-fluid rounded border" style="max-width: 250px;">
+                    </div>
                     <div class="col-lg-6">
                         <h4 class="text-muted"><strong>Nom du Produit :</strong></h4>
                         <p class="h5 font-weight-bold">{{ $product->product_name }}</p>
                     </div>
-                    <div class="col-lg-6 text-center">
-                        <img src="{{ $product->image_url }}" alt="{{ $product->product_name }}" class="img-fluid rounded border" style="max-width: 250px;">
-                    </div>
+
                 </div>
 
                 {{-- Section pour les catégories et fournisseur --}}
