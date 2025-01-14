@@ -496,14 +496,14 @@ class InvoiceController extends Controller
         $invoice = Invoice::where('invoice_number', $invoice_number)->first();
 
         if (!$invoice) {
-            return redirect()->route('warehouse.invoice.list_supply')->with('error', __('messages.invoice_not_found'));
+            return redirect()->route('warehouse.invoice.list.supply')->with('error', __('messages.invoice_not_found'));
         }
 
         $supply = $invoice->supply;
 
         if (!$supply) 
         {
-            return redirect()->route('warehouse.invoice.list_supply')->with('error', __('messages.invoice_not_found'));
+            return redirect()->route('warehouse.invoice.list.supply')->with('error', __('messages.invoice_not_found'));
         }
 
         $total_amount = $supply->supplyLines->sum(fn($supply_line) => $supply_line->unit_price * $supply_line->quantity_supplied);
@@ -521,14 +521,14 @@ class InvoiceController extends Controller
         $invoice = Invoice::where('invoice_number', $invoice_number)->first();
 
         if (!$invoice) {
-            return redirect()->route('warehouse.invoice.list_supply')->with('error', __('messages.invoice_not_found'));
+            return redirect()->route('warehouse.invoice.list.supply')->with('error', __('messages.invoice_not_found'));
         }
 
         $supply = $invoice->supply;
 
         if (!$supply) 
         {
-            return redirect()->route('warehouse.invoice.list_supply')->with('error', __('messages.invoice_not_found'));
+            return redirect()->route('warehouse.invoice.list.supply')->with('error', __('messages.invoice_not_found'));
         }
 
         $total_amount = $supply->supplyLines->sum(fn($supply_line) => $supply_line->unit_price * $supply_line->quantity_supplied);

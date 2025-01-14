@@ -200,10 +200,10 @@
         @endif
 
         <div class="action-links">
-            <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}" class="btn secondary-btn">
+            <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}" class="btn secondary-btn">
                 Voir la facture
             </a>
-            <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}" class="btn secondary-btn">
+            <a target="_blank" href="{{ route('warehouse.order.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}" class="btn secondary-btn">
                 Télécharger la facture
             </a>
         </div>
