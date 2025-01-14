@@ -23,6 +23,7 @@ mix.js('resources/js/app.js', 'public/js')
 
     .sass('resources/scss/pages/warehouse/stock/movement_list.scss', 'public/css/pages/warehouse/stock/')
     .sass('resources/scss/pages/warehouse/stock/info_product.scss', 'public/css/pages/warehouse/stock/')
+    .sass('resources/scss/pages/warehouse/stock/edit_product.scss', 'public/css/pages/warehouse/stock/')
 
     // Store
     .sass('resources/scss/pages/store/dashboard.scss', 'public/css/pages/store/')
