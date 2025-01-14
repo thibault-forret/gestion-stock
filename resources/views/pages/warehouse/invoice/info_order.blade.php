@@ -182,8 +182,11 @@
 
     <!-- Total et bouton de règlement -->
     <div class="total-section">
-        <h4>{{ __('Total Amount') }}: 
-            <span class="text-primary">{{ number_format($total_amount, 2, ',', ' ') }} €</span>
+        <h4>{{ __('Total Amount HT') }}: 
+            <span class="text-primary">{{ number_format($total_amount_ht, 2) }} €</span>
+        </h4>
+        <h4>{{ __('Total Amount TTC') }}: 
+            <span class="text-primary">{{ number_format($total_amount_ttc, 2) }} €</span>
         </h4>
 
         @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_UNPAID)
