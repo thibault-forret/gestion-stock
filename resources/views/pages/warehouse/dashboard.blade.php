@@ -15,7 +15,7 @@
                 <i class="fas fa-tools icon"></i>
             </div>
             <h1>@lang('Oops! Page en construction')</h1>
-            <p>Cette section est actuellement en cours de développement. Revenez bientôt pour découvrir son contenu !</p>
+            <p>Cette section est actuellement en cours de développement. Revenez bientôt pour découvrir son contenu ! tesssst</p>
             <div class="buttons">
                 <a href="{{ route('warehouse.product.index') }}" class="btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="icon">
