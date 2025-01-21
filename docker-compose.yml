@@ -6,16 +6,11 @@ services:
         working_dir: /var/www/
         ports:
             - 9000:9000
-        command: > # Réalise l'installation des dépendances, change les permissions pour permettre à Laravel de bien fonctionner et démarre PHP-FPM
-            sh -c "
-            composer install --no-interaction --prefer-dist && 
-            chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && 
-            php-fpm
-            "
         depends_on:
             - db
         volumes:
             - ./:/var/www
+            - vendor:/var/www/vendor
         networks:
             - web-network
             - db-network
@@ -64,10 +59,12 @@ services:
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
             UPLOAD_LIMIT: 128M
         ports:
-            - 8080:80
+            - 7080:80
         networks:
             - pma-network
 
+volumes:
+    vendor:
 
 networks:
     web-network:
