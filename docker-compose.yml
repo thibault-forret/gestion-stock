@@ -9,8 +9,8 @@ services:
         depends_on:
             - db
         volumes:
-            - ./:/var/www
-            - vendor:/var/www/vendor
+            - ./:/var/www:cached
+            - vendor:/var/www/vendor:cached
         networks:
             - web-network
             - db-network
