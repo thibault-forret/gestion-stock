@@ -93,21 +93,22 @@ body {
         background: none;
         border: none;
         padding: 5px;
-        width: 40px; 
+        width: 40px;
         height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        border-radius: 50%;
+        transition: background-color 0.3s;
 
         img {
             width: 24px;
-            height: 24px; 
+            height: 24px;
         }
 
         &:hover {
             background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
         }
     }
 
@@ -122,7 +123,8 @@ body {
             a {
                 color: #fff;
                 text-decoration: none;
-                padding: 12px 20px;
+                height: 50px;
+                padding: 0 20px;
                 font-size: 18px;
                 font-weight: 500;
                 transition: background-color 0.3s, padding-left 0.3s;
@@ -263,3 +265,179 @@ body {
     display: none; /* L'overlay est invisible au départ */
     cursor: pointer;
   }
+
+
+//   /* Styles pour les sous-menus */
+// .sidebar .has-submenu .submenu {
+//     display: none;
+//     padding-left: 20px;
+//     background-color: white;
+//     margin: 5px 0;
+//     border-radius: 4px;
+//     width: 90%;
+//     justify-self: center;
+// }
+
+// .sidebar .has-submenu.active .submenu {
+//     display: block;
+// }
+
+// .sidebar .has-submenu .arrow {
+//     margin-left: auto; /* Déplacer la flèche à droite */
+//     transition: transform 0.3s;
+// }
+
+// .sidebar .has-submenu.active .arrow {
+//     transform: rotate(180deg);
+// }
+
+// /* Styles pour les liens des sous-menus */
+// .sidebar .submenu li a {
+//     font-size: 16px;
+//     color: #5a5a5c;
+//     text-decoration: none;
+//     display: block;
+//     transition: background-color 0.3s, padding-left 0.3s;
+// }
+
+// .sidebar .submenu li a:hover {
+//     padding-left: 25px;
+// }
+
+// .sidebar .submenu li a.active-page {
+//     background-color: $active-color;
+//     padding-left: 25px;
+//     font-weight: bold;
+// }
+
+
+/* Styles pour les sous-menus */
+.sidebar .has-submenu .submenu {
+    display: none;
+    padding-left: 20px;
+    background-color: white;
+    margin: 5px 0;
+    border-radius: 4px;
+    width: 90%;
+    justify-self: center;
+}
+
+.sidebar .has-submenu.active .submenu {
+    display: block;
+}
+
+/* Styles pour le bouton de la flèche */
+.sidebar .arrow-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto; /* Aligner à droite */
+    font-size: 16px; /* Taille de la flèche */
+    color: $text-color; /* Couleur de la flèche */
+
+    span {
+        transition: all 0.3s;
+    }
+}
+
+.sidebar .arrow-button:hover span {
+    color: $active-color; /* Changement de couleur au survol */
+}
+
+.sidebar .arrow-button.open span {
+    transform: rotate(180deg); /* Rotation de la flèche lorsque le sous-menu est ouvert */
+}
+
+/* Styles pour les liens des sous-menus */
+.sidebar .submenu li a {
+    font-size: 16px;
+    color: #5a5a5c;
+}
+
+.sidebar .submenu li a:hover {
+    padding-left: 25px;
+}
+
+.sidebar .submenu li .active-page {
+    background-color: $active-color;
+    padding-left: 25px;
+    font-weight: bold;
+}
+
+.sidebar .has-submenu-of-submenu .arrow-button {
+    color: #5a5a5c;
+
+    &:hover {
+        color: $active-color;
+    }
+}
+
+/* Styles pour les sous-menus imbriqués */
+.sidebar .submenu-of-submenu {
+    display: none;
+    padding-left: 20px; /* Indentation supplémentaire pour les sous-menus imbriqués */
+    margin: 5px 0;
+    border-radius: 4px;
+    width: 90%;
+    justify-self: center;
+    background-color: #5a5a5c;
+    transition: ease-in-out 0.3s;
+
+    li a {
+        color: #fff;
+    }
+}
+
+.sidebar .submenu-of-submenu.active {
+    display: block;
+}
+
+.sidebar .has-submenu .submenu.open {
+    display: block;
+}
+
+.sidebar .submenu-of-submenu.open {
+    display: block;
+}
+
+.has-submenu {
+    display: block; /* Changement de flex à block */
+    position: relative; // Important pour le positionnement du sous-menu
+
+    .menu-item-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    a {
+        flex: 1; // Prend tout l'espace disponible
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+
+    .arrow-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        height: 50px;
+        width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.active-page {
+            background-color: $active-color;
+            &:hover span {
+                color: #fff;
+            }
+        }
+    }
+
+    &.active .submenu {
+        display: block;
+    }
+}
