@@ -108,13 +108,20 @@
                     <div class="text">{{ __('title.order') }}</div>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('warehouse.invoice.index') }}" class="{{ Route::is('warehouse.invoice*') ? 'active-page' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="icon">
-                        <path d="M24,20c0,1.654-1.346,3-3,3v1h-2v-1c-1.654,0-3-1.346-3-3h2c0,.551,.448,1,1,1h2c.552,0,1-.449,1-1,0-.378-.271-.698-.644-.76l-3.041-.507c-1.342-.223-2.315-1.373-2.315-2.733,0-1.654,1.346-3,3-3v-1h2v1c1.654,0,3,1.346,3,3h-2c0-.551-.448-1-1-1h-2c-.552,0-1,.449-1,1,0,.378,.271,.698,.644,.76l3.041,.507c1.342,.223,2.315,1.373,2.315,2.733Zm-9.899-5c.152-.743,.482-1.416,.924-2H5v7H14v-2H7v-3h7.101ZM5,11h5v-2H5v2Zm5-6H5v2h5v-2Zm6.031,19H1V3C1,1.346,2.346,0,4,0H13.414l7.586,7.586v2.414h-2v-1h-7V2H4c-.551,0-1,.449-1,1V22H14.424c.352,.801,.913,1.483,1.607,2ZM14,7h3.586l-3.586-3.586v3.586Z"/>
-                    </svg>
-                    <div class="text">{{ __('title.invoice') }}</div>
-                </a>
+            <li class="has-submenu">
+                <div class="menu-item-container">
+                    <a href="{{ route('warehouse.invoice.index') }}" class="{{ Route::is('warehouse.invoice*') ? 'active-page' : '' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="icon">
+                            <path d="M24,20c0,1.654-1.346,3-3,3v1h-2v-1c-1.654,0-3-1.346-3-3h2c0,.551,.448,1,1,1h2c.552,0,1-.449,1-1,0-.378-.271-.698-.644-.76l-3.041-.507c-1.342-.223-2.315-1.373-2.315-2.733,0-1.654,1.346-3,3-3v-1h2v1c1.654,0,3,1.346,3,3h-2c0-.551-.448-1-1-1h-2c-.552,0-1,.449-1,1,0,.378,.271,.698,.644,.76l3.041,.507c1.342,.223,2.315,1.373,2.315,2.733Zm-9.899-5c.152-.743,.482-1.416,.924-2H5v7H14v-2H7v-3h7.101ZM5,11h5v-2H5v2Zm5-6H5v2h5v-2Zm6.031,19H1V3C1,1.346,2.346,0,4,0H13.414l7.586,7.586v2.414h-2v-1h-7V2H4c-.551,0-1,.449-1,1V22H14.424c.352,.801,.913,1.483,1.607,2ZM14,7h3.586l-3.586-3.586v3.586Z"/>
+                        </svg>
+                        <div class="text">{{ __('title.invoice') }}</div>
+                    </a>
+                    <div class="arrow-button {{ Route::is('warehouse.invoice*') ? 'active-page' : '' }}"><span>&#9660;</span></div>
+                </div>
+                <ul class="submenu">
+                    <li><a href="{{ route('warehouse.invoice.list.supply') }}"><div class="text">Approvisionnement entrepôt</div></a></li>
+                    <li><a href="{{ route('warehouse.invoice.list.order') }}"><div class="text">Commande magasin</div></a></li>
+                </ul>
             </li>
         </ul>
     </div>
@@ -126,8 +133,6 @@
                 button.addEventListener('click', function(e) {
                     e.stopPropagation(); // Empêcher la propagation du clic au parent
                     const submenu = this.parentElement.nextElementSibling; // Le sous-menu est l'élément suivant
-
-                    console.log(submenu);
 
                     // Basculer l'état ouvert/fermé du sous-menu
                     if (submenu.classList.contains('open')) {
