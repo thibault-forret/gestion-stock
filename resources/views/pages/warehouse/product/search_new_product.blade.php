@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-     <link href="{{ mix('css/pages/warehouse/search_new_product.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/pages/warehouse/search_new_product.css') }}" rel="stylesheet">
 @endsection
 
 @section('title', __('title.search_new_product'))
@@ -10,17 +10,14 @@
 @section('title-content', mb_strtoupper(__('title.search_new_product')))
 
 @section('content')
-
     <div class="filter-buttons">
         <form action="{{ route('warehouse.product.search') }}" method="GET">
             <div class="filter-group">
-                <!-- Recherche par nom -->
                 <div class="filter-item">
                     <label for="search_by_name">{{ __('search_product.search_by_name') }} :</label>
                     <input type="text" id="search-by-name" name="search_by_name" value="{{ request('search_by_name') }}">
                 </div>
 
-                <!-- Filtre par catégorie -->
                 <div class="filter-item">
                     <label for="category_name">{{ __('search_product.categories') }} :</label>
                     <select id="category-name" name="category_name">
@@ -34,7 +31,6 @@
                     </select>
                 </div>
 
-                <!-- Filtre par fournisseur -->
                 <div class="filter-item">
                     <label for="supplier_name">{{ __('search_product.suppliers') }} :</label>
                     <select id="supplier-name" name="supplier_name">
@@ -48,15 +44,14 @@
                     </select>
                 </div>
 
-                <!-- Pagination -->
                 <div class="filter-item">
                     <label for="page_number">Page :</label>
                     <input type="number" id="page-number" name="page_number" value="{{ request('page_number') ?? 1 }}" min="1">
                 </div>
 
                 <div class="filter-item filter-actions">
-                    <button type="submit" class="btn-filter">{{ __('search_product.search') }}</button>
                     <a href="{{ route('warehouse.product.index') }}" class="btn-reset">{{ __('search_product.reset') }}</a>
+                    <button type="submit" class="btn-filter">{{ __('search_product.search') }}</button>
                 </div>
             </div>
         </form>
@@ -71,6 +66,30 @@
     @endif
 
     <div class="product-list-wrapper">
+
+        @if(isset($products) && count($products) > 0)
+            <div class="pagination-wrapper-top">
+                <div class="pagination-controls">
+                    @if((request('page_number') ?? 1) > 1)
+                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) - 1])) }}" class="pagination-link">&laquo; Précédent</a>
+                    @endif
+
+                    @if(count($products) >= 24)
+                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) + 1])) }}" class="pagination-link">Suivant &raquo;</a>
+                    @endif
+                </div>
+                <div class="pagination-info">
+                    @php
+                        $currentPage = request('page_number') ?? 1;
+                        $itemsPerPage = 24;
+                        $start = ($currentPage - 1) * $itemsPerPage + 1;
+                        $end = min($start + count($products) - 1, $currentPage * $itemsPerPage);
+                    @endphp
+                    Affichage des produits {{ $start }} à {{ $end }} sur la page {{ $currentPage }}
+                </div>
+            </div>
+        @endif
+
         <div class="product-list">
             @if(isset($products) && count($products) > 0)
                 @foreach($products as $product)
@@ -87,19 +106,39 @@
                                 <p><strong>Fournisseur :</strong> {{ $product['supplier']->supplier_name }}</p>
                             </div>
                         </div>
-                        <!-- Actions placées à droite -->
                         <div class="product-actions">
-                            <a href="{{ route('warehouse.product.add', ['product_id' => $product['id']]) }}" class="btn btn-success add-to-cart">
-                                Ajouter le produit
+                            <a href="{{ route('warehouse.product.add', ['product_id' => $product['id']]) }}" class="add-to-cart">
+                                <i class="fa-solid fa-cart-shopping"></i> Ajouter le produit
                             </a>
                         </div>
                     </div>
                 @endforeach
             @else
-                <p style="text-align: center">Aucun produit trouvé.</p>
+                <p class="no-results">Aucun produit trouvé.</p>
             @endif
         </div>
+
+        @if(isset($products) && count($products) > 0)
+            <div class="pagination-wrapper-bottom">
+                <div class="pagination-info">
+                    @php
+                        $currentPage = request('page_number') ?? 1;
+                        $itemsPerPage = 24;
+                        $start = ($currentPage - 1) * $itemsPerPage + 1;
+                        $end = min($start + count($products) - 1, $currentPage * $itemsPerPage);
+                    @endphp
+                    Affichage des produits {{ $start }} à {{ $end }} sur la page {{ $currentPage }}
+                </div>
+                <div class="pagination-controls">
+                    @if((request('page_number') ?? 1) > 1)
+                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) - 1])) }}" class="pagination-link">&laquo; Précédent</a>
+                    @endif
+
+                    @if(count($products) >= 24)
+                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) + 1])) }}" class="pagination-link">Suivant &raquo;</a>
+                    @endif
+                </div>
+            </div>
+        @endif
     </div>
-
-
 @endsection

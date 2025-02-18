@@ -1,12 +1,13 @@
-$orange: #173b75;
+$blue: #173b75;
 $gray: #5a5a5c;
 $white: #ffffff;
 $black: #000000;
 $light-gray: #f9f9f9;
+$light-blue: #f2f5fc;
 
 body {
     font-family: 'Roboto Thin', sans-serif;
-    background-color: #f2f5fc;
+    background-color: $light-blue;
     background-image: url('/images/background.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -115,9 +116,9 @@ form {
             transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 
             &:focus {
-                border-color: $orange;
-                background-color: lighten($orange, 40%);
-                box-shadow: 0 0 5px rgba($orange, 0.5);
+                border-color: $blue;
+                background-color: lighten($blue, 40%);
+                box-shadow: 0 0 5px rgba($blue, 0.5);
             }
         }
 
@@ -128,7 +129,7 @@ form {
     }
 
     button[type='submit'] {
-        background-color: $orange;
+        background-color: $blue;
         color: $white;
         border: none;
         border-radius: 8px;
@@ -138,7 +139,7 @@ form {
         transition: background-color 0.3s ease;
 
         &:hover {
-            background-color: darken($orange, 10%);
+            background-color: darken($blue, 10%);
         }
     }
 }
@@ -146,9 +147,9 @@ form {
 div.error-message {
     margin-top: 1.5rem;
     background-color: rgba(230, 74, 25, 0.1);
-    color: $orange;
+    color: $blue;
     padding: 1rem;
-    border-left: 5px solid $orange;
+    border-left: 5px solid $blue;
     border-radius: 5px;
     animation: fadeIn 0.5s ease-in-out;
 
@@ -174,7 +175,7 @@ div.error-message {
     gap: 0.5rem;
 
     button {
-        background-color: $orange;
+        background-color: $blue;
         color: $white;
         border: none;
         border-radius: 100px;
@@ -184,7 +185,7 @@ div.error-message {
         transition: background-color 0.3s ease;
 
         &:hover {
-            background-color: darken($orange, 10%);
+            background-color: darken($blue, 10%);
         }
     }
 
@@ -200,9 +201,9 @@ div.error-message {
         transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 
         &:focus {
-            border-color: $orange;
-            background-color: lighten($orange, 40%);
-            box-shadow: 0 0 5px rgba($orange, 0.5);
+            border-color: $blue;
+            background-color: lighten($blue, 40%);
+            box-shadow: 0 0 5px rgba($blue, 0.5);
         }
     }
 }
