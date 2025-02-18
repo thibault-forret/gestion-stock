@@ -87,6 +87,10 @@ body {
   gap: 10px; /* Espacement entre les boutons */
 }
 
+.navbar-right form {
+  margin-right: 10px;
+}
+
 .navbar-right img {
   margin-right: 10px; /* Espacement entre les drapeaux et les boutons */
 }
@@ -203,30 +207,6 @@ body {
   width: 32px;
   height: auto;
   cursor: pointer;
-}
-
-#language-select {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none; /* Supprime les styles natifs du select */
-  border: 1px solid #ccc;
-  padding: 5px 10px;
-  font-size: 16px;
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-position: left center;
-  padding-left: 40px;
-  height: 40px;
-  cursor: pointer;
-}
-
-/* Ajout d'icônes statiques pour les langues */
-#language-select option[value=fr] {
-  background-image: url("/images/france.png");
-}
-
-#language-select option[value=en] {
-  background-image: url("/images/etats-unis.png");
 }
 
 .overlay {
@@ -362,4 +342,67 @@ body {
 }
 .has-submenu.active .submenu {
   display: block;
+}
+
+/* Style du conteneur */
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+/* Style du select */
+#lang-select {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: white;
+  border: 1.5px solid #bbb;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #5a5a5c;
+  cursor: pointer;
+  transition: 0.2s;
+  outline: none;
+  width: 120px; /* Ajuste la largeur */
+}
+
+/* Effet au survol */
+#lang-select:hover {
+  border-color: #f05c2b;
+}
+
+/* Effet au focus */
+#lang-select:focus {
+  border-color: #f05c2b;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Ajout d'une flèche personnalisée */
+#lang-select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23333'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px;
+  padding-right: 25px;
+}
+
+/* Style des options */
+#lang-select option {
+  font-size: 13px;
+  padding: 5px;
+  background-color: white;
+  color: #5a5a5c;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+}
+
+/* Effet lors de la sélection */
+#lang-select option:checked {
+  background-color: transparent;
+  color: #5a5a5c;
 }

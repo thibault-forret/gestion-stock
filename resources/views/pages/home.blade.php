@@ -41,13 +41,15 @@
         </div>
 
         <div class="language-switcher">
-            @if($current_locale == 'fr')
-                <a href="{{ route('lang.switch', 'en') }}" class="btn-lang">English</a>
-                <p class="btn-lang active">Français</p>
-            @elseif($current_locale == 'en')
-                <p class="btn-lang active">English</p>
-                <a href="{{ route('lang.switch', 'fr') }}" class="btn-lang">Français</a>
-            @endif
+            <form action="{{ route('lang.switch') }}" method="GET">
+                <select name="locale" id="lang-select" onchange="this.form.submit();">
+                    @foreach($available_locales as $locale_name => $available_locale)
+                        <option value="{{ $available_locale }}" {{ $available_locale === $current_locale ? 'selected' : '' }}>
+                            {{ ucfirst($locale_name) }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
         </div>
     </div>
     <div class="thin-bar">

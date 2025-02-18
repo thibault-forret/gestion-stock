@@ -23,28 +23,16 @@
             </div>
         </div>
         <div class="navbar-right">
-            @foreach($available_locales as $locale_name => $available_locale)
-                @switch($available_locale)
-                    @case('fr')
-                        @if($available_locale === $current_locale)
-                            <img src="{{ asset('images/france.png') }}" alt="Français">
-                        @else
-                            <a href="{{ route('lang.switch', $available_locale) }}">
-                                <img src="{{ asset('images/france.png') }}" alt="Français">
-                            </a>
-                        @endif
-                        @break
-                    @case('en')
-                        @if($available_locale === $current_locale)
-                            <img src="{{ asset('images/etats-unis.png') }}" alt="English">
-                        @else
-                            <a href="{{ route('lang.switch', $available_locale) }}">
-                                <img src="{{ asset('images/etats-unis.png') }}" alt="English">
-                            </a>
-                        @endif
-                    @break
-                @endswitch
-            @endforeach
+            <form action="{{ route('lang.switch') }}" method="GET">
+                <select name="locale" id="lang-select" onchange="this.form.submit();">
+                    @foreach($available_locales as $locale_name => $available_locale)
+                        <option value="{{ $available_locale }}" {{ $available_locale === $current_locale ? 'selected' : '' }}>
+                            {{ ucfirst($locale_name) }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+
             <a href="{{ route('store.logout') }}" class="nav-button">
                 <img src="{{ asset('images/porte.svg') }}" alt="deconnexion">
             </a>
