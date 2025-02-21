@@ -22,26 +22,26 @@
                     @endif
                     <h3 class="product_name">{{ $product->product_name }}</h3>
                     <img class="product_image" src="{{ $product->image_url }}" alt="{{ $product->product_name }}">
-                    <p><u>{{ __('order.categories') }}</u>
+                    <p><u>{{ __('order.categories') }} :</u>
                         @foreach($product->categories as $category)
                             <span class="product_category">{{ $category->category_name }}</span>
                         @endforeach
                     </p>
                     <p><u>{{ __('order.id') }} :</u>
-                        <span class="product_id">{{ $product->id }}</span>
+                        <span class="product_id">{{ $product->id }} :</span>
                     </p>
-                    <p><u>{{ __('order.supplier') }}</u>
+                    <p><u>{{ __('order.supplier') }} :</u>
                         <span class="product_supplier">{{ $product->supplyLines->first()->supply->supplier->supplier_name }}</span>
                     </p>
                     @if($product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available != 0)
-                        <p><u>{{ __('order.quantity_available') }}</u>
+                        <p><u>{{ __('order.quantity_available') }} :</u>
                             {{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}
                         </p>
                     @endif
-                    <p><u>{{ __('order.unit_price_ht') }}</u>
+                    <p><u>{{ __('order.unit_price_ht') }} :</u>
                         <span class="product_price">{{ number_format($product->reference_price, 2) }} €</span>
                     </p>
-                    <p><u>{{ __('order.unit_price_ttc') }}</u>
+                    <p><u>{{ __('order.unit_price_ttc') }} :</u>
                         <span class="product_price">{{ number_format($product->reference_price * $warehouse->global_margin, 2, ',', ' ') }} €</span>
                     </p>
 
