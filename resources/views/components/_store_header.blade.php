@@ -66,8 +66,8 @@
                     <div class="arrow-button {{ Route::is('store.order*') ? 'active-page' : '' }}"><span>&#9660;</span></div>
                 </div>
                 <ul class="submenu">
-                    <li><a href="{{ route('store.order.new') }}"><div class="text">Nouvelle commande</div></a></li>
-                    <li><a href="{{ route('store.order.list') }}"><div class="text">Liste des commandes</div></a></li>
+                    <li><a href="{{ route('store.order.new') }}"><div class="text">{{ __('title.new_order') }}</div></a></li>
+                    <li><a href="{{ route('store.order.list') }}"><div class="text">{{ __('title.order_list') }}</div></a></li>
                 </ul>
             </li>
             <li>

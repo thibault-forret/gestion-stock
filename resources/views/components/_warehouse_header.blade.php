@@ -75,17 +75,17 @@
                     <li class="has-submenu-of-submenu">
                         <div class="menu-item-container">
                             <a href="{{ route('warehouse.stock.supply.index') }}">
-                                <div class="text">Approvisionner un produit</div>
+                                <div class="text">{{ __('title.stock_supply_product') }}</div>
                             </a>
                             <div class="arrow-button"><span>&#9660;</span></div>
                         </div>
                         <ul class="submenu-of-submenu">
-                            <li><a href="{{ route('warehouse.stock.supply.new') }}"><div class="text">Nouvel approvisionnement</div></a></li>
-                            <li><a href="{{ route('warehouse.stock.supply.list') }}"><div class="text">Liste des approvisionnements</div></a></li>
+                            <li><a href="{{ route('warehouse.stock.supply.new') }}"><div class="text">{{ __('title.stock_new_supply') }}</div></a></li>
+                            <li><a href="{{ route('warehouse.stock.supply.list') }}"><div class="text">{{ __('title.supply_list') }}</div></a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ route('warehouse.stock.list') }}"><div class="text">Liste des produits en stock</div></a></li>
-                    <li><a href="{{ route('warehouse.stock.list.movement') }}"><div class="text">Liste des mouvements de stock</div></a></li>
+                    <li><a href="{{ route('warehouse.stock.list') }}"><div class="text">{{ __('title.warehouse_stock_list') }}</div></a></li>
+                    <li><a href="{{ route('warehouse.stock.list.movement') }}"><div class="text">{{ __('title.warehouse_stock_movement_list') }}</div></a></li>
                 </ul>
             </li>
             <li>
@@ -107,8 +107,8 @@
                     <div class="arrow-button {{ Route::is('warehouse.invoice*') ? 'active-page' : '' }}"><span>&#9660;</span></div>
                 </div>
                 <ul class="submenu">
-                    <li><a href="{{ route('warehouse.invoice.list.supply') }}"><div class="text">Approvisionnement entrepôt</div></a></li>
-                    <li><a href="{{ route('warehouse.invoice.list.order') }}"><div class="text">Commande magasin</div></a></li>
+                    <li><a href="{{ route('warehouse.invoice.list.supply') }}"><div class="text">{{ __('title.supply_warehouse') }}</div></a></li>
+                    <li><a href="{{ route('warehouse.invoice.list.order') }}"><div class="text">{{ __('title.order_store') }}</div></a></li>
                 </ul>
             </li>
         </ul>
