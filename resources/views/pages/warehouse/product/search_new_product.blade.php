@@ -71,11 +71,11 @@
             <div class="pagination-wrapper-top">
                 <div class="pagination-controls">
                     @if((request('page_number') ?? 1) > 1)
-                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) - 1])) }}" class="pagination-link">&laquo; Précédent</a>
+                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) - 1])) }}" class="pagination-link">&laquo; {{ __('search_product.previous') }}</a>
                     @endif
 
                     @if(count($products) >= 24)
-                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) + 1])) }}" class="pagination-link">Suivant &raquo;</a>
+                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) + 1])) }}" class="pagination-link">{{ __('search_product.next') }} &raquo;</a>
                     @endif
                 </div>
                 <div class="pagination-info">
@@ -85,7 +85,7 @@
                         $start = ($currentPage - 1) * $itemsPerPage + 1;
                         $end = min($start + count($products) - 1, $currentPage * $itemsPerPage);
                     @endphp
-                    Affichage des produits {{ $start }} à {{ $end }} sur la page {{ $currentPage }}
+                    {{ __('search_product.display_products', ['start' => $start, 'end' => $end, 'currentPage' => $currentPage]) }}
                 </div>
             </div>
         @endif
@@ -98,23 +98,23 @@
                             <img src="{{ $product['image_url'] }}" alt="{{ $product['name'] }}" class="product-image">
                             <div class="product-details">
                                 <h3>{{ $product['name'] }}</h3>
-                                <p><strong>Catégories :</strong>
+                                <p><strong>{{ __('search_product.categories') }} :</strong>
                                     @foreach($product['categories'] as $category)
                                         {{ $category->category_name }}@if(!$loop->last), @endif
                                     @endforeach
                                 </p>
-                                <p><strong>Fournisseur :</strong> {{ $product['supplier']->supplier_name }}</p>
+                                <p><strong>{{ __('search_product.suppliers') }} :</strong> {{ $product['supplier']->supplier_name }}</p>
                             </div>
                         </div>
                         <div class="product-actions">
                             <a href="{{ route('warehouse.product.add', ['product_id' => $product['id']]) }}" class="add-to-cart">
-                                <i class="fa-solid fa-cart-shopping"></i> Ajouter le produit
+                                <i class="fa-solid fa-cart-shopping"></i> {{ __('search_product.add_product') }}
                             </a>
                         </div>
                     </div>
                 @endforeach
             @else
-                <p class="no-results">Aucun produit trouvé.</p>
+                <p class="no-results">{{ __('search_product.no_product_found') }}.</p>
             @endif
         </div>
 
@@ -127,15 +127,15 @@
                         $start = ($currentPage - 1) * $itemsPerPage + 1;
                         $end = min($start + count($products) - 1, $currentPage * $itemsPerPage);
                     @endphp
-                    Affichage des produits {{ $start }} à {{ $end }} sur la page {{ $currentPage }}
+                    {{ __('search_product.display_products', ['start' => $start, 'end' => $end, 'currentPage' => $currentPage]) }}
                 </div>
                 <div class="pagination-controls">
                     @if((request('page_number') ?? 1) > 1)
-                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) - 1])) }}" class="pagination-link">&laquo; Précédent</a>
+                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) - 1])) }}" class="pagination-link">&laquo; {{ __('search_product.previous') }}</a>
                     @endif
 
                     @if(count($products) >= 24)
-                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) + 1])) }}" class="pagination-link">Suivant &raquo;</a>
+                        <a href="{{ route('warehouse.product.search', array_merge(request()->query(), ['page_number' => (request('page_number') ?? 1) + 1])) }}" class="pagination-link">{{ __('search_product.next') }} &raquo;</a>
                     @endif
                 </div>
             </div>
