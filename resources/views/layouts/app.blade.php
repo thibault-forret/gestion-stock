@@ -49,12 +49,12 @@
     @if (!isset($removeHeader))
         @php
             if (request()->is('warehouse*'))
-                $page = 'warehouse';    
+                $page = 'warehouse';
             if (request()->is('store*'))
-                $page = 'store';    
-            
+                $page = 'store';
+
             // Vérification de la section parent.route et définition du lien href en conséquence
-            $href = View::hasSection('parent-route') 
+            $href = View::hasSection('parent-route')
                 ? View::getSection('parent-route')
                 : route($page . '.dashboard');
         @endphp

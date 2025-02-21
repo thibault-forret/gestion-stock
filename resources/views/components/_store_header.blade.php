@@ -18,7 +18,7 @@
         <div class="navbar-center">
             <div class="logo">
                 <a href="{{ route('warehouse.dashboard') }}">
-                    <img src="{{ asset('images/logoNova.png') }}" alt="Logo" class="navbar-logo">
+                    <img src="{{ asset('images/logoSimple.png') }}" alt="Logo" class="navbar-logo">
                 </a>
             </div>
         </div>

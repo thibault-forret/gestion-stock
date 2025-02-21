@@ -24,22 +24,6 @@ class ProductController extends Controller
 
     public function searchProducts(Request $request)
     {
-        // Valider les données de la requête
-        $request->validate([
-            'search_by_name' => 'nullable|string', 
-            'supplier_name' => 'required|exists:suppliers,supplier_name', 
-            'category_name' => 'nullable|exists:categories,category_name',
-            'page_number' => 'nullable|integer|min:1',
-        ], [
-            'search_by_name.string' => __('messages.validate.search_by_name_string'),
-            'supplier_name.exists' => __('messages.validate.supplier_name_exists'),
-            'supplier_name.required' => __('messages.validate.supplier_name_required'),
-            'category_name.exists' => __('messages.validate.category_name_exists'),
-            'page_number.integer' => __('messages.validate.page_number_integer'),
-            'page_number.min' => __('messages.validate.page_number_min'),
-        ]);
-        
-
         $searchByName = $request->query('search_by_name');
         $supplierName = $request->query('supplier_name');
         $categoryName = $request->query('category_name');
@@ -47,40 +31,34 @@ class ProductController extends Controller
 
         $result = OpenFoodFacts::search("{$searchByName} {$supplierName} {$categoryName}", $pageNumber, 100);
 
-        // Récupérer toutes les catégories et tous les fournisseurs
         $categories = Category::all();
         $suppliers = Supplier::all();
 
-        // Si des produits ont été trouvés
+        $products = [];
+
         if (!empty($result)) {
-            $products = [];
-
             $user = auth()->user();
-
-            // Récupérer l'entrepôt de l'utilisateur
             $warehouse = $user->warehouseUser->warehouse;
-
-            // Récupérer les produits déjà dans l'entrepôt
             $warehouseProducts = $warehouse->stock->map(function ($stock) {
                 return $stock->product;
             });
 
             foreach ($result as $document) {
-                // Accède aux données du produit
+                if (count($products) >= 24) {
+                    break;
+                }
+
                 $product = $document->getData();
 
                 list($isValid, $identicalSuppliers, $identicalCategories) = $this->validateProduct($product, $categories, $suppliers, $warehouseProducts);
 
-                // Passer au produit suivant si les données ne sont pas valides
-                if(!$isValid) {
+                if (!$isValid) {
                     continue;
                 }
 
-                // Récupérer le fournisseur et la catégorie correspondant à la requête
-                $dataSupplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first(); 
+                $dataSupplier = Supplier::whereIn('supplier_name', $identicalSuppliers)->first();
                 $dataCategories = Category::whereIn('category_name', $identicalCategories)->get();
 
-                // Ajouter le produit au tableau
                 $products[] = [
                     'id' => $product['id'],
                     'name' => $product['product_name'],
@@ -91,12 +69,11 @@ class ProductController extends Controller
             }
         }
 
-        // Retourner la vue avec les produits, les catégories et les fournisseurs
         return view('pages.warehouse.product.search_new_product', compact('categories', 'suppliers', 'products'));
     }
 
     public function addProduct(int $productId) {
-        
+
         // Récupérer les informations du produit
         $product = OpenFoodFacts::barcode($productId);
 
@@ -144,8 +121,8 @@ class ProductController extends Controller
     {
         // Validation des données
         $request->validate([
-            'product_id' => 'required|integer', 
-            'quantity' => 'required|integer|min:1|gte:restock_threshold', 
+            'product_id' => 'required|integer',
+            'quantity' => 'required|integer|min:1|gte:restock_threshold',
             'alert_threshold' => 'required|integer|min:1|gte:restock_threshold',
             'restock_threshold' => 'required|integer|min:0',
             'auto_restock_quantity' => 'required|integer|gte:restock_threshold',
@@ -187,7 +164,7 @@ class ProductController extends Controller
         }
 
         $productId = $request->input('product_id');
-        
+
         // Récupérer les informations du produit
         $product = OpenFoodFacts::barcode($productId);
 
@@ -262,7 +239,7 @@ class ProductController extends Controller
      */
     private function addProductToWarehouse($product, $supplier, $user, $warehouse, $request)
     {
-        try {            
+        try {
             // Ajouter le produit au stock de l'entrepôt
             $warehouse->stock()->create([
                 'product_id' => $product->id,
@@ -321,7 +298,7 @@ class ProductController extends Controller
         return true;
     }
 
-    
+
     /**
      * Rechercher des fournisseurs correspondant aux marques de produits données.
      *
@@ -371,15 +348,15 @@ class ProductController extends Controller
      */
     private function verifyDataProduct($product) : bool
     {
-        return 
+        return
             !isset($product['id']) ||
-            !isset($product['product_name']) || 
-            !isset($product['image_url']) || 
-            !isset($product['categories']) || 
+            !isset($product['product_name']) ||
+            !isset($product['image_url']) ||
+            !isset($product['categories']) ||
             !isset($product['brands']) ||
             empty($product['id']) ||
-            empty($product['product_name']) || 
-            empty($product['image_url']) || 
+            empty($product['product_name']) ||
+            empty($product['image_url']) ||
             empty($product['categories']) ||
             empty($product['brands']);
     }
@@ -390,7 +367,7 @@ class ProductController extends Controller
      * @param string $input La chaîne à séparer.
      * @param string $delimiter Le délimiteur à utiliser.
      * @return array Un tableau contenant les éléments séparés et nettoyés.
-     */    
+     */
     function splitAndTrim(string $input, string $delimiter = ','): array
     {
         // Séparer la chaîne en un tableau
@@ -438,7 +415,7 @@ class ProductController extends Controller
 
         $productCategories = $this->splitAndTrim($productCategories);
 
-        $identicalCategories = $this->searchIdenticalCategories($productCategories, $categories);                
+        $identicalCategories = $this->searchIdenticalCategories($productCategories, $categories);
 
         // Passer au produit suivant si aucune catégorie n'a été trouvée
         if (empty($identicalCategories)) {

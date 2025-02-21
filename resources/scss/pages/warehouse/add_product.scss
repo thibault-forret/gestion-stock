@@ -1,72 +1,124 @@
-$orange: #f05c2b;
+$blue: #173b75;
 $gray: #5a5a5c;
 $white: #ffffff;
+$black: #000000;
+$light-gray: #f9f9f9;
+$light-blue: #f2f5fc;
+
+body {
+    font-family: 'Roboto Thin', sans-serif;
+    background-color: $light-blue;
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: $gray;
+    margin: 0;
+    padding: 0;
+}
 
 div.main-container {
-    max-width: 400px;
+    max-width: 1200px;
     margin: 2rem auto;
-    background-color: $white;
-    border: 1px solid $gray;
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+div.info-message{
+    flex: 1;
+    display: block;
     flex-direction: column;
-    align-items: center;
+    background-color: $white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem;
 }
 
 div.product-info {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    background-color: $white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
 
     .text-container {
         margin-bottom: 1rem;
+
+        h2 {
+            font-size: 2rem;
+            color: $black;
+        }
+
+        p {
+            font-size: 1rem;
+            color: $gray;
+            margin: 0.5rem 0;
+        }
     }
 
     img {
-        max-width: 100px;
-        border-radius: 8px;
+        max-width: 40%;
+        border-radius: 2px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         margin-bottom: 1rem;
+        transition: transform 0.3s ease-in-out;
+
+        &:hover {
+            transform: scale(1.05);
+        }
     }
 }
 
 form {
-    margin-top: 1.5rem;
-    width: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
+    background-color: $white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+
+    h2 {
+        font-size: 2rem;
+        color: $black;
+    }
 
     .form-fields {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
         width: 100%;
 
         label {
             font-weight: bold;
             font-size: 1rem;
             color: $gray;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
             display: block;
         }
 
         input,
         textarea {
-            width: 92%;
+            width: 94%;
             padding: 1rem;
             font-size: 1rem;
             border: 1px solid lighten($gray, 20%);
             border-radius: 6px;
-            background-color: #f9f9f9;
+            background-color: $light-gray;
             color: $gray;
             outline: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 
             &:focus {
-                border-color: $orange;
-                background-color: lighten($orange, 40%);
-                box-shadow: 0 0 5px rgba($orange, 0.5);
+                border-color: $blue;
+                background-color: lighten($blue, 40%);
+                box-shadow: 0 0 5px rgba($blue, 0.5);
             }
         }
 
@@ -77,17 +129,17 @@ form {
     }
 
     button[type='submit'] {
-        background-color: $orange;
+        background-color: $blue;
         color: $white;
         border: none;
         border-radius: 8px;
-        padding: 0.8rem 1.2rem;
-        font-size: 1rem;
+        padding: 1rem 1.5rem;
+        font-size: 1.2rem;
         cursor: pointer;
         transition: background-color 0.3s ease;
 
         &:hover {
-            background-color: darken($orange, 10%);
+            background-color: darken($blue, 10%);
         }
     }
 }
@@ -95,12 +147,63 @@ form {
 div.error-message {
     margin-top: 1.5rem;
     background-color: rgba(230, 74, 25, 0.1);
-    color: $orange;
+    color: $blue;
     padding: 1rem;
-    border-left: 5px solid $orange;
+    border-left: 5px solid $blue;
     border-radius: 5px;
+    animation: fadeIn 0.5s ease-in-out;
 
     p {
         margin: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.quantity-picker {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    button {
+        background-color: $blue;
+        color: $white;
+        border: none;
+        border-radius: 100px;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: darken($blue, 10%);
+        }
+    }
+
+    input[type='number'] {
+        width: 20%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: 1px solid lighten($gray, 20%);
+        border-radius: 4px;
+        text-align: center;
+        outline: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+
+        &:focus {
+            border-color: $blue;
+            background-color: lighten($blue, 40%);
+            box-shadow: 0 0 5px rgba($blue, 0.5);
+        }
     }
 }

@@ -39,7 +39,6 @@
                 </a>
             </div>
         </div>
-
         <div class="language-switcher">
             <form action="{{ route('lang.switch') }}" method="GET">
                 <select name="locale" id="lang-select" onchange="this.form.submit();">
