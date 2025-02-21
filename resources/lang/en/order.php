@@ -40,4 +40,8 @@ return [
     'see_recap' => 'View summary',
     'no_order_in_progress' => 'No order in progress.',
     'confirm_order' => 'Confirm order',
+    'no_product_in_order' => 'No product in order.',
+    'valid_order' => 'Validate order',
+    'refuse_order' => 'Refuse order',
+    'store_name' => 'Store name',
 ];
