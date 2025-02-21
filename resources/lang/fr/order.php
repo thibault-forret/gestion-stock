@@ -6,6 +6,7 @@ return [
     'last_updated' => 'Dernière mise à jour',
     'price_ht' => 'Tarif HT',
     'price_ttc' => 'Tarif TTC',
+    'price' => 'Tarif',
     'statut' => 'Statut',
     'actions' => 'Actions',
     'in_progress' => 'En cours',

@@ -10,23 +10,25 @@
 @section('title-content', mb_strtoupper(__('title.new_supply')))
 
 @section('content')
-    
+
     @if($suppliers->isEmpty())
         <p class="no-suppliers">Aucun produits ajoutés à l'entrepôt, veuillez ajouter des produits</p>
         <a href="{{ route('warehouse.product.index')}}">Ajouter des produits</a>
     @endif
 
     <div class="role-selection">
+
+        <h3 class="title">{{ __('supply.select_supplier') }}</h3>
+
         @foreach($suppliers as $supplier)
             <form action="{{ route('warehouse.stock.supply.place.new') }}" method="post">
                 @csrf
                 <input type="hidden" name="supplier_id" value="{{ $supplier->id }}">
                 <button class="role-card" type="submit">
                     <div class="role-title">{{ $supplier->supplier_name }}</div>
-                    <p class="role-description">{{ __('description.new_supply') }}</p>
                 </button>
             </form>
         @endforeach
     </div>
-    
+
 @endsection
