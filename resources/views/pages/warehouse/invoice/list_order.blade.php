@@ -342,22 +342,22 @@
         @csrf
         <div class="search-input">
             <div>
-                <label for="search">Recherche par numéro de facture</label>
-                <input type="text" id="search" name="search" value="" placeholder="Numéro de facture" required>
+                <label for="search">{{ __('invoice.search_invoice') }}</label>
+                <input type="text" id="search" name="search" value="" placeholder="{{ __('invoice.invoice_number') }}" required>
             </div>
         </div>
         <div class="buttons">
-            <button class="btn" type="submit">Rechercher</button>
-            <a class="btn red" href="{{ route('warehouse.invoice.list.order') }}">Rénitialiser recherche</a>
+            <button class="btn" type="submit">{{ __('invoice.search') }}</button>
+            <a class="btn red" href="{{ route('warehouse.invoice.list.order') }}">{{ __('invoice.reset_search') }}</a>
         </div>
     </form>
 
     <form action="{{ route('warehouse.invoice.filter.order') }}" method="get">
         <div class="search-element">
             <div>
-                <label for="store">Magasin :</label>
+                <label for="store">{{ __('invoice.store') }} :</label>
                 <select id="store" name="store">
-                    <option value="">Aucune sélection</option>
+                    <option value="">{{ __('invoice.no_selection') }}</option>
                     @foreach($stores as $store)
                         <option value="{{ $store->store_name }}" {{ request('store') == $store->store_name ? 'selected' : '' }}>
                             {{ $store->store_name }}
@@ -367,58 +367,57 @@
             </div>
 
             <div>
-                <label for="order">Trier par ordre</label>
+                <label for="order">{{ __('invoice.sort_order') }}</label>
                 <select id="order" name="order" required>
-                    <option value="desc" {{ request('order') != 'desc' ? '' : 'selected' }}>Décroissant</option>
-                    <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>Croissant</option>
+                    <option value="desc" {{ request('order') != 'desc' ? '' : 'selected' }}>{{ __('invoice.descending') }}</option>
+                    <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>{{ __('invoice.ascending') }}</option>
                 </select>
             </div>
 
             <div>
-                <label for="status">Statut du paiement</label>
+                <label for="status">{{ __('invoice.payment_status') }}</label>
                 <select id="status" name="status" required>
-                    <option value="all" {{ request('status') != 'all' ? '' : 'selected' }}>Tous</option>
-                    <option value="settled" {{ request('status') == 'settled' ? 'selected' : '' }}>Réglé</option>
-                    <option value="not-settled" {{ request('status') == 'not-settled' ? 'selected' : '' }}>Non réglé</option>
+                    <option value="all" {{ request('status') != 'all' ? '' : 'selected' }}>{{ __('invoice.all') }}</option>
+                    <option value="settled" {{ request('status') == 'settled' ? 'selected' : '' }}>{{ __('invoice.settled') }}</option>
+                    <option value="not-settled" {{ request('status') == 'not-settled' ? 'selected' : '' }}>{{ __('invoice.not_settled') }}</option>
                 </select>
             </div>
 
             <div>
-                <label for="type_date">Type recherche date</label>
+                <label for="type_date">{{ __('invoice.date_search_type') }}</label>
                 <select id="type_date" name="type_date" required>
-                    <option value="all" {{ request('type_date') == 'all' ? 'selected' : '' }}>Aucune sélection</option>
-                    <option value="day" {{ request('type_date') == 'day' ? 'selected' : '' }}>Jour</option>
-                    <option value="week" {{ request('type_date') == 'week' ? 'selected' : '' }}>Semaine</option>
-                    <option value="month" {{ request('type_date') == 'month' ? 'selected' : '' }}>Mois</option>
-                    <option value="year" {{ request('type_date') == 'year' ? 'selected' : '' }}>Année</option>
+                    <option value="all" {{ request('type_date') == 'all' ? 'selected' : '' }}>{{ __('invoice.no_selection') }}</option>
+                    <option value="day" {{ request('type_date') == 'day' ? 'selected' : '' }}>{{ __('invoice.day') }}</option>
+                    <option value="week" {{ request('type_date') == 'week' ? 'selected' : '' }}>{{ __('invoice.week') }}</option>
+                    <option value="month" {{ request('type_date') == 'month' ? 'selected' : '' }}>{{ __('invoice.month') }}</option>
+                    <option value="year" {{ request('type_date') == 'year' ? 'selected' : '' }}>{{ __('invoice.year') }}</option>
                 </select>
             </div>
 
             <div id="day-picker" class="hidden">
-                <label for="day">Sélectionnez un jour :</label>
+                <label for="day">{{ __('invoice.select_day') }}</label>
                 <input type="date" id="day" name="day" value="{{ request('day') == null ? '' : request('day') }}" max="">
             </div>
 
             <div id="week-picker" class="hidden">
-                <label for="week">Sélectionnez une semaine :</label>
+                <label for="week">{{ __('invoice.select_week') }}</label>
                 <input type="week" id="week" name="week" value="{{ request('week') == null ? '' : request('week') }}" max="">
             </div>
 
             <div id="month-picker" class="hidden">
-                <label for="month">Sélectionnez un mois :</label>
+                <label for="month">{{ __('invoice.select_month') }}</label>
                 <input type="month" id="month" name="month" value="{{ request('month') == null ? '' : request('month') }}" max="">
             </div>
 
             <div id="year-picker" class="hidden">
-                <label for="year">Sélectionnez une année :</label>
+                <label for="year">{{ __('invoice.select_year') }}</label>
                 <input type="number" id="year" name="year" value="{{ request('year') == null ? '' : request('year') }}" min="1900" max="">
-            </div>        
+            </div>
         </div>
 
         <div class="buttons">
-            <button class="btn" type="submit">Rechercher</button>
-
-            <a class="btn red" href="{{ route('warehouse.invoice.list.order') }}">Rénitialiser recherche</a>
+            <button class="btn" type="submit">{{ __('invoice.search') }}</button>
+            <a class="btn red" href="{{ route('warehouse.invoice.list.order') }}">{{ __('invoice.reset_search') }}</a>
         </div>
     </form>
 
@@ -432,10 +431,10 @@
 
     {{-- Faire système de trie par magasin etc si on a le temps (reprendre le code de supply) --}}
     @if ($invoices->isEmpty())
-        <p style="margin: auto">Aucune facture trouvée</p>
+        <p style="margin: auto">{{ __('invoice.no_invoice_found') }}</p>
     @endif
     <div class="invoices">
-        
+
         @foreach ($invoices as $invoice)
             @php
                 $store = $invoice->order->store;
@@ -465,22 +464,22 @@
 
             <div class="invoice">
                 <div>
-                    <p>Numéro de facture : {{ $invoice->invoice_number }}</p>
-                    <p>Magasin : {{ $invoice->entity_name }}</p>
-                    <p>Date : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
-                    <p>Total HT : {{ number_format($total_amount_ht, 2) }} €</p>
-                    <p>Total TTC : {{ number_format($total_amount_ttc, 2) }} €</p>
+                    <p>{{ __('invoice.number') }} : {{ $invoice->invoice_number }}</p>
+                    <p>{{ __('invoice.store') }} : {{ $invoice->entity_name }}</p>
+                    <p>{{ __('invoice.date') }} : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
+                    <p>{{ __('order.total_ht') }} : {{ number_format($total_amount_ht, 2) }} €</p>
+                    <p>{{ __('order.total_ttc') }} : {{ number_format($total_amount_ttc, 2) }} €</p>
                     @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
-                        <p>Date réglement : {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
+                        <p>{{ __('invoice.settled_on') }} : {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
                     @endif
                     <p class="{{ $statusClass }}">
-                        Status : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}
+                        {{ __('invoice.status') }} : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('invoice.settled') : __('invoice.not_settled') }}
                     </p>
                 </div>
                 <div>
-                    <a href="{{ route('warehouse.invoice.info.order', ['invoice_number' => $invoice->invoice_number]) }}">Informations</a>
-                    <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">Voir la facture</a>
-                    <a target="_blank" href="{{ route('warehouse.order.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">Télécharger la facture</a>
+                    <a href="{{ route('warehouse.invoice.info.order', ['invoice_number' => $invoice->invoice_number]) }}">{{ __('invoice.info') }}</a>
+                    <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}">{{ __('order.see_invoice') }}</a>
+                    <a target="_blank" href="{{ route('warehouse.order.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}">{{ __('order.download_invoice') }}</a>
                 </div>
             </div>
         @endforeach

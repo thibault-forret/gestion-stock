@@ -119,42 +119,42 @@
         <!-- Header -->
         <div class="header">
             <div>
-                <div class="supplier-client-title">{{ __('Supplier') }}</div>
+                <div class="supplier-client-title">{{ __('invoice.supplier') }}</div>
                 <div class="details">
-                    <p><strong>{{ __('Name') }}:</strong> {{ $invoice->entity_name }}</p>
-                    <p><strong>{{ __('Email') }}:</strong> {{ $supply->supplier->supplier_email }}</p>
-                    <p><strong>{{ __('Phone') }}:</strong> {{ $supply->supplier->supplier_phone }}</p>
-                    <p><strong>{{ __('Address') }}:</strong> {{ $invoice->entity_address }}</p>
-                    <p><strong>{{ __('Contact') }}:</strong> {{ $invoice->entity_director }}</p>
+                    <p><strong>{{ __('invoice.name') }}:</strong> {{ $invoice->entity_name }}</p>
+                    <p><strong>{{ __('invoice.email') }}:</strong> {{ $supply->supplier->supplier_email }}</p>
+                    <p><strong>{{ __('invoice.phone') }}:</strong> {{ $supply->supplier->supplier_phone }}</p>
+                    <p><strong>{{ __('invoice.address') }}:</strong> {{ $invoice->entity_address }}</p>
+                    <p><strong>{{ __('invoice.manager') }}:</strong> {{ $invoice->entity_director }}</p>
                 </div>
 
-                <div class="supplier-client-title">{{ __('Client') }}</div>
+                <div class="supplier-client-title">{{ __('invoice.client') }}</div>
                 <div class="details">
-                    <p><strong>{{ __('Name') }}:</strong> {{ $invoice->warehouse_name }}</p>
-                    <p><strong>{{ __('Location') }}:</strong> {{ $invoice->warehouse_address }}</p>
-                    <p><strong>{{ __('Email') }}:</strong> {{ $supply->warehouse->warehouse_email }}</p>
-                    <p><strong>{{ __('Phone') }}:</strong> {{ $supply->warehouse->warehouse_phone }}</p>
-                    <p><strong>{{ __('Manager') }}:</strong> {{ $invoice->warehouse_director }}</p>
+                    <p><strong>{{ __('invoice.name') }}:</strong> {{ $invoice->warehouse_name }}</p>
+                    <p><strong>{{ __('invoice.location') }}:</strong> {{ $invoice->warehouse_address }}</p>
+                    <p><strong>{{ __('invoice.email') }}:</strong> {{ $supply->warehouse->warehouse_email }}</p>
+                    <p><strong>{{ __('invoice.phone') }}:</strong> {{ $supply->warehouse->warehouse_phone }}</p>
+                    <p><strong>{{ __('invoice.manager') }}:</strong> {{ $invoice->warehouse_director }}</p>
                 </div>
             </div>
             <div class="invoice-info">
-                <div class="supplier-client-title">{{ __('Invoice') }}</div>
+                <div class="supplier-client-title">{{ __('invoice.invoice') }}</div>
                 <table class="invoice-details">
                     <tr>
-                        <th>{{ __('Number') }}:</th>
+                        <th>{{ __('invoice.number') }}:</th>
                         <td>{{ $invoice->invoice_number }}</td>
                     </tr>
                     <tr>
-                        <th>{{ __('Date') }}:</th>
+                        <th>{{ __('invoice.date') }}:</th>
                         <td>{{ $invoice->created_at->format('d/m/Y H:i:s') }}</td>
                     </tr>
                     <tr>
-                        <th>{{ __('Status') }}:</th>
-                        <td>{{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}</td>
+                        <th>{{ __('invoice.status') }}:</th>
+                        <td>{{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('invoice.settled') : __('invoice.not_settled') }}</td>
                     </tr>
                     @if($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
                         <tr>
-                            <th>{{ __('Settled on') }}:</th>
+                            <th>{{ __('invoice.settled_on') }}:</th>
                             <td>{{ $invoice->updated_at->format('d/m/Y H:i:s') }}</td>
                         </tr>
                     @endif
@@ -164,15 +164,15 @@
 
         <!-- Invoice Items -->
         <div class="section">
-            <h4>{{ __('Invoice Items') }}</h4>
+            <h4>{{ __('invoice.items') }}</h4>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>{{ __('Product ID') }}</th>
-                        <th>{{ __('Product Name') }}</th>
-                        <th>{{ __('Quantity') }}</th>
-                        <th>{{ __('Unit Price (€)') }}</th>
-                        <th>{{ __('Total (€)') }}</th>
+                        <th>{{ __('order.id') }}</th>
+                        <th>{{ __('order.name') }}</th>
+                        <th>{{ __('order.quantity') }}</th>
+                        <th>{{ __('order.unit_price') }}</th>
+                        <th>{{ __('invoice.total') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -188,8 +188,8 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="4" style="text-align:right;">{{ __('Total Amount (€)') }}</td>
-                        <td>{{ number_format($total_amount, 2, ',', ' ') }}</td>
+                        <td colspan="4" style="text-align:right;">{{ __('invoice.total') }}</td>
+                        <td>{{ number_format($total_amount, 2, ',', ' ') }} €</td>
                     </tr>
                 </tfoot>
             </table>
@@ -197,8 +197,8 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>{{ __('Thank you for your business!') }}</p>
-            <p>{{ __('This invoice was generated electronically and is valid without a signature.') }}</p>
+            <p>{{ __('invoice.thanks') }}</p>
+            <p>{{ __('invoice.generated') }}</p>
         </div>
     </div>
 </body>

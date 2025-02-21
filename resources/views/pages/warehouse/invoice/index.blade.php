@@ -25,13 +25,13 @@
         @csrf
         <div class="search-element">
             <div>
-                <label for="search">Recherche par numéro de facture</label>
-                <input type="text" id="search" name="search" value="" placeholder="Numéro de facture" required>
+                <label for="search">{{ __('invoice.search_invoice') }}</label>
+                <input type="text" id="search" name="search" value="" placeholder="{{ __('invoice.invoice_number') }}" required>
             </div>
         </div>
         <div class="buttons">
-            <button class="btn" type="submit">Rechercher</button>
-            <a class="btn red" href="{{ route('warehouse.invoice.index') }}">Rénitialiser recherche</a>
+            <button class="btn" type="submit">{{ __('invoice.search') }}</button>
+            <a class="btn red" href="{{ route('warehouse.invoice.index') }}">{{ __('invoice.reset_search') }}</a>
         </div>
     </form>
 
@@ -50,7 +50,7 @@
             <div class="role-card">
                 <a href="{{ route('warehouse.invoice.list.order') }}">
                     <div class="icon">
-                        <i class="fas fa-shopping-cart"></i> 
+                        <i class="fas fa-shopping-cart"></i>
                     </div>
                     <div class="role-title">{{ __('title.order_store') }}</div>
                     <p class="role-description">{{ __('description.invoice_list') }}</p>
