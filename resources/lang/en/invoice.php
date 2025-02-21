@@ -55,4 +55,10 @@ return [
 
     'filter' => 'Filter',
 
+    'client' => 'Client',
+
+    'thanks' => 'Thank you for your business !',
+    'generated' => 'This invoice was generated electronically and is valid without a signature.',
+    'items' => 'Items',
+    'invoice' => 'Invoice',
 ];

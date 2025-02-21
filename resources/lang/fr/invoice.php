@@ -54,5 +54,10 @@ return [
 
     'filter' => 'Filtrer',
 
+    'client' => 'Client',
+    'thanks' => 'Merci pour votre confiance !',
+    'generated' => 'Cette facture a été générée électriquement et n’a pas besoin de signature.',
+    'items' => 'Articles',
+    'invoice' => 'Facture',
 
 ];
