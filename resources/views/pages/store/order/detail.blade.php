@@ -60,6 +60,8 @@
                     </div>
                 </div>
             </div>
+        @else
+            <p class="empty-order">{{ __('order.no_product_in_order') }}</p>
         @endif
     </div>
 

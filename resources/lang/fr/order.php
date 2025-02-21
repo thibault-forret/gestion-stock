@@ -6,6 +6,7 @@ return [
     'last_updated' => 'Dernière mise à jour',
     'price_ht' => 'Tarif HT',
     'price_ttc' => 'Tarif TTC',
+    'price' => 'Tarif',
     'statut' => 'Statut',
     'actions' => 'Actions',
     'in_progress' => 'En cours',
@@ -40,5 +41,9 @@ return [
     'see_recap' => 'Voir le récapitulatif',
     'no_order_in_progress' => 'Aucune commande en cours.',
     'confirm_order' => 'Confirmer la commande',
+    'no_product_in_order' => 'Aucun produit dans la commande.',
+    'valid_order' => 'Valider la commande',
+    'refuse_order' => 'Refuser la commande',
+    'store_name' => 'Nom du magasin',
 
 ];

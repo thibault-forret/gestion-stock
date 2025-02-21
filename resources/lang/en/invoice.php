@@ -11,6 +11,7 @@ return [
     'settled_on' => 'Settled on',
 
     'warehouse_details' => 'Warehouse details',
+    'supplier_details' => 'Supplier details',
     'name' => 'Name',
     'location' => 'Location',
     'email' => 'Email',
@@ -61,4 +62,14 @@ return [
     'generated' => 'This invoice was generated electronically and is valid without a signature.',
     'items' => 'Items',
     'invoice' => 'Invoice',
+
+    'store' => 'Store',
+    'no_selection' => 'No selection',
+
+    'total' => 'Total',
+
+    'priority_level' => 'Priority level',
+    'priority_low' => 'To process',
+    'priority_medium' => 'Pending',
+    'priority_high' => 'Critical',
 ];
