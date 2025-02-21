@@ -17,69 +17,69 @@
                 <div class="product-item @if($product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available == 0) not-available @endif" data-id="{{ $product->id }}">
                     @if($product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available == 0)
                         <div class="overlay">
-                            <span>NON DISPONIBLE</span>
+                            <span>{{ __('order.not_available') }}</span>
                         </div>
                     @endif
                     <h3 class="product_name">{{ $product->product_name }}</h3>
                     <img class="product_image" src="{{ $product->image_url }}" alt="{{ $product->product_name }}">
-                    <p><u>Catégorie(s) :</u>
+                    <p><u>{{ __('order.categories') }}</u>
                         @foreach($product->categories as $category)
                             <span class="product_category">{{ $category->category_name }}</span>
                         @endforeach
                     </p>
-                    <p><u>ID :</u> 
+                    <p><u>{{ __('order.id') }} :</u>
                         <span class="product_id">{{ $product->id }}</span>
                     </p>
-                    <p><u>Fournisseur :</u> 
+                    <p><u>{{ __('order.supplier') }}</u>
                         <span class="product_supplier">{{ $product->supplyLines->first()->supply->supplier->supplier_name }}</span>
                     </p>
                     @if($product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available != 0)
-                        <p><u>Quantité disponible :</u> 
+                        <p><u>{{ __('order.quantity_available') }}</u>
                             {{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}
                         </p>
                     @endif
-                    <p><u>Prix unitaire HT :</u> 
+                    <p><u>{{ __('order.unit_price_ht') }}</u>
                         <span class="product_price">{{ number_format($product->reference_price, 2) }} €</span>
                     </p>
-                    <p><u>Prix unitaire TTC :</u> 
+                    <p><u>{{ __('order.unit_price_ttc') }}</u>
                         <span class="product_price">{{ number_format($product->reference_price * $warehouse->global_margin, 2, ',', ' ') }} €</span>
                     </p>
 
-                    @if($product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available != 0)  
+                    @if($product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available != 0)
                         <div class="buttons">
                             <form class="add-to-order-form" method="POST" action="{{ route('store.order.add') }}">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $order->id }}">
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="number" name="quantity" class="quantity-input" value="1" 
-                                    min="1" max="{{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}" 
+                                <input type="number" name="quantity" class="quantity-input" value="1"
+                                    min="1" max="{{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}"
                                     step="1" required>
-                                <button type="submit" class="btn">Ajouter à la commande</button>
+                                <button type="submit" class="btn">{{ __('order.add_to_order') }}</button>
                             </form>
                         </div>
                     @endif
                 </div>
             @endforeach
         @else
-            <p>Aucun produit disponible.</p>
+            <p>{{ __('order.not_product_available') }}</p>
         @endif
     </div>
 
     <div class="order-recap">
-        <h3 class="order-title">Récapitulatif de la commande</h3>
-    
+        <h3 class="order-title">{{ __('order.recap_order') }}</h3>
+
         @if(isset($order) && count($order->orderLines) > 0)
             <div class="scrollable">
                 <table class="order-table">
                     <thead>
                         <tr>
-                            <th>Produit</th>
-                            <th>Nom</th>
-                            <th>Quantité</th>
-                            <th>Prix unitaire</th>
-                            <th>Total HT</th>
-                            <th>Total TTC</th>
-                            <th>Actions</th>
+                            <th>{{ __('order.product') }}</th>
+                            <th>{{ __('order.name') }}</th>
+                            <th>{{ __('order.quantity') }}</th>
+                            <th>{{ __('order.unit_price') }}</th>
+                            <th>{{ __('order.total_ht') }}</th>
+                            <th>{{ __('order.total_ttc') }}</th>
+                            <th>{{ __('order.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,14 +97,14 @@
                                 <td>{{ $orderLine->product->product_name }}</td>
                                 <td>{{ $orderLine->quantity_ordered }}</td>
                                 <td>{{ number_format($orderLine->unit_price, 2, ',', ' ') }} €</td>
-                                <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered, 2, ',', ' ') }} €</td>                            
+                                <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered, 2, ',', ' ') }} €</td>
                                 <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered * $warehouse->global_margin, 2, ',', ' ') }} €</td>
                                 <td style="display: flex; flex-direction: column; justify-content: center;">
                                     <form action="{{ route('store.order.remove.product') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                        <button type="submit" class="btn" id="btn-retirer">Retirer</button>
+                                        <button type="submit" class="btn" id="btn-retirer">{{ __('order.remove_product') }}</button>
                                     </form>
 
                                     <form action="{{ route('store.order.remove.quantity') }}" method="POST">
@@ -112,7 +112,7 @@
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->quantity_ordered }}" required>
-                                        <button type="submit" class="btn" id="btn-retirer-quantite">Retirer la quantité</button>
+                                        <button type="submit" class="btn" id="btn-retirer-quantite">{{ __('order.remove_quantity') }}</button>
                                     </form>
 
                                     <form action="{{ route('store.order.add.quantity') }}" method="POST">
@@ -120,7 +120,7 @@
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}" required>
-                                        <button type="submit" class="btn">Ajouter la quantité</button>
+                                        <button type="submit" class="btn">{{ __('order.add_quantity') }}</button>
                                     </form>
                                 </td>
                             </tr>
@@ -128,21 +128,21 @@
                     </tbody>
                 </table>
             </div>
-    
+
             <div class="order-total">
-                <span class="total-label">Total HT :</span>
+                <span class="total-label">{{ __('order.total_ht') }} :</span>
                 <span class="total-value">{{ number_format($total, 2) }} €</span>
-                <span class="total-label">Total TTC :</span>
+                <span class="total-label">{{ __('order.total_ttc') }} :</span>
                 <span class="total-value">{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</span>
             </div>
 
             <div class="confirm">
                 <a class="btn" href="{{ route('store.order.recap', ['order_id' => $order->id]) }}" id="btn-recapitulatif">
-                    Voir le récapitulatif
+                    {{ __('order.see_recap') }}
                 </a>
             </div>
         @else
-            <p class="empty-order">Aucune commande en cours.</p>
+            <p class="empty-order">{{ __('order.no_order_in_progress') }}</p>
         @endif
     </div>
 </div>

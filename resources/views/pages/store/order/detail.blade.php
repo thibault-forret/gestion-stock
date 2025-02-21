@@ -10,22 +10,22 @@
 @section('title-content', mb_strtoupper(__('title.detail_order')))
 
 @section('content')
-    
+
     <div class="order-recap-container">
-        <h2 class="order-title">Détail de la commande</h2>
-    
+        <h2 class="order-title">{{ __('order.detail_order') }}</h2>
+
         @if(isset($order) && count($order->orderLines) > 0)
             <div class="order-details">
                 <div class="scrollable">
                     <table class="order-table">
                         <thead>
                             <tr>
-                                <th>Produit</th>
-                                <th>Nom</th>
-                                <th>Quantité</th>
-                                <th>Prix unitaire</th>
-                                <th>Total HT</th>
-                                <th>Total TTC</th>
+                                <th>{{ __('order.product') }}</th>
+                                <th>{{ __('order.name') }}</th>
+                                <th>{{ __('order.quantity') }}</th>
+                                <th>{{ __('order.unit_price') }}</th>
+                                <th>{{ __('order.total_ht') }}</th>
+                                <th>{{ __('order.total_ttc') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,24 +43,24 @@
                                     <td>{{ $orderLine->product->product_name }}</td>
                                     <td>{{ $orderLine->quantity_ordered }}</td>
                                     <td>{{ number_format($orderLine->unit_price, 2, ',', ' ') }} €</td>
-                                    <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered, 2, ',', ' ') }} €</td>                            
+                                    <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered, 2, ',', ' ') }} €</td>
                                     <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered * $warehouse->global_margin, 2, ',', ' ') }} €</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-    
+
                 <div class="order-summary">
                     <div class="order-total">
-                        <span class="total-label">Total HT :</span>
+                        <span class="total-label">{{ __('order.total_ht') }} :</span>
                         <span class="total-value">{{ number_format($order->calculateTotalPrice(), 2) }} €</span>
-                        <span class="total-label">Total TTC :</span>
+                        <span class="total-label">{{ __('order.total_ttc') }} :</span>
                         <span class="total-value">{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</span>
                     </div>
                 </div>
             </div>
         @endif
-    </div>    
+    </div>
 
 @endsection
