@@ -1,8 +1,6 @@
 @extends('layouts.app')
-
-{{-- Retirer le header --}}
 @php
-    $removeHeader = true;    
+    $removeHeader = true;
 @endphp
 
 @section('css')
@@ -12,7 +10,7 @@
 @section('title', __('title.login'))
 @section('description', __('description.login.' . $page))
 
-@section('content') 
+@section('content')
 
     <form class="content-form" method="POST" action="{{ route($page . '.login.submit') }}" autocomplete="on">
         @csrf
@@ -33,7 +31,7 @@
             <label for="username">{{__('auth.username') }}</label>
             <input type="text" id="username" name="username" required autofocus autocomplete="username">
         </div>
-    
+
         <div class="item-form">
             <label for="user_password">{{__('auth.password') }}</label>
             <input type="password" id="user_password" name="user_password" required autocomplete="current-password">
@@ -48,9 +46,9 @@
         @endif
 
         <div class="center-child">
-            <button class="login-button" type="submit">{{__('auth.login') }}</button>
+            <button class="login-button" type="submit">{{__('auth.login') }} <i class="fas fa-sign-in-alt"></i></button>
         </div>
-        
+
         <div class="language">
             @foreach($available_locales as $locale_name => $available_locale)
                 @switch($available_locale)
@@ -76,5 +74,5 @@
         </div>
 
     </form>
-    
+
 @endsection

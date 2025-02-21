@@ -5,7 +5,14 @@ $error-color: #e74c3c;
 $text-color: #000; // Texte en noir
 $input-background: #f05c2b; // Zones de saisie en orange
 $border-color: #ccc;
-$input-text-color: #fff; // Texte des zones de saisie en blanc
+$input-text-color: #000; // Texte des zones de saisie en blanc
+$blue: #173b75;
+$gray: #5a5a5c;
+$white: #ffffff;
+$black: #000000;
+$light-gray: #f9f9f9;
+$light-blue: #f2f5fc;
+
 
 // Style global pour centrer le formulaire au milieu de l'écran
 body, html {
@@ -15,7 +22,12 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: $background-color;
+    font-family: 'Roboto Thin', sans-serif;
+    background-color: $light-blue;
+    background-image: url('/images/4.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .content {
@@ -59,7 +71,7 @@ body, html {
     }
 
     .title-page {
-        color: $active-color;
+        color: $blue;
         font-size: 1.3rem;
         font-weight: 600;
         margin-bottom: 1.5rem;
@@ -86,14 +98,14 @@ body, html {
             padding: 0.85rem;
             border: 1px solid $border-color;
             border-radius: 50px; // Arrondir fortement les zones de saisie
-            background-color: $input-background;
+            background-color: $light-blue;
             color: $input-text-color;
             font-size: 1rem;
             outline: none;
             transition: border-color 0.3s;
 
             &:focus {
-                border-color: $active-color;
+                border-color: $blue;
                 box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
             }
         }
@@ -122,7 +134,7 @@ body, html {
     .login-button {
         width: 50%; // Réduire la longueur du bouton
         padding: 0.85rem;
-        background-color: $active-color;
+        background-color: $blue;
         color: #fff;
         font-size: 1rem;
         font-weight: 600;
@@ -132,7 +144,7 @@ body, html {
         transition: background-color 0.3s, transform 0.2s;
 
         &:hover {
-            background-color: darken($active-color, 10%);
+            background-color: darken($blue, 10%);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
         }
