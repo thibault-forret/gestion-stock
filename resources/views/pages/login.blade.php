@@ -12,20 +12,21 @@
 
 @section('content')
 
-    <form class="content-form" method="POST" action="{{ route($page . '.login.submit') }}" autocomplete="on">
-        @csrf
+    <div class="content-form">
+        <form class="login-form" method="POST" action="{{ route($page . '.login.submit') }}" autocomplete="on">
+            @csrf
 
-        <div class="info">
-            <div class="container-img">
-                <img src="{{ asset('images/logoNova.png') }}" alt="Logo" class="logo">
+            <div class="info">
+                <div class="container-img">
+                    <img src="{{ asset('images/logoNova.png') }}" alt="Logo" class="logo">
+                </div>
             </div>
-        </div>
 
-        @if($page === 'warehouse')
-            <div class="title-page">{{ __('auth.warehouse_form') }}</div>
-        @elseif($page === 'store')
-            <div class="title-page">{{ __('auth.store_form') }}</div>
-        @endif
+            @if($page === 'warehouse')
+                <div class="title-page">{{ __('auth.warehouse_form') }}</div>
+            @elseif($page === 'store')
+                <div class="title-page">{{ __('auth.store_form') }}</div>
+            @endif
 
         <div class="item-form">
             <label for="username">{{__('auth.username') }}</label>
@@ -37,42 +38,33 @@
             <input type="password" id="user_password" name="user_password" required autocomplete="current-password">
         </div>
 
-        @if ($errors->any())
-            <div class="center-child error-message">
-                @foreach ($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
+            @if ($errors->any())
+                <div class="center-child error-message">
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
 
-        <div class="center-child">
-            <button class="login-button" type="submit">{{__('auth.login') }} <i class="fas fa-sign-in-alt"></i></button>
-        </div>
+            <div class="center-child">
+              <button class="login-button" type="submit">{{__('auth.login') }} <i class="fas fa-sign-in-alt"></i></button>
+                <a href="{{ route('index') }}">{{__('basics.return')}}</a>
+            </div>
+
+        </form>
+
 
         <div class="language">
-            @foreach($available_locales as $locale_name => $available_locale)
-                @switch($available_locale)
-                    @case('fr')
-                        @if($available_locale === $current_locale)
-                            <img src="{{ asset('images/france.png') }}" alt="Français">
-                        @else
-                            <a href="{{ route('lang.switch', $available_locale) }}">
-                                <img src="{{ asset('images/france.png') }}" alt="Français">
-                            </a>
-                        @endif
-                        @break
-                    @case('en')
-                        @if($available_locale === $current_locale)
-                            <img src="{{ asset('images/etats-unis.png') }}" alt="English">
-                        @else
-                            <a href="{{ route('lang.switch', $available_locale) }}">
-                                <img src="{{ asset('images/etats-unis.png') }}" alt="English"></a>
-                        @endif
-                    @break
-                @endswitch
-            @endforeach
+            <form action="{{ route('lang.switch') }}" method="GET">
+                <select name="locale" id="lang-select" onchange="this.form.submit();">
+                    @foreach($available_locales as $locale_name => $available_locale)
+                        <option value="{{ $available_locale }}" {{ $available_locale === $current_locale ? 'selected' : '' }}>
+                            {{ ucfirst($locale_name) }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
         </div>
-
-    </form>
+    </div>
 
 @endsection

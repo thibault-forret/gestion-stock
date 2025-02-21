@@ -71,12 +71,12 @@
     </style>
 @endsection
 
-@section('title', 'Page non trouvée')   
+@section('title', 'Page non trouvée')
 
 @section('content')
     <div class="container text-center">
         <h1>404</h1>
-        <p>Oups ! La page que vous cherchez n'existe pas.</p>
-        <a href="{{ url('/') }}" class="btn btn-primary">Retour à l'accueil</a>
+        <p>{{ __('basics.page_not_exist') }}</p>
+        <a href="{{ url('/') }}" class="btn btn-primary">{{ __('basics.back_home') }}</a>
     </div>
 @endsection
