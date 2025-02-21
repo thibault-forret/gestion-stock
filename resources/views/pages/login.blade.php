@@ -1,6 +1,4 @@
 @extends('layouts.app')
-
-{{-- Retirer le header --}}
 @php
     $removeHeader = true;
 @endphp
@@ -30,15 +28,15 @@
                 <div class="title-page">{{ __('auth.store_form') }}</div>
             @endif
 
-            <div class="item-form">
-                <label for="username">{{__('auth.username') }}</label>
-                <input type="text" id="username" name="username" required autofocus autocomplete="username">
-            </div>
+        <div class="item-form">
+            <label for="username">{{__('auth.username') }}</label>
+            <input type="text" id="username" name="username" required autofocus autocomplete="username">
+        </div>
 
-            <div class="item-form">
-                <label for="user_password">{{__('auth.password') }}</label>
-                <input type="password" id="user_password" name="user_password" required autocomplete="current-password">
-            </div>
+        <div class="item-form">
+            <label for="user_password">{{__('auth.password') }}</label>
+            <input type="password" id="user_password" name="user_password" required autocomplete="current-password">
+        </div>
 
             @if ($errors->any())
                 <div class="center-child error-message">
@@ -49,11 +47,12 @@
             @endif
 
             <div class="center-child">
-                <button class="login-button" type="submit">{{__('auth.login') }}</button>
+              <button class="login-button" type="submit">{{__('auth.login') }} <i class="fas fa-sign-in-alt"></i></button>
                 <a href="{{ route('index') }}">{{__('basics.return')}}</a>
             </div>
 
         </form>
+
 
         <div class="language">
             <form action="{{ route('lang.switch') }}" method="GET">

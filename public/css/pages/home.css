@@ -1,10 +1,13 @@
 body {
-  font-family: "Arial", sans-serif;
-  background-color: #ffffff;
+  font-family: "Roboto Thin", sans-serif;
+  background-color: #f2f5fc;
+  background-image: url("/images/2.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: #5a5a5c;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
 }
 
 .btn-primary,
@@ -20,12 +23,12 @@ body {
 }
 
 .btn-primary {
-  background-color: #f05c2b;
+  background-color: #173b75;
   color: #ffffff;
-  border: 1px solid #f05c2b;
+  border: 1px solid #173b75;
 }
 .btn-primary:hover {
-  background-color: rgb(216.6696035242, 65.40969163, 15.3303964758);
+  background-color: rgb(14.6214285714, 37.5071428571, 74.3785714286);
 }
 
 .btn-secondary {
@@ -43,6 +46,7 @@ body {
   justify-content: space-between;
   padding: 10px 20px;
   margin-bottom: 20px;
+  margin-top: 250px;
 }
 .header-section .logo {
   width: 300px;
@@ -57,11 +61,11 @@ body {
 .header-section .description h1 {
   font-size: 1.5rem;
   margin: 0;
-  color: #f05c2b;
+  color: #173b75;
 }
 .header-section .description p {
   font-size: 0.9rem;
-  margin: 0;
+  margin: 10px 0 0 0;
 }
 
 .language-switcher {
@@ -70,6 +74,10 @@ body {
   align-items: center;
   margin: auto;
   padding-right: 20px;
+  background-color: #f2f5fc;
+  border-radius: 5px;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 .language-switcher a, .language-switcher p, .language-switcher span {
   margin-left: 15px;
@@ -79,48 +87,16 @@ body {
   font-weight: bold;
 }
 .language-switcher a:hover, .language-switcher p:hover, .language-switcher span:hover {
-  color: #f05c2b;
+  color: #173b75;
 }
 .language-switcher span {
   text-decoration: underline;
 }
 .language-switcher .active {
-  color: #f05c2b;
+  color: #173b75;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-}
-
-.services-section {
-  padding: 40px 20px;
-  background-color: #5a5a5c;
-  color: #ffffff;
-}
-.services-section h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-.services-section .services-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
-.services-section .services-list .service-item {
-  background-color: #ffffff;
-  color: #5a5a5c;
-  padding: 20px;
-  border-radius: 10px;
-  width: 250px;
-  text-align: center;
-  box-shadow: 2px 5px rgba(0, 0, 0, 0.1);
-}
-.services-section .services-list .service-item h3 {
-  font-size: 1.5rem;
-  color: #f05c2b;
-}
-.services-section .services-list .service-item p {
-  font-size: 1rem;
 }
 
 .role-selection {
@@ -132,8 +108,8 @@ body {
 }
 .role-selection .role-card {
   position: relative;
-  background-color: #5a5a5c;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #173b75;
   text-align: center;
   padding: 5rem;
   border-radius: 10px;
@@ -152,7 +128,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #f05c2b;
+  background-color: #173b75;
   z-index: 0;
   transition: top 0.5s ease;
 }
@@ -170,7 +146,7 @@ body {
 }
 .role-selection .role-card a .icon i {
   font-size: 4rem;
-  color: #f05c2b;
+  color: #173b75;
   transition: color 0.15s ease 0.15s;
 }
 .role-selection .role-card a:hover .icon i {
@@ -181,8 +157,16 @@ body {
   font-weight: bold;
   margin-bottom: 1rem;
 }
+.role-selection .role-card a:hover .role-title {
+  color: #ffffff;
+  transition: color 0.1s ease 0.1s;
+}
 .role-selection .role-card a .role-description {
   font-size: 1rem;
+}
+.role-selection .role-card a:hover .role-description {
+  transition: color 0.1s ease 0.1s;
+  color: #ffffff;
 }
 .role-selection .role-card a .img {
   width: 80px;
@@ -208,7 +192,7 @@ body {
   left: 0;
   width: 100%;
   height: 4px;
-  background-color: #f05c2b;
+  background-color: #173b75;
   display: flex;
   justify-content: center;
   align-items: center;
