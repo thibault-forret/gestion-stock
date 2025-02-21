@@ -13,7 +13,7 @@
 @section('content')
     <div class="container">
         <div class="header-section">
-            <img src="/images/logoNova2.png" alt="Logo Nova" class="logo">
+            <img src="/images/logoNova.png" alt="Logo Nova" class="logo">
             <div class="description">
                 <h1>{{ __('home.welcome_title') }}</h1>
                 <p>{{ __('home.welcome_message') }}</p>
