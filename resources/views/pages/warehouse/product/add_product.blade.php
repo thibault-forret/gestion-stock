@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <form action="{{ route('warehouse.product.add.submit') }}" method="POST">
+        <form action="{{ route('warehouse.product.add.submit') }}" class="add-product" method="POST">
             @csrf
             <input type="hidden" name="product_id" value="{{ $product['id'] }}">
 

@@ -1,6 +1,6 @@
 // Variables de couleur
 $background-menu: #5a5a5c;
-$active-color: #f05c2b;
+$active-color: #173b75;
 $text-color: #ffffff;
 $divider-color: rgba(255, 255, 255, 0.15);
 
@@ -452,12 +452,12 @@ form {
 
 /* Effet au survol */
 #lang-select:hover {
-    border-color: #f05c2b;
+    border-color: #173b75;
 }
 
 /* Effet au focus */
 #lang-select:focus {
-    border-color: #f05c2b;
+    border-color: #173b75;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 

@@ -63,7 +63,7 @@ div.product-info img:hover {
   transform: scale(1.05);
 }
 
-form {
+.add-product {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -73,23 +73,23 @@ form {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
 }
-form h2 {
+.add-product h2 {
   font-size: 2rem;
   color: #000000;
 }
-form .form-fields {
+.add-product .form-fields {
   margin-bottom: 1.5rem;
   width: 100%;
 }
-form .form-fields label {
+.add-product .form-fields label {
   font-weight: bold;
   font-size: 1rem;
   color: #5a5a5c;
   margin-bottom: 0.5rem;
   display: block;
 }
-form .form-fields input,
-form .form-fields textarea {
+.add-product .form-fields input,
+.add-product .form-fields textarea {
   width: 94%;
   padding: 1rem;
   font-size: 1rem;
@@ -101,17 +101,17 @@ form .form-fields textarea {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
-form .form-fields input:focus,
-form .form-fields textarea:focus {
+.add-product .form-fields input:focus,
+.add-product .form-fields textarea:focus {
   border-color: #173b75;
   background-color: rgb(116.2714285714, 158.9571428571, 227.7285714286);
   box-shadow: 0 0 5px rgba(23, 59, 117, 0.5);
 }
-form .form-fields textarea {
+.add-product .form-fields textarea {
   resize: vertical;
   min-height: 80px;
 }
-form button[type=submit] {
+.add-product button[type=submit] {
   background-color: #173b75;
   color: #ffffff;
   border: none;
@@ -121,7 +121,7 @@ form button[type=submit] {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-form button[type=submit]:hover {
+.add-product button[type=submit]:hover {
   background-color: rgb(14.6214285714, 37.5071428571, 74.3785714286);
 }
 

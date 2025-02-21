@@ -181,13 +181,13 @@ body {
 .sidebar ul li a:hover {
   font-weight: bold;
   padding-left: 25px;
-  border-left: 5px solid #f05c2b;
+  border-left: 5px solid #173b75;
 }
 .sidebar ul li a.active-page {
   color: #fff;
-  background-color: #f05c2b;
+  background-color: #173b75;
   padding-left: 25px;
-  border-left: 5px solid #f05c2b;
+  border-left: 5px solid #173b75;
   font-weight: bold;
 }
 
@@ -251,7 +251,7 @@ body {
 }
 
 .sidebar .arrow-button:hover span {
-  color: #f05c2b; /* Changement de couleur au survol */
+  color: #173b75; /* Changement de couleur au survol */
 }
 
 .sidebar .arrow-button.open span {
@@ -269,7 +269,7 @@ body {
 }
 
 .sidebar .submenu li .active-page {
-  background-color: #f05c2b;
+  background-color: #173b75;
   padding-left: 25px;
   font-weight: bold;
 }
@@ -278,7 +278,7 @@ body {
   color: #5a5a5c;
 }
 .sidebar .has-submenu-of-submenu .arrow-button:hover {
-  color: #f05c2b;
+  color: #173b75;
 }
 
 /* Styles pour les sous-menus imbriqués */
@@ -335,7 +335,7 @@ body {
   justify-content: center;
 }
 .has-submenu .arrow-button.active-page {
-  background-color: #f05c2b;
+  background-color: #173b75;
 }
 .has-submenu .arrow-button.active-page:hover span {
   color: #fff;
@@ -372,12 +372,12 @@ form {
 
 /* Effet au survol */
 #lang-select:hover {
-  border-color: #f05c2b;
+  border-color: #173b75;
 }
 
 /* Effet au focus */
 #lang-select:focus {
-  border-color: #f05c2b;
+  border-color: #173b75;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 
