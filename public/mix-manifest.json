@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=5754ab84bb4bc77c649a4a1e1c2ea6f1",
+    "/js/app.js": "/js/app.js?id=4741dfa020754af959c86b398a767d70",
     "/js/sidebar.js": "/js/sidebar.js?id=7457901df46da33a618cb094842f7709",
     "/css/pages/warehouse/search_new_product.css": "/css/pages/warehouse/search_new_product.css?id=7dac0ae9b572f42c1672ac256a1cc816",
     "/css/pages/dashboard.css": "/css/pages/dashboard.css?id=d978923d3e82439a8e12b567f85570d1",
@@ -16,6 +16,7 @@
     "/css/pages/warehouse/stock/info_product.css": "/css/pages/warehouse/stock/info_product.css?id=27a4c62e6983a8c29c82ded5bd0428e9",
     "/css/pages/warehouse/stock/movement_list.css": "/css/pages/warehouse/stock/movement_list.css?id=e858d3032049e03b7022abd905744215",
     "/css/pages/warehouse/supply/place.css": "/css/pages/warehouse/supply/place.css?id=117cde645117124796337cce22c53e68",
+    "/css/pages/warehouse/invoice/supply_list.css": "/css/pages/warehouse/invoice/supply_list.css?id=83482e72341201b659695b7a2f74fc06",
     "/css/pages/warehouse/invoice/index.css": "/css/pages/warehouse/invoice/index.css?id=fd3a1b49dd4c1e442a9babf4fb0540d7",
     "/css/pages/warehouse/supply/index.css": "/css/pages/warehouse/supply/index.css?id=5d06b2e7344f631279a28224943e66da",
     "/css/pages/warehouse/add_product.css": "/css/pages/warehouse/add_product.css?id=db91a353f62e6989357e2e1906ca738b"
