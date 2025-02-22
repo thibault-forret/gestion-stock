@@ -30,7 +30,7 @@
             </div>
             <div class="buttons">
                 <button class="btn" type="submit">Rechercher</button>
-                <a class="btn red" href="{{ route('warehouse.invoice.index') }}">Rénitialiser recherche</a>
+                <a class="btn red" href="{{ route('warehouse.invoice.index') }}">Réinitialiser</a>
             </div>
         </form>
     </div>

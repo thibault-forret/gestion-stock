@@ -104,7 +104,7 @@ body {
   display: flex;
   gap: 10px;
   justify-content: center;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .search-container form .buttons .btn, .filter-form form .buttons .btn {
   padding: 10px 20px;
