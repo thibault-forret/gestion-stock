@@ -63,7 +63,7 @@ $light-blue: #f2f5fc;
 
             &:focus {
                 border-color: $blue;
-                background-color: lighten($blue, 40%);
+                background-color: $light-blue;
                 box-shadow: 0 0 5px rgba($blue, 0.5);
                 outline: none;
             }

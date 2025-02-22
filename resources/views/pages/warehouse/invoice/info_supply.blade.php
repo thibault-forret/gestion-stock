@@ -7,10 +7,12 @@
             margin: 20px auto;
             font-family: Arial, sans-serif;
         }
+
         .invoice-title {
             text-align: center;
             margin-bottom: 30px;
         }
+
         .invoice-section {
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -18,6 +20,7 @@
             padding: 15px;
             background-color: #f9f9f9;
         }
+
         .invoice-section h4 {
             margin-bottom: 10px;
             font-size: 18px;
@@ -25,27 +28,33 @@
             border-bottom: 1px solid #ccc;
             padding-bottom: 5px;
         }
+
         .invoice-section p {
             margin: 5px 0;
             color: #555;
         }
+
         .invoice-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
         }
+
         .invoice-table th, .invoice-table td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
+
         .invoice-table th {
             background-color: #f2f2f2;
             color: #333;
         }
+
         .total-section {
             text-align: right;
             margin-top: 20px;
+            padding: 20px;
         }
 
         .total-section h4 {
@@ -54,7 +63,7 @@
         }
 
         .total-section h4 .text-primary {
-            color: #f05c2b;
+            color: #173b75;
             font-weight: bold;
         }
 
@@ -85,13 +94,13 @@
 
         /* Style pour les boutons secondaires */
         .total-section .btn.secondary-btn {
-            background-color: #f05c2b;
+            background-color: #173b75;
             color: #fff;
             margin-left: 10px;
         }
 
         .total-section .btn.secondary-btn:hover {
-            background-color: #d94b21;
+            background-color: #39a521;
             transform: translateY(-1px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
@@ -110,6 +119,8 @@
             margin-top: 15px;
         }
     </style>
+
+
     {{-- <link href="{{ mix('css/pages/warehouse/product/add-product.css') }}" rel="stylesheet"> --}}
 @endsection
 
@@ -181,7 +192,7 @@
 
     <!-- Total et bouton de règlement -->
     <div class="total-section">
-        <h4>{{ __('Total Amount') }}: 
+        <h4>{{ __('Total Amount') }}:
             <span class="text-primary">{{ number_format($total_amount, 2, ',', ' ') }} €</span>
         </h4>
 

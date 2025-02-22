@@ -54,7 +54,7 @@
 .search-container form input:focus,
 .search-container form select:focus {
   border-color: #173b75;
-  background-color: rgb(116.2714285714, 158.9571428571, 227.7285714286);
+  background-color: #f2f5fc;
   box-shadow: 0 0 5px rgba(23, 59, 117, 0.5);
   outline: none;
 }
