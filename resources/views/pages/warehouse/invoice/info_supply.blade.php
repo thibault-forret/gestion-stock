@@ -160,7 +160,7 @@
         <p><strong>{{ __('invoice.email') }}:</strong> {{ $supply->supplier->supplier_email }}</p>
         <p><strong>{{ __('invoice.phone') }}:</strong> {{ $supply->supplier->supplier_phone }}</p>
         <p><strong>{{ __('invoice.address') }}:</strong> {{ $invoice->entity_address }}</p>
-        <p><strong>{{ __('invoice.contact') }}:</strong> {{ $invoice->entity_director }}</p>
+        <p><strong>{{ __('invoice.manager') }}:</strong> {{ $invoice->entity_director }}</p>
     </div>
 
     <!-- Détails de l'approvisionnement -->

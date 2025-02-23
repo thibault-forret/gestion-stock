@@ -39,17 +39,15 @@
                 </a>
             </div>
         </div>
-        <div class="language-switcher">
-            <form action="{{ route('lang.switch') }}" method="GET">
-                <select name="locale" id="lang-select" onchange="this.form.submit();">
-                    @foreach($available_locales as $locale_name => $available_locale)
-                        <option value="{{ $available_locale }}" {{ $available_locale === $current_locale ? 'selected' : '' }}>
-                            {{ ucfirst($locale_name) }}
-                        </option>
-                    @endforeach
-                </select>
-            </form>
-        </div>
+        <form action="{{ route('lang.switch') }}" style="margin-bottom: 100px" method="GET">
+            <select name="locale" id="lang-select" onchange="this.form.submit();">
+                @foreach($available_locales as $locale_name => $available_locale)
+                    <option value="{{ $available_locale }}" {{ $available_locale === $current_locale ? 'selected' : '' }}>
+                        {{ ucfirst($locale_name) }}
+                    </option>
+                @endforeach
+            </select>
+        </form>
     </div>
     <div class="thin-bar">
         2025 &bull; Nextgen Solutions
