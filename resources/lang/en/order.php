@@ -6,6 +6,7 @@ return [
     'last_updated' => 'Last updated',
     'price_ht' => 'Price excl. tax',
     'price_ttc' => 'Price incl. tax',
+    'price' => 'Price',
     'statut' => 'Status',
     'actions' => 'Actions',
     'in_progress' => 'In progress',
@@ -40,4 +41,8 @@ return [
     'see_recap' => 'View summary',
     'no_order_in_progress' => 'No order in progress.',
     'confirm_order' => 'Confirm order',
+    'no_product_in_order' => 'No product in order.',
+    'valid_order' => 'Validate order',
+    'refuse_order' => 'Refuse order',
+    'store_name' => 'Store name',
 ];

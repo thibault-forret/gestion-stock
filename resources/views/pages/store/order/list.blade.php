@@ -78,7 +78,7 @@
                                     </a>
                                     <a href="{{ route('store.order.invoice.download', ['invoice_number' => $order->invoice->invoice_number]) }}" class="btn btn-info">
                                         <img src="{{ asset('images/télécharger.svg') }}" alt="TelechargerFacture">
-                                        {{ __('order.donwload_invoice') }}
+                                        {{ __('order.download_invoice') }}
                                     </a>
                                 @endif
                             </td>

@@ -1,7 +1,9 @@
 @extends('layouts.app')
+
 @section('css')
     <link rel="stylesheet" href="{{ mix('/css/pages/warehouse/add_product.css') }}">
 @endsection
+
 @section('title', __('title.add_product'))
 @section('description', __('description.add_product'))
 @section('parent-route', route('warehouse.product.index'))
@@ -12,13 +14,13 @@
     <div class="main-container">
         <div class="product-info">
             <div class="text-container">
-                <h2>Informations sur le produit</h2>
-                <p>Nom :<strong> {{ $product['name'] }}</strong></p>
-                <p>Fournisseur(s) :<strong> {{ $product['supplier']->supplier_name }}</strong></p>
-                <p>Catégorie(s) :
+                <h2>{{ __('add_product.info_product') }}</h2>
+                <p>{{ __('add_product.name') }} : <strong> {{ $product['name'] }}</strong></p>
+                <p>{{ __('add_product.supplier') }} : <strong> {{ $product['supplier']->supplier_name }}</strong></p>
+                <p>{{ __('add_product.categories') }} :
                     <strong>
-                @foreach($product['categories'] as $category)
-                    {{ $category->category_name }}
+                        @foreach($product['categories'] as $category)
+                            {{ $category->category_name }}
                         @endforeach
                     </strong>
                 </p>
@@ -29,36 +31,36 @@
             </div>
         </div>
 
-        <form action="{{ route('warehouse.product.add.submit') }}" method="POST">
+        <form action="{{ route('warehouse.product.add.submit') }}" class="add-product" method="POST">
             @csrf
             <input type="hidden" name="product_id" value="{{ $product['id'] }}">
 
             <div class="form-fields">
-                <h2>Paramètres de l'ajout</h2>
-                <label for="quantity">&#x1F4E6 Quantité à mettre en stock :</label>
+                <h2>{{ __('add_product.parameters') }}</h2>
+                <label for="quantity">&#x1F4E6 {{ __('add_product.quantity') }} :</label>
                 <div class="quantity-picker">
                     <button type="button" onclick="decrementQuantity()">-</button>
-                    <input type="number" id="quantity" name="quantity" value="{{ old('quantity') == null ? 1 : old('quantity') }}" min="1" required>
+                    <input type="number" id="quantity" name="quantity" value="{{ old('quantity', 1) }}" min="1" required>
                     <button type="button" onclick="incrementQuantity()">+</button>
                 </div>
             </div>
 
             <div class="form-fields">
-                <label for="alert_threshold">&#x1F514 Seuil d'alerte :</label>
-                <input type="number" id="alert-threshold" name="alert_threshold" value="{{ old('alert_threshold') == null ? 1 : old('alert_threshold') }}" min="1" required>
+                <label for="alert_threshold">&#x1F514 {{ __('add_product.alert_threshold') }} :</label>
+                <input type="number" id="alert-threshold" name="alert_threshold" value="{{ old('alert_threshold', 1) }}" min="1" required>
             </div>
 
             <div class="form-fields">
-                <label for="restock_threshold">&#x1F504 Seuil de réapprovisionnement :</label>
-                <input type="number" id="restock-threshold" name="restock_threshold" value="{{ old('restock_threshold') == null ? 0 : old('restock_threshold') }}" min="0" required>
+                <label for="restock_threshold">&#x1F504 {{ __('add_product.restock_threshold') }} :</label>
+                <input type="number" id="restock-threshold" name="restock_threshold" value="{{ old('restock_threshold', 0) }}" min="0" required>
             </div>
 
             <div class="form-fields">
-                <label for="auto_restock_quantity">&#x2705 Réapprovisionnement auto :</label>
-                <input type="number" id="auto-restock-quantity" name="auto_restock_quantity" value="{{ old('auto_restock_quantity') == null ? 1 : old('auto_restock_quantity') }}" min="1" required>
+                <label for="auto_restock_quantity">&#x2705 {{ __('add_product.auto_restock_quantity') }} :</label>
+                <input type="number" id="auto-restock-quantity" name="auto_restock_quantity" value="{{ old('auto_restock_quantity', 1) }}" min="1" required>
             </div>
 
-            <button type="submit">Ajouter le produit</button>
+            <button type="submit">{{ __('add_product.add_product') }}</button>
         </form>
 
         @if ($errors->any())
@@ -71,11 +73,11 @@
     </div>
 
     <div class="info-message">
-        <h2>Informations</h2>
-        <p><strong>Quantité à mettre en stock :</strong> Indiquez la quantité de ce produit que vous souhaitez ajouter au stock.</p>
-        <p><strong>Seuil d'alerte :</strong> Définissez le seuil à partir duquel une alerte sera déclenchée pour ce produit.</p>
-        <p><strong>Seuil de réapprovisionnement :</strong> Définissez le seuil à partir duquel le produit doit être réapprovisionné.</p>
-        <p><strong>Réapprovisionnement auto :</strong> Indiquez la quantité à réapprovisionner automatiquement lorsque le seuil de réapprovisionnement est atteint.</p>
+        <h2>{{ __('add_product.info') }}</h2>
+        <p><strong>{{ __('add_product.quantity') }} :</strong> {{ __('add_product.quantity_info') }}</p>
+        <p><strong>{{ __('add_product.alert_threshold') }} :</strong> {{ __('add_product.alert_threshold_info') }}</p>
+        <p><strong>{{ __('add_product.restock_threshold') }} :</strong> {{ __('add_product.restock_threshold_info') }}</p>
+        <p><strong>{{ __('add_product.auto_restock_quantity') }} :</strong> {{ __('add_product.auto_restock_quantity_info') }}</p>
     </div>
 
     <script>

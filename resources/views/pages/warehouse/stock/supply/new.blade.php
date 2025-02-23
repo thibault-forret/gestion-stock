@@ -10,12 +10,16 @@
 @section('title-content', mb_strtoupper(__('title.new_supply')))
 
 @section('content')
+
     @if($suppliers->isEmpty())
         <p class="no-suppliers">Aucun produits ajoutés à l'entrepôt, veuillez ajouter des produits</p>
         <a href="{{ route('warehouse.product.index')}}">Ajouter des produits</a>
     @endif
 
     <div class="role-selection">
+
+        <h3 class="title">{{ __('supply.select_supplier') }}</h3>
+
         @foreach($suppliers as $supplier)
             <div class="role-card">
                 <form action="{{ route('warehouse.stock.supply.place.new') }}" method="post">

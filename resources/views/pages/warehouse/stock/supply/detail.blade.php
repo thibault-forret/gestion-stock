@@ -13,18 +13,18 @@
 
     <div class="order-recap-container">
         <h2 class="order-title">{{ __('title.detail_supply') }}</h2>
-    
+
         @if(isset($supply) && count($supply->supplyLines) > 0)
             <div class="order-details">
                 <div class="scrollable">
                     <table class="order-table">
                         <thead>
                             <tr>
-                                <th>Produit</th>
-                                <th>Nom</th>
-                                <th>Quantité</th>
-                                <th>Prix unitaire</th>
-                                <th>Total</th>
+                                <th>{{ __('order.product') }}</th>
+                                <th>{{ __('order.name') }}</th>
+                                <th>{{ __('order.quantity') }}</th>
+                                <th>{{ __('order.unit_price') }}</th>
+                                <th>{{ __('invoice.total') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,21 +42,21 @@
                                     <td>{{ $supplyLine->product->product_name }}</td>
                                     <td>{{ $supplyLine->quantity_supplied }}</td>
                                     <td>{{ number_format($supplyLine->unit_price, 2, ',', ' ') }} €</td>
-                                    <td>{{ number_format($supplyLine->unit_price * $supplyLine->quantity_supplied, 2, ',', ' ') }} €</td>                            
+                                    <td>{{ number_format($supplyLine->unit_price * $supplyLine->quantity_supplied, 2, ',', ' ') }} €</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-    
+
                 <div class="order-summary">
                     <div class="order-total">
-                        <span class="total-label">Total :</span>
+                        <span class="total-label">{{ __('invoice.total') }} :</span>
                         <span class="total-value">{{ number_format($supply->calculateTotalPrice(), 2) }} €</span>
                     </div>
                 </div>
             </div>
         @endif
-    </div>    
+    </div>
 
 @endsection

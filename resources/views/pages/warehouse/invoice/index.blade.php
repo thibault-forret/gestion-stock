@@ -24,13 +24,13 @@
             @csrf
             <div class="search-element">
                 <div>
-                    <label for="search">Recherche par numéro de facture</label>
-                    <input type="text" id="search" name="search" value="" placeholder="Numéro de facture" required>
+                    <label for="search">{{ __('invoice.search_invoice') }}</label>
+                    <input type="text" id="search" name="search" value="" placeholder="{{ __('invoice.invoice_number') }}" required>
                 </div>
             </div>
             <div class="buttons">
-                <button class="btn" type="submit">Rechercher</button>
-                <a class="btn red" href="{{ route('warehouse.invoice.index') }}">Réinitialiser</a>
+                <button class="btn" type="submit">{{ __('invoice.search') }}</button>
+                <a class="btn red" href="{{ route('warehouse.invoice.index') }}">{{ __('invoice.reset_search') }}</a>
             </div>
         </form>
     </div>
@@ -55,4 +55,5 @@
             </a>
         </div>
     </div>
+
 @endsection

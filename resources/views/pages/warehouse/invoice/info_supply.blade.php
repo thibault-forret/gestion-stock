@@ -134,46 +134,46 @@
 
     <!-- Détails de la facture -->
     <div class="invoice-section">
-        <h4>{{ __('Invoice Details') }}</h4>
-        <p><strong>{{ __('Number') }}:</strong> {{ $invoice->invoice_number }}</p>
-        <p><strong>{{ __('Date') }}:</strong> {{ $invoice->created_at->format('d/m/Y H:i') }}</p>
-        <p><strong>{{ __('Status') }}:</strong> {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('Settled') : __('Not settled') }}</p>
+        <h4>{{ __('invoice.invoice_details') }}</h4>
+        <p><strong>{{ __('invoice.number') }}:</strong> {{ $invoice->invoice_number }}</p>
+        <p><strong>{{ __('invoice.date') }}:</strong> {{ $invoice->created_at->format('d/m/Y H:i') }}</p>
+        <p><strong>{{ __('invoice.status') }}:</strong> {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('invoice.settled') : __('invoice.not_settled') }}</p>
         @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
-            <p><strong>Settled on:</strong> {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
+            <p><strong>{{ __('invoice.settled_on') }}:</strong> {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
         @endif
     </div>
 
     <!-- Détails de l'entrepôt -->
     <div class="invoice-section">
-        <h4>{{ __('Warehouse Details') }}</h4>
-        <p><strong>{{ __('Name') }}:</strong> {{ $invoice->warehouse_name }}</p>
-        <p><strong>{{ __('Location') }}:</strong> {{ $invoice->warehouse_address }}</p>
-        <p><strong>{{ __('Email') }}:</strong> {{ $supply->warehouse->warehouse_email }}</p>
-        <p><strong>{{ __('Phone') }}:</strong> {{ $supply->warehouse->warehouse_phone }}</p>
-        <p><strong>{{ __('Manager') }}:</strong> {{ $invoice->warehouse_director }}</p>
+        <h4>{{ __('invoice.warehouse_details') }}</h4>
+        <p><strong>{{ __('invoice.name') }}:</strong> {{ $invoice->warehouse_name }}</p>
+        <p><strong>{{ __('invoice.location') }}:</strong> {{ $invoice->warehouse_address }}</p>
+        <p><strong>{{ __('invoice.email') }}:</strong> {{ $supply->warehouse->warehouse_email }}</p>
+        <p><strong>{{ __('invoice.phone') }}:</strong> {{ $supply->warehouse->warehouse_phone }}</p>
+        <p><strong>{{ __('invoice.manager') }}:</strong> {{ $invoice->warehouse_director }}</p>
     </div>
 
     <!-- Détails du fournisseur -->
     <div class="invoice-section">
-        <h4>{{ __('Supplier Details') }}</h4>
-        <p><strong>{{ __('Name') }}:</strong> {{ $invoice->entity_name }}</p>
-        <p><strong>{{ __('Email') }}:</strong> {{ $supply->supplier->supplier_email }}</p>
-        <p><strong>{{ __('Phone') }}:</strong> {{ $supply->supplier->supplier_phone }}</p>
-        <p><strong>{{ __('Address') }}:</strong> {{ $invoice->entity_address }}</p>
-        <p><strong>{{ __('Contact') }}:</strong> {{ $invoice->entity_director }}</p>
+        <h4>{{ __('invoice.supplier_details') }}</h4>
+        <p><strong>{{ __('invoice.name') }}:</strong> {{ $invoice->entity_name }}</p>
+        <p><strong>{{ __('invoice.email') }}:</strong> {{ $supply->supplier->supplier_email }}</p>
+        <p><strong>{{ __('invoice.phone') }}:</strong> {{ $supply->supplier->supplier_phone }}</p>
+        <p><strong>{{ __('invoice.address') }}:</strong> {{ $invoice->entity_address }}</p>
+        <p><strong>{{ __('invoice.contact') }}:</strong> {{ $invoice->entity_director }}</p>
     </div>
 
     <!-- Détails de l'approvisionnement -->
     <div class="invoice-section">
-        <h4>{{ __('Supply Details') }}</h4>
+        <h4>{{ __('invoice.order_details') }}</h4>
         <table class="invoice-table">
             <thead>
                 <tr>
-                    <th>{{ __('ID') }}</th>
-                    <th>{{ __('Product') }}</th>
-                    <th>{{ __('Quantity Supplied') }}</th>
-                    <th>{{ __('Unit Price (€)') }}</th>
-                    <th>{{ __('Total (€)') }}</th>
+                    <th>{{ __('order.id') }}</th>
+                    <th>{{ __('order.product') }}</th>
+                    <th>{{ __('order.quantity') }}</th>
+                    <th>{{ __('order.unit_price') }}</th>
+                    <th>{{ __('invoice.total') }} (€)</th>
                 </tr>
             </thead>
             <tbody>
@@ -192,7 +192,7 @@
 
     <!-- Total et bouton de règlement -->
     <div class="total-section">
-        <h4>{{ __('Total Amount') }}:
+        <h4>{{ __('invoice.total') }}:
             <span class="text-primary">{{ number_format($total_amount, 2, ',', ' ') }} €</span>
         </h4>
 
@@ -201,17 +201,17 @@
                 @csrf
                 <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
                 <button type="submit" class="btn settle-btn">
-                    {{ __('Settle Invoice') }}
+                    {{ __('invoice.settle_invoice') }}
                 </button>
             </form>
         @endif
 
         <div class="action-links">
             <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}" class="btn secondary-btn">
-                Voir la facture
+                {{ __('order.see_invoice') }}
             </a>
             <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}" class="btn secondary-btn">
-                Télécharger la facture
+                {{ __('order.download_invoice') }}
             </a>
         </div>
     </div>

@@ -12,19 +12,19 @@
 @section('content')
 
     @if($stockMovements && count($stockMovements) > 0)
-        
+
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>ID du produit</th>
-                    <th>ID de l'entrepôt</th>
-                    <th>ID de l'utilisateur</th>
-                    <th>Quantité déplacée</th>
-                    <th>Type de mouvement</th>
-                    <th>Date du mouvement</th>
-                    <th>Statut du mouvement</th>
-                    <th>Source du mouvement</th>
+                    <th>{{ __('stock_movement.id') }}</th>
+                    <th>{{ __('stock_movement.product_id') }}</th>
+                    <th>{{ __('stock_movement.warehouse_id') }}</th>
+                    <th>{{ __('stock_movement.user_id') }}</th>
+                    <th>{{ __('stock_movement.quantity_moved') }}</th>
+                    <th>{{ __('stock_movement.movement_type') }}</th>
+                    <th>{{ __('stock_movement.movement_date') }}</th>
+                    <th>{{ __('stock_movement.movement_status') }}</th>
+                    <th>{{ __('stock_movement.movement_source') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +45,7 @@
         </table>
 
     @else
-        <p style="text-align: center">Aucun mouvement de stock.</p>
+        <p style="text-align: center">{{ __('stock_movement.no_movement') }}Aucun mouvement de stock.</p>
     @endif
 
 @endsection

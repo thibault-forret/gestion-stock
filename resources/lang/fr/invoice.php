@@ -11,6 +11,7 @@ return [
     'settled_on' => 'Réglée le',
 
     'warehouse_details' => 'Détails de l’entrepôt',
+    'supplier_details' => 'Détails du fournisseur',
     'name' => 'Nom',
     'location' => 'Localisation',
     'email' => 'Email',
@@ -60,4 +61,15 @@ return [
     'items' => 'Articles',
     'invoice' => 'Facture',
 
+    'store' => 'Magasin',
+    'no_selection' => 'Aucune sélection',
+
+    'total' => 'Total',
+
+    'priority_level' => 'Niveau de priorité',
+    'priority_low' => 'À traiter',
+    'priority_medium' => 'En attente',
+    'priority_high' => 'Critique',
+
+    'supplier' => 'Fournisseur',
 ];

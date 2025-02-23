@@ -17,15 +17,15 @@
                     <div class="product-item" data-id="{{ $product->id }}">
                         <h3 class="product_name">{{ $product->product_name }}</h3>
                         <img class="product_image" src="{{ $product->image_url }}" alt="{{ $product->product_name }}">
-                        <p><u>Catégorie(s) :</u>
+                        <p><u>{{ __('order.categories') }} :</u>
                             @foreach($product->categories as $category)
                                 <span class="product_category">{{ $category->category_name }}</span>
                             @endforeach
                         </p>
-                        <p><u>ID :</u>
+                        <p><u>{{ __('order.id') }} :</u>
                             <span class="product_id">{{ $product->id }}</span>
                         </p>
-                        <p><u>Prix unitaire :</u>
+                        <p><u>{{ __('order.unit_price') }} :</u>
                             <span class="product_price">{{ number_format($product->reference_price, 2) }} €</span>
                         </p>
 
@@ -34,100 +34,102 @@
                                 @csrf
                                 <input type="hidden" name="supply_id" value="{{ $supply->id }}">
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <div class="quantity-picker">
-                                    <button type="button" onclick="decrementQuantity(this)">-</button>
-                                    <input type="number" name="quantity" value="1" min="1" max="{{ $total_quantity }}" required>
-                                    <button type="button" onclick="incrementQuantity(this)">+</button>
-                                </div>
-                                <button type="submit" class="submit-btn">Ajouter à l'approvisionnement</button>
+                                <input type="number" name="quantity" class="quantity-input" value="1"
+                                    min="1" max="{{ $total_quantity }}"
+                                    step="1" required>
+                                <button type="submit" class="btn">{{ __('supply.add_to_supply') }}</button>
                             </form>
                         </div>
                     </div>
                 @endforeach
             @else
-                <p>Aucun produit disponible.</p>
+                <p>{{ __('order.not_product_available') }}</p>
             @endif
         </div>
 
         <div class="order-recap">
-            <h3 class="order-title">Récapitulatif de l'approvisionnement</h3>
+            <h3 class="order-title">{{ __('supply.recap_supply') }}</h3>
 
             @if(isset($supply) && count($supply->supplyLines) > 0)
                 <div class="scrollable">
                     <table class="order-table">
                         <thead>
-                        <tr>
-                            <th>Produit</th>
-                            <th>Nom</th>
-                            <th>Quantité</th>
-                            <th>Prix unitaire</th>
-                            <th>Total</th>
-                            <th>Actions</th>
-                        </tr>
+                            <tr>
+                                <th>{{ __('order.product') }}</th>
+                                <th>{{ __('order.name') }}</th>
+                                <th>{{ __('order.quantity') }}</th>
+                                <th>{{ __('order.unit_price') }}</th>
+                                <th>{{ __('invoice.total') }}</th>
+                                <th>{{ __('order.actions') }}</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @php
-                            $total = 0;
-                        @endphp
-                        @foreach($supply->supplyLines as $supplyLine)
                             @php
-                                $total += $supplyLine->quantity_supplied * $supplyLine->unit_price;
+                                $total = 0;
                             @endphp
-                            <tr>
-                                <td>
-                                    <img src="{{ $supplyLine->product->image_url }}" class="product-thumbnail" alt="Produit">
-                                </td>
-                                <td>{{ $supplyLine->product->product_name }}</td>
-                                <td>{{ $supplyLine->quantity_supplied }}</td>
-                                <td>{{ number_format($supplyLine->unit_price, 2, ',', ' ') }} €</td>
-                                <td>{{ number_format($supplyLine->unit_price * $supplyLine->quantity_supplied, 2, ',', ' ') }} €</td>
-                                <td style="display: flex; flex-direction: column; justify-content: center;">
-                                    <form action="{{ route('warehouse.stock.supply.remove.product') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
-                                        <input type="hidden" name="supply_id" value="{{ $supply->id }}">
-                                        <button type="submit" class="btn" id="btn-retirer">Retirer</button>
-                                    </form>
+                            @foreach($supply->supplyLines as $supplyLine)
+                                @php
+                                    $total += $supplyLine->quantity_supplied * $supplyLine->unit_price;
+                                @endphp
+                                <tr>
+                                    <td>
+                                        <img src="{{ $supplyLine->product->image_url }}" class="product-thumbnail" alt="Produit">
+                                    </td>
+                                    <td>{{ $supplyLine->product->product_name }}</td>
+                                    <td>{{ $supplyLine->quantity_supplied }}</td>
+                                    <td>{{ number_format($supplyLine->unit_price, 2, ',', ' ') }} €</td>
+                                    <td>{{ number_format($supplyLine->unit_price * $supplyLine->quantity_supplied, 2, ',', ' ') }} €</td>
+                                    <td style="display: flex; flex-direction: column; justify-content: center;">
+                                        <form action="{{ route('warehouse.stock.supply.remove.product') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
+                                            <input type="hidden" name="supply_id" value="{{ $supply->id }}">
+                                            <button type="submit" class="btn" id="btn-retirer">{{ __('order.remove_product') }}</button>
+                                        </form>
 
-                                    <form action="{{ route('warehouse.stock.supply.remove.quantity') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
-                                        <input type="hidden" name="supply_id" value="{{ $supply->id }}">
-                                        <div class="quantity-picker">
-                                            <input type="number" name="quantity" value="1" min="1" max="{{ $supplyLine->quantity_supplied }}" required>
+                                        <form action="{{ route('warehouse.stock.supply.remove.quantity') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
+                                            <input type="hidden" name="supply_id" value="{{ $supply->id }}">
+                                            <div class="quantity-picker">
+                                                <input type="number" name="quantity" value="1" min="1" max="{{ $supplyLine->quantity_supplied }}" required>
 
-                                        </div>
-                                        <button type="submit" class="btn" id="btn-retirer-quantite">Retirer la quantité</button>
-                                    </form>
+                                            </div>
+                                            <button type="submit" class="btn" id="btn-retirer-quantite">{{ __('order.remove_quantity') }}</button>
+                                        </form>
 
-                                    <form action="{{ route('warehouse.stock.supply.add.quantity') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
-                                        <input type="hidden" name="supply_id" value="{{ $supply->id }}">
-                                        <div class="quantity-picker">
+                                        <form action="{{ route('warehouse.stock.supply.add.quantity') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
+                                            <input type="hidden" name="supply_id" value="{{ $supply->id }}">
+
+                                            <div class="quantity-picker">
+                                                <input type="number" name="quantity" value="1" min="1" max="{{ $total_quantity }}" required>
+                                            </div>
+                                            <button type="submit" class="btn">{{ __('order.add_quantity') }}</button>
+
                                             <input type="number" name="quantity" value="1" min="1" max="{{ $total_quantity }}" required>
-                                        </div>
-                                        <button type="submit" class="btn" id="btn-add-quantity">Ajouter la quantité</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
+                                            <button type="submit" class="btn">{{ __('order.add_quantity') }}</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
 
                 <div class="order-total">
-                    <span class="total-label">Total :</span>
+                    <span class="total-label">{{ __('invoice.total') }} :</span>
                     <span class="total-value">{{ number_format($total, 2) }} €</span>
                 </div>
 
                 <div class="confirm">
                     <a class="btn" href="{{ route('warehouse.stock.supply.recap', ['supply_id' => $supply->id]) }}">
-                        Voir le récapitulatif
+                        {{ __('order.see_recap') }}
                     </a>
                 </div>
             @else
-                <p class="empty-order">Aucun approvisionnement en cours.</p>
+                <p class="empty-order">{{ __('supply.no_supply_in_progress') }}</p>
             @endif
         </div>
     </div>
