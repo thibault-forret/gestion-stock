@@ -9,6 +9,7 @@ return [
     'settled' => 'Settled',
     'not_settled' => 'Not settled',
     'settled_on' => 'Settled on',
+    'supplier' => 'Supplier',
 
     'warehouse_details' => 'Warehouse details',
     'supplier_details' => 'Supplier details',
