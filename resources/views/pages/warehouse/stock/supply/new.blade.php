@@ -16,10 +16,8 @@
         <a href="{{ route('warehouse.product.index')}}">{{ __('supply.add_products') }}</a>
     @endif
 
+    <h3 class="title">{{ __('supply.select_supplier') }}</h3>
     <div class="role-selection">
-
-        <h3 class="title">{{ __('supply.select_supplier') }}</h3>
-
         @foreach($suppliers as $supplier)
             <div class="role-card">
                 <form action="{{ route('warehouse.stock.supply.place.new') }}" method="post">

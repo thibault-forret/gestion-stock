@@ -16,6 +16,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 90%;
+  flex-direction: column;
 }
 
 .role-selection {
@@ -25,7 +26,7 @@ body {
   gap: 4rem;
   margin-top: 70px;
   margin-bottom: 105px;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   max-width: 70%;
 }
