@@ -20,7 +20,7 @@ body {
 }
 
 .order-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 2rem auto;
     display: flex;
     gap: 2rem;
@@ -129,6 +129,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: sticky;
+    height: 680px;
     top: 2rem;
 
     h3 {
@@ -138,7 +139,7 @@ body {
     }
 
     .scrollable {
-        max-height: 60vh;
+        max-height: 50vh;
         overflow-y: auto;
         margin-bottom: 1rem;
 

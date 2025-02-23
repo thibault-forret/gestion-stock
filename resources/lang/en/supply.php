@@ -6,6 +6,8 @@ return [
     'confirm_supply' => 'Confirm supply',
     'delete_supply' => 'Delete supply',
     'select_supplier' => 'Please select a supplier',
+    'add_products' => 'Add products',
+    'no_product_in_warehouse'  => 'No products added to the warehouse, please add products.',
 
     'recap_supply' => 'Supply recap',
     'no_supply_in_progress' => 'No supply in progress',

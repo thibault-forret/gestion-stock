@@ -12,8 +12,8 @@
 @section('content')
 
     @if($suppliers->isEmpty())
-        <p class="no-suppliers">Aucun produits ajoutés à l'entrepôt, veuillez ajouter des produits</p>
-        <a href="{{ route('warehouse.product.index')}}">Ajouter des produits</a>
+        <p class="no-suppliers">{{ __('supply.no_product_in_warehouse') }}</p>
+        <a href="{{ route('warehouse.product.index')}}">{{ __('supply.add_products') }}</a>
     @endif
 
     <div class="role-selection">
@@ -30,7 +30,6 @@
                             <i class="fas fa-shipping-fast"></i>
                         </div>
                         <div class="role-title">{{ $supplier->supplier_name }}</div>
-                        <p class="role-description">{{ __('description.new_supply') }}</p>
                     </button>
                 </form>
             </div>

@@ -6,6 +6,8 @@ return [
     'confirm_supply' => 'Confirmer l\'approvisionnement',
     'delete_supply' => 'Supprimer l\'approvisionnement',
     'select_supplier' => 'Veuillez sélectionner un fournisseur',
+    'add_products' => 'Ajouter des produits',
+    'no_product_in_warehouse'  => 'Aucun produits ajoutés à l\'entrepôt, veuillez ajouter des produits.',
 
     'recap_supply' => 'Récapitulatif de l\'approvisionnement',
     'no_supply_in_progress' => 'Aucun approvisionnement en cours',
