@@ -1,308 +1,259 @@
-// Variables
-$orange: #f05c2b;
-$gray: #5a5a5c;
-$background-color: #f8f9fa;
-$text-color: #343a40;
-$border-color: #e0e0e0;
-$hover-bg-color: lighten($orange, 30%);
-$btn-hover-color: darken($orange, 10%);
-
-// Global styles
-body {
-  font-family: Arial, sans-serif;
-  color: $text-color;
-  background-color: $background-color;
-}
-// --------------------------------------------
-$orange: #f05c2b;
+$blue: #173b75;
 $gray: #5a5a5c;
 $white: #ffffff;
+$black: #000000;
+$light-gray: #f9f9f9;
+$light-blue: #f2f5fc;
+
+body {
+    font-family: 'Roboto Thin', sans-serif;
+    background-color: #f2f5fc;
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: $gray;
+    margin: 0;
+    padding: 0;
+}
+
+.search-container {
+    width: fit-content;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+
+    form {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
 
 .filter-buttons {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  width: 80%;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  margin: 20px auto;
+    @extend .search-container;
+    width: auto;
+    background-color: $white;
 
-  &.search-form {
-      background-color: transparent;
-      border: none;
-  }
+    .filter-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+        align-items: flex-start;
+        margin-bottom: 20px;
 
-  .filter-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: flex-start;
-      align-items: flex-end;
-      margin-top: 20px;
-  }
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+            min-width: 200px;
 
-  .filter-item {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
+            label {
+                font-size: 14px;
+                font-weight: bold;
+                color: $gray;
+                margin-top: 10px;
+            }
 
-      label {
-          width: 100%;
-          font-size: 14px;
-          font-weight: bold;
-          color: #5a5a5c;
-          text-align: center;
-      }
+            input,
+            select {
+                width: 200px;
+                padding: 8px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background: $white;
+                color: $gray;
+                transition: all 0.3s ease;
 
-      input,
-      select {
-          width: 200px;
-          padding: 8px;
-          font-size: 14px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          background: #fff;
-          color: #5a5a5c;
+                &:focus {
+                    border-color: $blue;
+                    outline: none;
+                    box-shadow: 0 0 5px rgba($blue, 0.5);
+                }
 
-          &:focus {
-              border-color: $orange;
-              outline: none;
-              box-shadow: 0 0 5px rgba(240, 92, 43, 0.5);
-          }
-      }
-  }
+                &:hover:not(:focus) {
+                    border-color: lighten($blue, 20%);
+                }
+            }
+        }
+    }
 
-  .filter-actions {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
+    .filter-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 20px;
 
-      .btn-filter {
-          padding: 10px 20px;
-          background-color: $orange;
-          color: $white;
-          border: none;
-          border-radius: 5px;
-          font-size: 16px;
-          font-weight: bold;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
+        .btn-filter,
+        .btn-reset {
+            padding: 10px 20px;
+            color: $white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
 
-          &:hover {
-              background-color: darken($orange, 10%);
-          }
-      }
+        .btn-filter {
+            background-color: $blue;
+            &:hover {
+                background-color: darken($blue, 10%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba($blue, 0.2);
+            }
+        }
 
-      .btn-reset {
-          padding: 10px 20px;
-          background-color: #d9534f;
-          color: $white;
-          border: none;
-          border-radius: 5px;
-          font-size: 16px;
-          font-weight: bold;
-          cursor: pointer;
-          text-decoration: none;
-          text-align: center;
-          transition: background-color 0.3s ease;
-
-          &:hover {
-              background-color: darken(#d9534f, 10%);
-          }
-      }
-  }
+        .btn-reset {
+            background-color: #dc3545;
+            &:hover {
+                background-color: darken(#dc3545, 10%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(#dc3545, 0.2);
+            }
+        }
+    }
 }
 
-// --------------------------------------------
+.product-list-wrapper {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: $light-gray;
+    border-radius: 8px;
+    border: 2px solid #ccc;
 
-// Form styles
-form {
-  margin-bottom: 20px;
+    .product-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
 
-  .search-element {
-    margin-bottom: 15px;
+        .product-item {
+            background-color: $white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
 
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .product_image {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+                border-radius: 8px;
+                margin-bottom: 1rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+                margin: 0.5rem 0;
+                color: $gray;
+            }
+
+            p {
+                margin: 0.5rem 0;
+                font-size: 0.9rem;
+                color: $gray;
+            }
+
+            .actions-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+
+                .btn {
+                    padding: 8px 12px;
+                    background-color: $blue;
+                    color: $white;
+                    text-decoration: none;
+                    border-radius: 4px;
+                    font-size: 0.9rem;
+                    text-align: center;
+                    transition: all 0.3s ease;
+
+                    &:hover {
+                        background-color: darken($blue, 10%);
+                        transform: translateY(-2px);
+                    }
+                }
+            }
+        }
     }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid $border-color;
-      border-radius: 5px;
-      font-size: 14px;
-      color: $text-color;
-    }
-
-    input[type="text"]:focus {
-      outline: none;
-      border-color: $orange;
-    }
-  }
-
-  .buttons {
-    display: flex;
-    gap: 10px;
-
-    .btn {
-      padding: 10px 15px;
-      font-size: 14px;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      cursor: pointer;
-      background-color: $orange;
-
-      &.red {
-        background-color: $gray;
-      }
-
-      &:hover {
-        background-color: $btn-hover-color;
-      }
-    }
-  }
-}
-
-
-.content {
-
-  // Select dropdown styles
-  div {
-    margin-bottom: 15px;
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid $border-color;
-      border-radius: 5px;
-      font-size: 14px;
-    }
-
-    select:focus {
-      outline: none;
-      border-color: $orange;
-    }
-  }
-
-}
-
-.actions-buttons {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-
-  gap: 10px;
 }
 
 .no-product {
-  grid-column: 1 / -1; /* Prend toutes les colonnes d'une ligne */
-  text-align: center;
+    text-align: center;
+    color: $gray;
+    font-size: 1.2rem;
+    margin: 2rem 0;
 }
 
-
-.product-list-wrapper {
-  border-radius: 20px;
-  padding: 20px;
-
-  .product-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-
-    .product-item {
-      position: relative;
-      display: flex;
-      flex-direction: column; // Alignement vertical pour correspondre à la structure
-      gap: 10px;
-      padding: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-      h3.product_name {
-        margin: 0;
-        font-size: 1.5rem;
-      }
-
-      .product_image {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-        border-radius: 8px;
-      }
-
-      p {
-        margin: 5px 0;
-
-        .product_category,
-        .product_supplier {
-          color: inherit; // Assurez-vous que les couleurs fonctionnent bien sur les arrière-plans alternés
-        }
-      }
-
-      .btn {
-        padding: 8px 15px;
-        background-color: $gray;
-        color: $white;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 14px;
-        text-align: center;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        transition: all 0.3s ease;
-
-        &:hover {
-          background-color: $orange;
-        }
-
-        &.btn-primary {
-          background-color: $orange;
-          &:hover {
-            transform: translateY(-3px);
-          }
-        }
-      }
-
-      &:nth-child(odd) {
-        background-color: $orange;
-        color: $white;
-
-        .btn {
-          background-color: $white;
-          color: $orange;
-        }
-      }
-
-      &:nth-child(even) {
-        background-color: $gray;
-        color: $white;
-
-        .btn {
-          background-color: $white;
-          color: $gray;
-        }
-      }
+@media (max-width: 1200px) {
+    .product-list-wrapper .product-list {
+        grid-template-columns: repeat(3, 1fr);
     }
-  }
 }
 
+@media (max-width: 992px) {
+    .product-list-wrapper .product-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .search-container, .filter-buttons {
+        padding: 1rem;
+
+        .filter-group {
+            flex-direction: column;
+            align-items: stretch;
+
+            .filter-item {
+                width: 100%;
+
+                input,
+                select {
+                    width: 100%;
+                }
+            }
+        }
+
+        .filter-actions {
+            flex-direction: column;
+            width: 100%;
+
+            .btn-filter,
+            .btn-reset {
+                width: 100%;
+            }
+        }
+    }
+
+    .product-list-wrapper {
+        padding: 10px;
+
+        .product-list {
+            grid-template-columns: 1fr;
+        }
+    }
+}
