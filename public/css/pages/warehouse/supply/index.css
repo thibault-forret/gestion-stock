@@ -20,15 +20,11 @@ body {
 
 .role-selection {
   display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 5rem;
   margin-top: 70px;
   margin-bottom: 105px;
-}
-.role-selection .role-card {
-  margin-bottom: 70px;
   max-width: 70%;
 }
 .role-selection .title {
@@ -45,6 +41,22 @@ body {
 }
 .role-selection form .role-card {
   border: none;
+  position: relative;
+  background-color: #5a5a5c;
+  color: #ffffff;
+  text-align: center;
+  padding: 5rem 2.5rem;
+  border-radius: 10px;
+  width: 250px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+.role-selection form .role-card:hover {
+  transform: scale(1.05);
+}
+.role-selection .role-card {
   position: relative;
   background-color: #ffffff;
   color: #173b75;

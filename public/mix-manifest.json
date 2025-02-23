@@ -5,12 +5,9 @@
     "/css/pages/dashboard.css": "/css/pages/dashboard.css?id=d978923d3e82439a8e12b567f85570d1",
     "/css/pages/home.css": "/css/pages/home.css?id=b0a2aaa3161cb17aeedb96b50e0852e7",
     "/css/pages/login.css": "/css/pages/login.css?id=d34ffcb0d15c40073ed8811c02112218",
-    "/css/style.css": "/css/style.css?id=dbef2c6aecf8fa66abd0afa4a3977c7e",
+    "/css/style.css": "/css/style.css?id=ec84d46eb380272db72e01357484ef2f",
     "/css/pages/store/order/recap.css": "/css/pages/store/order/recap.css?id=b38d6d85ca45e3822869f10b61133559",
     "/css/pages/store/order/liste.css": "/css/pages/store/order/liste.css?id=7d3a221d74c7c7b62e540cd2dcae423d",
-    "/css/style.css": "/css/style.css?id=ec84d46eb380272db72e01357484ef2f",
-    "/css/pages/store/order/recap.css": "/css/pages/store/order/recap.css?id=c0e3774f75a1833afe5c5d4c34aacc8d",
-    "/css/pages/store/order/liste.css": "/css/pages/store/order/liste.css?id=1f511e4c86fb0ec695f18b91cb3b098b",
     "/css/pages/store/order/place.css": "/css/pages/store/order/place.css?id=28d8e55a296a119da751c40ecf34a5a0",
     "/css/pages/warehouse/stock/stock_list.css": "/css/pages/warehouse/stock/stock_list.css?id=dad3a49ba3ab82c56dcc9c3ebc62ff96",
     "/css/pages/warehouse/stock/remove_product.css": "/css/pages/warehouse/stock/remove_product.css?id=746c79edc23af4663e55615d32935ce2",
@@ -21,10 +18,6 @@
     "/css/pages/warehouse/supply/place.css": "/css/pages/warehouse/supply/place.css?id=117cde645117124796337cce22c53e68",
     "/css/pages/warehouse/invoice/supply_list.css": "/css/pages/warehouse/invoice/supply_list.css?id=e5b839e7bbbcbf45efe89b63155b8f8c",
     "/css/pages/warehouse/invoice/index.css": "/css/pages/warehouse/invoice/index.css?id=aa4c9e86a39e1dbe54cbc2c7ced4c1ab",
-    "/css/pages/warehouse/supply/index.css": "/css/pages/warehouse/supply/index.css?id=5d06b2e7344f631279a28224943e66da",
-    "/css/pages/warehouse/add_product.css": "/css/pages/warehouse/add_product.css?id=db91a353f62e6989357e2e1906ca738b"
-    "/css/pages/warehouse/supply/place.css": "/css/pages/warehouse/supply/place.css?id=2115550740ff86658b05b6cde8ed8510",
-    "/css/pages/warehouse/invoice/index.css": "/css/pages/warehouse/invoice/index.css?id=bc75af5f3088572105220bc2e5c332f5",
-    "/css/pages/warehouse/supply/index.css": "/css/pages/warehouse/supply/index.css?id=ebc5e72fbd17cc157c3c0b3b0a01b4e6",
+    "/css/pages/warehouse/supply/index.css": "/css/pages/warehouse/supply/index.css?id=bd1498e257ae3aaf5f2b36fb19307f86",
     "/css/pages/warehouse/add_product.css": "/css/pages/warehouse/add_product.css?id=bc06c28c9ca61ecd47d8036f09f53076"
 }
