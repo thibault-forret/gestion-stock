@@ -51,7 +51,7 @@
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                             <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                            <button type="submit" class="btn btn-danger">{{ __('order.remove_product') }}</button>
+                                            <button type="submit" class="btn btn-retirer">{{ __('order.remove_product') }}</button>
                                         </form>
                                         <form action="{{ route('store.order.remove.quantity') }}" method="POST" class="inline-form">
                                             @csrf

@@ -105,27 +105,27 @@
                                 <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered, 2, ',', ' ') }} €</td>
                                 <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered * $warehouse->global_margin, 2, ',', ' ') }} €</td>
                                 <td style="display: flex; flex-direction: column; justify-content: center;">
-                                    <form action="{{ route('store.order.remove.product') }}" method="POST">
+                                    <form action="{{ route('store.order.remove.product') }}" method="POST" class="inline-form">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                        <button type="submit" class="btn" id="btn-retirer">{{ __('order.remove_product') }}</button>
+                                        <button type="submit" class="btn btn-retirer" id="btn-retirer">{{ __('order.remove_product') }}</button>
                                     </form>
 
-                                    <form action="{{ route('store.order.remove.quantity') }}" method="POST">
+                                    <form action="{{ route('store.order.remove.quantity') }}" method="POST" class="inline-form">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->quantity_ordered }}" required>
-                                        <button type="submit" class="btn" id="btn-retirer-quantite">{{ __('order.remove_quantity') }}</button>
+                                        <button type="submit" class="btn btn-warning" id="btn-retirer-quantite">{{ __('order.remove_quantity') }}</button>
                                     </form>
 
-                                    <form action="{{ route('store.order.add.quantity') }}" method="POST">
+                                    <form action="{{ route('store.order.add.quantity') }}" method="POST" class="inline-form">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}" required>
-                                        <button type="submit" class="btn">{{ __('order.add_quantity') }}</button>
+                                        <button type="submit" class="btn btn-warning">{{ __('order.add_quantity') }}</button>
                                     </form>
                                 </td>
                             </tr>
