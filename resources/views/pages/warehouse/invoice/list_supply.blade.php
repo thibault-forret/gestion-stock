@@ -99,7 +99,7 @@
     <div class="search-container">
         <form action="{{ route('warehouse.invoice.search') }}" method="POST">
             @csrf
-            <div class="search-input">
+            <div class="search-element">
                 <div>
                     <label for="search">{{ __('invoice.search_invoice') }}</label>
                     <input type="text" id="search" name="search" value="" placeholder="{{ __('invoice.invoice_number') }}" required>
@@ -178,7 +178,7 @@
                     <label for="day">{{ __('invoice.select_day') }}</label>
                     <input type="date" id="day" name="day" value="{{ request('day') == null ? '' : request('day') }}" max="">
                 </div>
-            
+
                 <div id="week-picker" class="hidden">
                     <label for="week">{{ __('invoice.select_week') }}</label>
                     <input type="week" id="week" name="week" value="{{ request('week') == null ? '' : request('week') }}" max="">
@@ -201,14 +201,10 @@
             </div>
         </form>
     </div>
-    
-    @if ($invoices->isEmpty())
-        <p style="margin: auto">{{ __('invoice.no_invoice_found') }}</p>
-    @endif
-    
+
     <div class="invoices">
         @if ($invoices->isEmpty())
-            <p style="margin: auto">Aucune facture trouvée</p>
+            <p style="margin: auto">{{ __('invoice.no_invoice_found') }}</p>
         @endif
         @foreach ($invoices as $invoice)
             @php
