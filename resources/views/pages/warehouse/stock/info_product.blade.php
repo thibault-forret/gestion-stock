@@ -10,73 +10,68 @@
 @section('title-content', mb_strtoupper(__('title.stock_info_product')))
 
 @section('content')
-    <div class="container mt-5">
-        {{-- Une carte englobant tout le contenu dans un cadre esthétique --}}
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white text-center">
-                <h3 class="mb-0">{{ __('Informations sur le Produit') }}</h3>
+    <div class="main-container">
+        <div class="product-info">
+            <div class="header">
+                <h2>{{ __('Informations sur le Produit') }}</h2>
             </div>
 
-            <div class="card-body p-4">
-                {{-- Section principale : Nom et Image --}}
-                <div class="row mb-4">
-                    <div class="col-lg-6 text-center">
-                        <img src="{{ $product->image_url }}" alt="{{ $product->product_name }}" class="img-fluid rounded border" style="max-width: 250px;">
-                    </div>
-                    <div class="col-lg-6">
-                        <h4 class="text-muted"><strong>Nom du Produit :</strong></h4>
-                        <p class="h5 font-weight-bold">{{ $product->product_name }}</p>
-                    </div>
-                </div>
-
-                {{-- Section pour les catégories et fournisseur --}}
-                <div class="row mb-4">
-                    <div class="col-lg-6">
-                        <h4 class="text-muted"><strong>Catégories :</strong></h4>
-                        @if ($product->categories->isNotEmpty())
-                            <ul class="list-group">
-                                @foreach($product->categories as $category)
-                                    <li class="list-group-item border-0">{{ $category->category_name }}</li>
-                                @endforeach
-                            </ul>
-                        @else
-                            <p>Aucune catégorie associée</p>
-                        @endif
+            <div class="content">
+                <div class="product-details">
+                    <div class="image-container">
+                        <img src="{{ $product->image_url }}" alt="{{ $product->product_name }}">
                     </div>
 
-                    <div class="col-lg-6">
-                        <h4 class="text-muted"><strong>Fournisseur :</strong></h4>
-                        <p>{{ $product->supplyLines->first()->supply->supplier->supplier_name }}</p>
-                    </div>
-                </div>
+                    <div class="text-info">
+                        <div class="info-block">
+                            <h3>{{ $product->product_name }}</h3>
+                            <p class="supplier">{{ $product->supplyLines->first()->supply->supplier->supplier_name }}</p>
+                        </div>
 
-                {{-- Section pour les stocks et seuils --}}
-                <div class="row mb-4">
-                    <div class="col-lg-6">
-                        <h4 class="text-muted"><strong>Quantité Disponible :</strong></h4>
-                        <p class="h5">{{ $stock->quantity_available }}</p>
-                    </div>
-                    <div class="col-lg-6">
-                        <h4 class="text-muted"><strong>Seuils de Stock :</strong></h4>
-                        <ul class="list-unstyled">
-                            <li><strong>Seuil d’Alerte :</strong> {{ $stock->alert_threshold }}</li>
-                            <li><strong>Seuil de Réapprovisionnement :</strong> {{ $stock->restock_threshold }}</li>
-                            <li><strong>Quantité de Réapprovisionnement Automatique :</strong> {{ $stock->auto_restock_quantity }}</li>
-                        </ul>
+                        <div class="info-block categories">
+                            <h4>Catégories</h4>
+                            @if ($product->categories->isNotEmpty())
+                                <div class="category-tags">
+                                    @foreach($product->categories as $category)
+                                        <span class="tag">{{ $category->category_name }}</span>
+                                    @endforeach
+                                </div>
+                            @else
+                                <p>Aucune catégorie associée</p>
+                            @endif
+                        </div>
+
+                        <div class="info-block stock">
+                            <div class="stock-item">
+                                <span class="label">Quantité Disponible</span>
+                                <span class="value">{{ $stock->quantity_available }}</span>
+                            </div>
+                            <div class="stock-item">
+                                <span class="label">Seuil d'Alerte</span>
+                                <span class="value">{{ $stock->alert_threshold }}</span>
+                            </div>
+                            <div class="stock-item">
+                                <span class="label">Seuil de Réapprovisionnement</span>
+                                <span class="value">{{ $stock->restock_threshold }}</span>
+                            </div>
+                            <div class="stock-item">
+                                <span class="label">Quantité de Réapprovisionnement</span>
+                                <span class="value">{{ $stock->auto_restock_quantity }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {{-- Footer avec les actions --}}
-            <div class="card-footer bg-light text-center">
-                <a href="{{ route('warehouse.stock.product.edit', ['product_id' => $stock->product_id]) }}" class="btn btn-outline-primary mx-2">
-                    <i class="fas fa-edit"></i> Modifier
+            <div class="actions">
+                <a href="{{ route('warehouse.stock.product.edit', ['product_id' => $stock->product_id]) }}" class="btn edit">
+                    Modifier
                 </a>
-                <a href="{{ route('warehouse.stock.product.supply', ['product_id' => $stock->product_id]) }}" class="btn btn-outline-success mx-2">
-                    <i class="fas fa-plus"></i> Approvisionner
+                <a href="{{ route('warehouse.stock.product.supply', ['product_id' => $stock->product_id]) }}" class="btn supply">
+                    Approvisionner
                 </a>
-                <a href="{{ route('warehouse.stock.product.remove', ['product_id' => $stock->product_id]) }}" class="btn btn-outline-danger mx-2">
-                    <i class="fas fa-minus"></i> Retirer
+                <a href="{{ route('warehouse.stock.product.remove', ['product_id' => $stock->product_id]) }}" class="btn remove">
+                    Retirer
                 </a>
             </div>
         </div>
