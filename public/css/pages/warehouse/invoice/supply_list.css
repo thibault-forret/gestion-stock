@@ -1,0 +1,255 @@
+body {
+  font-family: "Roboto Thin", sans-serif;
+  background-color: #f2f5fc;
+  background-image: url("/images/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #5a5a5c;
+  margin: 0;
+  padding: 0;
+}
+
+.search-container, .filter-form {
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+}
+.search-container form, .filter-form form {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.search-container form .search-element, .filter-form form .search-element {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.search-container form .search-element > div, .filter-form form .search-element > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 200px;
+}
+.search-container form .search-element > div.hidden, .filter-form form .search-element > div.hidden {
+  display: none;
+}
+.search-container form .search-element > div label, .filter-form form .search-element > div label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #5a5a5c;
+}
+.search-container form .search-element > div input, .filter-form form .search-element > div input,
+.search-container form .search-element > div select,
+.filter-form form .search-element > div select {
+  width: 200px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #5a5a5c;
+  transition: all 0.3s ease;
+}
+.search-container form .search-element > div input:focus, .filter-form form .search-element > div input:focus,
+.search-container form .search-element > div select:focus,
+.filter-form form .search-element > div select:focus {
+  border-color: #173b75;
+  outline: none;
+  box-shadow: 0 0 5px rgba(23, 59, 117, 0.5);
+}
+.search-container form .search-element > div input:hover:not(:focus), .filter-form form .search-element > div input:hover:not(:focus),
+.search-container form .search-element > div select:hover:not(:focus),
+.filter-form form .search-element > div select:hover:not(:focus) {
+  border-color: rgb(39.7571428571, 101.9857142857, 202.2428571429);
+}
+.search-container form .search-element > div input[type=number], .filter-form form .search-element > div input[type=number],
+.search-container form .search-element > div input[type=date],
+.filter-form form .search-element > div input[type=date],
+.search-container form .search-element > div input[type=week],
+.filter-form form .search-element > div input[type=week],
+.search-container form .search-element > div input[type=month],
+.filter-form form .search-element > div input[type=month] {
+  -moz-appearance: textfield;
+}
+.search-container form .search-element > div input[type=number]::-webkit-outer-spin-button, .filter-form form .search-element > div input[type=number]::-webkit-outer-spin-button, .search-container form .search-element > div input[type=number]::-webkit-inner-spin-button, .filter-form form .search-element > div input[type=number]::-webkit-inner-spin-button,
+.search-container form .search-element > div input[type=date]::-webkit-outer-spin-button,
+.filter-form form .search-element > div input[type=date]::-webkit-outer-spin-button,
+.search-container form .search-element > div input[type=date]::-webkit-inner-spin-button,
+.filter-form form .search-element > div input[type=date]::-webkit-inner-spin-button,
+.search-container form .search-element > div input[type=week]::-webkit-outer-spin-button,
+.filter-form form .search-element > div input[type=week]::-webkit-outer-spin-button,
+.search-container form .search-element > div input[type=week]::-webkit-inner-spin-button,
+.filter-form form .search-element > div input[type=week]::-webkit-inner-spin-button,
+.search-container form .search-element > div input[type=month]::-webkit-outer-spin-button,
+.filter-form form .search-element > div input[type=month]::-webkit-outer-spin-button,
+.search-container form .search-element > div input[type=month]::-webkit-inner-spin-button,
+.filter-form form .search-element > div input[type=month]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.search-container form .buttons, .filter-form form .buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.search-container form .buttons .btn, .filter-form form .buttons .btn {
+  padding: 10px 20px;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s ease;
+  min-width: 150px;
+}
+.search-container form .buttons .btn:not(.red), .filter-form form .buttons .btn:not(.red) {
+  background-color: #173b75;
+}
+.search-container form .buttons .btn:not(.red):hover, .filter-form form .buttons .btn:not(.red):hover {
+  background-color: rgb(14.6214285714, 37.5071428571, 74.3785714286);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(23, 59, 117, 0.2);
+}
+.search-container form .buttons .btn.red, .filter-form form .buttons .btn.red {
+  background-color: #dc3545;
+}
+.search-container form .buttons .btn.red:hover, .filter-form form .buttons .btn.red:hover {
+  background-color: rgb(189.2151898734, 32.7848101266, 47.7721518987);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+}
+
+.filter-form {
+  width: auto;
+}
+
+.invoices {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.invoices .invoice {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+  max-width: 400px;
+}
+.invoices .invoice:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.invoices .invoice > div:first-child p {
+  margin: 0.5rem 0;
+  color: #5a5a5c;
+  font-size: 0.9rem;
+}
+.invoices .invoice > div:first-child p.status-paid {
+  color: #28a745;
+}
+.invoices .invoice > div:first-child p.status-due-soon {
+  color: #ffc107;
+}
+.invoices .invoice > div:first-child p.status-due-week {
+  color: #fd7e14;
+}
+.invoices .invoice > div:first-child p.status-overdue {
+  color: #dc3545;
+}
+.invoices .invoice > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.invoices .invoice > div:last-child a {
+  padding: 8px 12px;
+  background-color: #173b75;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.invoices .invoice > div:last-child a:hover {
+  background-color: rgb(14.6214285714, 37.5071428571, 74.3785714286);
+  transform: translateY(-2px);
+}
+
+.error-message {
+  max-width: 1200px;
+  width: 100%;
+  margin: 20px auto;
+  background-color: rgba(23, 59, 117, 0.1);
+  color: #173b75;
+  padding: 1rem;
+  border-left: 5px solid #173b75;
+  border-radius: 5px;
+  text-align: center;
+}
+.error-message p {
+  margin: 0;
+  font-weight: bold;
+}
+
+@media (max-width: 1200px) {
+  .invoices {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .search-container form, .filter-form form {
+    padding: 1rem;
+  }
+  .search-container form .search-element, .filter-form form .search-element {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-container form .search-element > div, .filter-form form .search-element > div {
+    width: 100%;
+  }
+  .search-container form .search-element > div input,
+  .search-container form .search-element > div select, .filter-form form .search-element > div input,
+  .filter-form form .search-element > div select {
+    width: 100%;
+  }
+  .search-container form .buttons, .filter-form form .buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .search-container form .buttons .btn, .filter-form form .buttons .btn {
+    width: 100%;
+  }
+  .invoices {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+}

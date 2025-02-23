@@ -1,301 +1,280 @@
-// Variables de couleur
-$orange: #f05c2b;
+// Variables
+$blue: #173b75;
 $gray: #5a5a5c;
 $white: #ffffff;
-$light-gray: lighten($gray, 20%);
-$dark-orange: darken($orange, 10%);
+$black: #000000;
+$light-gray: #f9f9f9;
+$light-blue: #f2f5fc;
 
 // Styles généraux
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto Thin', sans-serif;
+    background-color: $light-blue;
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: $gray;
     margin: 0;
     padding: 0;
-    background-color: $white;
-    color: $gray;
-}
-
-// Layout principal
-.main-container {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-    background-color: $white;
-}
-
-.product-list {
-    flex: 50%; // Prend environ 60% de l'espace
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); // Limite à 2 produits par ligne
-    gap: 20px;
-    background-color: $white;
-    margin-right: 10px;
-    border-radius: 8px;
 }
 
 .order-container {
+    max-width: 1200px;
+    margin: 2rem auto;
     display: flex;
-    margin-top: 20px;
-    padding: 10px;
+    gap: 2rem;
 }
 
-.order-recap {
-    flex: 50%; // Prend environ 40% de l'espace
-    max-width: 100%; // Évite de dépasser la largeur
-    background-color: $white;
-    border: 1px solid $light-gray;
-    border-radius: 8px;
-    padding: 25px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: sticky; // Reste fixe lors du scroll
-    top: 20px; // Distance par rapport au haut de la page
-    height: fit-content; // Ajuste la hauteur pour contenir le contenu
+.product-list {
+    flex: 0.3;
+    display: grid;
+    gap: 1.5rem;
 }
 
-.order-recap > div {
-    display: flex;
-    justify-content: flex-end; // Décale tout le contenu à droite
-}
-
-.empty-order {
-    text-align: center;
-}
-
-// Produit individuel
 .product-item {
-    position: relative;
-    border: 1px solid black;
-    padding: 20px;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: $gray;
-    color:$white;
-    transition: 0.3s ease;
-    max-height: 300px;
+    background-color: $white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: fit-content;
 
-    &.not-available {
-        opacity: 0.6;
-    }
-
-    .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);
-        z-index: 2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: $white;
-        font-size: 3rem;
-        font-weight: bold;
-        pointer-events: none;
-
-        span {
-            white-space: nowrap;
-            color: rgba(255, 255, 255, 0.6);
-            transform: rotate(-35deg);
-        }
+    h3 {
+        font-size: 1.2rem;
+        color: $black;
+        margin-bottom: 1rem;
     }
 
     img {
-        max-width: 100px;
-        max-height: 100px;
-        display: block;
-        margin: 10px auto;
-    }
-
-    h3 {
-        margin: 0;
-        font-size: 1.2em;
-        color: $white;
-    }
-
-    p {
-        margin: 5px 0;
-        color: $white;
-    }
-
-    .btn {
-        @extend .btn-common;
-    }
-    
-}
-.product-item p u {
-    text-decoration: none; // Retirer le soulignement
-    font-weight: bold; // Mettre en gras
-}
-
-// Table des commandes
-.order-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    font-size: 0.9rem;
-    color: $gray;
-
-    thead {
-        background: $orange;
-        color: $white;
-    }
-
-    th, td {
-        text-align: left;
-        padding: 10px;
-        border-bottom: 1px solid $light-gray;
-        min-width: 60px;
-    }
-
-    tfoot {
-        font-weight: bold;
-        background: lighten($gray, 10%);
-    }
-
-}
-
-// Scrollable div pour le récapitulatif
-.scrollable {
-    max-height: 450px;
-    overflow-y: auto;
-    border: 1px solid $light-gray;
-    border-radius: 8px;
-    padding: 10px;
-
-    .product-item {
-        background-color: #e0e0e0; /* Fond gris */
-    }
-
-    img.product_image {
-        max-width: 50px;
-        max-height: 50px;
-        display: block;
-        margin: 10px 0;
-    }
-
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-        background: $light-gray;
-        border-radius: 8px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background: $orange;
-        border-radius: 8px;
+        max-width: 15%;
+        border-radius: 2px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease-in-out;
 
         &:hover {
-            background: $dark-orange;
+            transform: scale(1.05);
+        }
+    }
+
+    .add-to-supply-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: center;
+
+        .quantity-picker {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+            width: 80%;
+
+            button {
+                background-color: $blue;
+                color: $white;
+                border: none;
+                border-radius: 100px;
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: darken($blue, 10%);
+                }
+            }
+
+            input[type='number'] {
+                width: 30%;
+                padding: 0.5rem;
+                font-size: 1rem;
+                border: 1px solid lighten($gray, 20%);
+                border-radius: 4px;
+                text-align: center;
+                outline: none;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+                transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+
+                &:focus {
+                    border-color: $blue;
+                    background-color: lighten($blue, 40%);
+                    box-shadow: 0 0 5px rgba($blue, 0.5);
+                }
+            }
+        }
+
+        .submit-btn {
+            width: 90%;
+            background-color: $blue;
+            color: $white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: darken($blue, 10%);
+            }
         }
     }
 }
 
-// Boutons communs
-.btn-common {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1em;
-    color: $white;
-    background-color: $orange;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin: 5px 0;
+.order-recap {
+    flex: 0.7;
+    background-color: $white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 2rem;
 
-    &:hover {
-        background-color: $dark-orange;
+    h3 {
+        font-size: 1.8rem;
+        color: $black;
+        margin-bottom: 1.5rem;
     }
-}
 
-button.disabled {
-    background-color: lighten($gray, 30%);
-    color: darken($white, 20%);
-    cursor: not-allowed;
+    .scrollable {
+        max-height: 60vh;
+        overflow-y: auto;
+        margin-bottom: 1rem;
 
-    &:hover {
-        background-color: lighten($gray, 30%);
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: $light-gray;
+            border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: $blue;
+            border-radius: 4px;
+        }
     }
-}
 
-// Titre de commande
-.order-title {
-    text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-}
+    .order-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1rem;
 
-.product-thumbnail{
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 5px;
-    margin-right: 10px;
-}
+        th {
+            background-color: $blue;
+            color: $white;
+            padding: 0.8rem;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
 
-.total-value{
-    font-size: 1.8rem;
-    margin-top: 10px;
-    text-align: center;
-    font-weight: bold;
-    color: $orange;
-}
+        td {
+            padding: 0.8rem;
+            border-bottom: 1px solid $light-gray;
 
-.total-label{
-    margin-top: 20px;
-}
+            &:last-child {
+                width: 200px;
+                padding: 0.5rem;
 
-.btn{
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1em;
-    color: $white;
-    background-color: $orange;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin: 5px 0;
+                form {
+                    margin-bottom: 0.5rem;
+                    display: flex;
 
-    &:hover {
-        background-color: $dark-orange;
+                    .quantity-picker {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0.5rem;
+                        margin: 0.5rem 0;
+
+                        input[type='number'] {
+                            width: 60px;
+                            padding: 0.3rem;
+                            text-align: center;
+                            border: 1px solid lighten($gray, 20%);
+                            border-radius: 4px;
+                        }
+                    }
+
+                    .btn {
+                        width: 100%;
+                        padding: 0.5rem;
+                        font-size: 0.9rem;
+                        margin: inherit;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        transition: background-color 0.3s ease;
+                        color: $white;
+                        background-color: $blue;
+
+                        &#btn-retirer-quantite {
+                             margin-left: 0.5rem; // Ajoute de l'espace au-dessus du bouton
+                        }
+
+                        &#btn-add-quantity {
+                            margin-left: 0.5rem; // Ajoute de l'espace au-dessus du bouton
+                        }
+
+                        &#btn-retirer {
+                            background-color: #dc3545;
+                            &:hover {
+                                background-color: darken(#dc3545, 10%);
+                            }
+                        }
+
+                        &:hover {
+                            background-color: darken($blue, 10%);
+                        }
+                    }
+                }
+            }
+        }
+
+        .product-thumbnail {
+            max-width: 60px;
+            border-radius: 4px;
+        }
     }
-}
 
-.order-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px; // Ajouter un peu plus d'espace
-    //background-color: lighten($gray, 10%);
-    border-radius: 8px;
+    .order-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem;
+        background-color: $light-gray;
+        border-radius: 8px;
+        margin-top: 1rem;
 
-}
+        .total-value {
+            font-size: 1.6rem;
+            color: $blue;
+            font-weight: bold;
+        }
+    }
 
-img.product_image, img.product-thumbnail {
-    border-radius: 5px; // Arrondir les coins
-    background-color: $white; // Forcer un fond blanc
-}
+    .confirm {
+        margin-top: 1rem;
+        text-align: center;
 
-#btn-retirer {
-    background-color: #f44336;
-    color: $white;
-}
-#btn-ajouter-quantite {
-    background-color: #17a2b8;
-    color: $white;
-}
-#btn-retirer-quantite {
-    background-color: #ffc107;
-    color: $white;
-}
-#btn-recapitulatif {
-    //background-color: #17a2b8;
-    color: $white;
+        .btn {
+            background-color: $blue;
+            color: $white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: darken($blue, 10%);
+            }
+        }
+    }
 }

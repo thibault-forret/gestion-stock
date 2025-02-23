@@ -21,14 +21,19 @@
         <h3 class="title">{{ __('supply.select_supplier') }}</h3>
 
         @foreach($suppliers as $supplier)
-            <form action="{{ route('warehouse.stock.supply.place.new') }}" method="post">
-                @csrf
-                <input type="hidden" name="supplier_id" value="{{ $supplier->id }}">
-                <button class="role-card" type="submit">
-                    <div class="role-title">{{ $supplier->supplier_name }}</div>
-                </button>
-            </form>
+            <div class="role-card">
+                <form action="{{ route('warehouse.stock.supply.place.new') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="supplier_id" value="{{ $supplier->id }}">
+                    <button type="submit">
+                        <div class="icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <div class="role-title">{{ $supplier->supplier_name }}</div>
+                        <p class="role-description">{{ __('description.new_supply') }}</p>
+                    </button>
+                </form>
+            </div>
         @endforeach
     </div>
-
 @endsection
