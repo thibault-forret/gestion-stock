@@ -34,10 +34,12 @@
                                 @csrf
                                 <input type="hidden" name="supply_id" value="{{ $supply->id }}">
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="number" name="quantity" class="quantity-input" value="1"
-                                    min="1" max="{{ $total_quantity }}"
-                                    step="1" required>
-                                <button type="submit" class="btn">{{ __('supply.add_to_supply') }}</button>
+                                <div class="quantity-picker">
+                                    <button type="button" onclick="decrementQuantity(this)">-</button>
+                                    <input type="number" name="quantity" value="1" min="1" max="{{ $total_quantity }}" required>
+                                    <button type="button" onclick="incrementQuantity(this)">+</button>
+                                </div>
+                                <button type="submit" class="submit-btn">Ajouter à l'approvisionnement</button>
                             </form>
                         </div>
                     </div>
@@ -79,7 +81,7 @@
                                     <td>{{ $supplyLine->quantity_supplied }}</td>
                                     <td>{{ number_format($supplyLine->unit_price, 2, ',', ' ') }} €</td>
                                     <td>{{ number_format($supplyLine->unit_price * $supplyLine->quantity_supplied, 2, ',', ' ') }} €</td>
-                                    <td style="display: flex; flex-direction: column; justify-content: center;">
+                                    <td>
                                         <form action="{{ route('warehouse.stock.supply.remove.product') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
@@ -93,7 +95,6 @@
                                             <input type="hidden" name="supply_id" value="{{ $supply->id }}">
                                             <div class="quantity-picker">
                                                 <input type="number" name="quantity" value="1" min="1" max="{{ $supplyLine->quantity_supplied }}" required>
-
                                             </div>
                                             <button type="submit" class="btn" id="btn-retirer-quantite">{{ __('order.remove_quantity') }}</button>
                                         </form>
@@ -106,10 +107,7 @@
                                             <div class="quantity-picker">
                                                 <input type="number" name="quantity" value="1" min="1" max="{{ $total_quantity }}" required>
                                             </div>
-                                            <button type="submit" class="btn">{{ __('order.add_quantity') }}</button>
-
-                                            <input type="number" name="quantity" value="1" min="1" max="{{ $total_quantity }}" required>
-                                            <button type="submit" class="btn">{{ __('order.add_quantity') }}</button>
+                                            <button type="submit" class="btn" id="btn-add-quantity">{{ __('order.add_quantity') }}</button>
                                         </form>
                                     </td>
                                 </tr>

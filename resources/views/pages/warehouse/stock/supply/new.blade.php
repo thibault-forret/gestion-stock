@@ -12,14 +12,12 @@
 @section('content')
 
     @if($suppliers->isEmpty())
-        <p class="no-suppliers">Aucun produits ajoutés à l'entrepôt, veuillez ajouter des produits</p>
-        <a href="{{ route('warehouse.product.index')}}">Ajouter des produits</a>
+        <p class="no-suppliers">{{ __('supply.no_product_in_warehouse') }}</p>
+        <a href="{{ route('warehouse.product.index')}}">{{ __('supply.add_products') }}</a>
     @endif
 
+    <h3 class="title">{{ __('supply.select_supplier') }}</h3>
     <div class="role-selection">
-
-        <h3 class="title">{{ __('supply.select_supplier') }}</h3>
-
         @foreach($suppliers as $supplier)
             <div class="role-card">
                 <form action="{{ route('warehouse.stock.supply.place.new') }}" method="post">
@@ -30,7 +28,6 @@
                             <i class="fas fa-shipping-fast"></i>
                         </div>
                         <div class="role-title">{{ $supplier->supplier_name }}</div>
-                        <p class="role-description">{{ __('description.new_supply') }}</p>
                     </button>
                 </form>
             </div>

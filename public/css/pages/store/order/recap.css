@@ -167,17 +167,18 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  background-color: #173b75;
   transition: background-color 0.3s ease;
   color: #ffffff;
 }
 .inline-form .btn:hover {
   background-color: rgb(14.6214285714, 37.5071428571, 74.3785714286);
 }
-.inline-form .btn#btn-retirer {
+.inline-form .btn-retirer {
   background-color: #dc3545;
   color: #ffffff;
 }
-.inline-form .btn#btn-retirer:hover {
+.inline-form .btn-retirer:hover {
   background-color: rgb(189.2151898734, 32.7848101266, 47.7721518987);
 }
 .inline-form .btn#btn-retirer-quantite, .inline-form .btn#btn-add-quantity {

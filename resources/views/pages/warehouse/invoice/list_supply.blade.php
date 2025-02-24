@@ -99,7 +99,7 @@
     <div class="search-container">
         <form action="{{ route('warehouse.invoice.search') }}" method="POST">
             @csrf
-            <div class="search-input">
+            <div class="search-element">
                 <div>
                     <label for="search">{{ __('invoice.search_invoice') }}</label>
                     <input type="text" id="search" name="search" value="" placeholder="{{ __('invoice.invoice_number') }}" required>
@@ -116,7 +116,7 @@
         <form action="{{ route('warehouse.invoice.filter.supply') }}" method="get">
             <div class="search-element">
                 <div>
-                    <label for="supplier">{{ __('invoice.supplier') }} :</label>
+                    <label for="supplier"><i class="fas fa-dolly-flatbed"></i> {{ __('invoice.supplier') }} :</label>
                     <select id="supplier" name="supplier">
                         <option value="">{{ __('invoice.no_selection') }}</option>
                         @foreach($suppliers as $supplier)
@@ -128,7 +128,7 @@
                 </div>
 
                 <div>
-                    <label for="order">{{ __('invoice.sort_order') }}</label>
+                    <label for="order"><i class="fas fa-sort-amount-down-alt"></i> {{ __('invoice.sort_order') }}</label>
                     <select id="order" name="order" required>
                         <option value="desc" {{ request('order') != 'desc' ? '' : 'selected' }}>{{ __('invoice.descending') }}</option>
                         <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>{{ __('invoice.ascending') }}</option>
@@ -136,7 +136,7 @@
                 </div>
 
                 <div>
-                    <label for="status">{{ __('invoice.payment_status') }}</label>
+                    <label for="status"><i class="fas fa-receipt"></i> {{ __('invoice.payment_status') }}</label>
                     <select id="status" name="status" required>
                         <option value="all" {{ request('status') != 'all' ? '' : 'selected' }}>{{ __('invoice.all') }}</option>
                         <option value="settled" {{ request('status') == 'settled' ? 'selected' : '' }}>{{ __('invoice.settled') }}</option>
@@ -145,7 +145,7 @@
                 </div>
 
                 <div>
-                    <label for="priority_level">{{ __('invoice.priority_level') }}</label>
+                    <label for="priority_level"><i class="fas fa-exclamation-circle"></i> {{ __('invoice.priority_level') }}</label>
                     <select id="priority_level" name="priority_level" required>
                         <option value="all" {{ request('priority_level') == 'all' ? 'selected' : '' }}>
                             {{ __('invoice.no_selection') }}
@@ -164,7 +164,7 @@
                 </div>
 
                 <div>
-                    <label for="type_date">{{ __('invoice.date_search_type') }}</label>
+                    <label for="type_date"><i class="fas fa-calendar-day"></i> {{ __('invoice.date_search_type') }}</label>
                     <select id="type_date" name="type_date" required>
                         <option value="all" {{ request('type_date') == 'all' ? 'selected' : '' }}>{{ __('invoice.no_selection') }}</option>
                         <option value="day" {{ request('type_date') == 'day' ? 'selected' : '' }}>{{ __('invoice.day') }}</option>
@@ -178,7 +178,7 @@
                     <label for="day">{{ __('invoice.select_day') }}</label>
                     <input type="date" id="day" name="day" value="{{ request('day') == null ? '' : request('day') }}" max="">
                 </div>
-            
+
                 <div id="week-picker" class="hidden">
                     <label for="week">{{ __('invoice.select_week') }}</label>
                     <input type="week" id="week" name="week" value="{{ request('week') == null ? '' : request('week') }}" max="">
@@ -200,58 +200,59 @@
                 <a class="btn red" href="{{ route('warehouse.invoice.list.supply') }}">{{ __('invoice.reset_search') }}</a>
             </div>
         </form>
-    </div>
-    
+
+
     @if ($invoices->isEmpty())
         <p style="margin: auto">{{ __('invoice.no_invoice_found') }}</p>
     @endif
-    
-    <div class="invoices">
-        @if ($invoices->isEmpty())
-            <p style="margin: auto">Aucune facture trouvée</p>
-        @endif
-        @foreach ($invoices as $invoice)
-            @php
-                $supplier = $invoice->supply->supplier;
-                $total_price = $invoice->supply->supplyLines->sum(function ($supply_line) {
-                    return $supply_line->quantity_supplied * $supply_line->unit_price;
-                });
 
-                $invoiceDate = new DateTime($invoice->invoice_date);
-                $currentDate = new DateTime();
-                $daysDifference = $currentDate->diff($invoiceDate)->days;
+        <div class="invoices">
+            @if ($invoices->isEmpty())
+                <p style="margin: auto">Aucune facture trouvée</p>
+            @endif
+            @foreach ($invoices as $invoice)
+                @php
+                    $supplier = $invoice->supply->supplier;
+                    $total_price = $invoice->supply->supplyLines->sum(function ($supply_line) {
+                        return $supply_line->quantity_supplied * $supply_line->unit_price;
+                    });
 
-                $statusClass = '';
-                if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID) {
-                    $statusClass = 'status-paid';
-                } elseif ($daysDifference <= 7) {
-                    $statusClass = 'status-due-soon';
-                } elseif ($daysDifference > 7 && $daysDifference <= 14) {
-                    $statusClass = 'status-due-week';
-                } else {
-                    $statusClass = 'status-overdue';
-                }
-            @endphp
+                    $invoiceDate = new DateTime($invoice->invoice_date);
+                    $currentDate = new DateTime();
+                    $daysDifference = $currentDate->diff($invoiceDate)->days;
 
-            <div class="invoice">
-                <div>
-                    <p>{{ __('invoice.number') }} : {{ $invoice->invoice_number }}</p>
-                    <p>{{ __('invoice.supplier') }} : {{ $invoice->entity_name }}</p>
-                    <p>{{ __('invoice.date') }} : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
-                    <p>{{ __('invoice.total') }} : {{ $total_price }} €</p>
-                    @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
-                        <p>{{ __('invoice.settled_on') }} : {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
-                    @endif
-                    <p class="{{ $statusClass }}">
-                        {{ __('invoice.status') }} : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('invoice.settled') : __('invoice.not_settled') }}
-                    </p>
+                    $statusClass = '';
+                    if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID) {
+                        $statusClass = 'status-paid';
+                    } elseif ($daysDifference <= 7) {
+                        $statusClass = 'status-due-soon';
+                    } elseif ($daysDifference > 7 && $daysDifference <= 14) {
+                        $statusClass = 'status-due-week';
+                    } else {
+                        $statusClass = 'status-overdue';
+                    }
+                @endphp
+
+                <div class="invoice">
+                    <div>
+                        <p>{{ __('invoice.number') }} : {{ $invoice->invoice_number }}</p>
+                        <p>{{ __('invoice.supplier') }} : {{ $invoice->entity_name }}</p>
+                        <p>{{ __('invoice.date') }} : {{ $invoice->created_at->format('d/m/Y H:i:s') }}</p>
+                        <p>{{ __('invoice.total') }} : {{ $total_price }} €</p>
+                        @if ($invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID)
+                            <p>{{ __('invoice.settled_on') }} : {{ $invoice->updated_at->format('d/m/Y H:i:s') }}</p>
+                        @endif
+                        <p class="{{ $statusClass }}">
+                            {{ __('invoice.status') }} : {{ $invoice->invoice_status === \App\Models\Invoice::INVOICE_STATUS_PAID ? __('invoice.settled') : __('invoice.not_settled') }}
+                        </p>
+                    </div>
+                    <div>
+                        <a href="{{ route('warehouse.invoice.info.supply', ['invoice_number' => $invoice->invoice_number]) }}"><i class="far fa-question-circle"></i> {{ __('invoice.info') }}</a>
+                        <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}"><i class="far fa-eye"></i> {{ __('order.see_invoice') }}</a>
+                        <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}"><i class="fas fa-download"></i> {{ __('order.download_invoice') }}</a>
+                    </div>
                 </div>
-                <div>
-                    <a href="{{ route('warehouse.invoice.info.supply', ['invoice_number' => $invoice->invoice_number]) }}"><i class="far fa-question-circle"></i> {{ __('invoice.info') }}</a>
-                    <a target="_blank" href="{{ route('warehouse.invoice.show', ['invoice_number' => $invoice->invoice_number]) }}"><i class="far fa-eye"></i> {{ __('order.see_invoice') }}</a>
-                    <a target="_blank" href="{{ route('warehouse.invoice.download', ['invoice_number' => $invoice->invoice_number]) }}"><i class="fas fa-download"></i> {{ __('order.download_invoice') }}</a>
-                </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
     </div>
 @endsection

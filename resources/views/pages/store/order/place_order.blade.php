@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-    <link href="{{ mix('css/pages/store/order/place.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/pages/warehouse/supply/place.css') }}" rel="stylesheet">
 @endsection
 
 @section('title', __('title.place_order'))
@@ -47,14 +47,19 @@
 
                     @if($product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available != 0)
                         <div class="buttons">
-                            <form class="add-to-order-form" method="POST" action="{{ route('store.order.add') }}">
+                            <form class="add-to-supply-form" method="POST" action="{{ route('store.order.add') }}">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $order->id }}">
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="number" name="quantity" class="quantity-input" value="1"
-                                    min="1" max="{{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}"
-                                    step="1" required>
-                                <button type="submit" class="btn">{{ __('order.add_to_order') }}</button>
+                                <div class="quantity-picker">
+                                    <button type="button" onclick="decrementQuantity(this)">-</button>
+                                    <input type="number" name="quantity" class="quantity-input" value="1"
+                                           min="1" max="{{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}"
+                                           step="1" required>
+                                    <button type="button" onclick="incrementQuantity(this)">+</button>
+                                </div>
+
+                                <button type="submit" class="submit-btn">{{ __('order.add_to_order') }}</button>
                             </form>
                         </div>
                     @endif
@@ -100,27 +105,27 @@
                                 <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered, 2, ',', ' ') }} €</td>
                                 <td>{{ number_format($orderLine->unit_price * $orderLine->quantity_ordered * $warehouse->global_margin, 2, ',', ' ') }} €</td>
                                 <td style="display: flex; flex-direction: column; justify-content: center;">
-                                    <form action="{{ route('store.order.remove.product') }}" method="POST">
+                                    <form action="{{ route('store.order.remove.product') }}" method="POST" class="inline-form">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                        <button type="submit" class="btn" id="btn-retirer">{{ __('order.remove_product') }}</button>
+                                        <button type="submit" class="btn btn-retirer" id="btn-retirer">{{ __('order.remove_product') }}</button>
                                     </form>
 
-                                    <form action="{{ route('store.order.remove.quantity') }}" method="POST">
+                                    <form action="{{ route('store.order.remove.quantity') }}" method="POST" class="inline-form">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->quantity_ordered }}" required>
-                                        <button type="submit" class="btn" id="btn-retirer-quantite">{{ __('order.remove_quantity') }}</button>
+                                        <button type="submit" class="btn btn-warning" id="btn-retirer-quantite">{{ __('order.remove_quantity') }}</button>
                                     </form>
 
-                                    <form action="{{ route('store.order.add.quantity') }}" method="POST">
+                                    <form action="{{ route('store.order.add.quantity') }}" method="POST" class="inline-form">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $orderLine->product->id }}">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <input type="number" name="quantity" value="1" min="1" max="{{ $orderLine->product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}" required>
-                                        <button type="submit" class="btn">{{ __('order.add_quantity') }}</button>
+                                        <button type="submit" class="btn btn-warning">{{ __('order.add_quantity') }}</button>
                                     </form>
                                 </td>
                             </tr>
@@ -146,4 +151,21 @@
         @endif
     </div>
 </div>
+<script>
+    function incrementQuantity(btn) {
+        const input = btn.parentElement.querySelector('input[type="number"]');
+        const max = parseInt(input.max);
+        const value = parseInt(input.value);
+        if (value < max) {
+            input.value = value + 1;
+        }
+    }
+
+    function decrementQuantity(btn) {
+        const input = btn.parentElement.querySelector('input[type="number"]');
+        if (input.value > 1) {
+            input.value = parseInt(input.value) - 1;
+        }
+    }
+</script>
 @endsection

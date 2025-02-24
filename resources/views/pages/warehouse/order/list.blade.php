@@ -80,10 +80,10 @@
                                     </form>
                                 @else
                                     <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $order->invoice->invoice_number]) }}" class="btn btn-info">
-                                        {{ __('order.see_invoice') }}
+                                        <i class="far fa-eye"></i> {{ __('order.see_invoice') }}
                                     </a>
                                     <a href="{{ route('warehouse.order.invoice.download', ['invoice_number' => $order->invoice->invoice_number]) }}" class="btn btn-info">
-                                        {{ __('order.download_invoice') }}
+                                        <i class="fas fa-download"></i> {{ __('order.download_invoice') }}
                                     </a>
                                 @endif
                             </td>

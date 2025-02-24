@@ -26,7 +26,6 @@ body {
   background-color: #ffffff;
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .search-container form .search-element, .filter-form form .search-element {
   display: flex;
@@ -138,6 +137,7 @@ body {
 
 .filter-form {
   width: auto;
+  background-color: #ffffff;
 }
 
 .invoices {
