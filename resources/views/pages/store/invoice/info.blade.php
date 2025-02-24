@@ -54,7 +54,7 @@
         }
 
         .total-section h4 .text-primary {
-            color: #f05c2b;
+            color: #173b75;
             font-weight: bold;
         }
 
@@ -85,13 +85,13 @@
 
         /* Style pour les boutons secondaires */
         .total-section .btn.secondary-btn {
-            background-color: #f05c2b;
+            background-color: #173b75;
             color: #fff;
             margin-left: 10px;
         }
 
         .total-section .btn.secondary-btn:hover {
-            background-color: #d94b21;
+            background-color: #0f264a;
             transform: translateY(-1px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
@@ -136,8 +136,8 @@
         <h4>{{ __('invoice.warehouse_details') }}</h4>
         <p><strong>{{ __('invoice.name') }}:</strong> {{ $warehouse->warehouse_name }}</p>
         <p><strong>{{ __('invoice.location') }}:</strong> {{ $warehouse->warehouse_address }}</p>
-        <p><strong>{{ __('invoice.email') }}:</strong> {{ $warehouse->warehouse_contact }}</p>
-        <p><strong>{{ __('invoice.phone') }}:</strong> {{ $warehouse->warehouse_contact }}</p>
+        <p><strong>{{ __('invoice.email') }}:</strong> {{ $warehouse->warehouse_email }}</p>
+        <p><strong>{{ __('invoice.phone') }}:</strong> {{ $warehouse->warehouse_phone }}</p>
         <p><strong>{{ __('invoice.manager') }}:</strong> {{ $warehouse->manager->username }}</p>
     </div>
 
