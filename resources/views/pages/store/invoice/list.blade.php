@@ -1,246 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-    <style>
-        .hidden {
-            display: none;
-        }
-
-        .content {
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h3 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #f05c2b;
-        }
-
-        form {
-            width: 80%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        form .search-input {
-            width: 400px;
-            margin-bottom: 20px;
-            display: flex;
-            margin: auto;
-            text-align: center;
-        }
-
-        form .search-element {
-            width: 90%;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        form div {
-            flex: 1 1 calc(33% - 20px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        form label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        form input,
-        form select,
-        form button {
-            background-color: #fff;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-            transition: border-color 0.3s ease;
-        }
-
-        form input:focus,
-        form select:focus {
-            border-color: #f05c2b;
-            outline: none;
-        }
-
-        form .buttons {;
-            margin: auto;
-            width: 40%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-evenly;
-            margin: 20px 0;
-        }
-
-        /* Style pour les boutons */
-        .buttons .btn {
-            margin-bottom: 10px;
-            width: 250px;
-            padding: 12px;
-            background-color: #f05c2b;
-            color: white;
-            font-weight: bold;
-            text-align: center;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .buttons .btn.red {
-            background-color: #dc3545;
-        }
-
-        .buttons .btn.red:hover {
-            background-color: #c82333;
-        }
-
-        .buttons .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .buttons .btn:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .buttons .btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5);
-        }
-
-
-        .alert {
-            padding: 10px 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .alert-success {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .alert-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .invoices {
-            width: 80%;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .invoice {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .invoice:hover {
-            transform: scale(1.01);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .invoice p {
-            margin: 5px 0;
-            line-height: 1.5;
-            color: #555;
-        }
-
-        .invoice a {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 12px;
-            background-color: #f05c2b;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-
-        .invoice a:hover {
-            background-color: #ff5b24;
-        }
-
-        .status-paid {
-            background-color: #28a745;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .status-due-soon {
-            background-color: #ffc107;
-            color: #212529;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .status-due-week {
-            background-color: #fd7e14;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .status-overdue {
-            background-color: #dc3545;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .center-child {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .error-message p {
-            color: #dc3545;
-            font-weight: bold;
-            text-align: center;
-        }
-
-    </style>
-    {{-- <link href="{{ mix('css/pages/warehouse/product/search-new-product.css') }}" rel="stylesheet"> --}}
+    <link href="{{ mix('css/pages/warehouse/invoice/supply_list.css') }}" rel="stylesheet">
 @endsection
 
 @section('js')
@@ -336,78 +97,79 @@
 
 @section('content')
 
-    <h3>{{ __('invoice.invoice_list') }}</h3>
-
-    <form action="{{ route('store.invoice.search') }}" method="POST">
-        @csrf
-        <div class="search-input">
-            <div>
-                <label for="search">{{ __('invoice.search_invoice') }}</label>
-                <input type="text" id="search" name="search" value="" placeholder="{{ __('invoice.invoice_number') }}" required>
+    <div class="search-container">
+        <form action="{{ route('store.invoice.search') }}" method="POST">
+            @csrf
+            <div class="search-element">
+                <div>
+                    <label for="search">{{ __('invoice.search_invoice') }}</label>
+                    <input type="text" id="search" name="search" value="" placeholder="{{ __('invoice.invoice_number') }}" required>
+                </div>
             </div>
-        </div>
-        <div class="buttons">
-            <button class="btn" type="submit">{{ __('invoice.search') }}</button>
-            <a class="btn red" href="{{ route('store.invoice.list') }}">{{ __('invoice.reset_search') }}</a>
-        </div>
-    </form>
+            <div class="buttons">
+                <button class="btn" type="submit">{{ __('invoice.search') }}</button>
+                <a class="btn red" href="{{ route('store.invoice.list') }}">{{ __('invoice.reset_search') }}</a>
+            </div>
+        </form>
+    </div>
 
-    <form action="{{ route('store.invoice.filter') }}" method="get">
-        <div class="search-element">
-            <div>
-                <label for="order">{{ __('invoice.sort_order') }}</label>
-                <select id="order" name="order" required>
-                    <option value="desc" {{ request('order') != 'desc' ? '' : 'selected' }}>{{ __('invoice.descending') }}</option>
-                    <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>{{ __('invoice.ascending') }}</option>
-                </select>
+    <div class="filter-form">
+        <form action="{{ route('store.invoice.filter') }}" method="get">
+            <div class="search-element">
+                <div>
+                    <label for="order"><i class="fas fa-sort-amount-down-alt"></i> {{ __('invoice.sort_order') }}</label>
+                    <select id="order" name="order" required>
+                        <option value="desc" {{ request('order') != 'desc' ? '' : 'selected' }}>{{ __('invoice.descending') }}</option>
+                        <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>{{ __('invoice.ascending') }}</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="status"><i class="fas fa-exclamation-circle"></i> {{ __('invoice.payment_status') }}</label>
+                    <select id="status" name="status" required>
+                        <option value="all" {{ request('status') != 'all' ? '' : 'selected' }}>{{ __('invoice.all') }}</option>
+                        <option value="settled" {{ request('status') == 'settled' ? 'selected' : '' }}>{{ __('invoice.settled') }}</option>
+                        <option value="not-settled" {{ request('status') == 'not-settled' ? 'selected' : '' }}>{{ __('invoice.not_settled') }}</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="type_date"><i class="fas fa-calendar-day"></i> {{ __('invoice.date_search_type') }}</label>
+                    <select id="type_date" name="type_date" required>
+                        <option value="all" {{ request('type_date') == 'all' ? 'selected' : '' }}>{{ __('invoice.no_selection') }}</option>
+                        <option value="day" {{ request('type_date') == 'day' ? 'selected' : '' }}>{{ __('invoice.day') }}</option>
+                        <option value="week" {{ request('type_date') == 'week' ? 'selected' : '' }}>{{ __('invoice.week') }}</option>
+                        <option value="month" {{ request('type_date') == 'month' ? 'selected' : '' }}>{{ __('invoice.month') }}</option>
+                        <option value="year" {{ request('type_date') == 'year' ? 'selected' : '' }}>{{ __('invoice.year') }}</option>
+                    </select>
+                </div>
+
+                <div id="day-picker" class="hidden">
+                    <label for="day">{{ __('invoice.select_day') }}</label>
+                    <input type="date" id="day" name="day" value="{{ request('day') == null ? '' : request('day') }}" max="">
+                </div>
+
+                <div id="week-picker" class="hidden">
+                    <label for="week">{{ __('invoice.select_week') }}</label>
+                    <input type="week" id="week" name="week" value="{{ request('week') == null ? '' : request('week') }}" max="">
+                </div>
+
+                <div id="month-picker" class="hidden">
+                    <label for="month">{{ __('invoice.select_month') }}</label>
+                    <input type="month" id="month" name="month" value="{{ request('month') == null ? '' : request('month') }}" max="">
+                </div>
+
+                <div id="year-picker" class="hidden">
+                    <label for="year">{{ __('invoice.select_year') }}</label>
+                    <input type="number" id="year" name="year" value="{{ request('year') == null ? '' : request('year') }}" min="1900" max="">
+                </div>
             </div>
 
-            <div>
-                <label for="status">{{ __('invoice.payment_status') }}</label>
-                <select id="status" name="status" required>
-                    <option value="all" {{ request('status') != 'all' ? '' : 'selected' }}>{{ __('invoice.all') }}</option>
-                    <option value="settled" {{ request('status') == 'settled' ? 'selected' : '' }}>{{ __('invoice.settled') }}</option>
-                    <option value="not-settled" {{ request('status') == 'not-settled' ? 'selected' : '' }}>{{ __('invoice.not_settled') }}</option>
-                </select>
+            <div class="buttons">
+                <button class="btn" type="submit">{{ __('invoice.search') }}</button>
+                <a class="btn red" href="{{ route('store.invoice.list') }}">{{ __('invoice.reset_search') }}</a>
             </div>
-
-            <div>
-                <label for="type_date">{{ __('invoice.date_search_type') }}</label>
-                <select id="type_date" name="type_date" required>
-                    <option value="all" {{ request('type_date') == 'all' ? 'selected' : '' }}>{{ __('invoice.no_selection') }}</option>
-                    <option value="day" {{ request('type_date') == 'day' ? 'selected' : '' }}>{{ __('invoice.day') }}</option>
-                    <option value="week" {{ request('type_date') == 'week' ? 'selected' : '' }}>{{ __('invoice.week') }}</option>
-                    <option value="month" {{ request('type_date') == 'month' ? 'selected' : '' }}>{{ __('invoice.month') }}</option>
-                    <option value="year" {{ request('type_date') == 'year' ? 'selected' : '' }}>{{ __('invoice.year') }}</option>
-                </select>
-            </div>
-
-            <div id="day-picker" class="hidden">
-                <label for="day">{{ __('invoice.select_day') }}</label>
-                <input type="date" id="day" name="day" value="{{ request('day') == null ? '' : request('day') }}" max="">
-            </div>
-
-            <div id="week-picker" class="hidden">
-                <label for="week">{{ __('invoice.select_week') }}</label>
-                <input type="week" id="week" name="week" value="{{ request('week') == null ? '' : request('week') }}" max="">
-            </div>
-
-            <div id="month-picker" class="hidden">
-                <label for="month">{{ __('invoice.select_month') }}</label>
-                <input type="month" id="month" name="month" value="{{ request('month') == null ? '' : request('month') }}" max="">
-            </div>
-
-            <div id="year-picker" class="hidden">
-                <label for="year">{{ __('invoice.select_year') }}</label>
-                <input type="number" id="year" name="year" value="{{ request('year') == null ? '' : request('year') }}" min="1900" max="">
-            </div>
-        </div>
-
-        <div class="buttons">
-            <button class="btn" type="submit">{{ __('invoice.search') }}</button>
-            <a class="btn red" href="{{ route('store.invoice.list') }}">{{ __('invoice.reset_search') }}</a>
-        </div>
-    </form>
+        </form>
 
     @if ($errors->any())
         <div class="center-child error-message">
@@ -417,11 +179,11 @@
         </div>
     @endif
 
+    <div class="invoices">
     {{-- Faire système de trie par magasin etc si on a le temps (reprendre le code de supply) --}}
     @if ($invoices->isEmpty())
         <p style="margin: auto">{{ __('invoice.no_invoice_found') }}</p>
     @endif
-    <div class="invoices">
         @foreach ($invoices as $invoice)
             @php
                 $store = $invoice->order->store;

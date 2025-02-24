@@ -81,7 +81,7 @@
                                     <td>{{ $supplyLine->quantity_supplied }}</td>
                                     <td>{{ number_format($supplyLine->unit_price, 2, ',', ' ') }} €</td>
                                     <td>{{ number_format($supplyLine->unit_price * $supplyLine->quantity_supplied, 2, ',', ' ') }} €</td>
-                                    <td style="display: flex; flex-direction: column; justify-content: center;">
+                                    <td>
                                         <form action="{{ route('warehouse.stock.supply.remove.product') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $supplyLine->product->id }}">
@@ -95,7 +95,6 @@
                                             <input type="hidden" name="supply_id" value="{{ $supply->id }}">
                                             <div class="quantity-picker">
                                                 <input type="number" name="quantity" value="1" min="1" max="{{ $supplyLine->quantity_supplied }}" required>
-
                                             </div>
                                             <button type="submit" class="btn" id="btn-retirer-quantite">{{ __('order.remove_quantity') }}</button>
                                         </form>
