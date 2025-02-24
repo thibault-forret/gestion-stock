@@ -79,6 +79,9 @@ body {
 .badge-info {
   background-color: #ffc107;
 }
+.badge-warning {
+  background-color: #ff8b07;
+}
 .badge-red {
   background-color: #dc3545;
 }
