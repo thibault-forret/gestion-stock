@@ -13,7 +13,7 @@
 
 .icon-construct {
   margin-bottom: 20px;
-  color: #ff6f61;
+  color: #173b75;
   animation: bounce 5s infinite ease-in-out;
 }
 .icon-construct i {
@@ -47,7 +47,7 @@
   font-size: 1rem;
   text-decoration: none;
   color: #fff;
-  background-color: #ff6f61;
+  background-color: #173b75;
   border-radius: 5px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s, transform 0.3s;
@@ -55,7 +55,7 @@
 
 .btn:hover {
   transform: translateY(-3px);
-  background-color: #e65a50;
+  background-color: #0d254b;
 }
 
 .btn .icon {
