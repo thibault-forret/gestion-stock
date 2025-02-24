@@ -13,4 +13,9 @@ return [
     'no_supply_in_progress' => 'Aucun approvisionnement en cours',
     'add_to_supply' => 'Ajouter à l\'approvisionnement',
     'confirm_supply' => 'Confirmer l\'approvisionnement',
+    'no_stock' => 'Aucun stock disponible',
+
+    'repart_stock' => 'Répartition des stocks',
+    'stock_by_product' => 'Stock par produit',
+    'top_5_stock' => 'Top 5 des stocks critiques',
 ];

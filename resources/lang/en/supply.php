@@ -13,4 +13,9 @@ return [
     'no_supply_in_progress' => 'No supply in progress',
     'add_to_supply' => 'Add to supply',
     'confirm_supply' => 'Confirm supply',
+    'no_stock' => 'No stock available',
+
+    'repart_stock' => 'Stock distribution',
+    'stock_by_product' => 'Stock by product',
+    'top_5_stock' => 'Top 5 critical stocks',
 ];
