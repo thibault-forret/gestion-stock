@@ -8,6 +8,12 @@ Application web permettant de gérer les stocks de produits d'un entrepôt, avec
 
 Les magasins peuvent passer des commandes pour s’approvisionner en stock, tandis que l’entrepôt s’alimente auprès de fournisseurs, simulés via l’API OpenFoodFacts.
 
+## 👥 Membres du projet
+- Thibault Forret
+- Louis Fauconnet
+- Tom Fleter
+- Ajax Deshayes--Huet
+
 ## 🛠 Technologies utilisées
 - **Langages** : PHP, JavaScript, SCSS
 - **Framework** : Laravel
