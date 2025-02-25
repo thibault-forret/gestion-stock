@@ -1,5 +1,4 @@
 # 📌 Nova Stock
-## Projet BUT3 Informatique - Gestion d'entrepôt de stockage
 
 ## 📖 Contexte
 Projet de groupe réalisé en 3ᵉ année de BUT Informatique, dans le cadre de la SAE.
