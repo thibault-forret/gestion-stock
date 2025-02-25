@@ -1,16 +1,20 @@
-// Variables de couleur
-$orange: #f05c2b;
+$blue: #173b75;
 $gray: #5a5a5c;
 $white: #ffffff;
+$black: #000000;
+$light-gray: #f9f9f9;
+$light-blue: #f2f5fc;
 
-// Styles généraux
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: $white;
+    font-family: 'Roboto Thin', sans-serif;
+    background-color: $light-blue;
+    background-image: url('/images/2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: $gray;
     margin: 0;
     padding: 0;
-    line-height: 1.6;
 }
 
 // Boutons génériques
@@ -27,12 +31,12 @@ body {
 }
 
 .btn-primary {
-    background-color: $orange;
+    background-color: $blue;
     color: $white;
-    border: 1px solid $orange;
+    border: 1px solid $blue;
 
     &:hover {
-        background-color: darken($orange, 10%);
+        background-color: darken($blue, 10%);
     }
 }
 
@@ -53,6 +57,7 @@ body {
     justify-content: space-between;
     padding: 10px 20px;
     margin-bottom: 20px;
+    margin-top: 250px;
 
     .logo {
         width: 300px;
@@ -68,12 +73,12 @@ body {
         h1 {
             font-size: 1.5rem;
             margin: 0;
-            color: $orange;
+            color: $blue;
         }
 
         p {
             font-size: 0.9rem; // Taille ajustée pour le texte descriptif
-            margin: 0;
+            margin: 10px 0 0 0; // Ajustement de la marge du paragraphe
         }
     }
 }
@@ -85,6 +90,9 @@ body {
     align-items: center;
     margin: auto;
     padding-right: 20px;
+    background-color: $light-blue;
+    border-radius: 5px;
+    width: fit-content;
 
     a, p, span {
         margin-left: 15px;
@@ -94,7 +102,7 @@ body {
         font-weight: bold;
 
         &:hover {
-            color: $orange;
+            color: $blue;
         }
     }
 
@@ -103,46 +111,8 @@ body {
     }
 
     .active {
-        color: $orange;
+        color: $blue;
         user-select: none;
-    }
-}
-
-// Section "Services"
-.services-section {
-    padding: 40px 20px;
-    background-color: $gray;
-    color: $white;
-
-    h2 {
-        font-size: 2rem;
-        margin-bottom: 20px;
-    }
-
-    .services-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center;
-
-        .service-item {
-            background-color: $white;
-            color: $gray;
-            padding: 20px;
-            border-radius: 10px;
-            width: 250px;
-            text-align: center;
-            box-shadow: 2px 5px rgba(0, 0, 0, 0.1);
-
-            h3 {
-                font-size: 1.5rem;
-                color: $orange;
-            }
-
-            p {
-                font-size: 1rem;
-            }
-        }
     }
 }
 
@@ -156,8 +126,8 @@ body {
 
     .role-card {
         position: relative; // Important pour l'animation avec ::before
-        background-color: $gray;
-        color: $white;
+        background-color: $white;
+        color: $blue;
         text-align: center;
         padding: 5rem;
         border-radius: 10px;
@@ -178,7 +148,7 @@ body {
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: $orange;
+            background-color: $blue;
             z-index: 0;
             transition: top 0.5s ease; // Animation fluide de montée
         }
@@ -198,7 +168,7 @@ body {
 
                 i {
                     font-size: 4rem;
-                    color: $orange;
+                    color: $blue;
                     transition: color 0.15s ease 0.15s;
                 }
             }
@@ -214,8 +184,18 @@ body {
                 margin-bottom: 1rem;
             }
 
+            &:hover .role-title {
+                color: $white;
+                transition: color 0.10s ease 0.10s;
+            }
+
             .role-description {
                 font-size: 1rem;
+            }
+
+            &:hover .role-description {
+                transition: color 0.10s ease 0.10s;
+                color: $white;
             }
 
             .img {
@@ -244,7 +224,7 @@ body {
     left: 0;
     width: 100%;
     height: 4px;
-    background-color: $orange;
+    background-color: $blue;
     display: flex;
     justify-content: center;
     align-items: center;

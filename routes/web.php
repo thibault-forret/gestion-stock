@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\App;
+use Illuminate\Http\Request;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RedirectionController;
 use App\Http\Controllers\AuthController;
@@ -16,15 +17,17 @@ use App\Http\Controllers\InvoiceController;
 Route::middleware(['web', 'lang.toggle'])->group(function () {
 
     // Route pour changer la langue
-    Route::get('lang/{locale}', function (string $locale) {
-        if (! in_array($locale, ['en', 'fr'])) {
+    Route::get('lang', function (Request $request) {
+        $locale = $request->query('locale');
+
+        if (!in_array($locale, ['en', 'fr'])) {
             return redirect()->back()->with('error', __('messages.langage_not_supported'));
         }
-        
+
         app()->setLocale($locale);
         session()->put('locale', $locale);
 
-        return redirect()->back(); 
+        return redirect()->back();
     })->name('lang.switch');
 
     // Permet de rediriger vers la page d'accueil, pour séléctionner entrepot ou magasin
@@ -119,7 +122,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
 
                 Route::get('/supply/{invoice_number}/info', [InvoiceController::class, 'infoInvoiceSupply'])->name('info.supply');
 
-                Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle'); 
+                Route::post('/settle', [InvoiceController::class, 'settleInvoice'])->name('settle');
                 Route::get('/{invoice_number}/show', [InvoiceController::class, 'showInvoice'])->name('show');
                 Route::get('/{invoice_number}/download', [InvoiceController::class, 'downloadInvoice'])->name('download');
             });
@@ -141,7 +144,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
         Route::post('/login', [AuthController::class, 'loginStore'])->name('login.submit');
 
         Route::get('/logout', [AuthController::class, 'logoutStore'])->name('logout');
-        
+
         // Routes concernant les utilisateurs du magasin
         Route::middleware('auth:store')->group(function () {
             Route::fallback([RedirectionController::class, 'redirectToDashboardStore']);
@@ -171,7 +174,7 @@ Route::middleware(['web', 'lang.toggle'])->group(function () {
                 Route::post('/search', [InvoiceController::class, 'searchInvoiceStore'])->name('search');
                 Route::get('/filter', [InvoiceController::class, 'filterInvoiceStore'])->name('filter');
                 Route::get('/{invoice_number}/info', [InvoiceController::class, 'infoInvoiceStore'])->name('info');
-                Route::post('/settle', [InvoiceController::class, 'settleInvoiceStore'])->name('settle'); 
+                Route::post('/settle', [InvoiceController::class, 'settleInvoiceStore'])->name('settle');
             });
 
         });

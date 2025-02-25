@@ -19,6 +19,7 @@ mix.js('resources/js/app.js', 'public/js')
 
     .sass('resources/scss/pages/warehouse/supply/index.scss', 'public/css/pages/warehouse/supply/')
     .sass('resources/scss/pages/warehouse/invoice/index.scss', 'public/css/pages/warehouse/invoice/')
+    .sass('resources/scss/pages/warehouse/invoice/supply_list.scss', 'public/css/pages/warehouse/invoice/')
     .sass('resources/scss/pages/warehouse/supply/place.scss', 'public/css/pages/warehouse/supply/')
 
     .sass('resources/scss/pages/warehouse/stock/movement_list.scss', 'public/css/pages/warehouse/stock/')

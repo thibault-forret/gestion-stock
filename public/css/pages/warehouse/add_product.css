@@ -1,52 +1,96 @@
+body {
+  font-family: "Roboto Thin", sans-serif;
+  background-color: #f2f5fc;
+  background-image: url("/images/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #5a5a5c;
+  margin: 0;
+  padding: 0;
+}
+
 div.main-container {
-  max-width: 400px;
+  max-width: 1200px;
   margin: 2rem auto;
-  background-color: #ffffff;
-  border: 1px solid #5a5a5c;
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+div.info-message {
+  flex: 1;
+  display: block;
   flex-direction: column;
-  align-items: center;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 2rem;
 }
 
 div.product-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
 }
 div.product-info .text-container {
   margin-bottom: 1rem;
 }
+div.product-info .text-container h2 {
+  font-size: 2rem;
+  color: #000000;
+}
+div.product-info .text-container p {
+  font-size: 1rem;
+  color: #5a5a5c;
+  margin: 0.5rem 0;
+}
 div.product-info img {
-  max-width: 100px;
-  border-radius: 8px;
+  max-width: 40%;
+  border-radius: 2px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
+  transition: transform 0.3s ease-in-out;
+}
+div.product-info img:hover {
+  transform: scale(1.05);
 }
 
-form {
-  margin-top: 1.5rem;
-  width: 100%;
+.add-product {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
 }
-form .form-fields {
-  margin-bottom: 1rem;
+.add-product h2 {
+  font-size: 2rem;
+  color: #000000;
+}
+.add-product .form-fields {
+  margin-bottom: 1.5rem;
   width: 100%;
 }
-form .form-fields label {
+.add-product .form-fields label {
   font-weight: bold;
   font-size: 1rem;
   color: #5a5a5c;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
   display: block;
 }
-form .form-fields input,
-form .form-fields textarea {
-  width: 92%;
+.add-product .form-fields input,
+.add-product .form-fields textarea {
+  width: 94%;
   padding: 1rem;
   font-size: 1rem;
   border: 1px solid rgb(140.7582417582, 140.7582417582, 143.2417582418);
@@ -55,39 +99,86 @@ form .form-fields textarea {
   color: #5a5a5c;
   outline: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
-form .form-fields input:focus,
-form .form-fields textarea:focus {
-  border-color: #f05c2b;
-  background-color: rgb(253.4801762115, 238.4845814978, 233.5198237885);
-  box-shadow: 0 0 5px rgba(240, 92, 43, 0.5);
+.add-product .form-fields input:focus,
+.add-product .form-fields textarea:focus {
+  border-color: #173b75;
+  background-color: rgb(116.2714285714, 158.9571428571, 227.7285714286);
+  box-shadow: 0 0 5px rgba(23, 59, 117, 0.5);
 }
-form .form-fields textarea {
+.add-product .form-fields textarea {
   resize: vertical;
   min-height: 80px;
 }
-form button[type=submit] {
-  background-color: #f05c2b;
+.add-product button[type=submit] {
+  background-color: #173b75;
   color: #ffffff;
   border: none;
   border-radius: 8px;
-  padding: 0.8rem 1.2rem;
-  font-size: 1rem;
+  padding: 1rem 1.5rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-form button[type=submit]:hover {
-  background-color: rgb(216.6696035242, 65.40969163, 15.3303964758);
+.add-product button[type=submit]:hover {
+  background-color: rgb(14.6214285714, 37.5071428571, 74.3785714286);
 }
 
 div.error-message {
   margin-top: 1.5rem;
   background-color: rgba(230, 74, 25, 0.1);
-  color: #f05c2b;
+  color: #173b75;
   padding: 1rem;
-  border-left: 5px solid #f05c2b;
+  border-left: 5px solid #173b75;
   border-radius: 5px;
+  animation: fadeIn 0.5s ease-in-out;
 }
 div.error-message p {
   margin: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.quantity-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.quantity-picker button {
+  background-color: #173b75;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.quantity-picker button:hover {
+  background-color: rgb(14.6214285714, 37.5071428571, 74.3785714286);
+}
+.quantity-picker input[type=number] {
+  width: 20%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid rgb(140.7582417582, 140.7582417582, 143.2417582418);
+  border-radius: 4px;
+  text-align: center;
+  outline: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.quantity-picker input[type=number]:focus {
+  border-color: #173b75;
+  background-color: rgb(116.2714285714, 158.9571428571, 227.7285714286);
+  box-shadow: 0 0 5px rgba(23, 59, 117, 0.5);
 }

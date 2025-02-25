@@ -87,30 +87,31 @@
         </div>
     @endif
 
-    <form action="{{ route('warehouse.stock.search') }}" method="POST" class="filter-buttons search-form">
-        @csrf
-        <div class="filter-group">
-            <div class="filter-item">
-                <label for="search">Recherche par ID de produit</label>
-                <input type="text" id="search" name="search" placeholder="ID du produit" required>
+    <div class="search-container">
+        <form action="{{ route('warehouse.stock.search') }}" method="POST" class="filter-buttons search-form">
+            @csrf
+            <div class="filter-group">
+                <div class="filter-item">
+                    <label for="search">Recherche par ID de produit</label>
+                    <input type="text" id="search" name="search" placeholder="ID du produit" required>
+                </div>
             </div>
-        </div>
-        
-        <div class="filter-actions">
-            <button class="btn-filter" type="submit">Rechercher</button>
-            <a href="{{ route('warehouse.stock.list') }}" class="btn-reset">Réinitialiser</a>
-        </div>
-    </form>
-    
-    <div class="filter-buttons">    
+
+            <div class="filter-actions">
+                <button class="btn-filter" type="submit">Rechercher</button>
+                <a href="{{ route('warehouse.stock.list') }}" class="btn-reset">Réinitialiser</a>
+            </div>
+        </form>
+    </div>
+    <div class="filter-buttons">
         <div class="filter-group">
             <div class="filter-item">
-                <label for="product-search">Rechercher par nom</label>
+                <label for="product-search"><i class="fas fa-file-signature"></i> Rechercher par nom</label>
                 <input type="text" id="product-search" name="product-search" placeholder="Nom du produit">
             </div>
-    
+
             <div class="filter-item">
-                <label for="category-name">Catégorie</label>
+                <label for="category-name"><i class="fas fa-layer-group"></i> Catégorie</label>
                 <select id="category-name" name="category_name">
                     <option value="">Aucune sélection</option>
                     @foreach($categories as $category)
@@ -120,9 +121,9 @@
                     @endforeach
                 </select>
             </div>
-    
+
             <div class="filter-item">
-                <label for="supplier-name">Fournisseur</label>
+                <label for="supplier-name"><i class="fas fa-dolly-flatbed"></i> Fournisseur</label>
                 <select id="supplier-name" name="supplier_name" required>
                     <option value="">Aucune sélection</option>
                     @foreach($suppliers as $supplier)
@@ -145,7 +146,7 @@
                     <div class="product-item" data-id="{{ $product->id }}">
                         <h3 class="product_name">{{ $product->product_name }}</h3>
                         <img class="product_image" src="{{ $product->image_url }}" alt="{{ $product->product_name }}">
-                        <p><strong>ID :</strong>    
+                        <p><strong>ID :</strong>
                             {{ $product->id }}
                         </p>
                         <p><strong>Catégorie(s) :</strong>
@@ -153,23 +154,23 @@
                                 <span class="product_category">{{ $category->category_name }}</span>
                             @endforeach
                         </p>
-                        <p><strong>Fournisseur :</strong> 
+                        <p><strong>Fournisseur :</strong>
                             <span class="product_supplier">{{ $product->supplyLines->first()->supply->supplier->supplier_name }}</span>
                         </p>
                         <p>
-                            <strong>Quantité disponible :</strong> 
+                            <strong>Quantité disponible :</strong>
                             {{ $product->stocks->where('warehouse_id', $warehouse->id)->first()->quantity_available }}
                         </p>
 
                         @php
                             $stock = $product->stocks->where('warehouse_id', $warehouse->id)->first();
                         @endphp
-                        
+
                         <div class="actions-buttons">
-                            <a href="{{ route('warehouse.stock.product.info', ['product_id' => $stock->product_id]) }}" class="btn btn-primary">Informations</a>
-                            <a href="{{ route('warehouse.stock.product.edit', ['product_id' => $stock->product_id]) }}" class="btn btn-primary">Modifier</a>
-                            <a href="{{ route('warehouse.stock.product.supply', ['product_id' => $stock->product_id]) }}" class="btn btn-primary">Approvisionner</a>
-                            <a href="{{ route('warehouse.stock.product.remove', ['product_id' => $stock->product_id]) }}" class="btn btn-primary">Retirer</a>
+                            <a href="{{ route('warehouse.stock.product.info', ['product_id' => $stock->product_id]) }}" class="btn btn-primary"><i class="far fa-question-circle"></i> Informations</a>
+                            <a href="{{ route('warehouse.stock.product.edit', ['product_id' => $stock->product_id]) }}" class="btn btn-primary"><i class="fas fa-edit"></i> Modifier</a>
+                            <a href="{{ route('warehouse.stock.product.supply', ['product_id' => $stock->product_id]) }}" class="btn btn-primary"><i class="fas fa-cart-plus"></i> Approvisionner</a>
+                            <a href="{{ route('warehouse.stock.product.remove', ['product_id' => $stock->product_id]) }}" class="btn btn-primary"><i class="fas fa-trash-alt"></i> Retirer</a>
                         </div>
                     </div>
                 @endforeach

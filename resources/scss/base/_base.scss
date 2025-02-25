@@ -6,9 +6,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #5a5a5c;
+    background-color: #c5ebff;
     text-align: center;
-    color: #fff;
+    color: #000000;
 
     .back-button {
         position: absolute;
@@ -21,7 +21,7 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        color: #fff;
+        color: #000000;
         text-decoration: none;
         transition: ease-in-out 0.2s;
         border-radius: 15px;
@@ -31,7 +31,7 @@
         }
 
         &:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgb(255, 255, 255);
         }
     }
 }

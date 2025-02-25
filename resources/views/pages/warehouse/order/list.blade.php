@@ -12,19 +12,19 @@
 @section('content')
 
     <div class="order-list">
-        <h3>Liste des commandes</h3>
+        <h3>{{ __('title.order_list') }}</h3>
 
         @if($orders->count() > 0)
             <table class="order-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Last updated</th>
-                        <th>Magasin</th>
-                        <th>Tarif HT</th>
-                        <th>Tarif TTC</th>
-                        <th>Statut</th>
-                        <th>Actions</th>
+                        <th>{{ __('order.id') }}</th>
+                        <th>{{ __('order.last_updated') }}</th>
+                        <th>{{ __('order.store_name') }}</th>
+                        <th>{{ __('order.price_ht') }}</th>
+                        <th>{{ __('order.price_ttc') }}</th>
+                        <th>{{ __('order.statut') }}</th>
+                        <th>{{ __('order.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,19 +37,19 @@
                             <td>{{ number_format($order->calculateTotalPrice() * $warehouse->global_margin, 2) }} €</td>
                             <td>
                                 @if($order->order_status == 'IN PROGRESS')
-                                    <span class="badge badge-info">{{ __('In Progress') }}</span>
+                                    <span class="badge badge-info">{{ __('order.in_progress') }}</span>
                                 @elseif($order->order_status == 'DELIVERED')
-                                    <span class="badge badge-success">{{ __('Delivered') }}</span>
+                                    <span class="badge badge-success">{{ __('order.delivered') }}</span>
                                 @elseif($order->order_status == 'PENDING')
-                                    <span class="badge badge-warning">{{ __('Pending') }}</span>
+                                    <span class="badge badge-warning">{{ __('order.pending') }}</span>
                                 @elseif($order->order_status == 'REFUSED')
-                                    <span class="badge badge-red">{{ __('Refused') }}</span>
+                                    <span class="badge badge-red">{{ __('order.refused') }}</span>
                                 @endif
                             </td>
                             <td>
                                 <a href="{{ route('warehouse.order.detail', ['order_id' => $order->id]) }}" class="btn btn-info">
                                     <img src="{{ asset('images/loupe.svg') }}" alt="DétailsCommande">
-                                    Détails de la commande
+                                    {{ __('order.detail_order') }}
                                 </a>
                                 @if($order->order_status == 'PENDING')
                                     <form action="{{ route('warehouse.order.deliver') }}" method="POST">
@@ -57,7 +57,7 @@
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <button class="btn badge-success supprimer-bouton" type="submit">
                                             <img src="{{ asset('images/valide.svg') }}" alt="ConfirmerCommande">
-                                            Valider la commande
+                                            {{ __('order.valid_order') }}
                                         </button>
                                     </form>
                                     <form action="{{ route('warehouse.order.refuse') }}" method="POST" >
@@ -65,9 +65,9 @@
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <button class="btn badge-red supprimer-bouton" type="submit">
                                             <img src="{{ asset('images/croix2(1).svg') }}" alt="SupprimerCommande">
-                                            Refuser la commande
+                                            {{ __('order.refuse_order') }}
                                         </button>
-                                    </form>                                    
+                                    </form>
                                 @endif
                                 @if($order->order_status != 'DELIVERED')
                                     <form action="{{ route('warehouse.order.remove') }}" method="POST">
@@ -75,15 +75,15 @@
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <button class="btn badge-red supprimer-bouton" type="submit">
                                             <img src="{{ asset('images/croix2(1).svg') }}" alt="SupprimerCommande">
-                                            Supprimer la commande
+                                            {{ __('order.delete_order') }}
                                         </button>
                                     </form>
                                 @else
                                     <a target="_blank" href="{{ route('warehouse.order.invoice.show', ['invoice_number' => $order->invoice->invoice_number]) }}" class="btn btn-info">
-                                        Voir la facture
+                                        <i class="far fa-eye"></i> {{ __('order.see_invoice') }}
                                     </a>
                                     <a href="{{ route('warehouse.order.invoice.download', ['invoice_number' => $order->invoice->invoice_number]) }}" class="btn btn-info">
-                                        Télécharger la facture
+                                        <i class="fas fa-download"></i> {{ __('order.download_invoice') }}
                                     </a>
                                 @endif
                             </td>
@@ -92,7 +92,7 @@
                 </tbody>
             </table>
         @else
-            <p class="empty-order">Aucune commande trouvée.</p>
+            <p class="empty-order">{{ __('order.no_order_found') }}</p>
         @endif
     </div>
 

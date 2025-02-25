@@ -5,7 +5,14 @@ $error-color: #e74c3c;
 $text-color: #000; // Texte en noir
 $input-background: #f05c2b; // Zones de saisie en orange
 $border-color: #ccc;
-$input-text-color: #fff; // Texte des zones de saisie en blanc
+$input-text-color: #000; // Texte des zones de saisie en blanc
+$blue: #173b75;
+$gray: #5a5a5c;
+$white: #ffffff;
+$black: #000000;
+$light-gray: #f9f9f9;
+$light-blue: #f2f5fc;
+
 
 // Style global pour centrer le formulaire au milieu de l'écran
 body, html {
@@ -15,7 +22,12 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: $background-color;
+    font-family: 'Roboto Thin', sans-serif;
+    background-color: $light-blue;
+    background-image: url('/images/4.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .content {
@@ -36,6 +48,13 @@ body, html {
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
     width: 100%;
     max-width: 400px;
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
 
     // Conteneur pour l'image/logo
     .info {
@@ -59,7 +78,7 @@ body, html {
     }
 
     .title-page {
-        color: $active-color;
+        color: $blue;
         font-size: 1.3rem;
         font-weight: 600;
         margin-bottom: 1.5rem;
@@ -86,14 +105,15 @@ body, html {
             padding: 0.85rem;
             border: 1px solid $border-color;
             border-radius: 50px; // Arrondir fortement les zones de saisie
-            background-color: $input-background;
+            background-color: $light-blue;
             color: $input-text-color;
             font-size: 1rem;
             outline: none;
+            text-align: center;
             transition: border-color 0.3s;
 
             &:focus {
-                border-color: $active-color;
+                border-color: $blue;
                 box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
             }
         }
@@ -114,15 +134,30 @@ body, html {
     // Bouton de connexion
     .center-child {
         display: flex;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
         width: 100%;
-        margin-top: 2rem; // Espacement entre le bouton de connexion et le formulaire
+
+        a {
+            color: #5a5a5c;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.2s;
+
+            &:hover {
+                transform: translateY(-1.5px);
+                text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+            }
+        }
     }
 
     .login-button {
         width: 50%; // Réduire la longueur du bouton
         padding: 0.85rem;
-        background-color: $active-color;
+        background-color: $blue;
         color: #fff;
         font-size: 1rem;
         font-weight: 600;
@@ -132,7 +167,7 @@ body, html {
         transition: background-color 0.3s, transform 0.2s;
 
         &:hover {
-            background-color: darken($active-color, 10%);
+            background-color: darken($blue, 10%);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
         }
@@ -164,3 +199,67 @@ body, html {
         }
     }
 }
+
+
+
+/* Style du conteneur */
+.language form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+}
+
+/* Style du select */
+#lang-select {
+    appearance: none;
+    background-color: white;
+    border: 1.5px solid #bbb;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #5a5a5c;
+    cursor: pointer;
+    transition: 0.2s;
+    outline: none;
+    width: 120px; /* Ajuste la largeur */
+}
+
+/* Effet au survol */
+#lang-select:hover {
+    border-color: #f05c2b;
+}
+
+/* Effet au focus */
+#lang-select:focus {
+    border-color: #f05c2b;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Ajout d'une flèche personnalisée */
+#lang-select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23333'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    padding-right: 25px;
+}
+
+/* Style des options */
+#lang-select option {
+    font-size: 13px;
+    padding: 5px;
+    background-color: white;
+    color: #5a5a5c;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
+/* Effet lors de la sélection */
+#lang-select option:checked {
+    background-color: transparent;
+    color: #5a5a5c;
+}
+

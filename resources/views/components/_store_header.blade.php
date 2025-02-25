@@ -18,33 +18,21 @@
         <div class="navbar-center">
             <div class="logo">
                 <a href="{{ route('warehouse.dashboard') }}">
-                    <img src="{{ asset('images/logoNova.png') }}" alt="Logo" class="navbar-logo">
+                    <img src="{{ asset('images/logoSimple.png') }}" alt="Logo" class="navbar-logo">
                 </a>
             </div>
         </div>
         <div class="navbar-right">
-            @foreach($available_locales as $locale_name => $available_locale)
-                @switch($available_locale)
-                    @case('fr')
-                        @if($available_locale === $current_locale)
-                            <img src="{{ asset('images/france.png') }}" alt="Français">
-                        @else
-                            <a href="{{ route('lang.switch', $available_locale) }}">
-                                <img src="{{ asset('images/france.png') }}" alt="Français">
-                            </a>
-                        @endif
-                        @break
-                    @case('en')
-                        @if($available_locale === $current_locale)
-                            <img src="{{ asset('images/etats-unis.png') }}" alt="English">
-                        @else
-                            <a href="{{ route('lang.switch', $available_locale) }}">
-                                <img src="{{ asset('images/etats-unis.png') }}" alt="English">
-                            </a>
-                        @endif
-                    @break
-                @endswitch
-            @endforeach
+            <form action="{{ route('lang.switch') }}" method="GET">
+                <select name="locale" id="lang-select" onchange="this.form.submit();">
+                    @foreach($available_locales as $locale_name => $available_locale)
+                        <option value="{{ $available_locale }}" {{ $available_locale === $current_locale ? 'selected' : '' }}>
+                            {{ ucfirst($locale_name) }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+
             <a href="{{ route('store.logout') }}" class="nav-button">
                 <img src="{{ asset('images/porte.svg') }}" alt="deconnexion">
             </a>
@@ -67,13 +55,20 @@
                     <div class="text">{{ __('title.dashboard') }}</div>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('store.order.index') }}" class="{{ Route::is('store.order*') ? 'active-page' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="icon">
-                        <path d="M9,22c0,1.105-.895,2-2,2s-2-.895-2-2,.895-2,2-2,2,.895,2,2Zm8-2c-1.105,0-2,.895-2,2s.895,2,2,2,2-.895,2-2-.895-2-2-2ZM5.419,13l-.941-8h5.591c.087-.699,.262-1.369,.518-2H4.242l-.041-.351c-.178-1.511-1.459-2.649-2.979-2.649H0V2H1.222c.507,0,.934,.38,.993,.884l1.584,13.467c.178,1.511,1.459,2.649,2.979,2.649h13.222v-2H6.778c-.507,0-.934-.38-.993-.884l-.131-1.116H21.835l.363-2H5.419ZM24,6c0,3.309-2.691,6-6,6s-6-2.691-6-6S14.691,0,18,0s6,2.691,6,6Zm-2,0c0-2.206-1.794-4-4-4s-4,1.794-4,4,1.794,4,4,4,4-1.794,4-4Zm-3-3h-2v3.414l2.293,2.293,1.414-1.414-1.707-1.707V3Z"/>
-                      </svg>
-                    <div class="text">{{ __('title.order') }}</div>
-                </a>
+            <li class="has-submenu">
+                <div class="menu-item-container">
+                    <a href="{{ route('store.order.index') }}" class="{{ Route::is('store.order*') ? 'active-page' : '' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="icon">
+                            <path d="M9,22c0,1.105-.895,2-2,2s-2-.895-2-2,.895-2,2-2,2,.895,2,2Zm8-2c-1.105,0-2,.895-2,2s.895,2,2,2,2-.895,2-2-.895-2-2-2ZM5.419,13l-.941-8h5.591c.087-.699,.262-1.369,.518-2H4.242l-.041-.351c-.178-1.511-1.459-2.649-2.979-2.649H0V2H1.222c.507,0,.934,.38,.993,.884l1.584,13.467c.178,1.511,1.459,2.649,2.979,2.649h13.222v-2H6.778c-.507,0-.934-.38-.993-.884l-.131-1.116H21.835l.363-2H5.419ZM24,6c0,3.309-2.691,6-6,6s-6-2.691-6-6S14.691,0,18,0s6,2.691,6,6Zm-2,0c0-2.206-1.794-4-4-4s-4,1.794-4,4,1.794,4,4,4,4-1.794,4-4Zm-3-3h-2v3.414l2.293,2.293,1.414-1.414-1.707-1.707V3Z"/>
+                        </svg>
+                        <div class="text">{{ __('title.order') }}</div>
+                    </a>
+                    <div class="arrow-button {{ Route::is('store.order*') ? 'active-page' : '' }}"><span>&#9660;</span></div>
+                </div>
+                <ul class="submenu">
+                    <li><a href="{{ route('store.order.new') }}"><div class="text">{{ __('title.new_order') }}</div></a></li>
+                    <li><a href="{{ route('store.order.list') }}"><div class="text">{{ __('title.order_list') }}</div></a></li>
+                </ul>
             </li>
             <li>
                 <a href="{{ route('store.invoice.list') }}" class="{{ Route::is('store.invoice*') ? 'active-page' : '' }}">
@@ -85,5 +80,26 @@
             </li>
         </ul>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion des clics sur les boutons de flèche
+            document.querySelectorAll('.sidebar .arrow-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Empêcher la propagation du clic au parent
+                    const submenu = this.parentElement.nextElementSibling; // Le sous-menu est l'élément suivant
+
+                    // Basculer l'état ouvert/fermé du sous-menu
+                    if (submenu.classList.contains('open')) {
+                        submenu.classList.remove('open');
+                        this.classList.remove('open');
+                    } else {
+                        submenu.classList.add('open');
+                        this.classList.add('open');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
